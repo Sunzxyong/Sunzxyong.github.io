@@ -11,31 +11,28 @@
     
 
     
-    <meta name="description" content="##Url
-
+    <meta name="description" content="Url
 Hexo主题：https://hexo.io/themes/
 Hexo安装：https://hexo.io/zh-cn/docs/setup.html
 Fixing npm permissions：https://docs.npmjs.com/getting-started/fixing-npm-permissions
-Some Trouble：https://hexo.io/doc">
+Some Trouble：https://hexo.io/docs/t">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Hexo+Github搭建个人博客">
 <meta property="og:url" content="http://yoursite.com/2016/02/28/使用Hexo-Github搭建个人博客/index.html">
 <meta property="og:site_name" content="Sunzxyong">
-<meta property="og:description" content="##Url
-
+<meta property="og:description" content="Url
 Hexo主题：https://hexo.io/themes/
 Hexo安装：https://hexo.io/zh-cn/docs/setup.html
 Fixing npm permissions：https://docs.npmjs.com/getting-started/fixing-npm-permissions
-Some Trouble：https://hexo.io/doc">
-<meta property="og:updated_time" content="2016-02-28T09:13:20.000Z">
+Some Trouble：https://hexo.io/docs/t">
+<meta property="og:updated_time" content="2016-02-28T09:21:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Hexo+Github搭建个人博客">
-<meta name="twitter:description" content="##Url
-
+<meta name="twitter:description" content="Url
 Hexo主题：https://hexo.io/themes/
 Hexo安装：https://hexo.io/zh-cn/docs/setup.html
 Fixing npm permissions：https://docs.npmjs.com/getting-started/fixing-npm-permissions
-Some Trouble：https://hexo.io/doc">
+Some Trouble：https://hexo.io/docs/t">
 
     
     <link rel="alternative" href="/atom.xml" title="Sunzxyong" type="application/atom+xml">
@@ -113,18 +110,25 @@ Some Trouble：https://hexo.io/doc">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Url"><span class="toc-number">1.</span> <span class="toc-text">Url</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#发布博客"><span class="toc-number">2.</span> <span class="toc-text">发布博客</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建文章"><span class="toc-number">2.1.</span> <span class="toc-text">创建文章</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成静态文件"><span class="toc-number">2.2.</span> <span class="toc-text">生成静态文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#部署到远端"><span class="toc-number">2.3.</span> <span class="toc-text">部署到远端</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>##<strong>Url</strong></p>
-<blockquote>
+		<h2 id="Url"><a href="#Url" class="headerlink" title="Url"></a><strong>Url</strong></h2><blockquote>
 <p>Hexo主题：<a href="https://hexo.io/themes/" target="_blank" rel="external">https://hexo.io/themes/</a></p>
 <p>Hexo安装：<a href="https://hexo.io/zh-cn/docs/setup.html" target="_blank" rel="external">https://hexo.io/zh-cn/docs/setup.html</a></p>
 <p>Fixing npm permissions：<a href="https://docs.npmjs.com/getting-started/fixing-npm-permissions" target="_blank" rel="external">https://docs.npmjs.com/getting-started/fixing-npm-permissions</a></p>
 <p>Some Trouble：<a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">https://hexo.io/docs/troubleshooting.html</a></p>
 <p>搭建Hexo+Github博客：<a href="http://www.jianshu.com/p/13e64c9e2295" target="_blank" rel="external">http://www.jianshu.com/p/13e64c9e2295</a></p>
 </blockquote>
+<h2 id="发布博客"><a href="#发布博客" class="headerlink" title="发布博客"></a><strong>发布博客</strong></h2><h3 id="创建文章"><a href="#创建文章" class="headerlink" title="创建文章"></a><strong>创建文章</strong></h3><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo <span class="keyword">new</span> <span class="string">"Name"</span></span><br></pre></td></tr></table></figure>
+<p>在/source/_posts/目标可找到</p>
+<h3 id="生成静态文件"><a href="#生成静态文件" class="headerlink" title="生成静态文件"></a><strong>生成静态文件</strong></h3><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>hexo g</span><br></pre></td></tr></table></figure>
+<p>or</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>hexo generate</span><br></pre></td></tr></table></figure>
+<h3 id="部署到远端"><a href="#部署到远端" class="headerlink" title="部署到远端"></a><strong>部署到远端</strong></h3><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>hexo d</span><br></pre></td></tr></table></figure>
+<p>or</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>hexo deploy</span><br></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -174,7 +178,7 @@ Some Trouble：https://hexo.io/doc">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Url"><span class="toc-number">1.</span> <span class="toc-text">Url</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#发布博客"><span class="toc-number">2.</span> <span class="toc-text">发布博客</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建文章"><span class="toc-number">2.1.</span> <span class="toc-text">创建文章</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成静态文件"><span class="toc-number">2.2.</span> <span class="toc-text">生成静态文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#部署到远端"><span class="toc-number">2.3.</span> <span class="toc-text">部署到远端</span></a></li></ol></li></ol>
  
   </div>
 
