@@ -116,7 +116,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Android架构/" style="font-size: 10px;">Android架构</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JsBridge/" style="font-size: 10px;">JsBridge</a> <a href="/tags/WebView/" style="font-size: 10px;">WebView</a> <a href="/tags/WebView安全/" style="font-size: 10px;">WebView安全</a> <a href="/tags/兼容性/" style="font-size: 10px;">兼容性</a>
+						<a href="/tags/JsBridge/" style="font-size: 10px;">JsBridge</a> <a href="/tags/WebView/" style="font-size: 10px;">WebView</a> <a href="/tags/WebView安全/" style="font-size: 10px;">WebView安全</a> <a href="/tags/兼容性/" style="font-size: 10px;">兼容性</a>
 					</div>
 				</section>
 				
@@ -218,8 +218,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>正在写…</p>
-
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>Hybrid开发模式目前几乎每家公司都有涉及和使用，这种开发模式兼具良好的Native用户交互体验的优势与WebApp跨平台的优势，而这种模式，在Android中必然需要WebView作为载体来展示H5内容和进行交互，而WebView的各种安全性、兼容性的问题，我想大多数人与它友谊的小床已经翻了，特别是4.2版本之前的addjavascriptInterface接口引起的漏洞，可能导致恶意网页通过Js方法遍历刚刚通过addjavascriptInterface注入进来的类的所有方法从中获取到getClass方法，然后通过反射获取到Runtime对象，进而调用Runtime对象的exec方法执行一些操作，恶意的Js代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">execute</span>(<span class="params">cmdArgs</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> obj <span class="keyword">in</span> <span class="built_in">window</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"getClass"</span> <span class="keyword">in</span> <span class="built_in">window</span>[obj]) &#123;</span><br><span class="line">            alert(obj);</span><br><span class="line">            <span class="keyword">return</span>  <span class="built_in">window</span>[obj].getClass().forName(<span class="string">"java.lang.Runtime"</span>)  </span><br><span class="line">                 .getMethod(<span class="string">"getRuntime"</span>,<span class="literal">null</span>).invoke(<span class="literal">null</span>,<span class="literal">null</span>).exec(cmdArgs);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了避免这个漏洞，即需要限制Js代码能够调用到的Native方法，官方于是在从4.2开始的版本可以通过为可以被Js调用的方法添加<code>@JavascriptInterface</code>注解来解决，而之前的版本虽然不能通过这种方法解决，但是可以使用Js的<code>prompt</code>方法进行解决，只不过<code>需要和前端协商好一套公共的协议</code>，除此之外，为了避免WebView加载任意url，也需要对url进行白名单检测，由于Android碎片化太严重，WebView也存在兼容性问题，WebView的内核也在4.4版本进行了改变，由webkit改为chromium，此外WebView还有一个非常明显的问题，就是内存泄露，根本原因就是Activity与WebView关联后，WebView内部的一些操作的执行在新线程中，这些时间无法确定，而可能导致WebView一直持有Activity的引用，不能回收。下面就谈谈怎样正确安全的让Native与H5交互<br>
       
     </div>
     
@@ -237,133 +238,8 @@
 
 
       
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Android应用架构" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/01/Android应用架构/" class="article-date">
-  	<time datetime="2016-03-01T03:09:49.000Z" itemprop="datePublished">2016-03-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/01/Android应用架构/">Android应用架构</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p><a href="http://blog.zhaiyifan.cn/2016/01/29/android-app-architecture-2015/?from=groupmessage&amp;isappinstalled=0" target="_blank" rel="external">Android应用架构 (Android Dev Summit 2015)</a><br><a href="http://mp.weixin.qq.com/s?__biz=MzA3NzM2Mjc4Mw==&amp;mid=401828807&amp;idx=1&amp;sn=3b78cc503a130f0d9829896625ad4848&amp;scene=23&amp;srcid=03013FyYrb593HJAftiBe7gX#rd" target="_blank" rel="external">Android的架构设计原则</a><br><a href="http://mp.weixin.qq.com/s?__biz=MzA3NzM2Mjc4Mw==&amp;mid=206055063&amp;idx=1&amp;sn=6791e054c546243c88f99579519f419c&amp;scene=23&amp;srcid=0301EtXZ89JRoF7bovoskGc2#rd" target="_blank" rel="external">架构之重构的12条军规（完整版）</a><br><a href="https://zybuluo.com/liter/note/186526" target="_blank" rel="external">怎样搭高质量的Android项目框架，框架的结构具体描述？</a><br><a href="https://zybuluo.com/liter/note/298921" target="_blank" rel="external">Android架构师常见面试题</a></p>
-</blockquote>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android架构/">Android架构</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/架构设计/">架构设计</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-使用Hexo-Github搭建个人博客" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/02/28/使用Hexo-Github搭建个人博客/" class="article-date">
-  	<time datetime="2016-02-28T09:05:37.000Z" itemprop="datePublished">2016-02-28</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/28/使用Hexo-Github搭建个人博客/">使用Hexo+Github搭建个人博客</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Url"><a href="#Url" class="headerlink" title="Url"></a><strong>Url</strong></h2><blockquote>
-<p>Hexo主题：<a href="https://hexo.io/themes/">https://hexo.io/themes/</a></p>
-<p>Hexo安装：<a href="https://hexo.io/zh-cn/docs/setup.html">https://hexo.io/zh-cn/docs/setup.html</a></p>
-<p>Fixing npm permissions：<a href="https://docs.npmjs.com/getting-started/fixing-npm-permissions">https://docs.npmjs.com/getting-started/fixing-npm-permissions</a></p>
-<p>Some Trouble：<a href="https://hexo.io/docs/troubleshooting.html">https://hexo.io/docs/troubleshooting.html</a></p>
-<p>搭建Hexo+Github博客：<a href="http://www.jianshu.com/p/13e64c9e2295">http://www.jianshu.com/p/13e64c9e2295</a></p>
-</blockquote>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
-	</div>
-
-      
-
-      
         <p class="article-more-link">
-          <a  href="/2016/02/28/使用Hexo-Github搭建个人博客/#more">more >></a>
+          <a  href="/2016/04/20/Native与H5交互的那些事/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
