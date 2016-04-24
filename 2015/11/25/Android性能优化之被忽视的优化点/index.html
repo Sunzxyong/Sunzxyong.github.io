@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android性能优化之被忽视的优化点 | zhengxiaoyong</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="对于性能优化这个知识点来说，实在是太广了，博主本人也一直非常关注这方面的学习，而对于性能优化来说它包括了非常非常非常多方面，比如：I/O的优化、网络操作的优化、内存的优化、数据结构的优化、代码层次的优化、UI渲染优化、CPU资源使用率的优化、异常处理的优化等等等等。。。
+本篇文章就博主本人的理解来讲述一些在Android开发中可以优化的地方
+ArrayList和VectorArrayList和Ve">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android性能优化之被忽视的优化点">
+<meta property="og:url" content="http://zhengxiaoyong.me/2015/11/25/Android性能优化之被忽视的优化点/index.html">
+<meta property="og:site_name" content="zhengxiaoyong">
+<meta property="og:description" content="对于性能优化这个知识点来说，实在是太广了，博主本人也一直非常关注这方面的学习，而对于性能优化来说它包括了非常非常非常多方面，比如：I/O的优化、网络操作的优化、内存的优化、数据结构的优化、代码层次的优化、UI渲染优化、CPU资源使用率的优化、异常处理的优化等等等等。。。
+本篇文章就博主本人的理解来讲述一些在Android开发中可以优化的地方
+ArrayList和VectorArrayList和Ve">
+<meta property="og:updated_time" content="2016-04-24T04:46:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android性能优化之被忽视的优化点">
+<meta name="twitter:description" content="对于性能优化这个知识点来说，实在是太广了，博主本人也一直非常关注这方面的学习，而对于性能优化来说它包括了非常非常非常多方面，比如：I/O的优化、网络操作的优化、内存的优化、数据结构的优化、代码层次的优化、UI渲染优化、CPU资源使用率的优化、异常处理的优化等等等等。。。
+本篇文章就博主本人的理解来讲述一些在Android开发中可以优化的地方
+ArrayList和VectorArrayList和Ve">
+  
+    <link rel="alternative" href="/atom.xml" title="zhengxiaoyong" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xswxf.com2.z0.glb.qiniucdn.com/image/icon.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">郑晓勇</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Coding is a wonderful thing.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/categories/性能优化">性能优化</a></li>
+				        
+							<li><a href="/categories/技术沉淀">技术沉淀</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/Sunzxyong" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/p/1005053048730677/home?from=page_100505&mod=TAB#place" title="weibo">weibo</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Bitmap/" style="font-size: 10px;">Bitmap</a> <a href="/tags/Fresco原理/" style="font-size: 10px;">Fresco原理</a> <a href="/tags/JsBridge/" style="font-size: 10px;">JsBridge</a> <a href="/tags/Splash页/" style="font-size: 10px;">Splash页</a> <a href="/tags/WebView/" style="font-size: 10px;">WebView</a> <a href="/tags/WebView安全/" style="font-size: 10px;">WebView安全</a> <a href="/tags/兼容性/" style="font-size: 10px;">兼容性</a> <a href="/tags/内存优化/" style="font-size: 10px;">内存优化</a> <a href="/tags/内存泄露/" style="font-size: 10px;">内存泄露</a> <a href="/tags/启动速度/" style="font-size: 10px;">启动速度</a> <a href="/tags/异步任务/" style="font-size: 10px;">异步任务</a> <a href="/tags/性能优化点/" style="font-size: 10px;">性能优化点</a> <a href="/tags/消费者/" style="font-size: 10px;">消费者</a> <a href="/tags/生产者/" style="font-size: 10px;">生产者</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/订阅者/" style="font-size: 10px;">订阅者</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/u010687392">我的CSDN的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">2016届毕业的应届生，喜欢Android、喜欢探索新技术、喜欢性能优化、喜欢代码的整洁、喜欢...目前就职于微店。微信：zxy1175151739</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">郑晓勇</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="http://7xswxf.com2.z0.glb.qiniucdn.com/image/icon.png" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">郑晓勇</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Coding is a wonderful thing.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/categories/性能优化">性能优化</a></li>
+		        
+					<li><a href="/categories/技术沉淀">技术沉淀</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Sunzxyong" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/p/1005053048730677/home?from=page_100505&mod=TAB#place" title="weibo">weibo</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Android性能优化之被忽视的优化点" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/11/25/Android性能优化之被忽视的优化点/" class="article-date">
+  	<time datetime="2015-11-25T07:42:30.000Z" itemprop="datePublished">2015-11-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android性能优化之被忽视的优化点
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/性能优化点/">性能优化点</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/性能优化/">性能优化</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>对于性能优化这个知识点来说，实在是太广了，博主本人也一直非常关注这方面的学习，而对于性能优化来说它包括了非常非常非常多方面，比如：I/O的优化、网络操作的优化、内存的优化、数据结构的优化、代码层次的优化、UI渲染优化、CPU资源使用率的优化、异常处理的优化等等等等。。。</p>
+<p>本篇文章就博主本人的理解来讲述一些在Android开发中可以优化的地方</p>
+<h2 id="ArrayList和Vector"><a href="#ArrayList和Vector" class="headerlink" title="ArrayList和Vector"></a><strong>ArrayList和Vector</strong></h2><p>ArrayList和Vector都是内部以数组实现的List，它们两唯一的区别就是对多线程的支持，ArrayList是线程不安全的，而Vector内部对大多数方法都做了同步，是线程安全的，既然是线程安全的，所以性能方面肯定不如ArrayList了（当然想法肯定是对的），不过这需要看哪方面了，ArrayList在add、get、remove等操作效率肯定是高于Vector的，而在内存方面，Vector却比ArrayList表现的更好，这归根都是ArrayList的扩容策略导致的，稍后分析<br><a id="more"></a></p>
+<h3 id="实现RandomAccess接口的集合使用fori遍历"><a href="#实现RandomAccess接口的集合使用fori遍历" class="headerlink" title="实现RandomAccess接口的集合使用fori遍历"></a><strong>实现RandomAccess接口的集合使用fori遍历</strong></h3><p>先谈谈List集合的遍历方式，有三种：foreach、iterator、fori。<br>而在开发中一般需要遍历时首选肯定是foreach了，因为它效率高，这个观点没错，不过需要分场合了。<br>下面是我用这三种方式测试遍历有100w条数据的ArrayList集合：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">      long start = <span class="type">System</span>.currentTimeMillis();</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">          data.get(i);</span><br><span class="line">      &#125;</span><br><span class="line">      long <span class="keyword">end</span> = <span class="type">System</span>.currentTimeMillis();</span><br><span class="line">      <span class="type">Log</span>.v(<span class="string">"zxy"</span>,<span class="string">"fori花费:"</span>+(<span class="keyword">end</span>-start));</span><br><span class="line"></span><br><span class="line">      start = <span class="type">System</span>.currentTimeMillis();</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">Integer</span> integer : data) &#123;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">end</span> = <span class="type">System</span>.currentTimeMillis();</span><br><span class="line">      <span class="type">Log</span>.v(<span class="string">"zxy"</span>,<span class="string">"foreach花费:"</span>+(<span class="keyword">end</span>-start));</span><br><span class="line"></span><br><span class="line"><span class="type">Iterator</span>&lt;<span class="type">Integer</span>&gt; <span class="keyword">iterator</span> = data.<span class="keyword">iterator</span>();</span><br><span class="line">      start = <span class="type">System</span>.currentTimeMillis();</span><br><span class="line">      <span class="keyword">while</span> (<span class="keyword">iterator</span>.hasNext())&#123;</span><br><span class="line">          <span class="keyword">iterator</span>.next();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">end</span> = <span class="type">System</span>.currentTimeMillis();</span><br><span class="line">      <span class="type">Log</span>.v(<span class="string">"zxy"</span>,<span class="string">"iterator花费:"</span>+(<span class="keyword">end</span>-start));</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11</span>-<span class="number">19</span> <span class="number">09</span>:<span class="number">11</span>:<span class="number">44.276</span> <span class="number">1418</span>-<span class="number">1418</span>/? V/zxy: fori花费:<span class="number">30</span></span><br><span class="line"><span class="number">11</span>-<span class="number">19</span> <span class="number">09</span>:<span class="number">11</span>:<span class="number">44.380</span> <span class="number">1418</span>-<span class="number">1418</span>/? V/zxy: foreach花费:<span class="number">105</span></span><br><span class="line"><span class="number">11</span>-<span class="number">19</span> <span class="number">09</span>:<span class="number">11</span>:<span class="number">44.476</span> <span class="number">1418</span>-<span class="number">1418</span>/? V/zxy: iterator花费:<span class="number">95</span></span><br></pre></td></tr></table></figure>
+<p>而通常我们所说的效率高的foreach在遍历上却显得不如意，而fori效率表现的最好，这是因为ArrayList和Vector集合内部实现由数组实现，所以随机访问的速度是很快的，对于可以进行随机访问的List，JDK为它们实现了RandomAccess接口，表示支持快速随机访问。<br>而在遍历有1w条数据的LinkedList集合时：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11</span>-<span class="number">19</span> <span class="number">09</span>:<span class="number">33</span>:<span class="number">23.984</span> <span class="number">1737</span>-<span class="number">1737</span>/? V/zxy: fori花费:<span class="number">351</span></span><br><span class="line"><span class="number">11</span>-<span class="number">19</span> <span class="number">09</span>:<span class="number">33</span>:<span class="number">23.988</span> <span class="number">1737</span>-<span class="number">1737</span>/? V/zxy: foreach花费:<span class="number">2</span></span><br><span class="line"><span class="number">11</span>-<span class="number">19</span> <span class="number">09</span>:<span class="number">33</span>:<span class="number">23.992</span> <span class="number">1737</span>-<span class="number">1737</span>/? V/zxy: iterator花费:<span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p> 则foreach表现最佳，所以对数组、或者实现了RandomAccess接口的List，遍历用fori性能最佳，对LinkedList等以链表实现的集合遍历时使用foreach或者iterator性能最佳，因为foreach的实现就是通过iterator实现的。<br>我们可以这样判断该List遍历用哪种方式：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (list instanceof <span class="type">RandomAccess</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++) &#123;&#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="type">Iterator</span>&lt;?&gt; <span class="keyword">iterator</span> = list.<span class="keyword">iterator</span>();</span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">iterator</span>.hasNext()) &#123;</span><br><span class="line">        <span class="keyword">iterator</span>.next();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="预知容量的情况下构造ArrayList时尽量指定初始大小"><a href="#预知容量的情况下构造ArrayList时尽量指定初始大小" class="headerlink" title="预知容量的情况下构造ArrayList时尽量指定初始大小"></a><strong>预知容量的情况下构造ArrayList时尽量指定初始大小</strong></h3><p>ArrayList内部的扩容策略是当其所存储的元素数量超过它已有的大小时，它就会以1.5倍的容量进行扩容，也就是假如当前ArrayList的容量为10000，那么它在需要再存储一个元素时，即第10001个元素，由于容量不够而进行一次扩容，而ArrayList扩容后的容量则变为了15000，而多出了一个元素就多了5000个元素的空间，这太浪费内存资源了，而且扩容还会导致整个数组进行一次内存复制，而ArrayList集合默认大小为10，因此合理的设置ArrayList的容量可避免集合进行扩容。ArrayList内部扩容和数组复制代码为：</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Object<span class="keyword">[</span>] newArray =<span class="instruction"> new </span>Object<span class="keyword">[</span>s +</span><br><span class="line">       <span class="function"> (</span>s &lt;<span class="function"> (</span>MIN_CAPACITY_INCREMENT / 2<span class="function">)</span> ?</span><br><span class="line">         MIN_CAPACITY_INCREMENT<span class="keyword"> :</span> s &gt;&gt; 1<span class="function">)</span>];</span><br><span class="line">System.arraycopy(a, 0, newArray, 0, s<span class="function">)</span>;<span class="instruction"></span><br><span class="line">array </span>= a = newArray;</span><br></pre></td></tr></table></figure>
+<p>而Vector内部扩容策略为按需扩容，每次+1：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (capacityIncrement &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> ((adding = elementData.length) == <span class="number">0</span>) &#123;</span><br><span class="line">        adding = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    adding = capacityIncrement;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">E[] newData = newElementArray(elementData.length + adding);</span><br></pre></td></tr></table></figure>
+<p>同样，在众多Map集合中也有各自扩容策略，比如HashMap每次扩容时新容量等于原始的容量*2。在我们常用做字符串拼接的StringBuffer和StringBuilder内部，实际上也是有扩容策略，默认为扩容为原始的1.5倍。</p>
+<p><strong>所以，在这些需要扩容的api上，如果预先知道了数据的大小，则预先设置，这样不仅可以避免扩容导致的空间浪费，而且还可避免内部调用System.arraycopy()进行大量数据复制。</strong></p>
+<h3 id="程序如果需要通过索引下标对List做随机访问，应优先考虑ArrayList和Vector，迫不得已尽量不要使用LinkedList"><a href="#程序如果需要通过索引下标对List做随机访问，应优先考虑ArrayList和Vector，迫不得已尽量不要使用LinkedList" class="headerlink" title="程序如果需要通过索引下标对List做随机访问，应优先考虑ArrayList和Vector，迫不得已尽量不要使用LinkedList"></a><strong>程序如果需要通过索引下标对List做随机访问，应优先考虑ArrayList和Vector，迫不得已尽量不要使用LinkedList</strong></h3><p>虽说ArrayList在内存上比不上Vector，不过它对数据操作的效率高，特别是在Android等移动设备上，采取牺牲一点空间换时间的方式还是可取的，而涉及到线程安全方面，则使用Vector。</p>
+<h2 id="如果一个方法不需要使用该对象的成员，那么把该方法设为static"><a href="#如果一个方法不需要使用该对象的成员，那么把该方法设为static" class="headerlink" title="如果一个方法不需要使用该对象的成员，那么把该方法设为static"></a><strong>如果一个方法不需要使用该对象的成员，那么把该方法设为static</strong></h2><p>静态调用该方法比对象调用该方法快15%~20%，因为这样可以从方法签名上就可以看出该方法调用不会影响该对象的状态</p>
+<h2 id="巧用final关键字"><a href="#巧用final关键字" class="headerlink" title="巧用final关键字"></a><strong>巧用final关键字</strong></h2><p>final关键字一般在定义常量和方法用的比较多，而大多数人对final的理解往往是在不可变性上，而final对性能优化也有很大的作用。<br>比如：static int AGE = 10;当10在后面被引用时，这时会有一个字段查找的过程，对于int类型也就是查找方法区中的整型常量池，而对于final的常量，则省去了这个过程，比如：static final int AGE = 10;在使用到AGE的地方将直接用10代替。</p>
+<blockquote>
+<p>不过对于上面这种优化技巧，仅对基本类型和String类型有效，对于其它的引用类型则无效，但是我们在声明常量的时候加上 static final 依然是个好习惯</p>
+</blockquote>
+<p>对与final关键字，还有一个强大的作用，就是对那些使用频繁、已经确定为终态的方法定义final，这样有什么好处呢？</p>
+<p>说这个前先来说说java中方法的执行过程吧，当调用某个方法时，首先这个方法会入栈，执行完毕后，这个方法出栈，资源释放，而这个过程内部其实是内存地址的转移过程，当执行入栈的方法时，其实就是把程序的执行地址转移到该方法存放的内存地址中，而做此操作前，还有必须进行原先程序执行的内存地址保存过程，当方法执行完出栈后则继续按保存的地址继续执行程序，而这个过程，就是方法的调用过程。</p>
+<p>所以，方法的调用过程实际上是需要空间和时间的，而对于同一个方法的频繁调用的优化实际上就是使用内联的办法。</p>
+<p>又说到内联函数，内联函数实际上是在编译期做的优化，编译器会将标为为内联的函数在其调用的地方直接用整个函数体进行替换掉，这就省去了函数调用所耗去的时间资源了，而换来的却是目标代码量的增加，所以内联这种优化策略实际上是采取了以空间换时间的策略，对于移动端来说，巧用内联函数实则非常有益。</p>
+<p>而要是一个函数成为内联函数，就是将它定义为final，这样在程序编译时，编译器会自动将final函数进行内联优化，那么在调用该函数时则直接展开该函数体进行使用。</p>
+<p>总结，并不是内联函数越多越好，一方面它对我们程序的运行效率上确实有提升，而另一方面，对于过多的使用内联函数，则会弄巧成拙，有可能会把某个方法的方法体越搞越大，而且对于某些方法体比较大的方法，内联展开的时间有可能超过方法调用的时间，所以这不仅不会提供性能，反而是降低了本该有的性能。</p>
+<blockquote>
+<p>综合来看，我们可以对那些使用频繁、已经确定为终态的方法、方法体不大的方法用final修饰，提供程序的性能。</p>
+</blockquote>
+<h2 id="优先考虑系统中提供的代码而不是自己写"><a href="#优先考虑系统中提供的代码而不是自己写" class="headerlink" title="优先考虑系统中提供的代码而不是自己写"></a><strong>优先考虑系统中提供的代码而不是自己写</strong></h2><p>系统内置了许多非常方便的api供我们使用，比如：System、Arrays、Collections、String等内置了许多方法api，这比我们自己手写方便多了，除了这个外，对于Android来说许多api都使用了底层C/C++实现，所以效率上也比我们自己写快，同样，对于系统api，DVM往往也会使用内联的方式提高效率</p>
+<h2 id="慎用异常"><a href="#慎用异常" class="headerlink" title="慎用异常"></a><strong>慎用异常</strong></h2><p>慎用异常并不是不用异常，而是指程序中用抛异常的方式来执行某些操作，比如有些人会以强抛异常方式来中断某些操作等。因为抛异常时都会执行fillInStackTrace();方法，该方法作用就是重新调整堆栈，这使得没有必要用异常的地方一定要避免使用</p>
+<p>欢迎补充。。。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/01/04/Fresco图片框架内部实现原理探索/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Fresco图片框架内部实现原理探索
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/11/23/Android性能优化之常见的内存泄漏/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android性能优化之常见的内存泄露</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Android性能优化之被忽视的优化点" data-title="Android性能优化之被忽视的优化点" data-url="http://zhengxiaoyong.me/2015/11/25/Android性能优化之被忽视的优化点/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 郑晓勇
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

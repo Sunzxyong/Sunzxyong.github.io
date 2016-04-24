@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android性能优化之加快应用启动速度 | zhengxiaoyong</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="应用的启动启动方式通常来说，在安卓中应用的启动方式分为两种：冷启动和热启动
+
+1、冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。
+2、热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android性能优化之加快应用启动速度">
+<meta property="og:url" content="http://zhengxiaoyong.me/2016/01/14/Android性能优化之加快应用启动速度/index.html">
+<meta property="og:site_name" content="zhengxiaoyong">
+<meta property="og:description" content="应用的启动启动方式通常来说，在安卓中应用的启动方式分为两种：冷启动和热启动
+
+1、冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。
+2、热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启">
+<meta property="og:image" content="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed1.png">
+<meta property="og:image" content="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed2.png">
+<meta property="og:image" content="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed3.gif">
+<meta property="og:updated_time" content="2016-04-24T05:03:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android性能优化之加快应用启动速度">
+<meta name="twitter:description" content="应用的启动启动方式通常来说，在安卓中应用的启动方式分为两种：冷启动和热启动
+
+1、冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。
+2、热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启">
+  
+    <link rel="alternative" href="/atom.xml" title="zhengxiaoyong" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xswxf.com2.z0.glb.qiniucdn.com/image/icon.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">郑晓勇</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Coding is a wonderful thing.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/categories/性能优化">性能优化</a></li>
+				        
+							<li><a href="/categories/技术沉淀">技术沉淀</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/Sunzxyong" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/p/1005053048730677/home?from=page_100505&mod=TAB#place" title="weibo">weibo</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Bitmap/" style="font-size: 10px;">Bitmap</a> <a href="/tags/Fresco原理/" style="font-size: 10px;">Fresco原理</a> <a href="/tags/JsBridge/" style="font-size: 10px;">JsBridge</a> <a href="/tags/Splash页/" style="font-size: 10px;">Splash页</a> <a href="/tags/WebView/" style="font-size: 10px;">WebView</a> <a href="/tags/WebView安全/" style="font-size: 10px;">WebView安全</a> <a href="/tags/兼容性/" style="font-size: 10px;">兼容性</a> <a href="/tags/内存优化/" style="font-size: 10px;">内存优化</a> <a href="/tags/内存泄露/" style="font-size: 10px;">内存泄露</a> <a href="/tags/启动速度/" style="font-size: 10px;">启动速度</a> <a href="/tags/异步任务/" style="font-size: 10px;">异步任务</a> <a href="/tags/性能优化点/" style="font-size: 10px;">性能优化点</a> <a href="/tags/消费者/" style="font-size: 10px;">消费者</a> <a href="/tags/生产者/" style="font-size: 10px;">生产者</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/订阅者/" style="font-size: 10px;">订阅者</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/u010687392">我的CSDN的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">2016届毕业的应届生，喜欢Android、喜欢探索新技术、喜欢性能优化、喜欢代码的整洁、喜欢...目前就职于微店。微信：zxy1175151739</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">郑晓勇</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="http://7xswxf.com2.z0.glb.qiniucdn.com/image/icon.png" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">郑晓勇</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Coding is a wonderful thing.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/categories/性能优化">性能优化</a></li>
+		        
+					<li><a href="/categories/技术沉淀">技术沉淀</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Sunzxyong" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/p/1005053048730677/home?from=page_100505&mod=TAB#place" title="weibo">weibo</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Android性能优化之加快应用启动速度" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/01/14/Android性能优化之加快应用启动速度/" class="article-date">
+  	<time datetime="2016-01-14T14:51:30.000Z" itemprop="datePublished">2016-01-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android性能优化之加快应用启动速度
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/启动速度/">启动速度</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/性能优化/">性能优化</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="应用的启动"><a href="#应用的启动" class="headerlink" title="应用的启动"></a><strong>应用的启动</strong></h2><h3 id="启动方式"><a href="#启动方式" class="headerlink" title="启动方式"></a><strong>启动方式</strong></h3><p>通常来说，在安卓中应用的启动方式分为两种：冷启动和热启动</p>
+<blockquote>
+<p>1、冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。</p>
+<p>2、热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启动应用，这个方式叫热启动。<br><a id="more"></a></p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a><strong>特点</strong></h3><p>1、冷启动：冷启动因为系统会重新创建一个新的进程分配给它，所以会先创建和初始化Application类，再创建和初始化MainActivity类（包括一系列的测量、布局、绘制），最后显示在界面上。</p>
+</blockquote>
+<p>2、热启动：热启动因为会从已有的进程中来启动，所以热启动就不会走Application这步了，而是直接走MainActivity（包括一系列的测量、布局、绘制），所以热启动的过程只需要创建和初始化一个MainActivity就行了，而不必创建和初始化Application，因为一个应用从新进程的创建到进程的销毁，Application只会初始化一次。</p>
+<p><strong>上面说的启动是点击app的启动图标来启动的，而另外一种方式是进入最近使用的列表界面来启动应用，这种不应该叫启动，应该叫恢复。</strong></p>
+<h2 id="应用启动的流程"><a href="#应用启动的流程" class="headerlink" title="应用启动的流程"></a><strong>应用启动的流程</strong></h2><p>在安卓系统上，应用在没有进程的情况下，应用的启动都是这样一个流程：当点击app的启动图标时，安卓系统会从Zygote进程中fork创建出一个新的进程分配给该应用，之后会依次创建和初始化Application类、创建MainActivity类、加载主题样式Theme中的windowBackground等属性设置给MainActivity以及配置Activity层级上的一些属性、再inflate布局、当onCreate/onStart/onResume方法都走完了后最后才进行contentView的measure/layout/draw显示在界面上，所以直到这里，应用的第一次启动才算完成，这时候我们看到的界面也就是所说的第一帧。</p>
+<p>所以，总结一下，应用的启动流程如下：</p>
+<blockquote>
+<p>Application的构造器方法——&gt;attachBaseContext()——&gt;onCreate()——&gt;Activity的构造方法——&gt;onCreate()——&gt;配置主题中背景等属性——&gt;onStart()——&gt;onResume()——&gt;测量布局绘制显示在界面上。</p>
+</blockquote>
+<h2 id="测量应用启动的时间"><a href="#测量应用启动的时间" class="headerlink" title="测量应用启动的时间"></a><strong>测量应用启动的时间</strong></h2><p>在上面这个启动流程中，任何一个地方有耗时操作都会拖慢我们应用的启动速度，而应用启动时间是用毫秒度量的，对于毫秒级别的快慢度量我们还是需要去精确的测量到到底应用启动花了多少时间，而根据这个时间来做衡量。</p>
+<h3 id="什么才是应用的启动时间"><a href="#什么才是应用的启动时间" class="headerlink" title="什么才是应用的启动时间"></a><strong>什么才是应用的启动时间</strong></h3><p>从点击应用的启动图标开始创建出一个新的进程直到我们看到了界面的第一帧，这段时间就是应用的启动时间。</p>
+<p>我们要测量的也就是这段时间，测量这段时间可以通过adb shell命令的方式进行测量，这种方法测量的最为精确，命令为：</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -W <span class="string">[packageName]</span>/<span class="string">[packageName.MainActivity]</span></span><br></pre></td></tr></table></figure>
+<p>执行成功后将返回三个测量到的时间：<br>1、ThisTime:一般和TotalTime时间一样，除非在应用启动时开了一个透明的Activity预先处理一些事再显示出主Activity，这样将比TotalTime小。<br>2、TotalTime:应用的启动时间，包括创建进程+Application初始化+Activity初始化到界面显示。<br>3、WaitTime:一般比TotalTime大点，包括系统影响的耗时。</p>
+<p>下面是测量一个应用冷启动和热启动的时间：<br>冷启动：<br><img src="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed1.png" alt="这里写图片描述"><br>热启动：<br><img src="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed2.png" alt="这里写图片描述"></p>
+<p>可以看到在进程已经存在的情况下，只需要重新初始化MainActivity，这样的启动比较快，不过大多数情况下应用的启动都是冷启动，因为用户都会在任务列表中手动关闭遗留的应用进程。</p>
+<h2 id="减少应用启动时的耗时"><a href="#减少应用启动时的耗时" class="headerlink" title="减少应用启动时的耗时"></a><strong>减少应用启动时的耗时</strong></h2><p>针对冷启动时候的一些耗时，如上测得这个应用算是中型的app，在冷启动的时候耗时已经快700ms了，如果项目再大点在Application中配置了更多的初始化操作，这样将可能达到1s，这样每次启动都明显感觉延迟，所以在进行应用初始化的时候采取以下策略：<br>1、在Application的构造器方法、attachBaseContext()、onCreate()方法中不要进行耗时操作的初始化，一些数据预取放在异步线程中，可以采取Callable实现。<br>2、对于sp的初始化，因为sp的特性在初始化时候会对数据全部读出来存在内存中，所以这个初始化放在主线程中不合适，反而会延迟应用的启动速度，对于这个还是需要放在异步线程中处理。<br>3、对于MainActivity，由于在获取到第一帧前，需要对contentView进行测量布局绘制操作，尽量减少布局的层次，考虑StubView的延迟加载策略，当然在onCreate、onStart、onResume方法中避免做耗时操作。</p>
+<p>遵循上面三种策略可明显提高app启动速度。</p>
+<h2 id="优化应用启动时的体验"><a href="#优化应用启动时的体验" class="headerlink" title="优化应用启动时的体验"></a><strong>优化应用启动时的体验</strong></h2><p>对于应用的启动时间，只能是尽量的避免一些耗时的、非必要的操作在主线程中，这样相对可以缩减一部分启动的耗时，另外一方面在等待第一帧显示的时间里，可以加入一些配置以增加体验，比如加入Activity的background，这个背景会在显示第一帧前提前显示在界面上。<br>1、先为主界面单独写一个主题style，设置一张待显示的图片，这里我设置了一个颜色，然后在manifest中设置给MainActivity：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">style</span> <span class="attribute">name</span>=<span class="value">"AppTheme.Launcher"</span>&gt;</span><span class="css"></span><br><span class="line">    &lt;<span class="tag">item</span> <span class="tag">name</span>="<span class="tag">android</span><span class="pseudo">:windowBackground"</span>&gt;<span class="at_rule">@<span class="keyword">drawable/bule&lt;/item&gt;</span></span><br><span class="line"></span></span><span class="tag">&lt;/<span class="title">style</span>&gt;</span></span><br><span class="line">//...</span><br><span class="line">        <span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">            <span class="attribute">android:name</span>=<span class="value">".MainActivity"</span></span><br><span class="line">            <span class="attribute">android:label</span>=<span class="value">"@string/app_name"</span></span><br><span class="line">            <span class="attribute">android:theme</span>=<span class="value">"@style/AppTheme.Launcher"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、然后在MainActivity中加载布局前把AppTheme重新设置给MainActivity：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">Override</span></span><br><span class="line">    protected void <span class="function">onCreate</span>(Bundle savedInstanceState) </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="tag">setTheme</span>(<span class="tag">R</span><span class="class">.style</span><span class="class">.AppTheme</span>);</span><br><span class="line">        <span class="tag">super</span><span class="class">.onCreate</span>(<span class="tag">savedInstanceState</span>);</span><br><span class="line">        <span class="tag">setContentView</span>(<span class="tag">R</span><span class="class">.layout</span><span class="class">.activity_main</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样在启动时会先显示background，然后待界面绘制完成再显示主界面<br><img src="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed3.gif" alt="这里写图片描述"></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/01/17/Android性能优化之Splash页应该这样设计/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android性能优化之Splash页应该这样设计
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/01/04/Fresco图片框架内部实现原理探索/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Fresco图片框架内部实现原理探索</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Android性能优化之加快应用启动速度" data-title="Android性能优化之加快应用启动速度" data-url="http://zhengxiaoyong.me/2016/01/14/Android性能优化之加快应用启动速度/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 郑晓勇
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
