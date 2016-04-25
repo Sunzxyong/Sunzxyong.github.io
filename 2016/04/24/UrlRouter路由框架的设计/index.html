@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="zhengxiaoyong">
 <meta property="og:description" content="UrlRouter的设计目的
 1、可取代使用startActivity、startActivityForResult跳转的情景，便于协同开发2、通过一串url可任意跳转到指定界面，可跨应用跳转，使用应尽可能简单3、支持各种类型参数传递、界面转场动画4、可获取起跳界面的路径和当前界面路径，以便支持后期埋点等需求5、支持从H5到Native，Native到H5，这是Hybrid开发模式中常用到的需求">
-<meta property="og:updated_time" content="2016-04-25T03:25:31.000Z">
+<meta property="og:updated_time" content="2016-04-25T03:31:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UrlRouter路由框架的设计">
 <meta name="twitter:description" content="UrlRouter的设计目的
@@ -242,6 +242,7 @@
         <h2 id="UrlRouter的设计"><a href="#UrlRouter的设计" class="headerlink" title="UrlRouter的设计"></a><strong>UrlRouter的设计</strong></h2><h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a><strong>目的</strong></h3><blockquote>
 <p>1、可取代使用startActivity、startActivityForResult跳转的情景，便于协同开发<br>2、通过一串url可任意跳转到指定界面，可跨应用跳转，使用应尽可能简单<br>3、支持各种类型参数传递、界面转场动画<br>4、可获取起跳界面的路径和当前界面路径，以便支持后期埋点等需求<br>5、支持从H5到Native，Native到H5，这是Hybrid开发模式中常用到的需求</p>
 </blockquote>
+<a id="more"></a>
 <h3 id="url格式"><a href="#url格式" class="headerlink" title="url格式"></a><strong>url格式</strong></h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">scheme:</span><span class="comment">//host/path</span></span><br></pre></td></tr></table></figure>
 <p>scheme：APP内自己定义的，不过这个在H5内跳Native时，需要和前端协商定义好，本地间的跳转可以随自己定义，比如：activity<br>host：这个尽可能按各个Activity的所在模块命名<br>path：各个Activity的功能名</p>
 <p>这样一来，比如我跳转到商品详情页的url：</p>
