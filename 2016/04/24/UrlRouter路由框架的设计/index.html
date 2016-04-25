@@ -7,18 +7,18 @@
   <title>UrlRouter路由框架的设计 | zhengxiaoyong</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="UrlRouter的设计目的
-1、可取代使用startActivity、startActivityForResult跳转的情景，便于协同开发2、通过一串url可任意跳转到指定界面，可跨应用跳转，使用应尽可能简单3、支持各种类型参数传递、界面转场动画4、可获取起跳界面的路径和当前界面路径，以便支持后期埋点等需求5、支持从H5到Native，Native到H5，这是Hybrid开发模式中常用到的需求">
+1、可取代使用startActivity、startActivityForResult跳转的情景，便于协同开发2、通过一串url可任意跳转到指定界面，使用应尽可能简单3、支持各种类型参数传递、界面转场动画4、可获取起跳界面的路径和当前界面路径，以便支持后期埋点等需求5、支持从H5到Native，Native到H5，这是Hybrid开发模式中常用到的需求">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UrlRouter路由框架的设计">
 <meta property="og:url" content="http://zhengxiaoyong.me/2016/04/24/UrlRouter路由框架的设计/index.html">
 <meta property="og:site_name" content="zhengxiaoyong">
 <meta property="og:description" content="UrlRouter的设计目的
-1、可取代使用startActivity、startActivityForResult跳转的情景，便于协同开发2、通过一串url可任意跳转到指定界面，可跨应用跳转，使用应尽可能简单3、支持各种类型参数传递、界面转场动画4、可获取起跳界面的路径和当前界面路径，以便支持后期埋点等需求5、支持从H5到Native，Native到H5，这是Hybrid开发模式中常用到的需求">
-<meta property="og:updated_time" content="2016-04-25T03:31:02.000Z">
+1、可取代使用startActivity、startActivityForResult跳转的情景，便于协同开发2、通过一串url可任意跳转到指定界面，使用应尽可能简单3、支持各种类型参数传递、界面转场动画4、可获取起跳界面的路径和当前界面路径，以便支持后期埋点等需求5、支持从H5到Native，Native到H5，这是Hybrid开发模式中常用到的需求">
+<meta property="og:updated_time" content="2016-04-25T08:14:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UrlRouter路由框架的设计">
 <meta name="twitter:description" content="UrlRouter的设计目的
-1、可取代使用startActivity、startActivityForResult跳转的情景，便于协同开发2、通过一串url可任意跳转到指定界面，可跨应用跳转，使用应尽可能简单3、支持各种类型参数传递、界面转场动画4、可获取起跳界面的路径和当前界面路径，以便支持后期埋点等需求5、支持从H5到Native，Native到H5，这是Hybrid开发模式中常用到的需求">
+1、可取代使用startActivity、startActivityForResult跳转的情景，便于协同开发2、通过一串url可任意跳转到指定界面，使用应尽可能简单3、支持各种类型参数传递、界面转场动画4、可获取起跳界面的路径和当前界面路径，以便支持后期埋点等需求5、支持从H5到Native，Native到H5，这是Hybrid开发模式中常用到的需求">
   
     <link rel="alternative" href="/atom.xml" title="zhengxiaoyong" type="application/atom+xml">
   
@@ -247,7 +247,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="UrlRouter的设计"><a href="#UrlRouter的设计" class="headerlink" title="UrlRouter的设计"></a><strong>UrlRouter的设计</strong></h2><h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a><strong>目的</strong></h3><blockquote>
-<p>1、可取代使用startActivity、startActivityForResult跳转的情景，便于协同开发<br>2、通过一串url可任意跳转到指定界面，可跨应用跳转，使用应尽可能简单<br>3、支持各种类型参数传递、界面转场动画<br>4、可获取起跳界面的路径和当前界面路径，以便支持后期埋点等需求<br>5、支持从H5到Native，Native到H5，这是Hybrid开发模式中常用到的需求</p>
+<p>1、可取代使用startActivity、startActivityForResult跳转的情景，便于协同开发<br>2、通过一串url可任意跳转到指定界面，使用应尽可能简单<br>3、支持各种类型参数传递、界面转场动画<br>4、可获取起跳界面的路径和当前界面路径，以便支持后期埋点等需求<br>5、支持从H5到Native，Native到H5，这是Hybrid开发模式中常用到的需求</p>
 </blockquote>
 <a id="more"></a>
 <h3 id="url格式"><a href="#url格式" class="headerlink" title="url格式"></a><strong>url格式</strong></h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">scheme:</span><span class="comment">//host/path</span></span><br></pre></td></tr></table></figure>
@@ -264,7 +264,7 @@
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span> <span class="attribute">android:name</span>=<span class="value">".DetailActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.VIEW"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="title">data</span> <span class="attribute">android:scheme</span>=<span class="value">"activity"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">data</span> <span class="attribute">android:host</span>=<span class="value">"product"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">data</span> <span class="attribute">android:path</span>=<span class="value">"/detail"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">data</span> <span class="attribute">android:scheme</span>=<span class="value">"h5"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">data</span> <span class="attribute">android:host</span>=<span class="value">"webview"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">data</span> <span class="attribute">android:path</span>=<span class="value">"/goods_detail"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>上面既然配置好了Activity，那么Intent就可以这样设置了：</p>
 <figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Intent</span> <span class="type">intent</span> = new <span class="type">Intent</span>();</span><br><span class="line"><span class="type">intent</span>.setAction(<span class="type">Intent</span>.ACTION_VIEW);</span><br><span class="line"><span class="type">intent</span>.addCategory(<span class="type">Intent</span>.CATEGORY_DEFAULT);</span><br><span class="line"><span class="type">intent</span>.setData(Uri.parse(<span class="string">"activity://product/detail"</span>));</span><br></pre></td></tr></table></figure>
-<p>不过还没设置目标Activity的信息，所以这就需要通过<code>packageManager.queryIntentActivities()</code>来查询是否正确匹配符合我们url规则的Activity，有则最终我们会得到一个<code>ResolveInfo</code>对象，通过该对象我们可以得到目标Activity的包名、类名等信息，所以再设置给Intent用来start，所以这种方式是可以跨应用的</p>
+<p>不过还没设置目标Activity的信息，所以这就需要通过<code>packageManager.queryIntentActivities()</code>来查询是否正确匹配符合我们url规则的Activity，有则最终我们会得到一个<code>ResolveInfo</code>对象，通过该对象我们可以得到目标Activity的包名、类名等信息，所以再设置给Intent用来start</p>
 <h3 id="参数应怎么传递"><a href="#参数应怎么传递" class="headerlink" title="参数应怎么传递"></a><strong>参数应怎么传递</strong></h3><p>对于参数传递，我相信在使用url的情况下，很容易想到在url后面拼接json、KV或者其它自定义的格式，这种方式在处理普通的int、布尔、字符串确实非常方便，不过在传递对象、List集合情况下就不好处理了，所以，基于这个，可以这样定义，在传递字符串、int、布尔类型时直接使用url拼接形式，涉及到其它复杂的数据类型时使用Bundle传递</p>
 <h3 id="匹配到多个Activity的处理"><a href="#匹配到多个Activity的处理" class="headerlink" title="匹配到多个Activity的处理"></a><strong>匹配到多个Activity的处理</strong></h3><p>对于匹配过程中，可能存在一个Intent匹配到多个Activity，这时候就需要处理了，因为最终我们只需要打开一个Activity就行了，这时候千万别使用设置intent-filter的优先级来处理，也即：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">intent-filter</span> <span class="attribute">android:priority</span>=<span class="value">"10"</span>&gt;</span></span><br></pre></td></tr></table></figure>
