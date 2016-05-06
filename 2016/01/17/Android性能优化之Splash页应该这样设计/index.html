@@ -81,25 +81,25 @@
 
 
 <meta name="description" content="目前SplashActivity的设计目前市场上的应用在启动时基本上都会先启动一个SplashActivity，作为一个欢迎界面，为什么这样设计呢？个人总结有三个优点：
-1、可以给用户更好的体验比如：可以由后台动态的改变欢迎的图片，或者显欢迎xxx回来，新浪微博的就是这种交互。
-2、可以缩减App的启动时间由上一篇博文中知道app启动的耗时主要是在Application初始化中和MainActiv">
+可以给用户更好的体验比如：可以由后台动态的改变欢迎的图片，或者显欢迎xxx回来，新浪微博的就是这种交互。
+可以缩减App的启动时间由上一篇博文中知道app启动的耗时主要是在Application初始化中和MainActivity的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android性能优化之Splash页应该这样设计">
 <meta property="og:url" content="http://zhengxiaoyong.me/2016/01/17/Android性能优化之Splash页应该这样设计/index.html">
 <meta property="og:site_name" content="zhengxiaoyong">
 <meta property="og:description" content="目前SplashActivity的设计目前市场上的应用在启动时基本上都会先启动一个SplashActivity，作为一个欢迎界面，为什么这样设计呢？个人总结有三个优点：
-1、可以给用户更好的体验比如：可以由后台动态的改变欢迎的图片，或者显欢迎xxx回来，新浪微博的就是这种交互。
-2、可以缩减App的启动时间由上一篇博文中知道app启动的耗时主要是在Application初始化中和MainActiv">
+可以给用户更好的体验比如：可以由后台动态的改变欢迎的图片，或者显欢迎xxx回来，新浪微博的就是这种交互。
+可以缩减App的启动时间由上一篇博文中知道app启动的耗时主要是在Application初始化中和MainActivity的">
 <meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/splash1.png">
 <meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/splash2.png">
 <meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/splash3.gif">
 <meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/splash4.gif">
-<meta property="og:updated_time" content="2016-04-24T05:03:35.000Z">
+<meta property="og:updated_time" content="2016-05-06T06:42:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android性能优化之Splash页应该这样设计">
 <meta name="twitter:description" content="目前SplashActivity的设计目前市场上的应用在启动时基本上都会先启动一个SplashActivity，作为一个欢迎界面，为什么这样设计呢？个人总结有三个优点：
-1、可以给用户更好的体验比如：可以由后台动态的改变欢迎的图片，或者显欢迎xxx回来，新浪微博的就是这种交互。
-2、可以缩减App的启动时间由上一篇博文中知道app启动的耗时主要是在Application初始化中和MainActiv">
+可以给用户更好的体验比如：可以由后台动态的改变欢迎的图片，或者显欢迎xxx回来，新浪微博的就是这种交互。
+可以缩减App的启动时间由上一篇博文中知道app启动的耗时主要是在Application初始化中和MainActivity的">
 
 
 
@@ -317,9 +317,9 @@
 
       
         <h2 id="目前SplashActivity的设计"><a href="#目前SplashActivity的设计" class="headerlink" title="目前SplashActivity的设计"></a><strong>目前SplashActivity的设计</strong></h2><p>目前市场上的应用在启动时基本上都会先启动一个SplashActivity，作为一个欢迎界面，为什么这样设计呢？<br>个人总结有三个优点：</p>
-<h3 id="1、可以给用户更好的体验"><a href="#1、可以给用户更好的体验" class="headerlink" title="1、可以给用户更好的体验"></a>1、可以给用户更好的体验</h3><p>比如：可以由后台动态的改变欢迎的图片，或者显欢迎xxx回来，新浪微博的就是这种交互。</p>
-<h3 id="2、可以缩减App的启动时间"><a href="#2、可以缩减App的启动时间" class="headerlink" title="2、可以缩减App的启动时间"></a>2、可以缩减App的启动时间</h3><p>由上一篇博文中知道app启动的耗时主要是在Application初始化中和MainActivity的界面绘制前，由于MainActivity的业务和布局复杂度肯定比只显示一张图片的界面高，所以，加入一个显示一张图片的Splash页可以优化应用的启动。</p>
-<h3 id="3、可以在应用启动时做更多的事"><a href="#3、可以在应用启动时做更多的事" class="headerlink" title="3、可以在应用启动时做更多的事"></a>3、可以在应用启动时做更多的事</h3><p>一般来说SplashActivity一般会设计成停留2到4s不等，或者根据数据的加载程度来动态的设置Splash界面的停留时间，既然停留那么久，那么当然可以在这个界面背后做一些事以备MainActivity的快速显示，比如：数据的预加载、sp的初始化、网络请求等。</p>
+<h3 id="可以给用户更好的体验"><a href="#可以给用户更好的体验" class="headerlink" title="可以给用户更好的体验"></a>可以给用户更好的体验</h3><p>比如：可以由后台动态的改变欢迎的图片，或者显欢迎xxx回来，新浪微博的就是这种交互。</p>
+<h3 id="可以缩减App的启动时间"><a href="#可以缩减App的启动时间" class="headerlink" title="可以缩减App的启动时间"></a>可以缩减App的启动时间</h3><p>由上一篇博文中知道app启动的耗时主要是在Application初始化中和MainActivity的界面绘制前，由于MainActivity的业务和布局复杂度肯定比只显示一张图片的界面高，所以，加入一个显示一张图片的Splash页可以优化应用的启动。</p>
+<h3 id="可以在应用启动时做更多的事"><a href="#可以在应用启动时做更多的事" class="headerlink" title="可以在应用启动时做更多的事"></a>可以在应用启动时做更多的事</h3><p>一般来说SplashActivity一般会设计成停留2到4s不等，或者根据数据的加载程度来动态的设置Splash界面的停留时间，既然停留那么久，那么当然可以在这个界面背后做一些事以备MainActivity的快速显示，比如：数据的预加载、sp的初始化、网络请求等。</p>
 <p>当然你可能有些疑问，那这样初始化放在Application中也可以啊？也用异步操作数据也是一样啊？</p>
 <p>答案是不一样！正如上篇所说的，Application初始化时并不会加载界面，而是在它创建完和初始化完成后，开始创建Activity时才开始绘制Theme中的background和绘制布局，所以用一个轻量的Splash页给它设置一张背景欢迎图，这样就立马能显示界面了，而在这个界面中还可以做其它的初始化操作，这样在视觉上即达到了app的快速启动，又添加了体验和做数据的初始化。</p>
 <p>相反如果过多的放在Application中，则在点击app图标启动时会感觉延迟，必须要把Application中的东西都做完才进入Activity的配置和绘制中。<br><a id="more"></a></p>
@@ -487,7 +487,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目前SplashActivity的设计"><span class="nav-number">1.</span> <span class="nav-text">目前SplashActivity的设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、可以给用户更好的体验"><span class="nav-number">1.1.</span> <span class="nav-text">1、可以给用户更好的体验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、可以缩减App的启动时间"><span class="nav-number">1.2.</span> <span class="nav-text">2、可以缩减App的启动时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、可以在应用启动时做更多的事"><span class="nav-number">1.3.</span> <span class="nav-text">3、可以在应用启动时做更多的事</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目前大多数应用的Splash页设计的不足之处"><span class="nav-number">2.</span> <span class="nav-text">目前大多数应用的Splash页设计的不足之处</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以往的SplashActivity的设计图"><span class="nav-number">2.1.</span> <span class="nav-text">以往的SplashActivity的设计图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能优且体验棒的Splash页的设计"><span class="nav-number">3.</span> <span class="nav-text">性能优且体验棒的Splash页的设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化前后效果对比"><span class="nav-number">4.</span> <span class="nav-text">优化前后效果对比</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目前SplashActivity的设计"><span class="nav-number">1.</span> <span class="nav-text">目前SplashActivity的设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可以给用户更好的体验"><span class="nav-number">1.1.</span> <span class="nav-text">可以给用户更好的体验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可以缩减App的启动时间"><span class="nav-number">1.2.</span> <span class="nav-text">可以缩减App的启动时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可以在应用启动时做更多的事"><span class="nav-number">1.3.</span> <span class="nav-text">可以在应用启动时做更多的事</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目前大多数应用的Splash页设计的不足之处"><span class="nav-number">2.</span> <span class="nav-text">目前大多数应用的Splash页设计的不足之处</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以往的SplashActivity的设计图"><span class="nav-number">2.1.</span> <span class="nav-text">以往的SplashActivity的设计图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能优且体验棒的Splash页的设计"><span class="nav-number">3.</span> <span class="nav-text">性能优且体验棒的Splash页的设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化前后效果对比"><span class="nav-number">4.</span> <span class="nav-text">优化前后效果对比</span></a></li></ol></div>
             
           </div>
         </section>
