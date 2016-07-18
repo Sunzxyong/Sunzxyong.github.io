@@ -267,7 +267,7 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-18T21:47:37+08:00" content="2016-07-18">
+            <time itemprop="dateCreated" datetime="2016-07-18T21:51:26+08:00" content="2016-07-18">
               2016-07-18
             </time>
           </span>
@@ -312,44 +312,19 @@
 
       
         
-          
-            <p>title: Android端应用秒开优化体验<br>date: 2016-07-18 21:43:26<br>categories: 性能优化<br>tags: </p>
+          <p>title: Android端应用秒开优化体验<br>date: 2016-07-18 21:43:26<br>categories: 性能优化<br>tags: </p>
 <ul>
 <li>启动优化</li>
 <li>应用秒开</li>
 </ul>
 <hr>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>最近部门内抛出了一个问题，应用启动很慢、卡图标？主要表现在中低端机型中。究其这个问题，由于对性能优化比较感兴趣，借了个低端机和一个中端机来一看究竟，对同一应用分别测了下它在中低端机的启动时间，下面为启动耗时情况：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/launch_one.jpg" alt=""></p>
-<p>启动了三次，基本都在4s左右。</p>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a><strong>原因</strong></h2><p>究其原因，主要因素是任务在界面绘制前过于集中化。</p>
-<p>应用启动过程从用户点击launcher图标到看到第一帧这个过程中，主要会经过以下这些过程：</p>
-<blockquote>
-<p>main()-&gt;Application:attachBaseContext()-&gt;onCreate()-&gt;Activity:onCreate()-&gt;onStart()-&gt;onPostCreate()-&gt;onResume()-&gt;onPostResume()</p>
-</blockquote>
-<p>而一般我们的初始化任务主要都会集中化在Application:onCreate()方法中，这就使得初始化任务在第一帧绘制之前得完成，这就造成了卡图标、应用启动慢。那么把任务打散呢？分散在LaunchActivity中去分段初始化？还是不行的，因为界面开始绘制是在onResume()方法开始后才开始绘制，所以，得从Activity的创建过程找办法。</p>
-<p>main-&gt;Activity创建的这个过程会经过一系列framework层的操作，这些操作都是系统自动执行的，不易进行优化，不过可以在Activity创建这个过程前后来找一些蛛丝马迹，因为Activity的创建都会辗转到ActivityThread:performLaunchActivity()这个方法中，在这个方法中可以知道这么几件事：<br>1、先通过Instrumentation:newActivity()来创建一个Activity实例<br>2、再判断Application实例是否已创建，已创建则直接返回，否则调用<br>Instrumentation:newApplication()来创建Application实例，在这个过程中会依次执行attachBaseContext()和onCreate()方法<br>3、之后Activity:attach()方法会创建一个PhoneWindow对象，它就是界面，它有一个DecorView，调用setContentView()时会给配置DecorView，其中就会设置一个背景：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/launc_code.jpg" alt=""></p>
-<p>我们的View也是add进DecorView中显示，它作为RootView肯定是最先显示，所以可以给它设置个默认背景<br>4、最后依次调用Activity的onCreate、onStart等方法</p>
-<h2 id="措施"><a href="#措施" class="headerlink" title="措施"></a><strong>措施</strong></h2><blockquote>
-<p>1、任务分级<br>2、任务并行<br>3、界面预显示</p>
-</blockquote>
-<p>对于任务集中初始化化、耗时初始化原因导致应用在中低端机启动过慢，而Activity界面绘制的时机导致简单的将任务分给Activity初始化也不起作用，我们必须找一个切入点</p>
-<blockquote>
-<p>界面的创建和界面的绘制，这两个过程第一个是Application的attachBaseConte和onCreate这两个方法影响的，第二个则是Application创建一直到界面绘制</p>
-</blockquote>
-<p>所以，可以对任务进行分级的临界点可以这样分：</p>
-<blockquote>
-<p>1、CoreSDK——Application的创建<br>2、HighPrioritySDK——Activity的创建<br>3、LowPrioritySDK——Activity界面完成绘制<br>4、AsyncSDK——Activity的创建</p>
-</blockquote>
-<p>如图：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/launch.png" alt="launch"></p>
-<p>对任务这样分级后，测了一下，应用的启动即使在低端机上，也能秒开:<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/launch_two.jpg" alt=""></p>
-<h2 id="分级带来的问题"><a href="#分级带来的问题" class="headerlink" title="分级带来的问题"></a><strong>分级带来的问题</strong></h2><p>正常启动过程那肯定是没问题的，不过有这么几种场景：</p>
-<blockquote>
-<p>1、App切回后台，内存不足导致Application被回收，从最近任务列表中恢复界面时Application需重新创建<br>2、应用没挂起时，Push推送需从Notification跳入应用内某界面<br>3、应用没挂起时，浏览器外链需跳入应用内某界面</p>
-</blockquote>
-<p>这些Case可能导致的问题是被跳入的界面使用到了未初始化的SDK，可能导致Crash或者数据异常，所以目标页面启动前必须确保SDK已经初始化，这个过程的原因是没有唤起启动页来初始化SDK，可以通过hook newActivity解决。</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function">Activity <span class="title">newActivity</span><span class="params">(ClassLoader cl, String className, Intent intent)</span> <span class="keyword">throws</span> InstantiationException, IllegalAccessException, ClassNotFoundException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (InitializeOptimizer.isApplicationCreated()</span><br><span class="line">            &amp;&amp; (InitializeUtil.isOuterChainIntent(intent) || InitializeUtil.isNotificationIntent(intent)) &amp;&amp; (!InitializeOptimizer.isHighSDKInitialized()</span><br><span class="line">            || !InitializeOptimizer.isLowSDKInitialized()</span><br><span class="line">            || !InitializeOptimizer.isAsyncSDKInitialized())) &#123;</span><br><span class="line">        InitializeOptimizer.setApplicationCreated(<span class="keyword">false</span>);</span><br><span class="line">        intent.addCategory(InitializeUtil.INITIALIZE_CATEGORY);</span><br><span class="line">        <span class="keyword">return</span> (Activity) cl.loadClass(InitializeOptimizer.getLaunchClassName()).newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">    InitializeOptimizer.setApplicationCreated(<span class="keyword">false</span>);</span><br><span class="line">    <span class="function"><span class="keyword">return</span> <span class="keyword">super</span>.<span class="title">newActivity</span><span class="params">(cl, className, intent)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
+<p>启动了三次，基本都在4s左右。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/07/18/Android端应用秒开优化体验/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
