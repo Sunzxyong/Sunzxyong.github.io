@@ -253,6 +253,142 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/05/Android运行时Crash自动恢复框架-Recovery/" itemprop="url">
+                  Android运行时Crash自动恢复框架-Recovery
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-05T19:35:32+08:00" content="2016-09-05">
+              2016-09-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/技术沉淀/" itemprop="url" rel="index">
+                    <span itemprop="name">技术沉淀</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/05/Android运行时Crash自动恢复框架-Recovery/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/05/Android运行时Crash自动恢复框架-Recovery/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/09/05/Android运行时Crash自动恢复框架-Recovery/" class="leancloud_visitors" data-flag-title="Android运行时Crash自动恢复框架-Recovery">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h1><blockquote>
+<p>App Crash的恢复，这个想法很早之前就有，目前有些时间就实现了一把，主要是对App运行时发生Crash后，对Activity的堆栈和数据进行恢复，或者重启应用，或者重启并清空缓存，避免因本地的数据类型或格式错误而导致App在读取时一直Crash，Debug模式还包括Crash信息的显示和保存，便于在开发、测试时查看相应CrashInfo</p>
+</blockquote>
+<h1 id="Crash的处理"><a href="#Crash的处理" class="headerlink" title="Crash的处理"></a><strong>Crash的处理</strong></h1><p>对于应用的Crash，一般的做法我们往往都是实现个自定义<code>UncaughtExceptionHandler</code>，而这个自定义的CustomUncaughtHandler我们一般都用于捕捉Crash信息进行上报和监控是否发生Crash，还有一个作用就是可以屏蔽系统默认的Crash对话框，也就是拦截Crash后不把系统默认的UncaughtHandler设置进去，而是直接进行KillProcess，这个过程就是屏蔽了系统的默认Crash处理流程，原因是系统的处理其中在AMS的crashApplication()中会执行这么一段代码：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Message</span> msg = <span class="type">Message</span>.obtain();</span><br><span class="line">msg.what = <span class="type">SHOW_ERROR_MSG</span>;</span><br><span class="line"><span class="type">HashMap</span> data = new <span class="type">HashMap</span>();</span><br><span class="line">data.put(<span class="string">"result"</span>, <span class="literal">result</span>);</span><br><span class="line">data.put(<span class="string">"app"</span>, r);</span><br><span class="line">msg.obj = data;</span><br><span class="line">mUiHandler.sendMessage(msg);</span><br></pre></td></tr></table></figure>
+<p>发送一个显示Dialog的消息，之后便创建一个AppErrorDialog进行显示。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/09/05/Android运行时Crash自动恢复框架-Recovery/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/07/18/Android端应用秒开优化体验/" itemprop="url">
                   Android端应用秒开优化体验
                 </a>
@@ -1437,139 +1573,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/23/Android性能优化之常见的内存泄漏/" itemprop="url">
-                  Android性能优化之常见的内存泄露
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-23T22:37:30+08:00" content="2015-11-23">
-              2015-11-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/性能优化/" itemprop="url" rel="index">
-                    <span itemprop="name">性能优化</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/23/Android性能优化之常见的内存泄漏/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/23/Android性能优化之常见的内存泄漏/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2015/11/23/Android性能优化之常见的内存泄漏/" class="leancloud_visitors" data-flag-title="Android性能优化之常见的内存泄露">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将以最直观的方式告诉我们该内存泄漏是由谁产生的和该内存泄漏导致谁泄漏了而不能回收，供我们复查。</p>
-<p>最近腾讯bugly也推出了三篇关于Android内存泄漏调优的文章：<br>1、<a href="http://bugly.qq.com/blog/?p=832">内存泄露从入门到精通三部曲之基础知识篇</a><br>2、<a href="http://bugly.qq.com/blog/?p=872">内存泄露从入门到精通三部曲之排查方法篇</a><br>3、<a href="http://bugly.qq.com/blog/?p=884">内存泄露从入门到精通三部曲之常见原因与用户实践</a></p>
-<p>关于性能优化的文章，出自Realm.io：<br><a href="https://realm.io/cn/news/droidcon-farber-improving-android-app-performance/">10 条提升 Android 性能的建议</a><br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/11/23/Android性能优化之常见的内存泄漏/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1615,7 +1618,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1632,7 +1635,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

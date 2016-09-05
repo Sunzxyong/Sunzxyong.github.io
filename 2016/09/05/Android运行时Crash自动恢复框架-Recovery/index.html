@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="启动速度," />
+  <meta name="keywords" content="ActivityStack恢复,Crash恢复," />
 
 
 
@@ -84,28 +84,27 @@
 
 
 
-<meta name="description" content="应用的启动启动方式通常来说，在安卓中应用的启动方式分为两种：冷启动和热启动
+<meta name="description" content="简介
+App Crash的恢复，这个想法很早之前就有，目前有些时间就实现了一把，主要是对App运行时发生Crash后，对Activity的堆栈和数据进行恢复，或者重启应用，或者重启并清空缓存，避免因本地的数据类型或格式错误而导致App在读取时一直Crash，Debug模式还包括Crash信息的显示和保存，便于在开发、测试时查看相应CrashInfo
 
-1、冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。
-2、热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启">
+Crash的处理对于应用的Crash，一般的做">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android性能优化之加快应用启动速度">
-<meta property="og:url" content="http://zhengxiaoyong.me/2016/01/14/Android性能优化之加快应用启动速度/index.html">
+<meta property="og:title" content="Android运行时Crash自动恢复框架-Recovery">
+<meta property="og:url" content="http://zhengxiaoyong.me/2016/09/05/Android运行时Crash自动恢复框架-Recovery/index.html">
 <meta property="og:site_name" content="zhengxiaoyong">
-<meta property="og:description" content="应用的启动启动方式通常来说，在安卓中应用的启动方式分为两种：冷启动和热启动
+<meta property="og:description" content="简介
+App Crash的恢复，这个想法很早之前就有，目前有些时间就实现了一把，主要是对App运行时发生Crash后，对Activity的堆栈和数据进行恢复，或者重启应用，或者重启并清空缓存，避免因本地的数据类型或格式错误而导致App在读取时一直Crash，Debug模式还包括Crash信息的显示和保存，便于在开发、测试时查看相应CrashInfo
 
-1、冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。
-2、热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启">
-<meta property="og:image" content="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed1.png">
-<meta property="og:image" content="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed2.png">
-<meta property="og:image" content="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed3.gif">
-<meta property="og:updated_time" content="2016-07-17T15:54:33.000Z">
+Crash的处理对于应用的Crash，一般的做">
+<meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/Recovery.png">
+<meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/recovery.gif">
+<meta property="og:updated_time" content="2016-09-05T11:38:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android性能优化之加快应用启动速度">
-<meta name="twitter:description" content="应用的启动启动方式通常来说，在安卓中应用的启动方式分为两种：冷启动和热启动
+<meta name="twitter:title" content="Android运行时Crash自动恢复框架-Recovery">
+<meta name="twitter:description" content="简介
+App Crash的恢复，这个想法很早之前就有，目前有些时间就实现了一把，主要是对App运行时发生Crash后，对Activity的堆栈和数据进行恢复，或者重启应用，或者重启并清空缓存，避免因本地的数据类型或格式错误而导致App在读取时一直Crash，Debug模式还包括Crash信息的显示和保存，便于在开发、测试时查看相应CrashInfo
 
-1、冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。
-2、热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启">
+Crash的处理对于应用的Crash，一般的做">
 
 
 
@@ -123,7 +122,7 @@
   };
 </script>
 
-  <title> Android性能优化之加快应用启动速度 | zhengxiaoyong </title>
+  <title> Android运行时Crash自动恢复框架-Recovery | zhengxiaoyong </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -263,7 +262,7 @@
             
             
               
-                Android性能优化之加快应用启动速度
+                Android运行时Crash自动恢复框架-Recovery
               
             
           </h1>
@@ -275,8 +274,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-14T22:51:30+08:00" content="2016-01-14">
-              2016-01-14
+            <time itemprop="dateCreated" datetime="2016-09-05T19:35:32+08:00" content="2016-09-05">
+              2016-09-05
             </time>
           </span>
 
@@ -289,8 +288,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/性能优化/" itemprop="url" rel="index">
-                    <span itemprop="name">性能优化</span>
+                  <a href="/categories/技术沉淀/" itemprop="url" rel="index">
+                    <span itemprop="name">技术沉淀</span>
                   </a>
                 </span>
 
@@ -305,8 +304,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/01/14/Android性能优化之加快应用启动速度/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/14/Android性能优化之加快应用启动速度/" itemprop="commentsCount"></span>
+                <a href="/2016/09/05/Android运行时Crash自动恢复框架-Recovery/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/05/Android运行时Crash自动恢复框架-Recovery/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -316,7 +315,7 @@
 
           
           
-             <span id="/2016/01/14/Android性能优化之加快应用启动速度/" class="leancloud_visitors" data-flag-title="Android性能优化之加快应用启动速度">
+             <span id="/2016/09/05/Android运行时Crash自动恢复框架-Recovery/" class="leancloud_visitors" data-flag-title="Android运行时Crash自动恢复框架-Recovery">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -338,33 +337,26 @@
       
 
       
-        <h2 id="应用的启动"><a href="#应用的启动" class="headerlink" title="应用的启动"></a><strong>应用的启动</strong></h2><h3 id="启动方式"><a href="#启动方式" class="headerlink" title="启动方式"></a><strong>启动方式</strong></h3><p>通常来说，在安卓中应用的启动方式分为两种：冷启动和热启动</p>
-<blockquote>
-<p>1、冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。</p>
-<p>2、热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启动应用，这个方式叫热启动。</p>
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h1><blockquote>
+<p>App Crash的恢复，这个想法很早之前就有，目前有些时间就实现了一把，主要是对App运行时发生Crash后，对Activity的堆栈和数据进行恢复，或者重启应用，或者重启并清空缓存，避免因本地的数据类型或格式错误而导致App在读取时一直Crash，Debug模式还包括Crash信息的显示和保存，便于在开发、测试时查看相应CrashInfo</p>
 </blockquote>
-<a id="more"></a>
-<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a><strong>特点</strong></h3><p>1、冷启动：冷启动因为系统会重新创建一个新的进程分配给它，所以会先创建和初始化Application类，再创建和初始化MainActivity类（包括一系列的测量、布局、绘制），最后显示在界面上。</p>
-<p>2、热启动：热启动因为会从已有的进程中来启动，所以热启动就不会走Application这步了，而是直接走MainActivity（包括一系列的测量、布局、绘制），所以热启动的过程只需要创建和初始化一个MainActivity就行了，而不必创建和初始化Application，因为一个应用从新进程的创建到进程的销毁，Application只会初始化一次。</p>
-<p><strong>上面说的启动是点击app的启动图标来启动的，而另外一种方式是进入最近使用的列表界面来启动应用，这种不应该叫启动，应该叫恢复。</strong></p>
-<h2 id="应用启动的流程"><a href="#应用启动的流程" class="headerlink" title="应用启动的流程"></a><strong>应用启动的流程</strong></h2><p>在安卓系统上，应用在没有进程的情况下，应用的启动都是这样一个流程：当点击app的启动图标时，安卓系统会从Zygote进程中fork创建出一个新的进程分配给该应用，之后会依次创建和初始化Application类、创建MainActivity类、加载主题样式Theme中的windowBackground等属性设置给MainActivity以及配置Activity层级上的一些属性、再inflate布局、当onCreate/onStart/onResume方法都走完了后最后才进行contentView的measure/layout/draw显示在界面上，所以直到这里，应用的第一次启动才算完成，这时候我们看到的界面也就是所说的第一帧。</p>
-<p>所以，总结一下，应用的启动流程如下：</p>
-<blockquote>
-<p>Application的构造器方法——&gt;attachBaseContext()——&gt;onCreate()——&gt;Activity的构造方法——&gt;onCreate()——&gt;配置主题中背景等属性——&gt;onStart()——&gt;onResume()——&gt;测量布局绘制显示在界面上。</p>
-</blockquote>
-<h2 id="测量应用启动的时间"><a href="#测量应用启动的时间" class="headerlink" title="测量应用启动的时间"></a><strong>测量应用启动的时间</strong></h2><p>在上面这个启动流程中，任何一个地方有耗时操作都会拖慢我们应用的启动速度，而应用启动时间是用毫秒度量的，对于毫秒级别的快慢度量我们还是需要去精确的测量到到底应用启动花了多少时间，而根据这个时间来做衡量。</p>
-<h3 id="什么才是应用的启动时间"><a href="#什么才是应用的启动时间" class="headerlink" title="什么才是应用的启动时间"></a><strong>什么才是应用的启动时间</strong></h3><p>从点击应用的启动图标开始创建出一个新的进程直到我们看到了界面的第一帧，这段时间就是应用的启动时间。</p>
-<p>我们要测量的也就是这段时间，测量这段时间可以通过adb shell命令的方式进行测量，这种方法测量的最为精确，命令为：</p>
-<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -W <span class="string">[packageName]</span>/<span class="string">[packageName.MainActivity]</span></span><br></pre></td></tr></table></figure>
-<p>执行成功后将返回三个测量到的时间：<br>1、ThisTime:一般和TotalTime时间一样，除非在应用启动时开了一个透明的Activity预先处理一些事再显示出主Activity，这样将比TotalTime小。<br>2、TotalTime:应用的启动时间，包括创建进程+Application初始化+Activity初始化到界面显示。<br>3、WaitTime:一般比TotalTime大点，包括系统影响的耗时。</p>
-<p>下面是测量一个应用冷启动和热启动的时间：<br>冷启动：<br><img src="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed1.png" alt="这里写图片描述"><br>热启动：<br><img src="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed2.png" alt="这里写图片描述"></p>
-<p>可以看到在进程已经存在的情况下，只需要重新初始化MainActivity，这样的启动比较快，不过大多数情况下应用的启动都是冷启动，因为用户都会在任务列表中手动关闭遗留的应用进程。</p>
-<h2 id="减少应用启动时的耗时"><a href="#减少应用启动时的耗时" class="headerlink" title="减少应用启动时的耗时"></a><strong>减少应用启动时的耗时</strong></h2><p>针对冷启动时候的一些耗时，如上测得这个应用算是中型的app，在冷启动的时候耗时已经快700ms了，如果项目再大点在Application中配置了更多的初始化操作，这样将可能达到1s，这样每次启动都明显感觉延迟，所以在进行应用初始化的时候采取以下策略：<br>1、在Application的构造器方法、attachBaseContext()、onCreate()方法中不要进行耗时操作的初始化，一些数据预取放在异步线程中，可以采取Callable实现。<br>2、对于MainActivity，由于在获取到第一帧前，需要对contentView进行测量布局绘制操作，尽量减少布局的层次，考虑StubView的延迟加载策略，当然在onCreate、onStart、onResume方法中避免做耗时操作。</p>
-<h2 id="优化应用启动时的体验"><a href="#优化应用启动时的体验" class="headerlink" title="优化应用启动时的体验"></a><strong>优化应用启动时的体验</strong></h2><p>对于应用的启动时间，只能是尽量的避免一些耗时的、非必要的操作在主线程中，这样相对可以缩减一部分启动的耗时，另外一方面在等待第一帧显示的时间里，可以加入一些配置以增加体验，比如加入Activity的background，这个背景会在显示第一帧前提前显示在界面上。<br>1、先为主界面单独写一个主题style，设置一张待显示的图片，这里我设置了一个颜色，然后在manifest中设置给MainActivity：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">style</span> <span class="attribute">name</span>=<span class="value">"AppTheme.Launcher"</span>&gt;</span><span class="css"></span><br><span class="line">    &lt;<span class="tag">item</span> <span class="tag">name</span>="<span class="tag">android</span><span class="pseudo">:windowBackground"</span>&gt;<span class="at_rule">@<span class="keyword">drawable/bule&lt;/item&gt;</span></span><br><span class="line"></span></span><span class="tag">&lt;/<span class="title">style</span>&gt;</span></span><br><span class="line">//...</span><br><span class="line">        <span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">            <span class="attribute">android:name</span>=<span class="value">".MainActivity"</span></span><br><span class="line">            <span class="attribute">android:label</span>=<span class="value">"@string/app_name"</span></span><br><span class="line">            <span class="attribute">android:theme</span>=<span class="value">"@style/AppTheme.Launcher"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>2、然后在MainActivity中加载布局前把AppTheme重新设置给MainActivity：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">Override</span></span><br><span class="line">    protected void <span class="function">onCreate</span>(Bundle savedInstanceState) </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="tag">setTheme</span>(<span class="tag">R</span><span class="class">.style</span><span class="class">.AppTheme</span>);</span><br><span class="line">        <span class="tag">super</span><span class="class">.onCreate</span>(<span class="tag">savedInstanceState</span>);</span><br><span class="line">        <span class="tag">setContentView</span>(<span class="tag">R</span><span class="class">.layout</span><span class="class">.activity_main</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样在启动时会先显示background，然后待界面绘制完成再显示主界面<br><img src="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed3.gif" alt="这里写图片描述"></p>
+<h1 id="Crash的处理"><a href="#Crash的处理" class="headerlink" title="Crash的处理"></a><strong>Crash的处理</strong></h1><p>对于应用的Crash，一般的做法我们往往都是实现个自定义<code>UncaughtExceptionHandler</code>，而这个自定义的CustomUncaughtHandler我们一般都用于捕捉Crash信息进行上报和监控是否发生Crash，还有一个作用就是可以屏蔽系统默认的Crash对话框，也就是拦截Crash后不把系统默认的UncaughtHandler设置进去，而是直接进行KillProcess，这个过程就是屏蔽了系统的默认Crash处理流程，原因是系统的处理其中在AMS的crashApplication()中会执行这么一段代码：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Message</span> msg = <span class="type">Message</span>.obtain();</span><br><span class="line">msg.what = <span class="type">SHOW_ERROR_MSG</span>;</span><br><span class="line"><span class="type">HashMap</span> data = new <span class="type">HashMap</span>();</span><br><span class="line">data.put(<span class="string">"result"</span>, <span class="literal">result</span>);</span><br><span class="line">data.put(<span class="string">"app"</span>, r);</span><br><span class="line">msg.obj = data;</span><br><span class="line">mUiHandler.sendMessage(msg);</span><br></pre></td></tr></table></figure>
+<p>发送一个显示Dialog的消息，之后便创建一个AppErrorDialog进行显示。<br><a id="more"></a><br>当然还有另外一种屏蔽系统默认ErrorDialog的方法，就是对AMP进行Hook，拦截handleApplicationCrash()方法后进行KillProcess，这样的话永远都将不会出现系统默认对话框，即使把系统默认的设置进去了，这个方法建议App内对AMP进行了Hook的做，其它App反而只为实现这个小功能而进行Hook成本太高，还是用自定义的做法进行屏蔽。</p>
+<h1 id="Recovery"><a href="#Recovery" class="headerlink" title="Recovery"></a><strong>Recovery</strong></h1><h2 id="Crash处理流程"><a href="#Crash处理流程" class="headerlink" title="Crash处理流程"></a><strong>Crash处理流程</strong></h2><p>对于Recovery，在应用发生Crash时，会进入一个Recovery界面，在该界面可以进行界面的恢复、应用的重启，或进入debug模式进行Crash信息的查看与保存</p>
+<h2 id="接入"><a href="#接入" class="headerlink" title="接入"></a><strong>接入</strong></h2><p><a href="https://github.com/Sunzxyong/Recovery/blob/master/README.md" target="_blank" rel="external">请戳这里</a></p>
+<h2 id="RecoveryActivity"><a href="#RecoveryActivity" class="headerlink" title="RecoveryActivity"></a><strong>RecoveryActivity</strong></h2><p>在应用发生Crash后，将进入RecoveryActivity界面<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/Recovery.png" alt="Recovery"></p>
+<h2 id="ActivityStack的恢复"><a href="#ActivityStack的恢复" class="headerlink" title="ActivityStack的恢复"></a><strong>ActivityStack的恢复</strong></h2><p>对于恢复界面，默认是恢复整个Activity的堆栈，以便保护用户之前的数据</p>
+<p>当应用在前台时崩溃无非就三种：<br>1、界面一创建就崩溃，可能在onCreate等方法中读取数据造成的Crash<br>2、界面创建且绘制完成正常显示，在用户执行某个操作，如点击按钮执行某个操作等造成的Crash<br>3、其它异步线程、服务等在后台执行任务时导致的Crash</p>
+<p>上面的情况都应恢复绘制完成后的界面，也就是栈顶Activity是在Crash之前用户所看到的界面，而之前创建且未销毁的Activity也应该进行恢复。</p>
+<p>当应用在后台时：<br>1、进程未挂，无非就是异步线程、server等后台任务发生异常时导致的Crash<br>2、进程已挂，进程被360等工具杀死了，常见的是push过来了然后唤起App进程，在解析push信息时候导致Crash</p>
+<p>上面的情况App在后台时导致的Crash，Recovery提供了一个参数（recoverInBackgroud），用来设置是否在后台Crash时进行恢复。</p>
+<p>ActivityStack恢复的操作，都是先恢复栈中的Activity，无Activity时则重启应用</p>
+<h2 id="主页的回退"><a href="#主页的回退" class="headerlink" title="主页的回退"></a><strong>主页的回退</strong></h2><p>在进行恢复Activity时，如果只是恢复栈顶Activity，当用户在这个界面不进行跳转操作而是直接按返回键，这将导致直接退出程序，所以对于这个情况应该是回退到应用的主页，Recovery中有个参数mainPage，如果设置了就表示需要回退到主页，没有设置则不进行回退</p>
+<p>这个过程中涉及到获取App内Activity栈内的数量和栈底Activity，是开发人员应该都知道获取这两个信息是通过getRunningTasks来获取，不过可惜，在5.0以后Google对权限进行了收敛，目地是保护App的信息安全，这个方法在5.0以后将失效，所以需要另外一种方法进行兼容，于是乎看6.0源码又发现Google在5.0收敛了整个权限，导致本App的都获取不到，但是在6.0又放出来了，不过只能获取本应用的数据，所以兼容的策略是5.0~6.0自己维护一个ActivityStack</p>
+<h2 id="连续Crash的处理"><a href="#连续Crash的处理" class="headerlink" title="连续Crash的处理"></a><strong>连续Crash的处理</strong></h2><p>如果一分钟内进行了两次恢复后还导致Crash，则不进行恢复而是重启应用，或者重启并清空缓存，以便恢复App刚安装时的状态</p>
+<h2 id="无图言屌"><a href="#无图言屌" class="headerlink" title="无图言屌"></a><strong>无图言屌</strong></h2><p>下面是效果图：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/recovery.gif" alt="Gif"></p>
+<h2 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a><strong>项目地址</strong></h2><p><a href="https://github.com/Sunzxyong/Recovery" target="_blank" rel="external">还是戳我</a></p>
 
       
     </div>
@@ -407,7 +399,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/启动速度/" rel="tag">#启动速度</a>
+            <a href="/tags/ActivityStack恢复/" rel="tag">#ActivityStack恢复</a>
+          
+            <a href="/tags/Crash恢复/" rel="tag">#Crash恢复</a>
           
         </div>
       
@@ -416,17 +410,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/04/Fresco图片框架内部实现原理探索/" rel="next" title="Fresco图片框架内部实现原理探索">
-                <i class="fa fa-chevron-left"></i> Fresco图片框架内部实现原理探索
+              <a href="/2016/07/18/Android端应用秒开优化体验/" rel="next" title="Android端应用秒开优化体验">
+                <i class="fa fa-chevron-left"></i> Android端应用秒开优化体验
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/01/17/Android性能优化之Splash页应该这样设计/" rel="prev" title="Android性能优化之Splash页应该这样设计">
-                Android性能优化之Splash页应该这样设计 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -475,8 +465,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/01/14/Android性能优化之加快应用启动速度/"
-           data-title="Android性能优化之加快应用启动速度" data-url="http://zhengxiaoyong.me/2016/01/14/Android性能优化之加快应用启动速度/">
+      <div class="ds-thread" data-thread-key="2016/09/05/Android运行时Crash自动恢复框架-Recovery/"
+           data-title="Android运行时Crash自动恢复框架-Recovery" data-url="http://zhengxiaoyong.me/2016/09/05/Android运行时Crash自动恢复框架-Recovery/">
       </div>
     
   </div>
@@ -601,7 +591,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#应用的启动"><span class="nav-number">1.</span> <span class="nav-text">应用的启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启动方式"><span class="nav-number">1.1.</span> <span class="nav-text">启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特点"><span class="nav-number">1.2.</span> <span class="nav-text">特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用启动的流程"><span class="nav-number">2.</span> <span class="nav-text">应用启动的流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测量应用启动的时间"><span class="nav-number">3.</span> <span class="nav-text">测量应用启动的时间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么才是应用的启动时间"><span class="nav-number">3.1.</span> <span class="nav-text">什么才是应用的启动时间</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#减少应用启动时的耗时"><span class="nav-number">4.</span> <span class="nav-text">减少应用启动时的耗时</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化应用启动时的体验"><span class="nav-number">5.</span> <span class="nav-text">优化应用启动时的体验</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Crash的处理"><span class="nav-number">2.</span> <span class="nav-text">Crash的处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Recovery"><span class="nav-number">3.</span> <span class="nav-text">Recovery</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Crash处理流程"><span class="nav-number">3.1.</span> <span class="nav-text">Crash处理流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接入"><span class="nav-number">3.2.</span> <span class="nav-text">接入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RecoveryActivity"><span class="nav-number">3.3.</span> <span class="nav-text">RecoveryActivity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ActivityStack的恢复"><span class="nav-number">3.4.</span> <span class="nav-text">ActivityStack的恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主页的回退"><span class="nav-number">3.5.</span> <span class="nav-text">主页的回退</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连续Crash的处理"><span class="nav-number">3.6.</span> <span class="nav-text">连续Crash的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无图言屌"><span class="nav-number">3.7.</span> <span class="nav-text">无图言屌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目地址"><span class="nav-number">3.8.</span> <span class="nav-text">项目地址</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
