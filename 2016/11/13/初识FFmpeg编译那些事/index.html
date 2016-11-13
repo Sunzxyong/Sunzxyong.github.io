@@ -1,0 +1,898 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="FFmpeg,FFmpeg编译,x264," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="FFmpeg简介FFMPEG是一套具有非常强大功能的多媒体处理工具，它几乎涵盖了目前所有主流的多媒体数据封装格式、多媒体传输协议以及音视频编解码器，并且支持多媒体后处理，视频色彩转换、滤镜和缩放等，也支持众多主流的协议：HTTP、RTP、RTSP、RTMP、HLS、UDP等安装可以通过Homebrew
+FFmpeg它主要含有以下几个核心库：
+
+1、libavcodec-提供了更加全面的编解码实现的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识FFmpeg编译那些事">
+<meta property="og:url" content="http://zhengxiaoyong.me/2016/11/13/初识FFmpeg编译那些事/index.html">
+<meta property="og:site_name" content="zhengxiaoyong">
+<meta property="og:description" content="FFmpeg简介FFMPEG是一套具有非常强大功能的多媒体处理工具，它几乎涵盖了目前所有主流的多媒体数据封装格式、多媒体传输协议以及音视频编解码器，并且支持多媒体后处理，视频色彩转换、滤镜和缩放等，也支持众多主流的协议：HTTP、RTP、RTSP、RTMP、HLS、UDP等安装可以通过Homebrew
+FFmpeg它主要含有以下几个核心库：
+
+1、libavcodec-提供了更加全面的编解码实现的">
+<meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-11-14788686122391.jpg">
+<meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-13-14789707702522.jpg">
+<meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-13-14790203252342.jpg">
+<meta property="og:updated_time" content="2016-11-13T13:32:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初识FFmpeg编译那些事">
+<meta name="twitter:description" content="FFmpeg简介FFMPEG是一套具有非常强大功能的多媒体处理工具，它几乎涵盖了目前所有主流的多媒体数据封装格式、多媒体传输协议以及音视频编解码器，并且支持多媒体后处理，视频色彩转换、滤镜和缩放等，也支持众多主流的协议：HTTP、RTP、RTSP、RTMP、HLS、UDP等安装可以通过Homebrew
+FFmpeg它主要含有以下几个核心库：
+
+1、libavcodec-提供了更加全面的编解码实现的">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 初识FFmpeg编译那些事 | zhengxiaoyong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">zhengxiaoyong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">生活不止眼前的苟且，还有诗，和远方.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                初识FFmpeg编译那些事
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-13T20:45:10+08:00" content="2016-11-13">
+              2016-11-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/技术积累/" itemprop="url" rel="index">
+                    <span itemprop="name">技术积累</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/13/初识FFmpeg编译那些事/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/13/初识FFmpeg编译那些事/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/13/初识FFmpeg编译那些事/" class="leancloud_visitors" data-flag-title="初识FFmpeg编译那些事">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="FFmpeg简介"><a href="#FFmpeg简介" class="headerlink" title="FFmpeg简介"></a><strong>FFmpeg简介</strong></h2><p>FFMPEG是一套具有非常强大功能的多媒体处理工具，它几乎涵盖了目前所有主流的多媒体数据封装格式、多媒体传输协议以及音视频编解码器，并且支持多媒体后处理，视频色彩转换、滤镜和缩放等，也支持众多主流的协议：HTTP、RTP、RTSP、RTMP、HLS、UDP等<br>安装可以通过Homebrew</p>
+<p>FFmpeg它主要含有以下几个核心库：</p>
+<blockquote>
+<p>1、libavcodec-提供了更加全面的编解码实现的合集<br>2、libavformat-提供了更加全面的音视频容器格式的封装和解析以及所支持的协议<br>3、libavutil-提供了一些公共函数<br>4、libavfilter-提供音视频的过滤器，如视频加水印、音频变声等<br>5、libavdevice-提供支持众多设备数据的输入与输出，如读取摄像头数据、屏幕录制<br>6、libswresample,libavresample-提供音频的重采样工具<br>7、libswscale-提供对视频图像进行色彩转换、缩放以及像素格式转换，如图像的YUV转换<br>8、libpostproc-多媒体后处理器</p>
+</blockquote>
+<p>以及包含以下几个工具：</p>
+<blockquote>
+<p>1、ffmpeg-一个流媒体的编解码、格式转换以及多媒体流的内容处理工具<br>2、ffplay-一个使用FFmpeg编解码的播放器<br>3、ffprobe-一个多媒体分析工具<br>4、ffserver-一个流多媒体服务器</p>
+</blockquote>
+<h2 id="FFmpeg命令"><a href="#FFmpeg命令" class="headerlink" title="FFmpeg命令"></a><strong>FFmpeg命令</strong></h2><p>一些命令：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取帮助</span></span><br><span class="line">ffmpeg -help</span><br><span class="line"><span class="comment">//支持的格式</span></span><br><span class="line">ffmpeg -formats</span><br><span class="line"><span class="comment">//支持的解码</span></span><br><span class="line">ffmpeg -decoders</span><br><span class="line"><span class="comment">//支持的编码</span></span><br><span class="line">ffmpeg -encoders</span><br><span class="line"><span class="comment">//支持的协议</span></span><br><span class="line">ffmpeg -protocols</span><br><span class="line"><span class="comment">//本地视频文件推流至指定rtmp流媒体服务器</span></span><br><span class="line">ffmpeg -re -<span class="tag">i</span> movie<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localhost:1935/live/room</span></span><br><span class="line"><span class="comment">//媒体流保存为视频文件</span></span><br><span class="line">ffmpeg -<span class="tag">i</span> rtmp:<span class="comment">//localhost:1935/live/room -c copy moive.flv</span></span><br></pre></td></tr></table></figure>
+<p>更多命令请看文档<a href="http://ffmpeg.org/documentation.html" target="_blank" rel="external">FFmpeg文档</a></p>
+<h2 id="FFmpeg编译"><a href="#FFmpeg编译" class="headerlink" title="FFmpeg编译"></a><strong>FFmpeg编译</strong></h2><p>首先在官网下载<a href="http://ffmpeg.org/" target="_blank" rel="external">FFmpeg</a></p>
+<p>在root dir编辑configure文件，把以下内容</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="constant">SLIBNAME_WITH_MAJOR</span>='<span class="variable">$(SLIBNAME)</span>.<span class="variable">$(LIBMAJOR)</span>'</span><br><span class="line"><span class="constant">LIB_INSTALL_EXTRA_CMD</span>='$<span class="variable">$(RANLIB)</span> "<span class="variable">$(LIBDIR)</span>/<span class="variable">$(LIBNAME)</span>"'</span><br><span class="line"><span class="constant">SLIB_INSTALL_NAME</span>='<span class="variable">$(SLIBNAME_WITH_VERSION)</span>'</span><br><span class="line"><span class="constant">SLIB_INSTALL_LINKS</span>='<span class="variable">$(SLIBNAME_WITH_MAJOR)</span> <span class="variable">$(SLIBNAME)</span>'</span><br></pre></td></tr></table></figure>
+<p>替换成：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="constant">SLIBNAME_WITH_MAJOR</span>='<span class="variable">$(SLIBPREF)</span><span class="variable">$(FULLNAME)</span>-<span class="variable">$(LIBMAJOR)</span><span class="variable">$(SLIBSUF)</span>'</span><br><span class="line"><span class="constant">LIB_INSTALL_EXTRA_CMD</span>='$<span class="variable">$(RANLIB)</span> "<span class="variable">$(LIBDIR)</span>/<span class="variable">$(LIBNAME)</span>"'</span><br><span class="line"><span class="constant">SLIB_INSTALL_NAME</span>='<span class="variable">$(SLIBNAME_WITH_MAJOR)</span>'</span><br><span class="line"><span class="constant">SLIB_INSTALL_LINKS</span>='<span class="variable">$(SLIBNAME)</span>'</span><br></pre></td></tr></table></figure>
+<p>目的是修改so的文件名，为了编译出来的so能够被android平台正常使用，否则将编译出<code>libavcodec.so.57.64.100</code>这种类型的so，替换后将编译成我们能正常使用的<code>libavcodec-57.so</code>动态链接库，后面的数字为版本号</p>
+<p>一般对于so，我们只需兼容arm cpu架构的即可，在root dir下新建bash脚本文件，内容为：</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">NDK=$HOME/Library/Android/sdk/ndk-bundle</span><br><span class="line">SYSROOT=$NDK/platforms/android-14/arch-arm/</span><br><span class="line">TOOLCHAIN=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64</span><br><span class="line"></span><br><span class="line">CPU=arm</span><br><span class="line">PREFIX=$(pwd)/android/$CPU</span><br><span class="line">ADDI_CFLAGS="-marm"</span><br><span class="line"></span><br><span class="line">function build_arm</span><br><span class="line">&#123;</span><br><span class="line">./configure \</span><br><span class="line">-<span class="ruby">-prefix=<span class="variable">$PREFIX</span> \</span><br><span class="line"></span>-<span class="ruby">-enable-shared \</span><br><span class="line"></span>-<span class="ruby">-disable-static \</span><br><span class="line"></span>-<span class="ruby">-disable-doc \</span><br><span class="line"></span>-<span class="ruby">-disable-ffmpeg \</span><br><span class="line"></span>-<span class="ruby">-disable-ffplay \</span><br><span class="line"></span>-<span class="ruby">-disable-ffprobe \</span><br><span class="line"></span>-<span class="ruby">-disable-ffserver \</span><br><span class="line"></span>-<span class="ruby">-disable-symver \</span><br><span class="line"></span>-<span class="ruby">-enable-avresample \</span><br><span class="line"></span>-<span class="ruby">-enable-small \</span><br><span class="line"></span>-<span class="ruby">-enable-jni \</span><br><span class="line"></span>-<span class="ruby">-cross-prefix=<span class="variable">$TOOLCHAIN</span>/bin/arm-linux-androideabi- \</span><br><span class="line"></span>-<span class="ruby">-target-os=linux \</span><br><span class="line"></span>-<span class="ruby">-arch=arm \</span><br><span class="line"></span>-<span class="ruby">-enable-cross-compile \</span><br><span class="line"></span>-<span class="ruby">-sysroot=<span class="variable">$SYSROOT</span> \</span><br><span class="line"></span>-<span class="ruby">-extra-cflags=<span class="string">"-Os -fpic $ADDI_CFLAGS"</span> \</span><br><span class="line"></span>-<span class="ruby">-extra-ldflags=<span class="string">"$ADDI_LDFLAGS"</span> \</span><br><span class="line"></span>$ADDITIONAL_CONFIGURE_FLAG</span><br><span class="line">make clean</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line">&#125;</span><br><span class="line">build_arm</span><br></pre></td></tr></table></figure>
+<p>NDK目录改为自己的NDK目录即可，关于configure配置，可以根据自己需要进行配置，可配置的属性在FFmpeg root dir的configure文件中show_help方法中查看，我摘一段：</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Program options:</span><br><span class="line">-<span class="ruby">-disable-programs       <span class="keyword">do</span> <span class="keyword">not</span> build command line programs</span><br><span class="line"></span>-<span class="ruby">-disable-ffmpeg         disable ffmpeg build</span><br><span class="line"></span>-<span class="ruby">-disable-ffplay         disable ffplay build</span><br><span class="line"></span>-<span class="ruby">-disable-ffprobe        disable ffprobe build</span><br><span class="line"></span>-<span class="ruby">-disable-ffserver       disable ffserver build</span></span><br></pre></td></tr></table></figure>
+<p><code>--disable-ffmpeg</code>意为禁用ffmpeg工具，编译时不编译出ffmpeg工具，<code>--enable-ffmpeg</code>为启用，但是configure文件配置有个特点，FFmpeg的默认的配置不是以show_help方法中的配置配置的，而是以前缀<code>disable</code>or<code>enable</code>取反配置的，也就是FFmpeg中各属性默认的配置把show_help中各个配置的前缀取反即可，<code>disable</code>变为<code>enable</code>，<code>enable</code>变为<code>disable</code>，如：在上面那段配置中，<code>--disable-ffmpeg</code>意为启用ffmpeg工具。</p>
+<p>但是我们编译的bash脚本中却不是这样，而是配置的实意配置，<code>disable</code>就是<code>disable</code>。</p>
+<p>运行上面的bash脚本：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> ffmpeg-3.2</span><br><span class="line">./build_ffmpeg_arm.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
+<p>编译完成后可以发现在FFmpeg的root目录下多了一个android目录，该目录就是所生成对应cup架构的so目录<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-11-14788686122391.jpg" alt=""></p>
+<hr>
+<p>按以上配置的bash脚本，会发现<code>libavcodec-57.so</code>比较大，有7.6M，肯定不能在Android中使用，所以，在编译时，我们可以针对自己需要的功能来进行配置，更改bash脚本，加入配置：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--disable-everything</span></span><br></pre></td></tr></table></figure>
+<p>该属性会把下列所有的组件都不加入编译：</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">Individual component options:</span><br><span class="line">-<span class="ruby">-disable-everything     disable all components listed below</span><br><span class="line"></span>-<span class="ruby">-disable-encoder=<span class="constant">NAME</span>   disable encoder <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-enable-encoder=<span class="constant">NAME</span>    enable encoder <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-encoders       disable all encoders</span><br><span class="line"></span>-<span class="ruby">-disable-decoder=<span class="constant">NAME</span>   disable decoder <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-enable-decoder=<span class="constant">NAME</span>    enable decoder <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-decoders       disable all decoders</span><br><span class="line"></span>-<span class="ruby">-disable-hwaccel=<span class="constant">NAME</span>   disable hwaccel <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-enable-hwaccel=<span class="constant">NAME</span>    enable hwaccel <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-hwaccels       disable all hwaccels</span><br><span class="line"></span>-<span class="ruby">-disable-muxer=<span class="constant">NAME</span>     disable muxer <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-enable-muxer=<span class="constant">NAME</span>      enable muxer <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-muxers         disable all muxers</span><br><span class="line"></span>-<span class="ruby">-disable-demuxer=<span class="constant">NAME</span>   disable demuxer <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-enable-demuxer=<span class="constant">NAME</span>    enable demuxer <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-demuxers       disable all demuxers</span><br><span class="line"></span>-<span class="ruby">-enable-parser=<span class="constant">NAME</span>     enable parser <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-parser=<span class="constant">NAME</span>    disable parser <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-parsers        disable all parsers</span><br><span class="line"></span>-<span class="ruby">-enable-bsf=<span class="constant">NAME</span>        enable bitstream filter <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-bsf=<span class="constant">NAME</span>       disable bitstream filter <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-bsfs           disable all bitstream filters</span><br><span class="line"></span>-<span class="ruby">-enable-protocol=<span class="constant">NAME</span>   enable protocol <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-protocol=<span class="constant">NAME</span>  disable protocol <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-protocols      disable all protocols</span><br><span class="line"></span>-<span class="ruby">-enable-indev=<span class="constant">NAME</span>      enable input device <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-indev=<span class="constant">NAME</span>     disable input device <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-indevs         disable input devices</span><br><span class="line"></span>-<span class="ruby">-enable-outdev=<span class="constant">NAME</span>     enable output device <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-outdev=<span class="constant">NAME</span>    disable output device <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-outdevs        disable output devices</span><br><span class="line"></span>-<span class="ruby">-disable-devices        disable all devices</span><br><span class="line"></span>-<span class="ruby">-enable-filter=<span class="constant">NAME</span>     enable filter <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-filter=<span class="constant">NAME</span>    disable filter <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-filters        disable all filters</span></span><br></pre></td></tr></table></figure>
+<p>而我们生成的<code>libavcodec-57.so</code>过大也是由于加入了过多我们不需要使用的组件，禁用了所有的，接下来就是把自己需要的加入到bash脚本中配置即可，比如加入下面两个配置确保h264和aac的解码功能的保留：</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">-enable-decoder=h264</span><br><span class="line"></span>-<span class="ruby">-enable-decoder=aac</span></span><br></pre></td></tr></table></figure>
+<p>等等，当然还有其它的，可以参考上面禁用的配置进行选择性保留。</p>
+<h2 id="编译支持H-264编码的FFmpeg动态链接库"><a href="#编译支持H-264编码的FFmpeg动态链接库" class="headerlink" title="编译支持H.264编码的FFmpeg动态链接库"></a><strong>编译支持H.264编码的FFmpeg动态链接库</strong></h2><h3 id="x264"><a href="#x264" class="headerlink" title="x264"></a><strong>x264</strong></h3><p>首先下载<a href="http://www.videolan.org/developers/x264.html" target="_blank" rel="external">x264源码</a><br>x264是一个开源的H.264编码器，据说是最好的视频有损编码器，和编译FFmpeg类似，要编译x264成动态so库，一样通过configure配置文件，需要先修改configure文件中的：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"SOSUFFIX=so"</span> <span class="prompt">&gt;&gt; </span>config.mak</span><br><span class="line">echo <span class="string">"SONAME=libx264.so.$API"</span> <span class="prompt">&gt;&gt; </span>config.mak</span><br><span class="line">echo <span class="string">"SOFLAGS=-shared -Wl,-soname,\$(SONAME) $SOFLAGS"</span> <span class="prompt">&gt;&gt; </span>config.mak</span><br></pre></td></tr></table></figure>
+<p>替换成：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"SOSUFFIX=so"</span> <span class="prompt">&gt;&gt; </span>config.mak</span><br><span class="line">echo <span class="string">"SONAME=libx264-$API.so"</span> <span class="prompt">&gt;&gt; </span>config.mak</span><br><span class="line">echo <span class="string">"SOFLAGS=-shared -Wl,-soname,\$(SONAME) $SOFLAGS"</span> <span class="prompt">&gt;&gt; </span>config.mak</span><br></pre></td></tr></table></figure>
+<p>目的一样，确保可以在Android平台下可用，然后使用下面的bash脚本进行编译，arm为例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/bash</span></span><br><span class="line">NDK=<span class="variable">$HOME</span>/Library/Android/sdk/ndk-bundle</span><br><span class="line">SYSROOT=<span class="variable">$NDK</span>/platforms/android-<span class="number">14</span>/arch-arm/</span><br><span class="line">TOOLCHAIN=<span class="variable">$NDK</span>/toolchains/arm-linux-androideabi-<span class="number">4.9</span>/prebuilt/darwin-x86_64</span><br><span class="line"></span><br><span class="line">CPU=arm</span><br><span class="line">PREFIX=$(<span class="built_in">pwd</span>)/android/<span class="variable">$CPU</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> build_arm</span><br><span class="line">&#123;</span><br><span class="line">./configure \</span><br><span class="line">--prefix=<span class="variable">$PREFIX</span> \</span><br><span class="line">--enable-shared \</span><br><span class="line">--disable-asm \</span><br><span class="line">--enable-pic \</span><br><span class="line">--enable-strip \</span><br><span class="line">--host=arm-linux \</span><br><span class="line">--cross-prefix=<span class="variable">$TOOLCHAIN</span>/bin/arm-linux-androideabi- \</span><br><span class="line">--sysroot=<span class="variable">$SYSROOT</span></span><br><span class="line"></span><br><span class="line">make clean</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line">&#125;</span><br><span class="line">build_arm</span><br></pre></td></tr></table></figure>
+<p>NDK目录同样改为自己的<br>运行上面脚本：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> x264</span><br><span class="line">./build_x264_arm.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
+<p>编译完成后可以android目录找到<code>libx264-148.so</code>库</p>
+<h3 id="静态链接x264编译"><a href="#静态链接x264编译" class="headerlink" title="静态链接x264编译"></a><strong>静态链接x264编译</strong></h3><p>FFmpeg默认是不支持H.264的编码，不过支持H.264解码，但是FFmpeg为我们提供了众多配置，可添加额外功能库的支持，方便我们自己链接所需要额外功能的库，在FFmpeg的configure文件配置中，可以看到这么一段配置：</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">External library support:</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">-<span class="ruby">-enable-libfdk-aac      enable <span class="constant">AAC</span> de/encoding via libfdk-aac [no]</span><br><span class="line"></span>-<span class="ruby">-enable-libopenh264     enable <span class="constant">H</span>.<span class="number">264</span> encoding via <span class="constant">OpenH264</span> [no]</span><br><span class="line"></span>-<span class="ruby">-enable-libopenjpeg     enable <span class="constant">JPEG</span> <span class="number">2000</span> de/encoding via <span class="constant">OpenJPEG</span> [no]</span><br><span class="line"></span>-<span class="ruby">-enable-librtmp         enable <span class="constant">RTMP</span>[<span class="constant">E</span>] support via librtmp [no]</span><br><span class="line"></span>-<span class="ruby">-enable-libwebp         enable <span class="constant">WebP</span> encoding via libwebp [no]</span><br><span class="line"></span>-<span class="ruby">-enable-libx264         enable <span class="constant">H</span>.<span class="number">264</span> encoding via x264 [no]</span><br><span class="line"></span>-<span class="ruby">-enable-opengl          enable <span class="constant">OpenGL</span> rendering [no]</span><br><span class="line"></span>-<span class="ruby">-enable-openssl         enable openssl, needed <span class="keyword">for</span> https support</span><br><span class="line"></span>if gnutls is not used [no]</span><br><span class="line"><span class="comment">//...</span></span><br></pre></td></tr></table></figure>
+<p>避免篇幅太长，做了一部分删减，留了一些比较眼熟的，FFmpeg可以让我们自己配置添加需要的功能库，如使用fdk-aac库来做aac的编解码，H.264编码可选x264或openh264以及可选其它功能库的支持</p>
+<p>要编译支持x264编码的FFmpeg动态链接库，首先是编译出x264静态链接库<code>libx264.a</code>，然后修改FFmpeg的编译脚本，配置x264静态链接库和头文件路径，接下来即可编译了</p>
+<h4 id="1、编译x264静态链接库"><a href="#1、编译x264静态链接库" class="headerlink" title="1、编译x264静态链接库"></a><strong>1、编译x264静态链接库</strong></h4><p>因为FFmpeg是使用静态链接方式链接其它额外的外部功能库，所以需要把x264库编译成<code>.a</code>静态库，通过<code>--enable-static</code>配置参数来编译出<code>.a</code>静态库，而<code>--enable-shared</code>则是编译动态链接so库，所以只需在上面的x264脚本中增加个配置：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--enable-<span class="keyword">static</span></span><br></pre></td></tr></table></figure>
+<p>编译成功后可以看到如下目录结构：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-13-14789707702522.jpg" alt=""></p>
+<h4 id="2、在FFmpeg脚本中配置x264静态链接库和头文件路径及编译"><a href="#2、在FFmpeg脚本中配置x264静态链接库和头文件路径及编译" class="headerlink" title="2、在FFmpeg脚本中配置x264静态链接库和头文件路径及编译"></a><strong>2、在FFmpeg脚本中配置x264静态链接库和头文件路径及编译</strong></h4><p>在此之前，先安装yasm：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">brew </span>install yasm</span><br></pre></td></tr></table></figure>
+<p>然后在之前FFmpeg的脚本基础上添加以下配置：</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">-enable-gpl \</span><br><span class="line"></span>-<span class="ruby">-enable-libx264 \</span><br><span class="line"></span>-<span class="ruby">-enable-yasm \</span><br><span class="line"></span>-<span class="ruby">-extra-cflags=<span class="string">"-I../x264/android/arm/include"</span> \</span><br><span class="line"></span>-<span class="ruby">-extra-ldflags=<span class="string">"-L../x264/android/arm/lib"</span> \</span></span><br></pre></td></tr></table></figure>
+<p>FFmpeg默认的LICENSE是LGPL，而libx264需要GPL，所以加入<code>--enable-gpl</code>，最后面两项配置是配置编译x264出的头文件和静态链接库路径，在这里我把x264和FFmpeg放在了同一目录层级，故可这样配置。<br>如果你需要修改<code>--extra-cflags</code>和<code>--extra-ldflags</code>路径为自己x264头文件和静态链接库路径，必须符合<code>--extra-cflags</code>以-I开头，<code>--extra-ldflags</code>以-L开头，比如x264在桌面上，路径为：</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">-extra-cflags=<span class="string">"-I/Users/Sunzxyong/Desktop/x264/android/arm/include"</span> \</span><br><span class="line"></span>-<span class="ruby">-extra-ldflags=<span class="string">"-L/Users/Sunzxyong/Desktop/x264/android/arm/lib"</span> \</span></span><br></pre></td></tr></table></figure>
+<p>然后进行编译，编译中可以看到encode的支持选择中，多了libx264的支持：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-13-14790203252342.jpg" alt=""></p>
+<p>其它外部添加库如fdk-aac、openh264等也类似方式链接编译</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://7xswxf.com2.z0.glb.clouddn.com/blog/weixin.png" alt="郑晓勇 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://7xswxf.com2.z0.glb.clouddn.com/blog/alipay.png" alt="郑晓勇 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/FFmpeg/" rel="tag">#FFmpeg</a>
+          
+            <a href="/tags/FFmpeg编译/" rel="tag">#FFmpeg编译</a>
+          
+            <a href="/tags/x264/" rel="tag">#x264</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/05/Android运行时Crash自动恢复框架-Recovery/" rel="next" title="Android运行时Crash自动恢复框架-Recovery">
+                <i class="fa fa-chevron-left"></i> Android运行时Crash自动恢复框架-Recovery
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/13/初识FFmpeg编译那些事/"
+           data-title="初识FFmpeg编译那些事" data-url="http://zhengxiaoyong.me/2016/11/13/初识FFmpeg编译那些事/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="郑晓勇" />
+          <p class="site-author-name" itemprop="name">郑晓勇</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Sunzxyong" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3048730677/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/u010687392" title="我的CSDN" target="_blank">我的CSDN</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#FFmpeg简介"><span class="nav-number">1.</span> <span class="nav-text">FFmpeg简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FFmpeg命令"><span class="nav-number">2.</span> <span class="nav-text">FFmpeg命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FFmpeg编译"><span class="nav-number">3.</span> <span class="nav-text">FFmpeg编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译支持H-264编码的FFmpeg动态链接库"><span class="nav-number">4.</span> <span class="nav-text">编译支持H.264编码的FFmpeg动态链接库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#x264"><span class="nav-number">4.1.</span> <span class="nav-text">x264</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态链接x264编译"><span class="nav-number">4.2.</span> <span class="nav-text">静态链接x264编译</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、编译x264静态链接库"><span class="nav-number">4.2.1.</span> <span class="nav-text">1、编译x264静态链接库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、在FFmpeg脚本中配置x264静态链接库和头文件路径及编译"><span class="nav-number">4.2.2.</span> <span class="nav-text">2、在FFmpeg脚本中配置x264静态链接库和头文件路径及编译</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郑晓勇</span>
+</div>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"sunzxyong"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("4xJWzRb0rYs6K84rzJGPAfCT-gzGzoHsz", "32UaeYIIm8Ij4sUjreNxbB0K");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
