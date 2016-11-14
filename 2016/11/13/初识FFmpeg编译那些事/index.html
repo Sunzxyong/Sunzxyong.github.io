@@ -99,7 +99,7 @@ FFmpeg它主要含有以下几个核心库：
 <meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-11-14788686122391.jpg">
 <meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-13-14789707702522.jpg">
 <meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-13-14790203252342.jpg">
-<meta property="og:updated_time" content="2016-11-14T05:51:04.000Z">
+<meta property="og:updated_time" content="2016-11-14T06:00:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初识FFmpeg编译那些事">
 <meta name="twitter:description" content="FFmpeg简介FFMPEG是一套具有非常强大功能的多媒体处理工具，它几乎涵盖了目前所有主流的多媒体数据封装格式、多媒体传输协议以及音视频编解码器，并且支持多媒体后处理，视频色彩转换、滤镜和缩放等，也支持众多主流的协议：HTTP、RTP、RTSP、RTMP、HLS、UDP等安装可以通过Homebrew
@@ -398,6 +398,7 @@ FFmpeg它主要含有以下几个核心库：
 <figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">-extra-cflags=<span class="string">"-I/Users/Sunzxyong/Desktop/x264/android/arm/include"</span> \</span><br><span class="line"></span>-<span class="ruby">-extra-ldflags=<span class="string">"-L/Users/Sunzxyong/Desktop/x264/android/arm/lib"</span> \</span></span><br></pre></td></tr></table></figure>
 <p>然后进行编译，编译中可以看到encode的支持选择中，多了libx264的支持：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-13-14790203252342.jpg" alt=""></p>
 <p>其它外部添加库如fdk-aac、openh264等也类似方式链接编译</p>
+<h2 id="Github"><a href="#Github" class="headerlink" title="Github"></a><strong>Github</strong></h2><p><a href="https://github.com/Sunzxyong/FFmpeg-Compile-For-Android" target="_blank" rel="external">FFmpeg编译脚本</a></p>
 
       
     </div>
@@ -634,7 +635,7 @@ FFmpeg它主要含有以下几个核心库：
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#FFmpeg简介"><span class="nav-number">1.</span> <span class="nav-text">FFmpeg简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FFmpeg命令"><span class="nav-number">2.</span> <span class="nav-text">FFmpeg命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FFmpeg编译"><span class="nav-number">3.</span> <span class="nav-text">FFmpeg编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译支持H-264编码的FFmpeg动态链接库"><span class="nav-number">4.</span> <span class="nav-text">编译支持H.264编码的FFmpeg动态链接库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#x264"><span class="nav-number">4.1.</span> <span class="nav-text">x264</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态链接x264编译"><span class="nav-number">4.2.</span> <span class="nav-text">静态链接x264编译</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、编译x264静态链接库"><span class="nav-number">4.2.1.</span> <span class="nav-text">1、编译x264静态链接库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、在FFmpeg脚本中配置x264静态链接库和头文件路径及编译"><span class="nav-number">4.2.2.</span> <span class="nav-text">2、在FFmpeg脚本中配置x264静态链接库和头文件路径及编译</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#FFmpeg简介"><span class="nav-number">1.</span> <span class="nav-text">FFmpeg简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FFmpeg命令"><span class="nav-number">2.</span> <span class="nav-text">FFmpeg命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FFmpeg编译"><span class="nav-number">3.</span> <span class="nav-text">FFmpeg编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译支持H-264编码的FFmpeg动态链接库"><span class="nav-number">4.</span> <span class="nav-text">编译支持H.264编码的FFmpeg动态链接库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#x264"><span class="nav-number">4.1.</span> <span class="nav-text">x264</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态链接x264编译"><span class="nav-number">4.2.</span> <span class="nav-text">静态链接x264编译</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、编译x264静态链接库"><span class="nav-number">4.2.1.</span> <span class="nav-text">1、编译x264静态链接库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、在FFmpeg脚本中配置x264静态链接库和头文件路径及编译"><span class="nav-number">4.2.2.</span> <span class="nav-text">2、在FFmpeg脚本中配置x264静态链接库和头文件路径及编译</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Github"><span class="nav-number">5.</span> <span class="nav-text">Github</span></a></li></ol></div>
             
           </div>
         </section>
