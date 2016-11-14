@@ -253,302 +253,6 @@
             
               
                 
-                <a class="post-title-link" href="/2016/11/14/test/" itemprop="url">
-                  test
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-14T11:43:12+08:00" content="2016-11-14">
-              2016-11-14
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/11/14/test/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/14/test/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/11/14/test/" class="leancloud_visitors" data-flag-title="test">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/13/初识FFmpeg编译那些事/" itemprop="url">
-                  初识FFmpeg编译那些事
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-13T20:45:10+08:00" content="2016-11-13">
-              2016-11-13
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/技术积累/" itemprop="url" rel="index">
-                    <span itemprop="name">技术积累</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/11/13/初识FFmpeg编译那些事/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/13/初识FFmpeg编译那些事/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/11/13/初识FFmpeg编译那些事/" class="leancloud_visitors" data-flag-title="初识FFmpeg编译那些事">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="FFmpeg简介"><a href="#FFmpeg简介" class="headerlink" title="FFmpeg简介"></a><strong>FFmpeg简介</strong></h2><p>FFMPEG是一套具有非常强大功能的多媒体处理工具，它几乎涵盖了目前所有主流的多媒体数据封装格式、多媒体传输协议以及音视频编解码器，并且支持多媒体后处理，视频色彩转换、滤镜和缩放等，也支持众多主流的协议：HTTP、RTP、RTSP、RTMP、HLS、UDP等<br>安装可以通过Homebrew</p>
-<p>FFmpeg它主要含有以下几个核心库：</p>
-<blockquote>
-<p>1、libavcodec-提供了更加全面的编解码实现的合集<br>2、libavformat-提供了更加全面的音视频容器格式的封装和解析以及所支持的协议<br>3、libavutil-提供了一些公共函数<br>4、libavfilter-提供音视频的过滤器，如视频加水印、音频变声等<br>5、libavdevice-提供支持众多设备数据的输入与输出，如读取摄像头数据、屏幕录制<br>6、libswresample,libavresample-提供音频的重采样工具<br>7、libswscale-提供对视频图像进行色彩转换、缩放以及像素格式转换，如图像的YUV转换<br>8、libpostproc-多媒体后处理器</p>
-</blockquote>
-<p>以及包含以下几个工具：</p>
-<blockquote>
-<p>1、ffmpeg-一个流媒体的编解码、格式转换以及多媒体流的内容处理工具<br>2、ffplay-一个使用FFmpeg编解码的播放器<br>3、ffprobe-一个多媒体分析工具<br>4、ffserver-一个流多媒体服务器</p>
-</blockquote>
-<h2 id="FFmpeg命令"><a href="#FFmpeg命令" class="headerlink" title="FFmpeg命令"></a><strong>FFmpeg命令</strong></h2><p>一些命令：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取帮助</span></span><br><span class="line">ffmpeg -help</span><br><span class="line"><span class="comment">//支持的格式</span></span><br><span class="line">ffmpeg -formats</span><br><span class="line"><span class="comment">//支持的解码</span></span><br><span class="line">ffmpeg -decoders</span><br><span class="line"><span class="comment">//支持的编码</span></span><br><span class="line">ffmpeg -encoders</span><br><span class="line"><span class="comment">//支持的协议</span></span><br><span class="line">ffmpeg -protocols</span><br><span class="line"><span class="comment">//本地视频文件推流至指定rtmp流媒体服务器</span></span><br><span class="line">ffmpeg -re -<span class="tag">i</span> movie<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localhost:1935/live/room</span></span><br><span class="line"><span class="comment">//媒体流保存为视频文件</span></span><br><span class="line">ffmpeg -<span class="tag">i</span> rtmp:<span class="comment">//localhost:1935/live/room -c copy moive.flv</span></span><br></pre></td></tr></table></figure>
-<p>更多命令请看文档<a href="http://ffmpeg.org/documentation.html" target="_blank" rel="external">FFmpeg文档</a></p>
-<h2 id="FFmpeg编译"><a href="#FFmpeg编译" class="headerlink" title="FFmpeg编译"></a><strong>FFmpeg编译</strong></h2><p>首先在官网下载<a href="http://ffmpeg.org/" target="_blank" rel="external">FFmpeg</a></p>
-<p>在root dir编辑configure文件，把以下内容</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="constant">SLIBNAME_WITH_MAJOR</span>='<span class="variable">$(SLIBNAME)</span>.<span class="variable">$(LIBMAJOR)</span>'</span><br><span class="line"><span class="constant">LIB_INSTALL_EXTRA_CMD</span>='$<span class="variable">$(RANLIB)</span> "<span class="variable">$(LIBDIR)</span>/<span class="variable">$(LIBNAME)</span>"'</span><br><span class="line"><span class="constant">SLIB_INSTALL_NAME</span>='<span class="variable">$(SLIBNAME_WITH_VERSION)</span>'</span><br><span class="line"><span class="constant">SLIB_INSTALL_LINKS</span>='<span class="variable">$(SLIBNAME_WITH_MAJOR)</span> <span class="variable">$(SLIBNAME)</span>'</span><br></pre></td></tr></table></figure>
-<p>替换成：</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="constant">SLIBNAME_WITH_MAJOR</span>='<span class="variable">$(SLIBPREF)</span><span class="variable">$(FULLNAME)</span>-<span class="variable">$(LIBMAJOR)</span><span class="variable">$(SLIBSUF)</span>'</span><br><span class="line"><span class="constant">LIB_INSTALL_EXTRA_CMD</span>='$<span class="variable">$(RANLIB)</span> "<span class="variable">$(LIBDIR)</span>/<span class="variable">$(LIBNAME)</span>"'</span><br><span class="line"><span class="constant">SLIB_INSTALL_NAME</span>='<span class="variable">$(SLIBNAME_WITH_MAJOR)</span>'</span><br><span class="line"><span class="constant">SLIB_INSTALL_LINKS</span>='<span class="variable">$(SLIBNAME)</span>'</span><br></pre></td></tr></table></figure>
-<p>目的是修改so的文件名，为了编译出来的so能够被android平台正常使用，否则将编译出<code>libavcodec.so.57.64.100</code>这种类型的so，替换后将编译成我们能正常使用的<code>libavcodec-57.so</code>动态链接库，后面的数字为版本号</p>
-<p>一般对于so，我们只需兼容arm cpu架构的即可，在root dir下新建bash脚本文件，内容为：</p>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">NDK=$HOME/Library/Android/sdk/ndk-bundle</span><br><span class="line">SYSROOT=$NDK/platforms/android-14/arch-arm/</span><br><span class="line">TOOLCHAIN=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64</span><br><span class="line"></span><br><span class="line">CPU=arm</span><br><span class="line">PREFIX=$(pwd)/android/$CPU</span><br><span class="line">ADDI_CFLAGS="-marm"</span><br><span class="line"></span><br><span class="line">function build_arm</span><br><span class="line">&#123;</span><br><span class="line">./configure \</span><br><span class="line">-<span class="ruby">-prefix=<span class="variable">$PREFIX</span> \</span><br><span class="line"></span>-<span class="ruby">-enable-shared \</span><br><span class="line"></span>-<span class="ruby">-disable-static \</span><br><span class="line"></span>-<span class="ruby">-disable-doc \</span><br><span class="line"></span>-<span class="ruby">-disable-ffmpeg \</span><br><span class="line"></span>-<span class="ruby">-disable-ffplay \</span><br><span class="line"></span>-<span class="ruby">-disable-ffprobe \</span><br><span class="line"></span>-<span class="ruby">-disable-ffserver \</span><br><span class="line"></span>-<span class="ruby">-disable-symver \</span><br><span class="line"></span>-<span class="ruby">-enable-avresample \</span><br><span class="line"></span>-<span class="ruby">-enable-small \</span><br><span class="line"></span>-<span class="ruby">-enable-jni \</span><br><span class="line"></span>-<span class="ruby">-cross-prefix=<span class="variable">$TOOLCHAIN</span>/bin/arm-linux-androideabi- \</span><br><span class="line"></span>-<span class="ruby">-target-os=linux \</span><br><span class="line"></span>-<span class="ruby">-arch=arm \</span><br><span class="line"></span>-<span class="ruby">-enable-cross-compile \</span><br><span class="line"></span>-<span class="ruby">-sysroot=<span class="variable">$SYSROOT</span> \</span><br><span class="line"></span>-<span class="ruby">-extra-cflags=<span class="string">"-Os -fpic $ADDI_CFLAGS"</span> \</span><br><span class="line"></span>-<span class="ruby">-extra-ldflags=<span class="string">"$ADDI_LDFLAGS"</span> \</span><br><span class="line"></span>$ADDITIONAL_CONFIGURE_FLAG</span><br><span class="line">make clean</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line">&#125;</span><br><span class="line">build_arm</span><br></pre></td></tr></table></figure>
-<p>NDK目录改为自己的NDK目录即可，关于configure配置，可以根据自己需要进行配置，可配置的属性在FFmpeg root dir的configure文件中show_help方法中查看，我摘一段：</p>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Program options:</span><br><span class="line">-<span class="ruby">-disable-programs       <span class="keyword">do</span> <span class="keyword">not</span> build command line programs</span><br><span class="line"></span>-<span class="ruby">-disable-ffmpeg         disable ffmpeg build</span><br><span class="line"></span>-<span class="ruby">-disable-ffplay         disable ffplay build</span><br><span class="line"></span>-<span class="ruby">-disable-ffprobe        disable ffprobe build</span><br><span class="line"></span>-<span class="ruby">-disable-ffserver       disable ffserver build</span></span><br></pre></td></tr></table></figure>
-<p><code>--disable-ffmpeg</code>意为禁用ffmpeg工具，编译时不编译出ffmpeg工具，<code>--enable-ffmpeg</code>为启用，但是configure文件配置有个特点，FFmpeg的默认的配置不是以show_help方法中的配置配置的，而是以前缀<code>disable</code>or<code>enable</code>取反配置的，也就是FFmpeg中各属性默认的配置把show_help中各个配置的前缀取反即可，<code>disable</code>变为<code>enable</code>，<code>enable</code>变为<code>disable</code>，如：在上面那段配置中，<code>--disable-ffmpeg</code>意为启用ffmpeg工具。</p>
-<p>但是我们编译的bash脚本中却不是这样，而是配置的实意配置，<code>disable</code>就是<code>disable</code>。</p>
-<p>运行上面的bash脚本：</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> ffmpeg-3.2</span><br><span class="line">./build_ffmpeg_arm.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
-<p>编译完成后可以发现在FFmpeg的root目录下多了一个android目录，该目录就是所生成对应cup架构的so目录<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-11-14788686122391.jpg" alt=""></p>
-<hr>
-<p>按以上配置的bash脚本，会发现<code>libavcodec-57.so</code>比较大，有7.6M，肯定不能在Android中使用，所以，在编译时，我们可以针对自己需要的功能来进行配置，更改bash脚本，加入配置：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--disable-everything</span></span><br></pre></td></tr></table></figure>
-<p>该属性会把下列所有的组件都不加入编译：</p>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">Individual component options:</span><br><span class="line">-<span class="ruby">-disable-everything     disable all components listed below</span><br><span class="line"></span>-<span class="ruby">-disable-encoder=<span class="constant">NAME</span>   disable encoder <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-enable-encoder=<span class="constant">NAME</span>    enable encoder <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-encoders       disable all encoders</span><br><span class="line"></span>-<span class="ruby">-disable-decoder=<span class="constant">NAME</span>   disable decoder <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-enable-decoder=<span class="constant">NAME</span>    enable decoder <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-decoders       disable all decoders</span><br><span class="line"></span>-<span class="ruby">-disable-hwaccel=<span class="constant">NAME</span>   disable hwaccel <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-enable-hwaccel=<span class="constant">NAME</span>    enable hwaccel <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-hwaccels       disable all hwaccels</span><br><span class="line"></span>-<span class="ruby">-disable-muxer=<span class="constant">NAME</span>     disable muxer <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-enable-muxer=<span class="constant">NAME</span>      enable muxer <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-muxers         disable all muxers</span><br><span class="line"></span>-<span class="ruby">-disable-demuxer=<span class="constant">NAME</span>   disable demuxer <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-enable-demuxer=<span class="constant">NAME</span>    enable demuxer <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-demuxers       disable all demuxers</span><br><span class="line"></span>-<span class="ruby">-enable-parser=<span class="constant">NAME</span>     enable parser <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-parser=<span class="constant">NAME</span>    disable parser <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-parsers        disable all parsers</span><br><span class="line"></span>-<span class="ruby">-enable-bsf=<span class="constant">NAME</span>        enable bitstream filter <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-bsf=<span class="constant">NAME</span>       disable bitstream filter <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-bsfs           disable all bitstream filters</span><br><span class="line"></span>-<span class="ruby">-enable-protocol=<span class="constant">NAME</span>   enable protocol <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-protocol=<span class="constant">NAME</span>  disable protocol <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-protocols      disable all protocols</span><br><span class="line"></span>-<span class="ruby">-enable-indev=<span class="constant">NAME</span>      enable input device <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-indev=<span class="constant">NAME</span>     disable input device <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-indevs         disable input devices</span><br><span class="line"></span>-<span class="ruby">-enable-outdev=<span class="constant">NAME</span>     enable output device <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-outdev=<span class="constant">NAME</span>    disable output device <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-outdevs        disable output devices</span><br><span class="line"></span>-<span class="ruby">-disable-devices        disable all devices</span><br><span class="line"></span>-<span class="ruby">-enable-filter=<span class="constant">NAME</span>     enable filter <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-filter=<span class="constant">NAME</span>    disable filter <span class="constant">NAME</span></span><br><span class="line"></span>-<span class="ruby">-disable-filters        disable all filters</span></span><br></pre></td></tr></table></figure>
-<p>而我们生成的<code>libavcodec-57.so</code>过大也是由于加入了过多我们不需要使用的组件，禁用了所有的，接下来就是把自己需要的加入到bash脚本中配置即可，比如加入下面两个配置确保h264和aac的解码功能的保留：</p>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">-enable-decoder=h264</span><br><span class="line"></span>-<span class="ruby">-enable-decoder=aac</span></span><br></pre></td></tr></table></figure>
-<p>等等，当然还有其它的，可以参考上面禁用的配置进行选择性保留。</p>
-<h2 id="编译支持H-264编码的FFmpeg动态链接库"><a href="#编译支持H-264编码的FFmpeg动态链接库" class="headerlink" title="编译支持H.264编码的FFmpeg动态链接库"></a><strong>编译支持H.264编码的FFmpeg动态链接库</strong></h2><h3 id="x264"><a href="#x264" class="headerlink" title="x264"></a><strong>x264</strong></h3><p>首先下载<a href="http://www.videolan.org/developers/x264.html" target="_blank" rel="external">x264源码</a><br>x264是一个开源的H.264编码器，据说是最好的视频有损编码器，和编译FFmpeg类似，要编译x264成动态so库，一样通过configure配置文件，需要先修改configure文件中的：</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"SOSUFFIX=so"</span> <span class="prompt">&gt;&gt; </span>config.mak</span><br><span class="line">echo <span class="string">"SONAME=libx264.so.$API"</span> <span class="prompt">&gt;&gt; </span>config.mak</span><br><span class="line">echo <span class="string">"SOFLAGS=-shared -Wl,-soname,\$(SONAME) $SOFLAGS"</span> <span class="prompt">&gt;&gt; </span>config.mak</span><br></pre></td></tr></table></figure>
-<p>替换成：</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"SOSUFFIX=so"</span> <span class="prompt">&gt;&gt; </span>config.mak</span><br><span class="line">echo <span class="string">"SONAME=libx264-$API.so"</span> <span class="prompt">&gt;&gt; </span>config.mak</span><br><span class="line">echo <span class="string">"SOFLAGS=-shared -Wl,-soname,\$(SONAME) $SOFLAGS"</span> <span class="prompt">&gt;&gt; </span>config.mak</span><br></pre></td></tr></table></figure>
-<p>目的一样，确保可以在Android平台下可用，然后使用下面的bash脚本进行编译，arm为例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/bash</span></span><br><span class="line">NDK=<span class="variable">$HOME</span>/Library/Android/sdk/ndk-bundle</span><br><span class="line">SYSROOT=<span class="variable">$NDK</span>/platforms/android-<span class="number">14</span>/arch-arm/</span><br><span class="line">TOOLCHAIN=<span class="variable">$NDK</span>/toolchains/arm-linux-androideabi-<span class="number">4.9</span>/prebuilt/darwin-x86_64</span><br><span class="line"></span><br><span class="line">CPU=arm</span><br><span class="line">PREFIX=$(<span class="built_in">pwd</span>)/android/<span class="variable">$CPU</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> build_arm</span><br><span class="line">&#123;</span><br><span class="line">./configure \</span><br><span class="line">--prefix=<span class="variable">$PREFIX</span> \</span><br><span class="line">--enable-shared \</span><br><span class="line">--disable-asm \</span><br><span class="line">--enable-pic \</span><br><span class="line">--enable-strip \</span><br><span class="line">--host=arm-linux \</span><br><span class="line">--cross-prefix=<span class="variable">$TOOLCHAIN</span>/bin/arm-linux-androideabi- \</span><br><span class="line">--sysroot=<span class="variable">$SYSROOT</span></span><br><span class="line"></span><br><span class="line">make clean</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line">&#125;</span><br><span class="line">build_arm</span><br></pre></td></tr></table></figure>
-<p>NDK目录同样改为自己的<br>运行上面脚本：</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> x264</span><br><span class="line">./build_x264_arm.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
-<p>编译完成后可以android目录找到<code>libx264-148.so</code>库</p>
-<h3 id="静态链接x264编译"><a href="#静态链接x264编译" class="headerlink" title="静态链接x264编译"></a><strong>静态链接x264编译</strong></h3><p>FFmpeg默认是不支持H.264的编码，不过支持H.264解码，但是FFmpeg为我们提供了众多配置，可添加额外功能库的支持，方便我们自己链接所需要额外功能的库，在FFmpeg的configure文件配置中，可以看到这么一段配置：</p>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">External library support:</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">-<span class="ruby">-enable-libfdk-aac      enable <span class="constant">AAC</span> de/encoding via libfdk-aac [no]</span><br><span class="line"></span>-<span class="ruby">-enable-libopenh264     enable <span class="constant">H</span>.<span class="number">264</span> encoding via <span class="constant">OpenH264</span> [no]</span><br><span class="line"></span>-<span class="ruby">-enable-libopenjpeg     enable <span class="constant">JPEG</span> <span class="number">2000</span> de/encoding via <span class="constant">OpenJPEG</span> [no]</span><br><span class="line"></span>-<span class="ruby">-enable-librtmp         enable <span class="constant">RTMP</span>[<span class="constant">E</span>] support via librtmp [no]</span><br><span class="line"></span>-<span class="ruby">-enable-libwebp         enable <span class="constant">WebP</span> encoding via libwebp [no]</span><br><span class="line"></span>-<span class="ruby">-enable-libx264         enable <span class="constant">H</span>.<span class="number">264</span> encoding via x264 [no]</span><br><span class="line"></span>-<span class="ruby">-enable-opengl          enable <span class="constant">OpenGL</span> rendering [no]</span><br><span class="line"></span>-<span class="ruby">-enable-openssl         enable openssl, needed <span class="keyword">for</span> https support</span><br><span class="line"></span>if gnutls is not used [no]</span><br><span class="line"><span class="comment">//...</span></span><br></pre></td></tr></table></figure>
-<p>避免篇幅太长，做了一部分删减，留了一些比较眼熟的，FFmpeg可以让我们自己配置添加需要的功能库，如使用fdk-aac库来做aac的编解码，H.264编码可选x264或openh264以及可选其它功能库的支持</p>
-<p>要编译支持x264编码的FFmpeg动态链接库，首先是编译出x264静态链接库<code>libx264.a</code>，然后修改FFmpeg的编译脚本，配置x264静态链接库和头文件路径，接下来即可编译了</p>
-<h4 id="1、编译x264静态链接库"><a href="#1、编译x264静态链接库" class="headerlink" title="1、编译x264静态链接库"></a><strong>1、编译x264静态链接库</strong></h4><p>因为FFmpeg是使用静态链接方式链接其它额外的外部功能库，所以需要把x264库编译成<code>.a</code>静态库，通过<code>--enable-static</code>配置参数来编译出<code>.a</code>静态库，而<code>--enable-shared</code>则是编译动态链接so库，所以只需在上面的x264脚本中增加个配置：</p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--enable-<span class="keyword">static</span></span><br></pre></td></tr></table></figure>
-<p>编译成功后可以看到如下目录结构：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-13-14789707702522.jpg" alt=""></p>
-<h4 id="2、在FFmpeg脚本中配置x264静态链接库和头文件路径及编译"><a href="#2、在FFmpeg脚本中配置x264静态链接库和头文件路径及编译" class="headerlink" title="2、在FFmpeg脚本中配置x264静态链接库和头文件路径及编译"></a><strong>2、在FFmpeg脚本中配置x264静态链接库和头文件路径及编译</strong></h4><p>在此之前，先安装yasm：</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">brew </span>install yasm</span><br></pre></td></tr></table></figure>
-<p>然后在之前FFmpeg的脚本基础上添加以下配置：</p>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">-enable-gpl \</span><br><span class="line"></span>-<span class="ruby">-enable-libx264 \</span><br><span class="line"></span>-<span class="ruby">-enable-yasm \</span><br><span class="line"></span>-<span class="ruby">-extra-cflags=<span class="string">"-I../x264/android/arm/include"</span> \</span><br><span class="line"></span>-<span class="ruby">-extra-ldflags=<span class="string">"-L../x264/android/arm/lib"</span> \</span></span><br></pre></td></tr></table></figure>
-<p>FFmpeg默认的LICENSE是LGPL，而libx264需要GPL，所以加入<code>--enable-gpl</code>，最后面两项配置是配置编译x264出的头文件和静态链接库路径，在这里我把x264和FFmpeg放在了同一目录层级，故可这样配置。<br>如果你需要修改<code>--extra-cflags</code>和<code>--extra-ldflags</code>路径为自己x264头文件和静态链接库路径，必须符合<code>--extra-cflags</code>以-I开头，<code>--extra-ldflags</code>以-L开头，比如x264在桌面上，路径为：</p>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">-extra-cflags=<span class="string">"-I/Users/Sunzxyong/Desktop/x264/android/arm/include"</span> \</span><br><span class="line"></span>-<span class="ruby">-extra-ldflags=<span class="string">"-L/Users/Sunzxyong/Desktop/x264/android/arm/lib"</span> \</span></span><br></pre></td></tr></table></figure>
-<p>然后进行编译，编译中可以看到encode的支持选择中，多了libx264的支持：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-13-14790203252342.jpg" alt=""></p>
-<p>其它外部添加库如fdk-aac、openh264等也类似方式链接编译</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2016/09/05/Android运行时Crash自动恢复框架-Recovery/" itemprop="url">
                   Android运行时Crash自动恢复框架-Recovery
                 </a>
@@ -1602,6 +1306,273 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/01/04/Fresco图片框架内部实现原理探索/" itemprop="url">
+                  Fresco图片框架内部实现原理探索
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-04T11:38:30+08:00" content="2016-01-04">
+              2016-01-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/技术沉淀/" itemprop="url" rel="index">
+                    <span itemprop="name">技术沉淀</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/04/Fresco图片框架内部实现原理探索/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/04/Fresco图片框架内部实现原理探索/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/01/04/Fresco图片框架内部实现原理探索/" class="leancloud_visitors" data-flag-title="Fresco图片框架内部实现原理探索">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="流行的网络框架"><a href="#流行的网络框架" class="headerlink" title="流行的网络框架"></a><strong>流行的网络框架</strong></h2><p>目前流行的网络图片框架：<br>Picasso、Universal Image Loader、Volley的(ImageLoader、NetworkImageView)、Glide和Fresco</p>
+<p>简明的介绍下（具体细节和功能可看源码和wiki）：<br>其中Picasso和Universal Image Loader相比其它的算是最轻量级的图片框架了，它们拥有较少的方法数，Universal Image Loader是这五个框架中定制性最强的，它内部实现还是按网络框架的套路走：HttpUrlConnection+线程池+Handler，支持渐显效果。<br>而Picasso只有一些图片加载框架应有的基本功能，所以因此它是最轻量的，在需求只要基本的图片加载与双缓存功能下，可以选Picasso作为项目的基础库，Picasso它内部默认是使用OkHttpClient作为加载网络图片的下载器，毕竟不用自家用谁的，在OkHttpClient没有的情况下则使用HttpUrlConnection，同上面一样，下载器+线程池+Handler，不过它内部的线程池比较有意思，线程池的线程数量是根据当前的网络环境来动态改变的，wifi网络下为4，4G为3，3G为2，2G为1，其它情况下默认为3，支持渐显效果。<br>Volley的没什么可说的，基本功能都有，网络框架的附赠功能。</p>
+<p>Glide的话，Google官方推荐，支持Gif、图片缩略图、本地视频解码、请求和动画生命周期的自动管理、渐显动画、支持OkHttp和Volley等等，默认是使用HttpUrlConnection加载图片的，源码灰常多，200多个类，不想看</p>
+<p>Fresco我认为是这几个框架中性能最佳的一个框架，着重介绍，它内部用了大量的建造者模式、单例模式、静态工厂模式、生产/消费者模式。内部实现比较复杂，就拿图片加载来说，是通过在异步线程中回调图片的输入流，然后通过一系列读取、写入、转化成EncodedImage，然后再Decode成Bitmap，通过Handler转给UI线程显示，通过IO操作存储在硬盘缓存目录下。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/01/04/Fresco图片框架内部实现原理探索/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/25/Android性能优化之被忽视的优化点/" itemprop="url">
+                  Android性能优化之被忽视的优化点
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-25T15:42:30+08:00" content="2015-11-25">
+              2015-11-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/性能优化/" itemprop="url" rel="index">
+                    <span itemprop="name">性能优化</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/25/Android性能优化之被忽视的优化点/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/25/Android性能优化之被忽视的优化点/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2015/11/25/Android性能优化之被忽视的优化点/" class="leancloud_visitors" data-flag-title="Android性能优化之被忽视的优化点">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>对于性能优化这个知识点来说，实在是太广了，博主本人也一直非常关注这方面的学习，而对于性能优化来说它包括了非常非常非常多方面，比如：I/O的优化、网络操作的优化、内存的优化、数据结构的优化、代码层次的优化、UI渲染优化、CPU资源使用率的优化、异常处理的优化等等等等。。。</p>
+<p>本篇文章就博主本人的理解来讲述一些在Android开发中可以优化的地方</p>
+<h2 id="ArrayList和Vector"><a href="#ArrayList和Vector" class="headerlink" title="ArrayList和Vector"></a><strong>ArrayList和Vector</strong></h2><p>ArrayList和Vector都是内部以数组实现的List，它们两唯一的区别就是对多线程的支持，ArrayList是线程不安全的，而Vector内部对大多数方法都做了同步，是线程安全的，既然是线程安全的，所以性能方面肯定不如ArrayList了（当然想法肯定是对的），不过这需要看哪方面了，ArrayList在add、get、remove等操作效率肯定是高于Vector的，而在内存方面，Vector却比ArrayList表现的更好，这归根都是ArrayList的扩容策略导致的，稍后分析<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/11/25/Android性能优化之被忽视的优化点/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1647,7 +1618,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1655,7 +1626,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1664,7 +1635,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
