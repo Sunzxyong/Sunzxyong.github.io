@@ -253,6 +253,140 @@
             
               
                 
+                <a class="post-title-link" href="/2016/01/04/Fresco图片框架内部实现原理探索/" itemprop="url">
+                  Fresco图片框架内部实现原理探索
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-04T11:38:30+08:00" content="2016-01-04">
+              2016-01-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/技术沉淀/" itemprop="url" rel="index">
+                    <span itemprop="name">技术沉淀</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/04/Fresco图片框架内部实现原理探索/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/04/Fresco图片框架内部实现原理探索/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/01/04/Fresco图片框架内部实现原理探索/" class="leancloud_visitors" data-flag-title="Fresco图片框架内部实现原理探索">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="流行的网络框架"><a href="#流行的网络框架" class="headerlink" title="流行的网络框架"></a><strong>流行的网络框架</strong></h2><p>目前流行的网络图片框架：<br>Picasso、Universal Image Loader、Volley的(ImageLoader、NetworkImageView)、Glide和Fresco</p>
+<p>简明的介绍下（具体细节和功能可看源码和wiki）：<br>其中Picasso和Universal Image Loader相比其它的算是最轻量级的图片框架了，它们拥有较少的方法数，Universal Image Loader是这五个框架中定制性最强的，它内部实现还是按网络框架的套路走：HttpUrlConnection+线程池+Handler，支持渐显效果。<br>而Picasso只有一些图片加载框架应有的基本功能，所以因此它是最轻量的，在需求只要基本的图片加载与双缓存功能下，可以选Picasso作为项目的基础库，Picasso它内部默认是使用OkHttpClient作为加载网络图片的下载器，毕竟不用自家用谁的，在OkHttpClient没有的情况下则使用HttpUrlConnection，同上面一样，下载器+线程池+Handler，不过它内部的线程池比较有意思，线程池的线程数量是根据当前的网络环境来动态改变的，wifi网络下为4，4G为3，3G为2，2G为1，其它情况下默认为3，支持渐显效果。<br>Volley的没什么可说的，基本功能都有，网络框架的附赠功能。</p>
+<p>Glide的话，Google官方推荐，支持Gif、图片缩略图、本地视频解码、请求和动画生命周期的自动管理、渐显动画、支持OkHttp和Volley等等，默认是使用HttpUrlConnection加载图片的，源码灰常多，200多个类，不想看</p>
+<p>Fresco我认为是这几个框架中性能最佳的一个框架，着重介绍，它内部用了大量的建造者模式、单例模式、静态工厂模式、生产/消费者模式。内部实现比较复杂，就拿图片加载来说，是通过在异步线程中回调图片的输入流，然后通过一系列读取、写入、转化成EncodedImage，然后再Decode成Bitmap，通过Handler转给UI线程显示，通过IO操作存储在硬盘缓存目录下。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/01/04/Fresco图片框架内部实现原理探索/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/25/Android性能优化之被忽视的优化点/" itemprop="url">
                   Android性能优化之被忽视的优化点
                 </a>
@@ -687,7 +821,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -704,7 +838,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

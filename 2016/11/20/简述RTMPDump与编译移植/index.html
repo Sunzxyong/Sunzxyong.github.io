@@ -1,0 +1,913 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="RTMPDump,librtmp,librtmp编译," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="RTMPDump概述RTMPDump主页，RTMPDump库主要包含三部分：
+
+1、一个基本的客户端程序2、两个服务器程序（rtmpsrv、rtmpsuck）3、一个支持rtmp协议的库—librtmp
+
+下载RTMPDump最新源码，可以通过git拉取master分支上的最新代码：
+1git clone git://git.ffmpeg.org/rtmpdump
+或者下载以前版本的代码—Down">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简述RTMPDump与编译移植">
+<meta property="og:url" content="http://zhengxiaoyong.me/2016/11/20/简述RTMPDump与编译移植/index.html">
+<meta property="og:site_name" content="zhengxiaoyong">
+<meta property="og:description" content="RTMPDump概述RTMPDump主页，RTMPDump库主要包含三部分：
+
+1、一个基本的客户端程序2、两个服务器程序（rtmpsrv、rtmpsuck）3、一个支持rtmp协议的库—librtmp
+
+下载RTMPDump最新源码，可以通过git拉取master分支上的最新代码：
+1git clone git://git.ffmpeg.org/rtmpdump
+或者下载以前版本的代码—Down">
+<meta property="og:updated_time" content="2016-11-20T11:49:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="简述RTMPDump与编译移植">
+<meta name="twitter:description" content="RTMPDump概述RTMPDump主页，RTMPDump库主要包含三部分：
+
+1、一个基本的客户端程序2、两个服务器程序（rtmpsrv、rtmpsuck）3、一个支持rtmp协议的库—librtmp
+
+下载RTMPDump最新源码，可以通过git拉取master分支上的最新代码：
+1git clone git://git.ffmpeg.org/rtmpdump
+或者下载以前版本的代码—Down">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 简述RTMPDump与编译移植 | zhengxiaoyong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">zhengxiaoyong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">生活不止眼前的苟且，还有诗，和远方.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                简述RTMPDump与编译移植
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-20T19:47:59+08:00" content="2016-11-20">
+              2016-11-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/流媒体/" itemprop="url" rel="index">
+                    <span itemprop="name">流媒体</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/20/简述RTMPDump与编译移植/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/20/简述RTMPDump与编译移植/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/20/简述RTMPDump与编译移植/" class="leancloud_visitors" data-flag-title="简述RTMPDump与编译移植">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="RTMPDump概述"><a href="#RTMPDump概述" class="headerlink" title="RTMPDump概述"></a><strong>RTMPDump概述</strong></h2><p><a href="http://rtmpdump.mplayerhq.hu/" target="_blank" rel="external">RTMPDump主页</a>，RTMPDump库主要包含三部分：</p>
+<blockquote>
+<p>1、一个基本的客户端程序<br>2、两个服务器程序（rtmpsrv、rtmpsuck）<br>3、一个支持rtmp协议的库—librtmp</p>
+</blockquote>
+<p>下载RTMPDump最新源码，可以通过git拉取master分支上的最新代码：</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">clone</span> <span class="title">git</span>://git.ffmpeg.org/rtmpdump</span><br></pre></td></tr></table></figure>
+<p>或者下载以前版本的代码—<a href="http://rtmpdump.mplayerhq.hu/download/" target="_blank" rel="external">Download old version</a></p>
+<p>下面主要介绍librtmp和librtmp的编译</p>
+<h3 id="librtmp概述"><a href="#librtmp概述" class="headerlink" title="librtmp概述"></a><strong>librtmp概述</strong></h3><p>librtmp库提供了大量客户端函数和少部分的服务器端的函数用来支持RTMP、RTMPT（RTMP使用Http通道），RTMPE（加密的RTMP），RTMPS（基于SSL/TLS的RTMP）和RTMPTE、RTMPTS（使用Http通道的加密和基于SSL/TLS的RTMP）协议</p>
+<p>使用librtmp库进行的流媒体交互都是使用<strong>FLV</strong>封包格式进行传输的，当然编码不限定，不过为了拉流端同时也支持<strong>HLS</strong>协议，最好使用<strong>H264</strong>编码视频和<strong>AAC</strong>编码音频数据</p>
+<p>使用librtmp通过<strong><code>RTMP[T][E|S]</code></strong>协议进行一次流媒体交互的基本过程为：</p>
+<blockquote>
+<p><strong>推流端</strong>：</p>
+<ol>
+<li><strong>RTMP_Alloc()</strong>-创建一个RTMP会话句柄</li>
+<li><strong>RTMP_Init()</strong>-初始化RTMP句柄</li>
+<li><strong>RTMP_SetupURL()</strong>-设置推流RTMP Url</li>
+<li><strong>RTMP_EnableWrite()</strong>-配置该媒体流可进行写操作</li>
+<li><strong>RTMP_Connect()</strong>-建立RTMP网络连接</li>
+<li><strong>RTMP_ConnectStream()</strong>-建立RTMP流连接</li>
+<li><strong>RTMP_Write()</strong>-对该媒体流进行写入流媒体信息</li>
+<li><strong>RTMP_Close()</strong>-关闭RTMP连接</li>
+<li><strong>RTMP_Free()</strong>-释放此次连接的会话句柄</li>
+</ol>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>播放端</strong>：</p>
+<ol>
+<li><strong>RTMP_Alloc()</strong>-创建一个RTMP会话句柄</li>
+<li><strong>RTMP_Init()</strong>-初始化RTMP句柄</li>
+<li><strong>RTMP_SetupURL()</strong>-设置拉流RTMP Url</li>
+<li><strong>RTMP_Connect()</strong>-建立RTMP网络连接</li>
+<li><strong>RTMP_ConnectStream()</strong>-建立RTMP流连接</li>
+<li><strong>RTMP_Read()</strong>-读取媒体流数据，返回0时则媒体流读取完毕</li>
+<li><strong>RTMP_Pause()</strong>-暂停读取媒体流数据或取消暂停（options）</li>
+<li><strong>RTMP_Seek()</strong>-可通过它改变流播放的位置（options）</li>
+<li><strong>RTMP_Close()</strong>-当媒体流读取完毕后进行RTMP连接的关闭</li>
+<li><strong>RTMP_Free()</strong>-释放此次连接的会话句柄</li>
+</ol>
+</blockquote>
+<p>上述方法的具体实现可以在librtmp包中的<code>rtmp.c</code>文件中找到，同时，它还提供了其它众多方法来处理RTMP的流媒体交互过程</p>
+<h3 id="librtmp的RTMP-URL格式"><a href="#librtmp的RTMP-URL格式" class="headerlink" title="librtmp的RTMP URL格式"></a><strong>librtmp的RTMP URL格式</strong></h3><p>一个基本的RTMP URL格式为：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rtmp[<span class="link_label">t</span>][<span class="link_reference">e|s</span>]://host[<span class="link_label">:port</span>][<span class="link_reference">/app[/playpath</span>]]</span><br></pre></td></tr></table></figure>
+<p>和http类似，不过某些地方不一样，下面简单说说：<br>scheme为rtmp或者rtmp协议的诸多变种之一，这就不需要多解释了，像websocket协议scheme为ws或者wss，http协议scheme为http或https。<br>host为主机名，后面紧接着为端口号，如果不指定，rtmp协议默认端口号为1935.<br>app代表服务器上的一个Application应用程序，这个名称是由服务器定义的，如：live。<br>playpath则是表示该Application下的一个媒体流的路径，如：room100。</p>
+<p>当然也可以追加额外的参数，只不过这和我们使用http协议追加参数的方式不同，librtmp是采取空格为分隔符，通过追加”key=value”的方式进行追加额外的参数，如：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"rtmp://localhost:1935/live/room100 app=happylive"</span></span><br></pre></td></tr></table></figure>
+<p>这就追加了额外的key为app，value为happylive的参数，表示使用happylive应用来连接而代替rtmp url中的live应用</p>
+<p>关于librtmp的更多额外的参数配置，可以看<a href="http://rtmpdump.mplayerhq.hu/librtmp.3.html" target="_blank" rel="external">librtmp文档</a></p>
+<h3 id="librtmp编译"><a href="#librtmp编译" class="headerlink" title="librtmp编译"></a><strong>librtmp编译</strong></h3><p>由于librtmp默认依赖zlib和openssl这两个库，所以编译时需要链接这两个库，由于NDK自带了zlib库，所以不需要单独去下载和编译，在编译librtmp时配置<code>Android.mk</code>文件的<code>LOCAL_LDLIBS</code>属性为<code>-lz</code>链接即可，编译时会在指定的platforms的arch-xxx/usr/lib/目录下搜索</p>
+<p>编译librtmp，在librtmp目录下新建Android.mk文件，内容如下：</p>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_PATH:= $(call my-dir)</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># 编译模块输出的名称</span></span><br><span class="line">LOCAL_MODULE := rtmp</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># 编译所需的头文件路径</span></span><br><span class="line">LOCAL_C_INCLUDES += \</span><br><span class="line">$(LOCAL_PATH)/</span><br><span class="line"><span class="preprocessor">#$(LOCAL_PATH)/../openssl/include/ #链接openssl库</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># 编译所需的源文件路径</span></span><br><span class="line">LOCAL_SRC_FILES := \</span><br><span class="line">amf.c       \</span><br><span class="line">log.c       \</span><br><span class="line">parseurl.c  \</span><br><span class="line">rtmp.c      \</span><br><span class="line">hashswf.c</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># 编译时候需要链接的动态库库存在静态库形式，将会链接到对应的静态库而不是动态库</span></span><br><span class="line"><span class="preprocessor"># LOCAL_FORCE_STATIC_EXECUTABLE := true</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># 添加编译配置选项，一些常用编译配置：</span></span><br><span class="line"><span class="preprocessor"># -fPIC:编译位置无关的代码，一般用于编译动态库</span></span><br><span class="line"><span class="preprocessor"># -02:编译优化程度</span></span><br><span class="line"><span class="preprocessor"># -lxxx:链接名为libxxx库</span></span><br><span class="line"><span class="preprocessor"># -I添加编译器搜索-l指定的库文件的搜索</span></span><br><span class="line"><span class="preprocessor"># -D:加入宏定义，如：NO_CRYPTO，不使用加密</span></span><br><span class="line">LOCAL_CFLAGS += -DRTMPDUMP_VERSION=v2<span class="number">.4</span> -DNO_CRYPTO -Wall -fPIC -O2 </span><br><span class="line"><span class="preprocessor">#LOCAL_CFLAGS += -I$(LOCAL_PATH)/../openssl -lssl -lcrypto #可选添加openssl支持，需去除-DNO_CRYPTO</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># 添加编译时需要链接器链接的那些存在于NDK目录下的其它库，所链接库的以“-lxxx”格式命名，如：-lz 表示编译时会加载libz.so库</span></span><br><span class="line">LOCAL_LDLIBS += -lz</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># include $(BUILD_STATIC_LIBRARY)</span></span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure>
+<p>关于mk文件的编写和参数配置，可以阅读<a href="https://developer.android.com/ndk/guides/android_mk.html" target="_blank" rel="external">mk官网文档</a>，上面也给出了全部编译时参数配置的注释，由于上面配置加入了<code>NO_CRYPTO</code>定义，没有链接openssl库，需要的可以自己加或者使用<a href="https://tls.mbed.org/" target="_blank" rel="external">PolarSSL</a>、<a href="http://www.gnu.org/software/gnutls/" target="_blank" rel="external">GnuTLS</a>来替代<a href="https://www.openssl.org/" target="_blank" rel="external">OpenSSL</a></p>
+<p>然后在rtmpdump目录下也建立个Android.mk文件，内容为：</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="constant">LOCAL_PATH</span> := <span class="variable">$(</span>call my-dir)</span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(</span><span class="constant">CLEAR_VARS</span>)</span><br><span class="line">subdirs := <span class="variable">$(</span>addprefix <span class="variable">$(</span><span class="constant">LOCAL_PATH</span>)/,<span class="variable">$(</span>addsuffix /<span class="constant">Android</span>.mk, \</span><br><span class="line">librtmp \</span><br><span class="line">))</span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(</span>subdirs)</span><br></pre></td></tr></table></figure>
+<p>其实不需要这个也行，不过加入该文件目的是为了能够统一rtmpdump文件夹下和子目录中的mk的编译运行入口，这样只需调用这一个mk文件即可，上面配置的只会运行librtmp目录下的mk文件，如果需要加入其它的，则在<code>subdirs</code>中加入即可，如：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">subdirs </span>:= $(<span class="keyword">addprefix </span>$(LOCAL_PATH)/,$(<span class="keyword">addsuffix </span>/<span class="keyword">Android.mk, </span>\</span><br><span class="line"><span class="label">librtmp</span> \</span><br><span class="line"><span class="label">otherdir</span> \</span><br><span class="line">))</span><br></pre></td></tr></table></figure>
+<p>最后在rtmpdump中新建jni目录，新建Application.mk文件，内容为：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="constant">NDK_TOOLCHAIN_VERSION</span> := 4.9</span><br><span class="line"><span class="constant">APP_PLATFORM</span> := android-14</span><br><span class="line"><span class="constant">APP_ABI</span> := all</span><br><span class="line"><span class="constant">APP_OPTIM</span> := release</span><br><span class="line"><span class="constant">APP_PROJECT_PATH</span> := <span class="variable">$(shell pwd)</span></span><br><span class="line"><span class="constant">APP_BUILD_SCRIPT</span> := <span class="variable">$(APP_PROJECT_PATH)</span>/Android.mk</span><br></pre></td></tr></table></figure>
+<p>主要是对编译时的编译配置进行配置，<code>APP_ABI := all</code>表示支持当前平台支持的的全部CPU架构</p>
+<p>然后新建一个开始执行编译的脚本文件，内容为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/bash</span></span><br><span class="line">NDK=<span class="variable">$HOME</span>/Library/Android/sdk/ndk-bundle</span><br><span class="line"><span class="variable">$NDK</span>/ndk-build NDK_APPLICATION_MK=./jni/Application.mk NDK_PROJECT_PATH=./</span><br></pre></td></tr></table></figure>
+<p>其中NDK路径替换为自己的即可，开始编译：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> rtmpdump</span><br><span class="line">./build_librtmp.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
+<p>成功后，可以在rtmpdump目录下看到obj和libs两个文件夹，libs存放着编译出来的动态库，而obj则是存放静态库，这取决于所配置的是<code>BUILD_SHARED_LIBRARY</code>还是<code>BUILD_STATIC_LIBRARY</code></p>
+<p>当然其它库也可以用这种方式进行编译</p>
+<h2 id="编译支持librtmp的FFmpeg动态链接库"><a href="#编译支持librtmp的FFmpeg动态链接库" class="headerlink" title="编译支持librtmp的FFmpeg动态链接库"></a><strong>编译支持librtmp的FFmpeg动态链接库</strong></h2><p>由于FFmpeg本身默认自带就支持rtmp、rtmpt协议，不过也可以扩展以便支持rtmp协议的多种变种协议（rtmps、rtmpt、rtmpts、rtmpte和rtmpe协议），在FFmpeg加入openssl库的支持，可以支持rtmps、rtmpts协议，加入libgcrypt库的支持，可以支持rtmpe、rtmpte协议，这样支持相对麻烦，可以直接使用librtmp来支持rtmp以及它的多种变种协议，可通过链接librtmp库来支持</p>
+<h2 id="Librtmp编译源码"><a href="#Librtmp编译源码" class="headerlink" title="Librtmp编译源码"></a><strong>Librtmp编译源码</strong></h2><p><a href="https://github.com/Sunzxyong/Librtmp-Compile-For-Android" target="_blank" rel="external">librtmp编译源码</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://7xswxf.com2.z0.glb.clouddn.com/blog/weixin.png" alt="郑晓勇 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://7xswxf.com2.z0.glb.clouddn.com/blog/alipay.png" alt="郑晓勇 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RTMPDump/" rel="tag">#RTMPDump</a>
+          
+            <a href="/tags/librtmp/" rel="tag">#librtmp</a>
+          
+            <a href="/tags/librtmp编译/" rel="tag">#librtmp编译</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/13/初识FFmpeg编译那些事/" rel="next" title="初识FFmpeg编译那些事">
+                <i class="fa fa-chevron-left"></i> 初识FFmpeg编译那些事
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/20/简述RTMPDump与编译移植/"
+           data-title="简述RTMPDump与编译移植" data-url="http://zhengxiaoyong.me/2016/11/20/简述RTMPDump与编译移植/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="郑晓勇" />
+          <p class="site-author-name" itemprop="name">郑晓勇</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Sunzxyong" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3048730677/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/u010687392" title="我的CSDN" target="_blank">我的CSDN</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RTMPDump概述"><span class="nav-number">1.</span> <span class="nav-text">RTMPDump概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#librtmp概述"><span class="nav-number">1.1.</span> <span class="nav-text">librtmp概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#librtmp的RTMP-URL格式"><span class="nav-number">1.2.</span> <span class="nav-text">librtmp的RTMP URL格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#librtmp编译"><span class="nav-number">1.3.</span> <span class="nav-text">librtmp编译</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译支持librtmp的FFmpeg动态链接库"><span class="nav-number">2.</span> <span class="nav-text">编译支持librtmp的FFmpeg动态链接库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Librtmp编译源码"><span class="nav-number">3.</span> <span class="nav-text">Librtmp编译源码</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郑晓勇</span>
+</div>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"sunzxyong"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("4xJWzRb0rYs6K84rzJGPAfCT-gzGzoHsz", "32UaeYIIm8Ij4sUjreNxbB0K");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
