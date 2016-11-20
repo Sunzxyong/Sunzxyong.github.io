@@ -102,7 +102,7 @@
 下载RTMPDump最新源码，可以通过git拉取master分支上的最新代码：
 1git clone git://git.ffmpeg.org/rtmpdump
 或者下载以前版本的代码—Down">
-<meta property="og:updated_time" content="2016-11-20T11:49:22.000Z">
+<meta property="og:updated_time" content="2016-11-20T11:53:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="简述RTMPDump与编译移植">
 <meta name="twitter:description" content="RTMPDump概述RTMPDump主页，RTMPDump库主要包含三部分：
@@ -354,6 +354,7 @@
 <p>下面主要介绍librtmp和librtmp的编译</p>
 <h3 id="librtmp概述"><a href="#librtmp概述" class="headerlink" title="librtmp概述"></a><strong>librtmp概述</strong></h3><p>librtmp库提供了大量客户端函数和少部分的服务器端的函数用来支持RTMP、RTMPT（RTMP使用Http通道），RTMPE（加密的RTMP），RTMPS（基于SSL/TLS的RTMP）和RTMPTE、RTMPTS（使用Http通道的加密和基于SSL/TLS的RTMP）协议</p>
 <p>使用librtmp库进行的流媒体交互都是使用<strong>FLV</strong>封包格式进行传输的，当然编码不限定，不过为了拉流端同时也支持<strong>HLS</strong>协议，最好使用<strong>H264</strong>编码视频和<strong>AAC</strong>编码音频数据</p>
+<a id="more"></a>
 <p>使用librtmp通过<strong><code>RTMP[T][E|S]</code></strong>协议进行一次流媒体交互的基本过程为：</p>
 <blockquote>
 <p><strong>推流端</strong>：</p>
