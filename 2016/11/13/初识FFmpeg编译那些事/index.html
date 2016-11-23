@@ -99,7 +99,7 @@ FFmpeg它主要含有以下几个核心库：
 <meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-11-14788686122391.jpg">
 <meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-13-14789707702522.jpg">
 <meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-13-14790203252342.jpg">
-<meta property="og:updated_time" content="2016-11-20T13:15:26.000Z">
+<meta property="og:updated_time" content="2016-11-23T10:24:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初识FFmpeg编译那些事">
 <meta name="twitter:description" content="FFmpeg简介FFMPEG是一套具有非常强大功能的多媒体处理工具，它几乎涵盖了目前所有主流的多媒体数据封装格式、多媒体传输协议以及音视频编解码器，并且支持多媒体后处理，视频色彩转换、滤镜和缩放等，也支持众多主流的协议：HTTP、RTP、RTSP、RTMP、HLS、UDP等安装可以通过Homebrew
@@ -394,7 +394,11 @@ FFmpeg它主要含有以下几个核心库：
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">brew </span>install yasm</span><br></pre></td></tr></table></figure>
 <p>然后在之前FFmpeg的脚本基础上添加以下配置：</p>
 <figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">-enable-gpl \</span><br><span class="line"></span>-<span class="ruby">-enable-libx264 \</span><br><span class="line"></span>-<span class="ruby">-enable-yasm \</span><br><span class="line"></span>-<span class="ruby">-extra-cflags=<span class="string">"-I../x264/android/arm/include"</span> \</span><br><span class="line"></span>-<span class="ruby">-extra-ldflags=<span class="string">"-L../x264/android/arm/lib"</span> \</span></span><br></pre></td></tr></table></figure>
-<p>FFmpeg默认的LICENSE是LGPL，而libx264需要GPL，所以加入<code>--enable-gpl</code>，最后面两项配置是配置编译x264出的头文件和静态链接库路径，在这里我把x264和FFmpeg放在了同一目录层级，故可这样配置。<br>如果你需要修改<code>--extra-cflags</code>和<code>--extra-ldflags</code>路径为自己x264头文件和静态链接库路径，必须符合<code>--extra-cflags</code>以-I开头，<code>--extra-ldflags</code>以-L开头，比如x264在桌面上，路径为：</p>
+<p>FFmpeg默认的LICENSE是LGPL，而libx264需要GPL，所以加入<code>--enable-gpl</code>，最后面两项配置是配置编译x264出的头文件和静态链接库路径，在这里我把x264和FFmpeg放在了同一目录层级，故可这样配置。<br>如果你需要修改<code>--extra-cflags</code>和<code>--extra-ldflags</code>路径为自己x264头文件和静态链接库路径，必须符合<code>--extra-cflags</code>以-I开头，<code>--extra-ldflags</code>以-L开头，这些参数含义为：</p>
+<blockquote>
+<p>-D：用于在编译时定义宏<br>-I：编译阶段生效的参数，用于指定头文件的搜索路径<br>-L：链接阶段生效的参数，用于指定链接库的搜索路径，-l用于指定链接库的名称，一般两者一起使用的话，就可以指定动态链接库</p>
+</blockquote>
+<p>比如x264在桌面上，路径为：</p>
 <figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">-extra-cflags=<span class="string">"-I/Users/Sunzxyong/Desktop/x264/android/arm/include"</span> \</span><br><span class="line"></span>-<span class="ruby">-extra-ldflags=<span class="string">"-L/Users/Sunzxyong/Desktop/x264/android/arm/lib"</span> \</span></span><br></pre></td></tr></table></figure>
 <p>然后进行编译，编译中可以看到encode的支持选择中，多了libx264的支持：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-13-14790203252342.jpg" alt=""></p>
 <p>其它外部添加库如fdk-aac、openh264等也类似方式链接编译</p>
