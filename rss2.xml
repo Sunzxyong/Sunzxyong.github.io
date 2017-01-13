@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <title>zhengxiaoyong</title>
-  <subtitle>生活不止眼前的苟且，还有诗，和远方.</subtitle>
-  <link href="/atom.xml" rel="self"/>
-  
-  <link href="http://zhengxiaoyong.me/"/>
-  <updated>2016-11-20T13:09:10.000Z</updated>
-  <id>http://zhengxiaoyong.me/</id>
-  
-  <author>
-    <name>郑晓勇</name>
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>zhengxiaoyong</title>
+    <link>http://zhengxiaoyong.me/</link>
+    <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
-  </author>
-  
-  <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>简述RTMPDump与编译移植</title>
-    <link href="http://zhengxiaoyong.me/2016/11/20/%E7%AE%80%E8%BF%B0RTMPDump%E4%B8%8E%E7%BC%96%E8%AF%91%E7%A7%BB%E6%A4%8D/"/>
-    <id>http://zhengxiaoyong.me/2016/11/20/简述RTMPDump与编译移植/</id>
-    <published>2016-11-20T11:47:59.000Z</published>
-    <updated>2016-11-20T13:09:10.000Z</updated>
+    <description></description>
+    <pubDate>Sun, 20 Nov 2016 13:09:10 GMT</pubDate>
+    <generator>http://hexo.io/</generator>
     
-    <content type="html"><![CDATA[<h2 id="RTMPDump概述"><a href="#RTMPDump概述" class="headerlink" title="RTMPDump概述"></a><strong>RTMPDump概述</strong></h2><p><a href="http://rtmpdump.mplayerhq.hu/" target="_blank" rel="external">RTMPDump主页</a>，RTMPDump库主要包含三部分：</p>
+    <item>
+      <title>简述RTMPDump与编译移植</title>
+      <link>http://zhengxiaoyong.me/2016/11/20/%E7%AE%80%E8%BF%B0RTMPDump%E4%B8%8E%E7%BC%96%E8%AF%91%E7%A7%BB%E6%A4%8D/</link>
+      <guid>http://zhengxiaoyong.me/2016/11/20/%E7%AE%80%E8%BF%B0RTMPDump%E4%B8%8E%E7%BC%96%E8%AF%91%E7%A7%BB%E6%A4%8D/</guid>
+      <pubDate>Sun, 20 Nov 2016 11:47:59 GMT</pubDate>
+      <description>
+      
+        &lt;h2 id=&quot;RTMPDump概述&quot;&gt;&lt;a href=&quot;#RTMPDump概述&quot; class=&quot;headerlink&quot; title=&quot;RTMPDump概述&quot;&gt;&lt;/a&gt;&lt;strong&gt;RTMPDump概述&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;http://rtmpdump.mplayerhq.hu/&quot;&gt;RTMPDump主页&lt;/a&gt;，RTMPDump库主要包含三部分：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1、一个基本的客户端程序&lt;br&gt;2、两个服务器程序（rtmpsrv、rtmpsuck）&lt;br&gt;3、一个支持rtmp协议的库—librtmp&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;下载RTMPDump最新源码，可以通过git拉取master分支上的最新代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight crmsh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git &lt;span class=&quot;keyword&quot;&gt;clone&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;git&lt;/span&gt;://git.ffmpeg.org/rtmpdump&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;或者下载以前版本的代码—&lt;a href=&quot;http://rtmpdump.mplayerhq.hu/download/&quot;&gt;Download old version&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;下面主要介绍librtmp和librtmp的编译&lt;/p&gt;
+&lt;h3 id=&quot;librtmp概述&quot;&gt;&lt;a href=&quot;#librtmp概述&quot; class=&quot;headerlink&quot; title=&quot;librtmp概述&quot;&gt;&lt;/a&gt;&lt;strong&gt;librtmp概述&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;librtmp库提供了大量客户端函数和少部分的服务器端的函数用来支持RTMP、RTMPT（RTMP使用Http通道），RTMPE（加密的RTMP），RTMPS（基于SSL/TLS的RTMP）和RTMPTE、RTMPTS（使用Http通道的加密和基于SSL/TLS的RTMP）协议&lt;/p&gt;
+&lt;p&gt;使用librtmp库进行的流媒体交互都是使用&lt;strong&gt;FLV&lt;/strong&gt;封包格式进行传输的，当然编码不限定，不过为了拉流端同时也支持&lt;strong&gt;HLS&lt;/strong&gt;协议，最好使用&lt;strong&gt;H264&lt;/strong&gt;编码视频和&lt;strong&gt;AAC&lt;/strong&gt;编码音频数据&lt;/p&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h2 id="RTMPDump概述"><a href="#RTMPDump概述" class="headerlink" title="RTMPDump概述"></a><strong>RTMPDump概述</strong></h2><p><a href="http://rtmpdump.mplayerhq.hu/" target="_blank" rel="external">RTMPDump主页</a>，RTMPDump库主要包含三部分：</p>
 <blockquote>
 <p>1、一个基本的客户端程序<br>2、两个服务器程序（rtmpsrv、rtmpsuck）<br>3、一个支持rtmp协议的库—librtmp</p>
 </blockquote>
@@ -96,42 +105,31 @@
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enabled librtmp           &amp;&amp; require_pkg_config librtmp librtmp/rtmp<span class="class">.h</span> RTMP_Socket</span><br></pre></td></tr></table></figure>
 <p>将后面的<code>&amp;&amp; require_pkg_config librtmp librtmp/rtmp.h RTMP_Socket</code>删了，因为FFmpeg在链接librtmp时会运行pkg-config，此时找不到pkg-config则会报错，当然还有链接其它库时如果发生类似错误也可以用同样的方法解决</p>
 <h2 id="Librtmp编译源码"><a href="#Librtmp编译源码" class="headerlink" title="Librtmp编译源码"></a><strong>Librtmp编译源码</strong></h2><p><a href="https://github.com/Sunzxyong/Librtmp-Compile-For-Android" target="_blank" rel="external">librtmp编译源码</a></p>
-]]></content>
+]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2016/11/20/%E7%AE%80%E8%BF%B0RTMPDump%E4%B8%8E%E7%BC%96%E8%AF%91%E7%A7%BB%E6%A4%8D/#disqus_thread</comments>
+    </item>
     
-    <summary type="html">
-    
-      &lt;h2 id=&quot;RTMPDump概述&quot;&gt;&lt;a href=&quot;#RTMPDump概述&quot; class=&quot;headerlink&quot; title=&quot;RTMPDump概述&quot;&gt;&lt;/a&gt;&lt;strong&gt;RTMPDump概述&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;http://rtmpdump.mplayerhq.hu/&quot;&gt;RTMPDump主页&lt;/a&gt;，RTMPDump库主要包含三部分：&lt;/p&gt;
+    <item>
+      <title>初识FFmpeg编译那些事</title>
+      <link>http://zhengxiaoyong.me/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/</link>
+      <guid>http://zhengxiaoyong.me/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
+      <pubDate>Sun, 13 Nov 2016 12:45:10 GMT</pubDate>
+      <description>
+      
+        &lt;h2 id=&quot;FFmpeg简介&quot;&gt;&lt;a href=&quot;#FFmpeg简介&quot; class=&quot;headerlink&quot; title=&quot;FFmpeg简介&quot;&gt;&lt;/a&gt;&lt;strong&gt;FFmpeg简介&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;FFMPEG是一套具有非常强大功能的多媒体处理工具，它几乎涵盖了目前所有主流的多媒体数据封装格式、多媒体传输协议以及音视频编解码器，并且支持多媒体后处理，视频色彩转换、滤镜和缩放等，也支持众多主流的协议：HTTP、RTP、RTSP、RTMP、HLS、UDP等&lt;br&gt;安装可以通过Homebrew&lt;/p&gt;
+&lt;p&gt;FFmpeg它主要含有以下几个核心库：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;1、一个基本的客户端程序&lt;br&gt;2、两个服务器程序（rtmpsrv、rtmpsuck）&lt;br&gt;3、一个支持rtmp协议的库—librtmp&lt;/p&gt;
+&lt;p&gt;1、libavcodec-提供了更加全面的编解码实现的合集&lt;br&gt;2、libavformat-提供了更加全面的音视频容器格式的封装和解析以及所支持的协议&lt;br&gt;3、libavutil-提供了一些公共函数&lt;br&gt;4、libavfilter-提供音视频的过滤器，如视频加水印、音频变声等&lt;br&gt;5、libavdevice-提供支持众多设备数据的输入与输出，如读取摄像头数据、屏幕录制&lt;br&gt;6、libswresample,libavresample-提供音频的重采样工具&lt;br&gt;7、libswscale-提供对视频图像进行色彩转换、缩放以及像素格式转换，如图像的YUV转换&lt;br&gt;8、libpostproc-多媒体后处理器&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;下载RTMPDump最新源码，可以通过git拉取master分支上的最新代码：&lt;/p&gt;
-&lt;figure class=&quot;highlight crmsh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git &lt;span class=&quot;keyword&quot;&gt;clone&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;git&lt;/span&gt;://git.ffmpeg.org/rtmpdump&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;或者下载以前版本的代码—&lt;a href=&quot;http://rtmpdump.mplayerhq.hu/download/&quot;&gt;Download old version&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;下面主要介绍librtmp和librtmp的编译&lt;/p&gt;
-&lt;h3 id=&quot;librtmp概述&quot;&gt;&lt;a href=&quot;#librtmp概述&quot; class=&quot;headerlink&quot; title=&quot;librtmp概述&quot;&gt;&lt;/a&gt;&lt;strong&gt;librtmp概述&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;librtmp库提供了大量客户端函数和少部分的服务器端的函数用来支持RTMP、RTMPT（RTMP使用Http通道），RTMPE（加密的RTMP），RTMPS（基于SSL/TLS的RTMP）和RTMPTE、RTMPTS（使用Http通道的加密和基于SSL/TLS的RTMP）协议&lt;/p&gt;
-&lt;p&gt;使用librtmp库进行的流媒体交互都是使用&lt;strong&gt;FLV&lt;/strong&gt;封包格式进行传输的，当然编码不限定，不过为了拉流端同时也支持&lt;strong&gt;HLS&lt;/strong&gt;协议，最好使用&lt;strong&gt;H264&lt;/strong&gt;编码视频和&lt;strong&gt;AAC&lt;/strong&gt;编码音频数据&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="流媒体" scheme="http://zhengxiaoyong.me/categories/%E6%B5%81%E5%AA%92%E4%BD%93/"/>
-    
-    
-      <category term="RTMPDump" scheme="http://zhengxiaoyong.me/tags/RTMPDump/"/>
-    
-      <category term="librtmp" scheme="http://zhengxiaoyong.me/tags/librtmp/"/>
-    
-      <category term="librtmp编译" scheme="http://zhengxiaoyong.me/tags/librtmp%E7%BC%96%E8%AF%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>初识FFmpeg编译那些事</title>
-    <link href="http://zhengxiaoyong.me/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/"/>
-    <id>http://zhengxiaoyong.me/2016/11/13/初识FFmpeg编译那些事/</id>
-    <published>2016-11-13T12:45:10.000Z</published>
-    <updated>2016-11-23T10:24:03.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="FFmpeg简介"><a href="#FFmpeg简介" class="headerlink" title="FFmpeg简介"></a><strong>FFmpeg简介</strong></h2><p>FFMPEG是一套具有非常强大功能的多媒体处理工具，它几乎涵盖了目前所有主流的多媒体数据封装格式、多媒体传输协议以及音视频编解码器，并且支持多媒体后处理，视频色彩转换、滤镜和缩放等，也支持众多主流的协议：HTTP、RTP、RTSP、RTMP、HLS、UDP等<br>安装可以通过Homebrew</p>
+&lt;p&gt;以及包含以下几个工具：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1、ffmpeg-一个流媒体的编解码、格式转换以及多媒体流的内容处理工具&lt;br&gt;2、ffplay-一个使用FFmpeg编解码的播放器&lt;br&gt;3、ffprobe-一个多媒体分析工具&lt;br&gt;4、ffserver-一个流多媒体服务器&lt;/p&gt;
+&lt;/blockquote&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h2 id="FFmpeg简介"><a href="#FFmpeg简介" class="headerlink" title="FFmpeg简介"></a><strong>FFmpeg简介</strong></h2><p>FFMPEG是一套具有非常强大功能的多媒体处理工具，它几乎涵盖了目前所有主流的多媒体数据封装格式、多媒体传输协议以及音视频编解码器，并且支持多媒体后处理，视频色彩转换、滤镜和缩放等，也支持众多主流的协议：HTTP、RTP、RTSP、RTMP、HLS、UDP等<br>安装可以通过Homebrew</p>
 <p>FFmpeg它主要含有以下几个核心库：</p>
 <blockquote>
 <p>1、libavcodec-提供了更加全面的编解码实现的合集<br>2、libavformat-提供了更加全面的音视频容器格式的封装和解析以及所支持的协议<br>3、libavutil-提供了一些公共函数<br>4、libavfilter-提供音视频的过滤器，如视频加水印、音频变声等<br>5、libavdevice-提供支持众多设备数据的输入与输出，如读取摄像头数据、屏幕录制<br>6、libswresample,libavresample-提供音频的重采样工具<br>7、libswscale-提供对视频图像进行色彩转换、缩放以及像素格式转换，如图像的YUV转换<br>8、libpostproc-多媒体后处理器</p>
@@ -196,41 +194,28 @@
 <p>然后进行编译，编译中可以看到encode的支持选择中，多了libx264的支持：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2016-11-13-14790203252342.jpg" alt=""></p>
 <p>其它外部添加库如fdk-aac、openh264等也类似方式链接编译</p>
 <h2 id="Github"><a href="#Github" class="headerlink" title="Github"></a><strong>Github</strong></h2><p><a href="https://github.com/Sunzxyong/FFmpeg-Compile-For-Android" target="_blank" rel="external">FFmpeg编译脚本</a></p>
-]]></content>
+]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/#disqus_thread</comments>
+    </item>
     
-    <summary type="html">
-    
-      &lt;h2 id=&quot;FFmpeg简介&quot;&gt;&lt;a href=&quot;#FFmpeg简介&quot; class=&quot;headerlink&quot; title=&quot;FFmpeg简介&quot;&gt;&lt;/a&gt;&lt;strong&gt;FFmpeg简介&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;FFMPEG是一套具有非常强大功能的多媒体处理工具，它几乎涵盖了目前所有主流的多媒体数据封装格式、多媒体传输协议以及音视频编解码器，并且支持多媒体后处理，视频色彩转换、滤镜和缩放等，也支持众多主流的协议：HTTP、RTP、RTSP、RTMP、HLS、UDP等&lt;br&gt;安装可以通过Homebrew&lt;/p&gt;
-&lt;p&gt;FFmpeg它主要含有以下几个核心库：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;1、libavcodec-提供了更加全面的编解码实现的合集&lt;br&gt;2、libavformat-提供了更加全面的音视频容器格式的封装和解析以及所支持的协议&lt;br&gt;3、libavutil-提供了一些公共函数&lt;br&gt;4、libavfilter-提供音视频的过滤器，如视频加水印、音频变声等&lt;br&gt;5、libavdevice-提供支持众多设备数据的输入与输出，如读取摄像头数据、屏幕录制&lt;br&gt;6、libswresample,libavresample-提供音频的重采样工具&lt;br&gt;7、libswscale-提供对视频图像进行色彩转换、缩放以及像素格式转换，如图像的YUV转换&lt;br&gt;8、libpostproc-多媒体后处理器&lt;/p&gt;
+    <item>
+      <title>Android运行时Crash自动恢复框架-Recovery</title>
+      <link>http://zhengxiaoyong.me/2016/09/05/Android%E8%BF%90%E8%A1%8C%E6%97%B6Crash%E8%87%AA%E5%8A%A8%E6%81%A2%E5%A4%8D%E6%A1%86%E6%9E%B6-Recovery/</link>
+      <guid>http://zhengxiaoyong.me/2016/09/05/Android%E8%BF%90%E8%A1%8C%E6%97%B6Crash%E8%87%AA%E5%8A%A8%E6%81%A2%E5%A4%8D%E6%A1%86%E6%9E%B6-Recovery/</guid>
+      <pubDate>Mon, 05 Sep 2016 11:35:32 GMT</pubDate>
+      <description>
+      
+        &lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;&lt;strong&gt;简介&lt;/strong&gt;&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;App Crash的恢复，这个想法很早之前就有，目前有些时间就实现了一把，主要是对App运行时发生Crash后，对Activity的堆栈和数据进行恢复，或者重启应用，或者重启并清空缓存，避免因本地的数据类型或格式错误而导致App在读取时一直Crash，Debug模式还包括Crash信息的显示和保存，便于在开发、测试时查看相应CrashInfo&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;以及包含以下几个工具：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;1、ffmpeg-一个流媒体的编解码、格式转换以及多媒体流的内容处理工具&lt;br&gt;2、ffplay-一个使用FFmpeg编解码的播放器&lt;br&gt;3、ffprobe-一个多媒体分析工具&lt;br&gt;4、ffserver-一个流多媒体服务器&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="流媒体" scheme="http://zhengxiaoyong.me/categories/%E6%B5%81%E5%AA%92%E4%BD%93/"/>
-    
-    
-      <category term="FFmpeg" scheme="http://zhengxiaoyong.me/tags/FFmpeg/"/>
-    
-      <category term="FFmpeg编译" scheme="http://zhengxiaoyong.me/tags/FFmpeg%E7%BC%96%E8%AF%91/"/>
-    
-      <category term="x264" scheme="http://zhengxiaoyong.me/tags/x264/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Android运行时Crash自动恢复框架-Recovery</title>
-    <link href="http://zhengxiaoyong.me/2016/09/05/Android%E8%BF%90%E8%A1%8C%E6%97%B6Crash%E8%87%AA%E5%8A%A8%E6%81%A2%E5%A4%8D%E6%A1%86%E6%9E%B6-Recovery/"/>
-    <id>http://zhengxiaoyong.me/2016/09/05/Android运行时Crash自动恢复框架-Recovery/</id>
-    <published>2016-09-05T11:35:32.000Z</published>
-    <updated>2016-09-08T09:13:30.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h1><blockquote>
+&lt;h1 id=&quot;Crash的处理&quot;&gt;&lt;a href=&quot;#Crash的处理&quot; class=&quot;headerlink&quot; title=&quot;Crash的处理&quot;&gt;&lt;/a&gt;&lt;strong&gt;Crash的处理&lt;/strong&gt;&lt;/h1&gt;&lt;p&gt;对于应用的Crash，一般的做法我们往往都是实现个自定义&lt;code&gt;UncaughtExceptionHandler&lt;/code&gt;，而这个自定义的CustomUncaughtHandler我们一般都用于捕捉Crash信息进行上报和监控是否发生Crash，还有一个作用就是可以屏蔽系统默认的Crash对话框，也就是拦截Crash后不把系统默认的UncaughtHandler设置进去，而是直接进行KillProcess，这个过程就是屏蔽了系统的默认Crash处理流程，原因是系统的处理其中在AMS的crashApplication()中会执行这么一段代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight nimrod&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;type&quot;&gt;Message&lt;/span&gt; msg = &lt;span class=&quot;type&quot;&gt;Message&lt;/span&gt;.obtain();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;msg.what = &lt;span class=&quot;type&quot;&gt;SHOW_ERROR_MSG&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;type&quot;&gt;HashMap&lt;/span&gt; data = new &lt;span class=&quot;type&quot;&gt;HashMap&lt;/span&gt;();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;data.put(&lt;span class=&quot;string&quot;&gt;&quot;result&quot;&lt;/span&gt;, &lt;span class=&quot;literal&quot;&gt;result&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;data.put(&lt;span class=&quot;string&quot;&gt;&quot;app&quot;&lt;/span&gt;, r);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;msg.obj = data;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mUiHandler.sendMessage(msg);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;发送一个显示Dialog的消息，之后便创建一个AppErrorDialog进行显示。&lt;br&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h1><blockquote>
 <p>App Crash的恢复，这个想法很早之前就有，目前有些时间就实现了一把，主要是对App运行时发生Crash后，对Activity的堆栈和数据进行恢复，或者重启应用，或者重启并清空缓存，避免因本地的数据类型或格式错误而导致App在读取时一直Crash，Debug模式还包括Crash信息的显示和保存，便于在开发、测试时查看相应CrashInfo</p>
 </blockquote>
 <h1 id="Crash的处理"><a href="#Crash的处理" class="headerlink" title="Crash的处理"></a><strong>Crash的处理</strong></h1><p>对于应用的Crash，一般的做法我们往往都是实现个自定义<code>UncaughtExceptionHandler</code>，而这个自定义的CustomUncaughtHandler我们一般都用于捕捉Crash信息进行上报和监控是否发生Crash，还有一个作用就是可以屏蔽系统默认的Crash对话框，也就是拦截Crash后不把系统默认的UncaughtHandler设置进去，而是直接进行KillProcess，这个过程就是屏蔽了系统的默认Crash处理流程，原因是系统的处理其中在AMS的crashApplication()中会执行这么一段代码：</p>
@@ -251,36 +236,24 @@
 <h2 id="无图言屌"><a href="#无图言屌" class="headerlink" title="无图言屌"></a><strong>无图言屌</strong></h2><p>下面是效果图：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/recovery.gif" alt="Gif"></p>
 <p>静默恢复的效果图：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/recovery_silence.gif" alt="silence"></p>
 <h2 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a><strong>项目地址</strong></h2><p>欢迎star或提建议</p>
-<h3 id="还是戳我"><a href="#还是戳我" class="headerlink" title="还是戳我"></a><a href="https://github.com/Sunzxyong/Recovery" target="_blank" rel="external">还是戳我</a></h3>]]></content>
+<h3 id="还是戳我"><a href="#还是戳我" class="headerlink" title="还是戳我"></a><a href="https://github.com/Sunzxyong/Recovery" target="_blank" rel="external">还是戳我</a></h3>]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2016/09/05/Android%E8%BF%90%E8%A1%8C%E6%97%B6Crash%E8%87%AA%E5%8A%A8%E6%81%A2%E5%A4%8D%E6%A1%86%E6%9E%B6-Recovery/#disqus_thread</comments>
+    </item>
     
-    <summary type="html">
-    
-      &lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;&lt;strong&gt;简介&lt;/strong&gt;&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;App Crash的恢复，这个想法很早之前就有，目前有些时间就实现了一把，主要是对App运行时发生Crash后，对Activity的堆栈和数据进行恢复，或者重启应用，或者重启并清空缓存，避免因本地的数据类型或格式错误而导致App在读取时一直Crash，Debug模式还包括Crash信息的显示和保存，便于在开发、测试时查看相应CrashInfo&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1 id=&quot;Crash的处理&quot;&gt;&lt;a href=&quot;#Crash的处理&quot; class=&quot;headerlink&quot; title=&quot;Crash的处理&quot;&gt;&lt;/a&gt;&lt;strong&gt;Crash的处理&lt;/strong&gt;&lt;/h1&gt;&lt;p&gt;对于应用的Crash，一般的做法我们往往都是实现个自定义&lt;code&gt;UncaughtExceptionHandler&lt;/code&gt;，而这个自定义的CustomUncaughtHandler我们一般都用于捕捉Crash信息进行上报和监控是否发生Crash，还有一个作用就是可以屏蔽系统默认的Crash对话框，也就是拦截Crash后不把系统默认的UncaughtHandler设置进去，而是直接进行KillProcess，这个过程就是屏蔽了系统的默认Crash处理流程，原因是系统的处理其中在AMS的crashApplication()中会执行这么一段代码：&lt;/p&gt;
-&lt;figure class=&quot;highlight nimrod&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;type&quot;&gt;Message&lt;/span&gt; msg = &lt;span class=&quot;type&quot;&gt;Message&lt;/span&gt;.obtain();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;msg.what = &lt;span class=&quot;type&quot;&gt;SHOW_ERROR_MSG&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;type&quot;&gt;HashMap&lt;/span&gt; data = new &lt;span class=&quot;type&quot;&gt;HashMap&lt;/span&gt;();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;data.put(&lt;span class=&quot;string&quot;&gt;&quot;result&quot;&lt;/span&gt;, &lt;span class=&quot;literal&quot;&gt;result&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;data.put(&lt;span class=&quot;string&quot;&gt;&quot;app&quot;&lt;/span&gt;, r);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;msg.obj = data;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mUiHandler.sendMessage(msg);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;发送一个显示Dialog的消息，之后便创建一个AppErrorDialog进行显示。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术沉淀" scheme="http://zhengxiaoyong.me/categories/%E6%8A%80%E6%9C%AF%E6%B2%89%E6%B7%80/"/>
-    
-    
-      <category term="ActivityStack恢复" scheme="http://zhengxiaoyong.me/tags/ActivityStack%E6%81%A2%E5%A4%8D/"/>
-    
-      <category term="Crash恢复" scheme="http://zhengxiaoyong.me/tags/Crash%E6%81%A2%E5%A4%8D/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Android端应用秒开优化体验</title>
-    <link href="http://zhengxiaoyong.me/2016/07/18/Android%E7%AB%AF%E5%BA%94%E7%94%A8%E7%A7%92%E5%BC%80%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/"/>
-    <id>http://zhengxiaoyong.me/2016/07/18/Android端应用秒开优化体验/</id>
-    <published>2016-07-18T13:43:26.000Z</published>
-    <updated>2016-09-08T10:36:53.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>最近部门内抛出了一个问题，应用启动很慢、卡图标？主要表现在中低端机型中。究其这个问题，由于对性能优化比较感兴趣，借了个低端机和一个中端机来一看究竟，对同一应用分别测了下它在中低端机的启动时间，下面为启动耗时情况：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/launch_one.jpg" alt=""></p>
+    <item>
+      <title>Android端应用秒开优化体验</title>
+      <link>http://zhengxiaoyong.me/2016/07/18/Android%E7%AB%AF%E5%BA%94%E7%94%A8%E7%A7%92%E5%BC%80%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/</link>
+      <guid>http://zhengxiaoyong.me/2016/07/18/Android%E7%AB%AF%E5%BA%94%E7%94%A8%E7%A7%92%E5%BC%80%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/</guid>
+      <pubDate>Mon, 18 Jul 2016 13:43:26 GMT</pubDate>
+      <description>
+      
+        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;&lt;strong&gt;前言&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;最近部门内抛出了一个问题，应用启动很慢、卡图标？主要表现在中低端机型中。究其这个问题，由于对性能优化比较感兴趣，借了个低端机和一个中端机来一看究竟，对同一应用分别测了下它在中低端机的启动时间，下面为启动耗时情况：&lt;br&gt;&lt;img src=&quot;http://7xswxf.com2.z0.glb.qiniucdn.com/blog/launch_one.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;启动了三次，基本都在4s左右。&lt;br&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>最近部门内抛出了一个问题，应用启动很慢、卡图标？主要表现在中低端机型中。究其这个问题，由于对性能优化比较感兴趣，借了个低端机和一个中端机来一看究竟，对同一应用分别测了下它在中低端机的启动时间，下面为启动耗时情况：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/launch_one.jpg" alt=""></p>
 <p>启动了三次，基本都在4s左右。<br><a id="more"></a></p>
 <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a><strong>原因</strong></h2><p>究其原因，主要因素是任务在界面绘制前过于集中化。</p>
 <p>应用启动过程从用户点击launcher图标到看到第一帧这个过程中，主要会经过以下这些过程：</p>
@@ -309,32 +282,25 @@
 </blockquote>
 <p>这些Case可能导致的问题是被跳入的界面使用到了未初始化的SDK，可能导致Crash或者数据异常，所以目标页面启动前必须确保SDK已经初始化，这个过程的原因是没有唤起启动页来初始化SDK，可以通过hook newActivity解决，其中判断Application是否初始化和各个SDK是否初始化，并且判断该次启动不来自系统的Launcher。</p>
 <figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function">Activity <span class="title">newActivity</span><span class="params">(ClassLoader cl, String className, Intent intent)</span> <span class="keyword">throws</span> InstantiationException, IllegalAccessException, ClassNotFoundException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (InitializeOptimizer.isApplicationCreated()</span><br><span class="line">            &amp;&amp; (!InitializeOptimizer.isHighSDKInitialized()</span><br><span class="line">            || !InitializeOptimizer.isLowSDKInitialized()</span><br><span class="line">            || !InitializeOptimizer.isAsyncSDKInitialized()) &amp;&amp; !InitializeUtil.isAppLauncher(intent)) &#123;</span><br><span class="line">        InitializeOptimizer.setApplicationCreated(<span class="keyword">false</span>);</span><br><span class="line">        intent.addCategory(InitializeUtil.INITIALIZE_CATEGORY);</span><br><span class="line">        <span class="keyword">return</span> (Activity) cl.loadClass(WDInitializeOptimizer.getLaunchClassName()).newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">    InitializeOptimizer.setApplicationCreated(<span class="keyword">false</span>);</span><br><span class="line">    <span class="function"><span class="keyword">return</span> <span class="keyword">super</span>.<span class="title">newActivity</span><span class="params">(cl, className, intent)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
+]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2016/07/18/Android%E7%AB%AF%E5%BA%94%E7%94%A8%E7%A7%92%E5%BC%80%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/#disqus_thread</comments>
+    </item>
     
-    <summary type="html">
-    
-      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;&lt;strong&gt;前言&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;最近部门内抛出了一个问题，应用启动很慢、卡图标？主要表现在中低端机型中。究其这个问题，由于对性能优化比较感兴趣，借了个低端机和一个中端机来一看究竟，对同一应用分别测了下它在中低端机的启动时间，下面为启动耗时情况：&lt;br&gt;&lt;img src=&quot;http://7xswxf.com2.z0.glb.qiniucdn.com/blog/launch_one.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;启动了三次，基本都在4s左右。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="性能优化" scheme="http://zhengxiaoyong.me/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-    
-      <category term="启动优化" scheme="http://zhengxiaoyong.me/tags/%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/"/>
-    
-      <category term="应用秒开" scheme="http://zhengxiaoyong.me/tags/%E5%BA%94%E7%94%A8%E7%A7%92%E5%BC%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>UrlRouter路由框架的设计</title>
-    <link href="http://zhengxiaoyong.me/2016/04/24/UrlRouter%E8%B7%AF%E7%94%B1%E6%A1%86%E6%9E%B6%E7%9A%84%E8%AE%BE%E8%AE%A1/"/>
-    <id>http://zhengxiaoyong.me/2016/04/24/UrlRouter路由框架的设计/</id>
-    <published>2016-04-24T14:10:36.000Z</published>
-    <updated>2016-07-17T08:03:36.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="UrlRouter的设计"><a href="#UrlRouter的设计" class="headerlink" title="UrlRouter的设计"></a><strong>UrlRouter的设计</strong></h2><h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a><strong>目的</strong></h3><blockquote>
+    <item>
+      <title>UrlRouter路由框架的设计</title>
+      <link>http://zhengxiaoyong.me/2016/04/24/UrlRouter%E8%B7%AF%E7%94%B1%E6%A1%86%E6%9E%B6%E7%9A%84%E8%AE%BE%E8%AE%A1/</link>
+      <guid>http://zhengxiaoyong.me/2016/04/24/UrlRouter%E8%B7%AF%E7%94%B1%E6%A1%86%E6%9E%B6%E7%9A%84%E8%AE%BE%E8%AE%A1/</guid>
+      <pubDate>Sun, 24 Apr 2016 14:10:36 GMT</pubDate>
+      <description>
+      
+        &lt;h2 id=&quot;UrlRouter的设计&quot;&gt;&lt;a href=&quot;#UrlRouter的设计&quot; class=&quot;headerlink&quot; title=&quot;UrlRouter的设计&quot;&gt;&lt;/a&gt;&lt;strong&gt;UrlRouter的设计&lt;/strong&gt;&lt;/h2&gt;&lt;h3 id=&quot;目的&quot;&gt;&lt;a href=&quot;#目的&quot; class=&quot;headerlink&quot; title=&quot;目的&quot;&gt;&lt;/a&gt;&lt;strong&gt;目的&lt;/strong&gt;&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;1、可取代使用startActivity、startActivityForResult跳转的情景，便于协同开发&lt;br&gt;2、通过一串url可任意跳转到指定界面，使用应尽可能简单&lt;br&gt;3、支持各种类型参数传递、界面转场动画&lt;br&gt;4、可获取起跳界面的路径和当前界面路径，以便支持后期埋点等需求&lt;br&gt;5、支持从H5到Native，Native到H5，这是Hybrid开发模式中常用到的需求&lt;br&gt;6、对于push、浏览器外链跳转等可方便配置化，通过一个url来跳转指定界面&lt;/p&gt;
+&lt;/blockquote&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h2 id="UrlRouter的设计"><a href="#UrlRouter的设计" class="headerlink" title="UrlRouter的设计"></a><strong>UrlRouter的设计</strong></h2><h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a><strong>目的</strong></h3><blockquote>
 <p>1、可取代使用startActivity、startActivityForResult跳转的情景，便于协同开发<br>2、通过一串url可任意跳转到指定界面，使用应尽可能简单<br>3、支持各种类型参数传递、界面转场动画<br>4、可获取起跳界面的路径和当前界面路径，以便支持后期埋点等需求<br>5、支持从H5到Native，Native到H5，这是Hybrid开发模式中常用到的需求<br>6、对于push、浏览器外链跳转等可方便配置化，通过一个url来跳转指定界面</p>
 </blockquote>
 <a id="more"></a>
@@ -370,33 +336,25 @@
 <figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UrlRouter.<span class="keyword">from</span>(<span class="keyword">this</span>).jumpToMain(<span class="string">"activity://native/main"</span>);</span><br></pre></td></tr></table></figure>
 <p>这样的方式非常简洁，而且维护也非常方便，因为统一都是在manifest文件中配置，最重要的是没有其它UrlRouter框架那么复杂繁重，最终封的框架只有三个类，简洁精悍！！！</p>
 <h2 id="UrlRouter地址"><a href="#UrlRouter地址" class="headerlink" title="UrlRouter地址"></a><strong>UrlRouter地址</strong></h2><p>UrlRouter：<a href="https://github.com/Sunzxyong/UrlRouter" target="_blank" rel="external">github</a></p>
-]]></content>
+]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2016/04/24/UrlRouter%E8%B7%AF%E7%94%B1%E6%A1%86%E6%9E%B6%E7%9A%84%E8%AE%BE%E8%AE%A1/#disqus_thread</comments>
+    </item>
     
-    <summary type="html">
-    
-      &lt;h2 id=&quot;UrlRouter的设计&quot;&gt;&lt;a href=&quot;#UrlRouter的设计&quot; class=&quot;headerlink&quot; title=&quot;UrlRouter的设计&quot;&gt;&lt;/a&gt;&lt;strong&gt;UrlRouter的设计&lt;/strong&gt;&lt;/h2&gt;&lt;h3 id=&quot;目的&quot;&gt;&lt;a href=&quot;#目的&quot; class=&quot;headerlink&quot; title=&quot;目的&quot;&gt;&lt;/a&gt;&lt;strong&gt;目的&lt;/strong&gt;&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;1、可取代使用startActivity、startActivityForResult跳转的情景，便于协同开发&lt;br&gt;2、通过一串url可任意跳转到指定界面，使用应尽可能简单&lt;br&gt;3、支持各种类型参数传递、界面转场动画&lt;br&gt;4、可获取起跳界面的路径和当前界面路径，以便支持后期埋点等需求&lt;br&gt;5、支持从H5到Native，Native到H5，这是Hybrid开发模式中常用到的需求&lt;br&gt;6、对于push、浏览器外链跳转等可方便配置化，通过一个url来跳转指定界面&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="技术沉淀" scheme="http://zhengxiaoyong.me/categories/%E6%8A%80%E6%9C%AF%E6%B2%89%E6%B7%80/"/>
-    
-    
-      <category term="UrlRouter" scheme="http://zhengxiaoyong.me/tags/UrlRouter/"/>
-    
-      <category term="路由框架" scheme="http://zhengxiaoyong.me/tags/%E8%B7%AF%E7%94%B1%E6%A1%86%E6%9E%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Native与H5交互的那些事</title>
-    <link href="http://zhengxiaoyong.me/2016/04/20/Native%E4%B8%8EH5%E4%BA%A4%E4%BA%92%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/"/>
-    <id>http://zhengxiaoyong.me/2016/04/20/Native与H5交互的那些事/</id>
-    <published>2016-04-20T04:55:28.000Z</published>
-    <updated>2016-05-18T05:07:11.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>Hybrid开发模式目前几乎每家公司都有涉及和使用，这种开发模式兼具良好的Native用户交互体验的优势与WebApp跨平台的优势，而这种模式，在Android中必然需要WebView作为载体来展示H5内容和进行交互，而WebView的各种安全性、兼容性的问题，我想大多数人与它友谊的小床已经翻了，特别是4.2版本之前的addjavascriptInterface接口引起的漏洞，可能导致恶意网页通过Js方法遍历刚刚通过addjavascriptInterface注入进来的类的所有方法从中获取到getClass方法，然后通过反射获取到Runtime对象，进而调用Runtime对象的exec方法执行一些操作，恶意的Js代码如下：</p>
+    <item>
+      <title>Native与H5交互的那些事</title>
+      <link>http://zhengxiaoyong.me/2016/04/20/Native%E4%B8%8EH5%E4%BA%A4%E4%BA%92%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link>
+      <guid>http://zhengxiaoyong.me/2016/04/20/Native%E4%B8%8EH5%E4%BA%A4%E4%BA%92%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
+      <pubDate>Wed, 20 Apr 2016 04:55:28 GMT</pubDate>
+      <description>
+      
+        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;&lt;strong&gt;前言&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;Hybrid开发模式目前几乎每家公司都有涉及和使用，这种开发模式兼具良好的Native用户交互体验的优势与WebApp跨平台的优势，而这种模式，在Android中必然需要WebView作为载体来展示H5内容和进行交互，而WebView的各种安全性、兼容性的问题，我想大多数人与它友谊的小床已经翻了，特别是4.2版本之前的addjavascriptInterface接口引起的漏洞，可能导致恶意网页通过Js方法遍历刚刚通过addjavascriptInterface注入进来的类的所有方法从中获取到getClass方法，然后通过反射获取到Runtime对象，进而调用Runtime对象的exec方法执行一些操作，恶意的Js代码如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;execute&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;cmdArgs&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; obj &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;window&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (&lt;span class=&quot;string&quot;&gt;&quot;getClass&quot;&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;window&lt;/span&gt;[obj]) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            alert(obj);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt;  &lt;span class=&quot;built_in&quot;&gt;window&lt;/span&gt;[obj].getClass().forName(&lt;span class=&quot;string&quot;&gt;&quot;java.lang.Runtime&quot;&lt;/span&gt;)  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                 .getMethod(&lt;span class=&quot;string&quot;&gt;&quot;getRuntime&quot;&lt;/span&gt;,&lt;span class=&quot;literal&quot;&gt;null&lt;/span&gt;).invoke(&lt;span class=&quot;literal&quot;&gt;null&lt;/span&gt;,&lt;span class=&quot;literal&quot;&gt;null&lt;/span&gt;).exec(cmdArgs);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;为了避免这个漏洞，即需要限制Js代码能够调用到的Native方法，官方于是在从4.2开始的版本可以通过为可以被Js调用的方法添加&lt;code&gt;@JavascriptInterface&lt;/code&gt;注解来解决，而之前的版本虽然不能通过这种方法解决，但是可以使用Js的&lt;code&gt;prompt&lt;/code&gt;方法进行解决，只不过&lt;code&gt;需要和前端协商好一套公共的协议&lt;/code&gt;，除此之外，为了避免WebView加载任意url，也需要对url进行白名单检测，由于Android碎片化太严重，WebView也存在兼容性问题，WebView的内核也在4.4版本进行了改变，由webkit改为chromium，此外WebView还有一个非常明显的问题，就是内存泄露，根本原因就是Activity与WebView关联后，WebView内部的一些操作的执行在新线程中，这些时间无法确定，而可能导致WebView一直持有Activity的引用，不能回收。下面就谈谈怎样正确安全的让Native与H5交互&lt;br&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>Hybrid开发模式目前几乎每家公司都有涉及和使用，这种开发模式兼具良好的Native用户交互体验的优势与WebApp跨平台的优势，而这种模式，在Android中必然需要WebView作为载体来展示H5内容和进行交互，而WebView的各种安全性、兼容性的问题，我想大多数人与它友谊的小床已经翻了，特别是4.2版本之前的addjavascriptInterface接口引起的漏洞，可能导致恶意网页通过Js方法遍历刚刚通过addjavascriptInterface注入进来的类的所有方法从中获取到getClass方法，然后通过反射获取到Runtime对象，进而调用Runtime对象的exec方法执行一些操作，恶意的Js代码如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">execute</span>(<span class="params">cmdArgs</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> obj <span class="keyword">in</span> <span class="built_in">window</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"getClass"</span> <span class="keyword">in</span> <span class="built_in">window</span>[obj]) &#123;</span><br><span class="line">            alert(obj);</span><br><span class="line">            <span class="keyword">return</span>  <span class="built_in">window</span>[obj].getClass().forName(<span class="string">"java.lang.Runtime"</span>)  </span><br><span class="line">                 .getMethod(<span class="string">"getRuntime"</span>,<span class="literal">null</span>).invoke(<span class="literal">null</span>,<span class="literal">null</span>).exec(cmdArgs);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>为了避免这个漏洞，即需要限制Js代码能够调用到的Native方法，官方于是在从4.2开始的版本可以通过为可以被Js调用的方法添加<code>@JavascriptInterface</code>注解来解决，而之前的版本虽然不能通过这种方法解决，但是可以使用Js的<code>prompt</code>方法进行解决，只不过<code>需要和前端协商好一套公共的协议</code>，除此之外，为了避免WebView加载任意url，也需要对url进行白名单检测，由于Android碎片化太严重，WebView也存在兼容性问题，WebView的内核也在4.4版本进行了改变，由webkit改为chromium，此外WebView还有一个非常明显的问题，就是内存泄露，根本原因就是Activity与WebView关联后，WebView内部的一些操作的执行在新线程中，这些时间无法确定，而可能导致WebView一直持有Activity的引用，不能回收。下面就谈谈怎样正确安全的让Native与H5交互<br><a id="more"></a></p>
 <h2 id="Native与H5怎样安全的进行交互？"><a href="#Native与H5怎样安全的进行交互？" class="headerlink" title="Native与H5怎样安全的进行交互？"></a><strong>Native与H5怎样安全的进行交互？</strong></h2><p>要使得H5内的Js与Native之间安全的相互进行调用，我们除了可以通过添加<code>@JavascriptInterface</code>注解来解决（&gt;=4.2），还有通过<code>prompt</code>的方式，不过如果使用官方的方式，这就需要对4.2以下做兼容了，这样使得我们一个app中有两套Js与Native交互的方式，这样极其不好维护，我们应该只需要一套Js与Native交互的方式，所以，我们借助Js中的<code>prompt</code>方法来实现<code>一套安全的Js与Native交互的JsBridge框架</code></p>
@@ -508,37 +466,27 @@
 <p><strong>JsBridge地址</strong>：<a href="https://github.com/Sunzxyong/RainbowBridge" target="_blank" rel="external">RainbowBridge</a></p>
 <hr>
 <p><strong>—转载请注明出处</strong></p>
-]]></content>
+]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2016/04/20/Native%E4%B8%8EH5%E4%BA%A4%E4%BA%92%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/#disqus_thread</comments>
+    </item>
     
-    <summary type="html">
-    
-      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;&lt;strong&gt;前言&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;Hybrid开发模式目前几乎每家公司都有涉及和使用，这种开发模式兼具良好的Native用户交互体验的优势与WebApp跨平台的优势，而这种模式，在Android中必然需要WebView作为载体来展示H5内容和进行交互，而WebView的各种安全性、兼容性的问题，我想大多数人与它友谊的小床已经翻了，特别是4.2版本之前的addjavascriptInterface接口引起的漏洞，可能导致恶意网页通过Js方法遍历刚刚通过addjavascriptInterface注入进来的类的所有方法从中获取到getClass方法，然后通过反射获取到Runtime对象，进而调用Runtime对象的exec方法执行一些操作，恶意的Js代码如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;execute&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;cmdArgs&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; obj &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;window&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (&lt;span class=&quot;string&quot;&gt;&quot;getClass&quot;&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;window&lt;/span&gt;[obj]) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            alert(obj);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt;  &lt;span class=&quot;built_in&quot;&gt;window&lt;/span&gt;[obj].getClass().forName(&lt;span class=&quot;string&quot;&gt;&quot;java.lang.Runtime&quot;&lt;/span&gt;)  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                 .getMethod(&lt;span class=&quot;string&quot;&gt;&quot;getRuntime&quot;&lt;/span&gt;,&lt;span class=&quot;literal&quot;&gt;null&lt;/span&gt;).invoke(&lt;span class=&quot;literal&quot;&gt;null&lt;/span&gt;,&lt;span class=&quot;literal&quot;&gt;null&lt;/span&gt;).exec(cmdArgs);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;为了避免这个漏洞，即需要限制Js代码能够调用到的Native方法，官方于是在从4.2开始的版本可以通过为可以被Js调用的方法添加&lt;code&gt;@JavascriptInterface&lt;/code&gt;注解来解决，而之前的版本虽然不能通过这种方法解决，但是可以使用Js的&lt;code&gt;prompt&lt;/code&gt;方法进行解决，只不过&lt;code&gt;需要和前端协商好一套公共的协议&lt;/code&gt;，除此之外，为了避免WebView加载任意url，也需要对url进行白名单检测，由于Android碎片化太严重，WebView也存在兼容性问题，WebView的内核也在4.4版本进行了改变，由webkit改为chromium，此外WebView还有一个非常明显的问题，就是内存泄露，根本原因就是Activity与WebView关联后，WebView内部的一些操作的执行在新线程中，这些时间无法确定，而可能导致WebView一直持有Activity的引用，不能回收。下面就谈谈怎样正确安全的让Native与H5交互&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术沉淀" scheme="http://zhengxiaoyong.me/categories/%E6%8A%80%E6%9C%AF%E6%B2%89%E6%B7%80/"/>
-    
-    
-      <category term="JsBridge" scheme="http://zhengxiaoyong.me/tags/JsBridge/"/>
-    
-      <category term="WebView" scheme="http://zhengxiaoyong.me/tags/WebView/"/>
-    
-      <category term="WebView安全" scheme="http://zhengxiaoyong.me/tags/WebView%E5%AE%89%E5%85%A8/"/>
-    
-      <category term="兼容性" scheme="http://zhengxiaoyong.me/tags/%E5%85%BC%E5%AE%B9%E6%80%A7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Android性能优化之Bitmap的内存优化</title>
-    <link href="http://zhengxiaoyong.me/2016/02/23/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8BBitmap%E7%9A%84%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/"/>
-    <id>http://zhengxiaoyong.me/2016/02/23/Android性能优化之Bitmap的内存优化/</id>
-    <published>2016-02-23T02:53:30.000Z</published>
-    <updated>2016-05-06T06:43:14.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="BitmapFactory解析Bitmap的原理"><a href="#BitmapFactory解析Bitmap的原理" class="headerlink" title="BitmapFactory解析Bitmap的原理"></a><strong>BitmapFactory解析Bitmap的原理</strong></h2><p>BitmapFactory提供的解析Bitmap的静态工厂方法有以下五种：</p>
+    <item>
+      <title>Android性能优化之Bitmap的内存优化</title>
+      <link>http://zhengxiaoyong.me/2016/02/23/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8BBitmap%E7%9A%84%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/</link>
+      <guid>http://zhengxiaoyong.me/2016/02/23/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8BBitmap%E7%9A%84%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/</guid>
+      <pubDate>Tue, 23 Feb 2016 02:53:30 GMT</pubDate>
+      <description>
+      
+        &lt;h2 id=&quot;BitmapFactory解析Bitmap的原理&quot;&gt;&lt;a href=&quot;#BitmapFactory解析Bitmap的原理&quot; class=&quot;headerlink&quot; title=&quot;BitmapFactory解析Bitmap的原理&quot;&gt;&lt;/a&gt;&lt;strong&gt;BitmapFactory解析Bitmap的原理&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;BitmapFactory提供的解析Bitmap的静态工厂方法有以下五种：&lt;/p&gt;
+&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Bitmap &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;decodeFile&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(...)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Bitmap &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;decodeResource&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(...)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Bitmap &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;decodeByteArray&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(...)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Bitmap &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;decodeStream&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(...)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Bitmap &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;decodeFileDescriptor&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(...)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;其中常用的三个：decodeFile、decodeResource、decodeStream。&lt;br&gt;decodeFile和decodeResource其实最终都是调用decodeStream方法来解析Bitmap，decodeStream的内部则是调用两个native方法解析Bitmap的：&lt;/p&gt;
+&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;nativeDecodeAsset&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;nativeDecodeStream&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这两个native方法只是对应decodeFile和decodeResource、decodeStream来解析的，像decodeByteArray、decodeFileDescriptor也有专门的native方法负责解析Bitmap。&lt;br&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h2 id="BitmapFactory解析Bitmap的原理"><a href="#BitmapFactory解析Bitmap的原理" class="headerlink" title="BitmapFactory解析Bitmap的原理"></a><strong>BitmapFactory解析Bitmap的原理</strong></h2><p>BitmapFactory提供的解析Bitmap的静态工厂方法有以下五种：</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Bitmap <span class="function"><span class="title">decodeFile</span><span class="params">(...)</span></span></span><br><span class="line">Bitmap <span class="function"><span class="title">decodeResource</span><span class="params">(...)</span></span></span><br><span class="line">Bitmap <span class="function"><span class="title">decodeByteArray</span><span class="params">(...)</span></span></span><br><span class="line">Bitmap <span class="function"><span class="title">decodeStream</span><span class="params">(...)</span></span></span><br><span class="line">Bitmap <span class="function"><span class="title">decodeFileDescriptor</span><span class="params">(...)</span></span></span><br></pre></td></tr></table></figure>
 <p>其中常用的三个：decodeFile、decodeResource、decodeStream。<br>decodeFile和decodeResource其实最终都是调用decodeStream方法来解析Bitmap，decodeStream的内部则是调用两个native方法解析Bitmap的：</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">nativeDecodeAsset</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="title">nativeDecodeStream</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
@@ -630,35 +578,25 @@
 <p>可以看到，都是加载同一图片，在高屏幕像素密度的设备下所需要的内存需要很大、载入内存中的Bitmap的宽高也因设备的屏幕像素密度也改变，正如上面分析的一样，使用decodeResource会自动适配当前设备的分辨率达到一个最佳效果，而只有这个方法会自动适配其它方法将不会，依次思路，我们在封装的工具类中在每一个方法都加入了依屏幕像素密度来自动适配，而在实际中并不需要那么高清的图片，所以我们可以根据设备的density来进行缩放，比如：在400&gt;=density&gt;240的情况下x0.8,在density&gt;400的情况下x0.7，这样Bitmap所占用的内存将减少非常多，可以对面上面两个图片中bitmap和decodeBitmap两个值的大小，decodeBitmap只是对density进行了一定的缩放，而占用内存却减少非常多，而且显示效果也和原先的并无区别。<br>之后对比我们进行了inSampleSize压缩的图片，进行压缩后的效果也看不出太大区别，而占用内存也减少了很多。</p>
 <h2 id="Bitmap的回收"><a href="#Bitmap的回收" class="headerlink" title="Bitmap的回收"></a><strong>Bitmap的回收</strong></h2><h3 id="Android-2-3-3-API-10-及以下的系统"><a href="#Android-2-3-3-API-10-及以下的系统" class="headerlink" title="Android 2.3.3(API 10)及以下的系统"></a><strong>Android 2.3.3(API 10)及以下的系统</strong></h3><p>在2.3以下的系统中，Bitmap的像素数据是存储在native中，Bitmap对象是存储在java堆中的，所以在回收Bitmap时，需要回收两个部分的空间：native和java堆。<br>即先调用recycle()释放native中Bitmap的像素数据，再对Bitmap对象置null，保证GC对Bitmap对象的回收</p>
 <h3 id="Android-3-0-API-11-及以上的系统"><a href="#Android-3-0-API-11-及以上的系统" class="headerlink" title="Android 3.0(API 11)及以上的系统"></a><strong>Android 3.0(API 11)及以上的系统</strong></h3><p>在3.0以上的系统中，Bitmap的像素数据和对象本身都是存储在java堆中的，无需主动调用recycle()，只需将对象置null，由GC自动管理</p>
-]]></content>
+]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2016/02/23/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8BBitmap%E7%9A%84%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/#disqus_thread</comments>
+    </item>
     
-    <summary type="html">
-    
-      &lt;h2 id=&quot;BitmapFactory解析Bitmap的原理&quot;&gt;&lt;a href=&quot;#BitmapFactory解析Bitmap的原理&quot; class=&quot;headerlink&quot; title=&quot;BitmapFactory解析Bitmap的原理&quot;&gt;&lt;/a&gt;&lt;strong&gt;BitmapFactory解析Bitmap的原理&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;BitmapFactory提供的解析Bitmap的静态工厂方法有以下五种：&lt;/p&gt;
-&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Bitmap &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;decodeFile&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(...)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Bitmap &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;decodeResource&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(...)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Bitmap &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;decodeByteArray&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(...)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Bitmap &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;decodeStream&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(...)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Bitmap &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;decodeFileDescriptor&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(...)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;其中常用的三个：decodeFile、decodeResource、decodeStream。&lt;br&gt;decodeFile和decodeResource其实最终都是调用decodeStream方法来解析Bitmap，decodeStream的内部则是调用两个native方法解析Bitmap的：&lt;/p&gt;
-&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;nativeDecodeAsset&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;nativeDecodeStream&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;这两个native方法只是对应decodeFile和decodeResource、decodeStream来解析的，像decodeByteArray、decodeFileDescriptor也有专门的native方法负责解析Bitmap。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="性能优化" scheme="http://zhengxiaoyong.me/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-    
-      <category term="Bitmap" scheme="http://zhengxiaoyong.me/tags/Bitmap/"/>
-    
-      <category term="内存优化" scheme="http://zhengxiaoyong.me/tags/%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于生产者-消费者-订阅者模式的那些事</title>
-    <link href="http://zhengxiaoyong.me/2016/01/27/%E5%85%B3%E4%BA%8E%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85-%E8%AE%A2%E9%98%85%E8%80%85%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/"/>
-    <id>http://zhengxiaoyong.me/2016/01/27/关于生产者-消费者-订阅者模式的那些事/</id>
-    <published>2016-01-27T06:26:30.000Z</published>
-    <updated>2016-04-24T05:17:23.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="生产者-消费者模式"><a href="#生产者-消费者模式" class="headerlink" title="生产者/消费者模式"></a><strong>生产者/消费者模式</strong></h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h2><h3 id="用来干嘛的？"><a href="#用来干嘛的？" class="headerlink" title="用来干嘛的？"></a><strong>用来干嘛的？</strong></h3><p>生产者/消费者模式的产生主要目的就是为了解决非同步的生产与消费之间的问题。</p>
+    <item>
+      <title>关于生产者-消费者-订阅者模式的那些事</title>
+      <link>http://zhengxiaoyong.me/2016/01/27/%E5%85%B3%E4%BA%8E%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85-%E8%AE%A2%E9%98%85%E8%80%85%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link>
+      <guid>http://zhengxiaoyong.me/2016/01/27/%E5%85%B3%E4%BA%8E%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85-%E8%AE%A2%E9%98%85%E8%80%85%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
+      <pubDate>Wed, 27 Jan 2016 06:26:30 GMT</pubDate>
+      <description>
+      
+        &lt;h1 id=&quot;生产者-消费者模式&quot;&gt;&lt;a href=&quot;#生产者-消费者模式&quot; class=&quot;headerlink&quot; title=&quot;生产者/消费者模式&quot;&gt;&lt;/a&gt;&lt;strong&gt;生产者/消费者模式&lt;/strong&gt;&lt;/h1&gt;&lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;&lt;strong&gt;简介&lt;/strong&gt;&lt;/h2&gt;&lt;h3 id=&quot;用来干嘛的？&quot;&gt;&lt;a href=&quot;#用来干嘛的？&quot; class=&quot;headerlink&quot; title=&quot;用来干嘛的？&quot;&gt;&lt;/a&gt;&lt;strong&gt;用来干嘛的？&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;生产者/消费者模式的产生主要目的就是为了解决非同步的生产与消费之间的问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;什么是非同步呢？&lt;/strong&gt;&lt;br&gt;    比如我刚刚生产了某个产品，而此时你正在打游戏，没空来取，要打完游戏来取，这就导致了我生产产品和你取产品是两个非同步的动作，你不知道我什么时候生产完产品，而我也不知道你什么时候来取。&lt;/p&gt;
+&lt;p&gt;而生产者/消费者模式就是解决这个非同步问题的，因为肯定不可能我生产完一个就给你打个电话叫你来取，然后等你取完我再生产下一个，这是多么低效的一种做法。所以这个模式运用而生，这个模式在生活中也有很好的体现，如：快递员派信这个例子，我就是生产者，快递员就是消费者，而生产者与消费者之间是通过什么来解决这种非同步的问题呢？就是一个存储中介，作为快递员派信这个例子中，信箱就是这个存储中介，每次我只要把写完的信扔入信箱，而快递员隔三差五的就会来取一次信，这两个动作是完全异步的，我把信扔入信箱后就不需要管什么了，之后肯定有快递员来取。&lt;br&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h1 id="生产者-消费者模式"><a href="#生产者-消费者模式" class="headerlink" title="生产者/消费者模式"></a><strong>生产者/消费者模式</strong></h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h2><h3 id="用来干嘛的？"><a href="#用来干嘛的？" class="headerlink" title="用来干嘛的？"></a><strong>用来干嘛的？</strong></h3><p>生产者/消费者模式的产生主要目的就是为了解决非同步的生产与消费之间的问题。</p>
 <p><strong>什么是非同步呢？</strong><br>    比如我刚刚生产了某个产品，而此时你正在打游戏，没空来取，要打完游戏来取，这就导致了我生产产品和你取产品是两个非同步的动作，你不知道我什么时候生产完产品，而我也不知道你什么时候来取。</p>
 <p>而生产者/消费者模式就是解决这个非同步问题的，因为肯定不可能我生产完一个就给你打个电话叫你来取，然后等你取完我再生产下一个，这是多么低效的一种做法。所以这个模式运用而生，这个模式在生活中也有很好的体现，如：快递员派信这个例子，我就是生产者，快递员就是消费者，而生产者与消费者之间是通过什么来解决这种非同步的问题呢？就是一个存储中介，作为快递员派信这个例子中，信箱就是这个存储中介，每次我只要把写完的信扔入信箱，而快递员隔三差五的就会来取一次信，这两个动作是完全异步的，我把信扔入信箱后就不需要管什么了，之后肯定有快递员来取。<br><a id="more"></a></p>
 <h2 id="如何设计"><a href="#如何设计" class="headerlink" title="如何设计"></a><strong>如何设计</strong></h2><h3 id="设计图"><a href="#设计图" class="headerlink" title="设计图"></a><strong>设计图</strong></h3><p>生产者/消费者模式能够解决非同步的生产与消费的问题，归功就是存储中介的作用，因为生产者只要把生产完的物品放入存储中介中就行了，而不必关系消费者什么时候来取，当消费者需要时自然会来取，当存储中介满了的话，那么生产者将停止生产，因为再生产就没地放了，这时候就需要等待消费者消费了，而当存储中介没有时，这时候消费者来取那肯定取不到，所以也需要Wait，等待生产者生产后才能取到。所以这就有了下面这个设计图：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/consumer1.jpg" alt="这里写图片描述"></p>
@@ -682,35 +620,29 @@
 <h2 id="数据源-订阅者模式"><a href="#数据源-订阅者模式" class="headerlink" title="数据源/订阅者模式"></a><strong>数据源/订阅者模式</strong></h2><p>关于这个模式，其实是生产者/消费者模式的变体，这种模式并不需要存储中介，而是通过一个<strong>DataSource空壳</strong>来包装数据，对于发布者提交了一个Task后，将立即返回一个DataSource，对于任务执行完后的结果，如果你想获取则必须通过datasource.subscribe(new XxxSubscriber(…))来订阅获取执行后的结果，而如果不通过数据源订阅的方式来获取而直接通过datasource.getData()获取则返回null，因为DataSource只是一个获取数据的空壳。这种模式在Fresco源码中有很好的体现，用了大量的这种模式。<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/consumer3.jpg" alt="这里写图片描述"></p>
 <p>栗子：</p>
 <figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">  DataSource&lt;Apple&gt; dataSource = ProducerFactory.newAppleProducer().submit(name);</span><br><span class="line">  <span class="comment">//Apple apple = dataSource.getData();// apple is null!</span></span><br><span class="line">  dataSource.subscribe(<span class="keyword">new</span> BaseDataSubscriber&lt;Apple&gt;() &#123;</span><br><span class="line">      <span class="annotation">@Override</span></span><br><span class="line">      <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(DataSource&lt;Apple&gt; dataSource)</span> </span>&#123;</span><br><span class="line">Apple apple = dataSource.getData();</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="annotation">@Override</span></span><br><span class="line">      <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(DataSource&lt;Apple&gt; dataSource,Throwable throwable)</span> </span>&#123;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
-]]></content>
+]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2016/01/27/%E5%85%B3%E4%BA%8E%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85-%E8%AE%A2%E9%98%85%E8%80%85%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/#disqus_thread</comments>
+    </item>
     
-    <summary type="html">
-    
-      &lt;h1 id=&quot;生产者-消费者模式&quot;&gt;&lt;a href=&quot;#生产者-消费者模式&quot; class=&quot;headerlink&quot; title=&quot;生产者/消费者模式&quot;&gt;&lt;/a&gt;&lt;strong&gt;生产者/消费者模式&lt;/strong&gt;&lt;/h1&gt;&lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;&lt;strong&gt;简介&lt;/strong&gt;&lt;/h2&gt;&lt;h3 id=&quot;用来干嘛的？&quot;&gt;&lt;a href=&quot;#用来干嘛的？&quot; class=&quot;headerlink&quot; title=&quot;用来干嘛的？&quot;&gt;&lt;/a&gt;&lt;strong&gt;用来干嘛的？&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;生产者/消费者模式的产生主要目的就是为了解决非同步的生产与消费之间的问题。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;什么是非同步呢？&lt;/strong&gt;&lt;br&gt;    比如我刚刚生产了某个产品，而此时你正在打游戏，没空来取，要打完游戏来取，这就导致了我生产产品和你取产品是两个非同步的动作，你不知道我什么时候生产完产品，而我也不知道你什么时候来取。&lt;/p&gt;
-&lt;p&gt;而生产者/消费者模式就是解决这个非同步问题的，因为肯定不可能我生产完一个就给你打个电话叫你来取，然后等你取完我再生产下一个，这是多么低效的一种做法。所以这个模式运用而生，这个模式在生活中也有很好的体现，如：快递员派信这个例子，我就是生产者，快递员就是消费者，而生产者与消费者之间是通过什么来解决这种非同步的问题呢？就是一个存储中介，作为快递员派信这个例子中，信箱就是这个存储中介，每次我只要把写完的信扔入信箱，而快递员隔三差五的就会来取一次信，这两个动作是完全异步的，我把信扔入信箱后就不需要管什么了，之后肯定有快递员来取。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术沉淀" scheme="http://zhengxiaoyong.me/categories/%E6%8A%80%E6%9C%AF%E6%B2%89%E6%B7%80/"/>
-    
-    
-      <category term="消费者" scheme="http://zhengxiaoyong.me/tags/%E6%B6%88%E8%B4%B9%E8%80%85/"/>
-    
-      <category term="生产者" scheme="http://zhengxiaoyong.me/tags/%E7%94%9F%E4%BA%A7%E8%80%85/"/>
-    
-      <category term="订阅者" scheme="http://zhengxiaoyong.me/tags/%E8%AE%A2%E9%98%85%E8%80%85/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Android性能优化之Splash页应该这样设计</title>
-    <link href="http://zhengxiaoyong.me/2016/01/17/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8BSplash%E9%A1%B5%E5%BA%94%E8%AF%A5%E8%BF%99%E6%A0%B7%E8%AE%BE%E8%AE%A1/"/>
-    <id>http://zhengxiaoyong.me/2016/01/17/Android性能优化之Splash页应该这样设计/</id>
-    <published>2016-01-16T16:18:30.000Z</published>
-    <updated>2016-05-06T06:42:22.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="目前SplashActivity的设计"><a href="#目前SplashActivity的设计" class="headerlink" title="目前SplashActivity的设计"></a><strong>目前SplashActivity的设计</strong></h2><p>目前市场上的应用在启动时基本上都会先启动一个SplashActivity，作为一个欢迎界面，为什么这样设计呢？<br>个人总结有三个优点：</p>
+    <item>
+      <title>Android性能优化之Splash页应该这样设计</title>
+      <link>http://zhengxiaoyong.me/2016/01/17/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8BSplash%E9%A1%B5%E5%BA%94%E8%AF%A5%E8%BF%99%E6%A0%B7%E8%AE%BE%E8%AE%A1/</link>
+      <guid>http://zhengxiaoyong.me/2016/01/17/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8BSplash%E9%A1%B5%E5%BA%94%E8%AF%A5%E8%BF%99%E6%A0%B7%E8%AE%BE%E8%AE%A1/</guid>
+      <pubDate>Sat, 16 Jan 2016 16:18:30 GMT</pubDate>
+      <description>
+      
+        &lt;h2 id=&quot;目前SplashActivity的设计&quot;&gt;&lt;a href=&quot;#目前SplashActivity的设计&quot; class=&quot;headerlink&quot; title=&quot;目前SplashActivity的设计&quot;&gt;&lt;/a&gt;&lt;strong&gt;目前SplashActivity的设计&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;目前市场上的应用在启动时基本上都会先启动一个SplashActivity，作为一个欢迎界面，为什么这样设计呢？&lt;br&gt;个人总结有三个优点：&lt;/p&gt;
+&lt;h3 id=&quot;可以给用户更好的体验&quot;&gt;&lt;a href=&quot;#可以给用户更好的体验&quot; class=&quot;headerlink&quot; title=&quot;可以给用户更好的体验&quot;&gt;&lt;/a&gt;可以给用户更好的体验&lt;/h3&gt;&lt;p&gt;比如：可以由后台动态的改变欢迎的图片，或者显欢迎xxx回来，新浪微博的就是这种交互。&lt;/p&gt;
+&lt;h3 id=&quot;可以缩减App的启动时间&quot;&gt;&lt;a href=&quot;#可以缩减App的启动时间&quot; class=&quot;headerlink&quot; title=&quot;可以缩减App的启动时间&quot;&gt;&lt;/a&gt;可以缩减App的启动时间&lt;/h3&gt;&lt;p&gt;由上一篇博文中知道app启动的耗时主要是在Application初始化中和MainActivity的界面绘制前，由于MainActivity的业务和布局复杂度肯定比只显示一张图片的界面高，所以，加入一个显示一张图片的Splash页可以优化应用的启动。&lt;/p&gt;
+&lt;h3 id=&quot;可以在应用启动时做更多的事&quot;&gt;&lt;a href=&quot;#可以在应用启动时做更多的事&quot; class=&quot;headerlink&quot; title=&quot;可以在应用启动时做更多的事&quot;&gt;&lt;/a&gt;可以在应用启动时做更多的事&lt;/h3&gt;&lt;p&gt;一般来说SplashActivity一般会设计成停留2到4s不等，或者根据数据的加载程度来动态的设置Splash界面的停留时间，既然停留那么久，那么当然可以在这个界面背后做一些事以备MainActivity的快速显示，比如：数据的预加载、sp的初始化、网络请求等。&lt;/p&gt;
+&lt;p&gt;当然你可能有些疑问，那这样初始化放在Application中也可以啊？也用异步操作数据也是一样啊？&lt;/p&gt;
+&lt;p&gt;答案是不一样！正如上篇所说的，Application初始化时并不会加载界面，而是在它创建完和初始化完成后，开始创建Activity时才开始绘制Theme中的background和绘制布局，所以用一个轻量的Splash页给它设置一张背景欢迎图，这样就立马能显示界面了，而在这个界面中还可以做其它的初始化操作，这样在视觉上即达到了app的快速启动，又添加了体验和做数据的初始化。&lt;/p&gt;
+&lt;p&gt;相反如果过多的放在Application中，则在点击app图标启动时会感觉延迟，必须要把Application中的东西都做完才进入Activity的配置和绘制中。&lt;br&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h2 id="目前SplashActivity的设计"><a href="#目前SplashActivity的设计" class="headerlink" title="目前SplashActivity的设计"></a><strong>目前SplashActivity的设计</strong></h2><p>目前市场上的应用在启动时基本上都会先启动一个SplashActivity，作为一个欢迎界面，为什么这样设计呢？<br>个人总结有三个优点：</p>
 <h3 id="可以给用户更好的体验"><a href="#可以给用户更好的体验" class="headerlink" title="可以给用户更好的体验"></a>可以给用户更好的体验</h3><p>比如：可以由后台动态的改变欢迎的图片，或者显欢迎xxx回来，新浪微博的就是这种交互。</p>
 <h3 id="可以缩减App的启动时间"><a href="#可以缩减App的启动时间" class="headerlink" title="可以缩减App的启动时间"></a>可以缩减App的启动时间</h3><p>由上一篇博文中知道app启动的耗时主要是在Application初始化中和MainActivity的界面绘制前，由于MainActivity的业务和布局复杂度肯定比只显示一张图片的界面高，所以，加入一个显示一张图片的Splash页可以优化应用的启动。</p>
 <h3 id="可以在应用启动时做更多的事"><a href="#可以在应用启动时做更多的事" class="headerlink" title="可以在应用启动时做更多的事"></a>可以在应用启动时做更多的事</h3><p>一般来说SplashActivity一般会设计成停留2到4s不等，或者根据数据的加载程度来动态的设置Splash界面的停留时间，既然停留那么久，那么当然可以在这个界面背后做一些事以备MainActivity的快速显示，比如：数据的预加载、sp的初始化、网络请求等。</p>
@@ -727,35 +659,27 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Handler mHandler = <span class="keyword">new</span> Handler();</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">   <span class="keyword">final</span> SplashFragment splashFragment = <span class="keyword">new</span> SplashFragment();</span><br><span class="line">   <span class="keyword">final</span> FragmentTransaction transaction = getFragmentManager().beginTransaction();</span><br><span class="line">   transaction.replace(R.id.frame, splashFragment);</span><br><span class="line">   transaction.commit();	</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">mHandler.postDelayed(<span class="keyword">new</span> DelayRunnable(<span class="keyword">this</span>, splashFragment, mProgressBar), <span class="number">2500</span>);</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">   <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">DelayRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">       <span class="keyword">private</span> WeakReference&lt;Context&gt; contextRef;</span><br><span class="line">       <span class="keyword">private</span> WeakReference&lt;SplashFragment&gt; fragmentRef;</span><br><span class="line">       <span class="keyword">private</span> WeakReference&lt;ProgressBar&gt; progressBarRef;</span><br><span class="line"></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="title">DelayRunnable</span><span class="params">(Context context, SplashFragment splashFragment, ProgressBar progressBar)</span> </span>&#123;</span><br><span class="line">           contextRef = <span class="keyword">new</span> WeakReference&lt;Context&gt;(context);</span><br><span class="line">           fragmentRef = <span class="keyword">new</span> WeakReference&lt;SplashFragment&gt;(splashFragment);</span><br><span class="line">           progressBarRef = <span class="keyword">new</span> WeakReference&lt;ProgressBar&gt;(progressBar);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="annotation">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           ProgressBar progressBar = progressBarRef.get();</span><br><span class="line">           <span class="keyword">if</span> (progressBar != <span class="keyword">null</span>)</span><br><span class="line">               progressBar.setVisibility(View.GONE);</span><br><span class="line">           Activity context = (Activity) contextRef.get();</span><br><span class="line">           <span class="keyword">if</span> (context != <span class="keyword">null</span>) &#123;</span><br><span class="line">               SplashFragment splashFragment = fragmentRef.get();</span><br><span class="line">               <span class="keyword">if</span> (splashFragment == <span class="keyword">null</span>)</span><br><span class="line">                   <span class="keyword">return</span>;</span><br><span class="line">               <span class="keyword">final</span> FragmentTransaction transaction = context.getFragmentManager().beginTransaction();</span><br><span class="line">               transaction.remove(splashFragment);</span><br><span class="line">               transaction.commit();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="annotation">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>.onDestroy();</span><br><span class="line">       mHandler.removeCallbacksAndMessages(<span class="keyword">null</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>其中FrameLayout作为MainActivity的根布局用作SplashFragment的全屏显示。<br>为了更优则可以考虑ViewStub，在SplashFragment显示时再进行加载额外的View。</p>
 <p>关于耦合性，其实很低，Splash页面有专门一个SplashFragment去配置，而MainActivity只是控制它的加载与remove。</p>
-]]></content>
+]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2016/01/17/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8BSplash%E9%A1%B5%E5%BA%94%E8%AF%A5%E8%BF%99%E6%A0%B7%E8%AE%BE%E8%AE%A1/#disqus_thread</comments>
+    </item>
     
-    <summary type="html">
-    
-      &lt;h2 id=&quot;目前SplashActivity的设计&quot;&gt;&lt;a href=&quot;#目前SplashActivity的设计&quot; class=&quot;headerlink&quot; title=&quot;目前SplashActivity的设计&quot;&gt;&lt;/a&gt;&lt;strong&gt;目前SplashActivity的设计&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;目前市场上的应用在启动时基本上都会先启动一个SplashActivity，作为一个欢迎界面，为什么这样设计呢？&lt;br&gt;个人总结有三个优点：&lt;/p&gt;
-&lt;h3 id=&quot;可以给用户更好的体验&quot;&gt;&lt;a href=&quot;#可以给用户更好的体验&quot; class=&quot;headerlink&quot; title=&quot;可以给用户更好的体验&quot;&gt;&lt;/a&gt;可以给用户更好的体验&lt;/h3&gt;&lt;p&gt;比如：可以由后台动态的改变欢迎的图片，或者显欢迎xxx回来，新浪微博的就是这种交互。&lt;/p&gt;
-&lt;h3 id=&quot;可以缩减App的启动时间&quot;&gt;&lt;a href=&quot;#可以缩减App的启动时间&quot; class=&quot;headerlink&quot; title=&quot;可以缩减App的启动时间&quot;&gt;&lt;/a&gt;可以缩减App的启动时间&lt;/h3&gt;&lt;p&gt;由上一篇博文中知道app启动的耗时主要是在Application初始化中和MainActivity的界面绘制前，由于MainActivity的业务和布局复杂度肯定比只显示一张图片的界面高，所以，加入一个显示一张图片的Splash页可以优化应用的启动。&lt;/p&gt;
-&lt;h3 id=&quot;可以在应用启动时做更多的事&quot;&gt;&lt;a href=&quot;#可以在应用启动时做更多的事&quot; class=&quot;headerlink&quot; title=&quot;可以在应用启动时做更多的事&quot;&gt;&lt;/a&gt;可以在应用启动时做更多的事&lt;/h3&gt;&lt;p&gt;一般来说SplashActivity一般会设计成停留2到4s不等，或者根据数据的加载程度来动态的设置Splash界面的停留时间，既然停留那么久，那么当然可以在这个界面背后做一些事以备MainActivity的快速显示，比如：数据的预加载、sp的初始化、网络请求等。&lt;/p&gt;
-&lt;p&gt;当然你可能有些疑问，那这样初始化放在Application中也可以啊？也用异步操作数据也是一样啊？&lt;/p&gt;
-&lt;p&gt;答案是不一样！正如上篇所说的，Application初始化时并不会加载界面，而是在它创建完和初始化完成后，开始创建Activity时才开始绘制Theme中的background和绘制布局，所以用一个轻量的Splash页给它设置一张背景欢迎图，这样就立马能显示界面了，而在这个界面中还可以做其它的初始化操作，这样在视觉上即达到了app的快速启动，又添加了体验和做数据的初始化。&lt;/p&gt;
-&lt;p&gt;相反如果过多的放在Application中，则在点击app图标启动时会感觉延迟，必须要把Application中的东西都做完才进入Activity的配置和绘制中。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="性能优化" scheme="http://zhengxiaoyong.me/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-    
-      <category term="Splash页" scheme="http://zhengxiaoyong.me/tags/Splash%E9%A1%B5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Android性能优化之加快应用启动速度</title>
-    <link href="http://zhengxiaoyong.me/2016/01/14/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%8A%A0%E5%BF%AB%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E9%80%9F%E5%BA%A6/"/>
-    <id>http://zhengxiaoyong.me/2016/01/14/Android性能优化之加快应用启动速度/</id>
-    <published>2016-01-14T14:51:30.000Z</published>
-    <updated>2016-07-17T15:54:33.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="应用的启动"><a href="#应用的启动" class="headerlink" title="应用的启动"></a><strong>应用的启动</strong></h2><h3 id="启动方式"><a href="#启动方式" class="headerlink" title="启动方式"></a><strong>启动方式</strong></h3><p>通常来说，在安卓中应用的启动方式分为两种：冷启动和热启动</p>
+    <item>
+      <title>Android性能优化之加快应用启动速度</title>
+      <link>http://zhengxiaoyong.me/2016/01/14/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%8A%A0%E5%BF%AB%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E9%80%9F%E5%BA%A6/</link>
+      <guid>http://zhengxiaoyong.me/2016/01/14/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%8A%A0%E5%BF%AB%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E9%80%9F%E5%BA%A6/</guid>
+      <pubDate>Thu, 14 Jan 2016 14:51:30 GMT</pubDate>
+      <description>
+      
+        &lt;h2 id=&quot;应用的启动&quot;&gt;&lt;a href=&quot;#应用的启动&quot; class=&quot;headerlink&quot; title=&quot;应用的启动&quot;&gt;&lt;/a&gt;&lt;strong&gt;应用的启动&lt;/strong&gt;&lt;/h2&gt;&lt;h3 id=&quot;启动方式&quot;&gt;&lt;a href=&quot;#启动方式&quot; class=&quot;headerlink&quot; title=&quot;启动方式&quot;&gt;&lt;/a&gt;&lt;strong&gt;启动方式&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;通常来说，在安卓中应用的启动方式分为两种：冷启动和热启动&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1、冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。&lt;/p&gt;
+&lt;p&gt;2、热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启动应用，这个方式叫热启动。&lt;/p&gt;
+&lt;/blockquote&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h2 id="应用的启动"><a href="#应用的启动" class="headerlink" title="应用的启动"></a><strong>应用的启动</strong></h2><h3 id="启动方式"><a href="#启动方式" class="headerlink" title="启动方式"></a><strong>启动方式</strong></h3><p>通常来说，在安卓中应用的启动方式分为两种：冷启动和热启动</p>
 <blockquote>
 <p>1、冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。</p>
 <p>2、热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启动应用，这个方式叫热启动。</p>
@@ -782,33 +706,26 @@
 <p>2、然后在MainActivity中加载布局前把AppTheme重新设置给MainActivity：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">Override</span></span><br><span class="line">    protected void <span class="function">onCreate</span>(Bundle savedInstanceState) </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="tag">setTheme</span>(<span class="tag">R</span><span class="class">.style</span><span class="class">.AppTheme</span>);</span><br><span class="line">        <span class="tag">super</span><span class="class">.onCreate</span>(<span class="tag">savedInstanceState</span>);</span><br><span class="line">        <span class="tag">setContentView</span>(<span class="tag">R</span><span class="class">.layout</span><span class="class">.activity_main</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样在启动时会先显示background，然后待界面绘制完成再显示主界面<br><img src="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed3.gif" alt="这里写图片描述"></p>
-]]></content>
+]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2016/01/14/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%8A%A0%E5%BF%AB%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E9%80%9F%E5%BA%A6/#disqus_thread</comments>
+    </item>
     
-    <summary type="html">
-    
-      &lt;h2 id=&quot;应用的启动&quot;&gt;&lt;a href=&quot;#应用的启动&quot; class=&quot;headerlink&quot; title=&quot;应用的启动&quot;&gt;&lt;/a&gt;&lt;strong&gt;应用的启动&lt;/strong&gt;&lt;/h2&gt;&lt;h3 id=&quot;启动方式&quot;&gt;&lt;a href=&quot;#启动方式&quot; class=&quot;headerlink&quot; title=&quot;启动方式&quot;&gt;&lt;/a&gt;&lt;strong&gt;启动方式&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;通常来说，在安卓中应用的启动方式分为两种：冷启动和热启动&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;1、冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。&lt;/p&gt;
-&lt;p&gt;2、热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启动应用，这个方式叫热启动。&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="性能优化" scheme="http://zhengxiaoyong.me/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-    
-      <category term="启动速度" scheme="http://zhengxiaoyong.me/tags/%E5%90%AF%E5%8A%A8%E9%80%9F%E5%BA%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Fresco图片框架内部实现原理探索</title>
-    <link href="http://zhengxiaoyong.me/2016/01/04/Fresco%E5%9B%BE%E7%89%87%E6%A1%86%E6%9E%B6%E5%86%85%E9%83%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%8E%A2%E7%B4%A2/"/>
-    <id>http://zhengxiaoyong.me/2016/01/04/Fresco图片框架内部实现原理探索/</id>
-    <published>2016-01-04T03:38:30.000Z</published>
-    <updated>2016-04-24T05:27:39.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="流行的网络框架"><a href="#流行的网络框架" class="headerlink" title="流行的网络框架"></a><strong>流行的网络框架</strong></h2><p>目前流行的网络图片框架：<br>Picasso、Universal Image Loader、Volley的(ImageLoader、NetworkImageView)、Glide和Fresco</p>
+    <item>
+      <title>Fresco图片框架内部实现原理探索</title>
+      <link>http://zhengxiaoyong.me/2016/01/04/Fresco%E5%9B%BE%E7%89%87%E6%A1%86%E6%9E%B6%E5%86%85%E9%83%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%8E%A2%E7%B4%A2/</link>
+      <guid>http://zhengxiaoyong.me/2016/01/04/Fresco%E5%9B%BE%E7%89%87%E6%A1%86%E6%9E%B6%E5%86%85%E9%83%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%8E%A2%E7%B4%A2/</guid>
+      <pubDate>Mon, 04 Jan 2016 03:38:30 GMT</pubDate>
+      <description>
+      
+        &lt;h2 id=&quot;流行的网络框架&quot;&gt;&lt;a href=&quot;#流行的网络框架&quot; class=&quot;headerlink&quot; title=&quot;流行的网络框架&quot;&gt;&lt;/a&gt;&lt;strong&gt;流行的网络框架&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;目前流行的网络图片框架：&lt;br&gt;Picasso、Universal Image Loader、Volley的(ImageLoader、NetworkImageView)、Glide和Fresco&lt;/p&gt;
+&lt;p&gt;简明的介绍下（具体细节和功能可看源码和wiki）：&lt;br&gt;其中Picasso和Universal Image Loader相比其它的算是最轻量级的图片框架了，它们拥有较少的方法数，Universal Image Loader是这五个框架中定制性最强的，它内部实现还是按网络框架的套路走：HttpUrlConnection+线程池+Handler，支持渐显效果。&lt;br&gt;而Picasso只有一些图片加载框架应有的基本功能，所以因此它是最轻量的，在需求只要基本的图片加载与双缓存功能下，可以选Picasso作为项目的基础库，Picasso它内部默认是使用OkHttpClient作为加载网络图片的下载器，毕竟不用自家用谁的，在OkHttpClient没有的情况下则使用HttpUrlConnection，同上面一样，下载器+线程池+Handler，不过它内部的线程池比较有意思，线程池的线程数量是根据当前的网络环境来动态改变的，wifi网络下为4，4G为3，3G为2，2G为1，其它情况下默认为3，支持渐显效果。&lt;br&gt;Volley的没什么可说的，基本功能都有，网络框架的附赠功能。&lt;/p&gt;
+&lt;p&gt;Glide的话，Google官方推荐，支持Gif、图片缩略图、本地视频解码、请求和动画生命周期的自动管理、渐显动画、支持OkHttp和Volley等等，默认是使用HttpUrlConnection加载图片的，源码灰常多，200多个类，不想看&lt;/p&gt;
+&lt;p&gt;Fresco我认为是这几个框架中性能最佳的一个框架，着重介绍，它内部用了大量的建造者模式、单例模式、静态工厂模式、生产/消费者模式。内部实现比较复杂，就拿图片加载来说，是通过在异步线程中回调图片的输入流，然后通过一系列读取、写入、转化成EncodedImage，然后再Decode成Bitmap，通过Handler转给UI线程显示，通过IO操作存储在硬盘缓存目录下。&lt;br&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h2 id="流行的网络框架"><a href="#流行的网络框架" class="headerlink" title="流行的网络框架"></a><strong>流行的网络框架</strong></h2><p>目前流行的网络图片框架：<br>Picasso、Universal Image Loader、Volley的(ImageLoader、NetworkImageView)、Glide和Fresco</p>
 <p>简明的介绍下（具体细节和功能可看源码和wiki）：<br>其中Picasso和Universal Image Loader相比其它的算是最轻量级的图片框架了，它们拥有较少的方法数，Universal Image Loader是这五个框架中定制性最强的，它内部实现还是按网络框架的套路走：HttpUrlConnection+线程池+Handler，支持渐显效果。<br>而Picasso只有一些图片加载框架应有的基本功能，所以因此它是最轻量的，在需求只要基本的图片加载与双缓存功能下，可以选Picasso作为项目的基础库，Picasso它内部默认是使用OkHttpClient作为加载网络图片的下载器，毕竟不用自家用谁的，在OkHttpClient没有的情况下则使用HttpUrlConnection，同上面一样，下载器+线程池+Handler，不过它内部的线程池比较有意思，线程池的线程数量是根据当前的网络环境来动态改变的，wifi网络下为4，4G为3，3G为2，2G为1，其它情况下默认为3，支持渐显效果。<br>Volley的没什么可说的，基本功能都有，网络框架的附赠功能。</p>
 <p>Glide的话，Google官方推荐，支持Gif、图片缩略图、本地视频解码、请求和动画生命周期的自动管理、渐显动画、支持OkHttp和Volley等等，默认是使用HttpUrlConnection加载图片的，源码灰常多，200多个类，不想看</p>
 <p>Fresco我认为是这几个框架中性能最佳的一个框架，着重介绍，它内部用了大量的建造者模式、单例模式、静态工厂模式、生产/消费者模式。内部实现比较复杂，就拿图片加载来说，是通过在异步线程中回调图片的输入流，然后通过一系列读取、写入、转化成EncodedImage，然后再Decode成Bitmap，通过Handler转给UI线程显示，通过IO操作存储在硬盘缓存目录下。<br><a id="more"></a></p>
@@ -928,32 +845,25 @@
 <pre><code>应用场景：和Resizing结合使用，不过在4.4版本中Decode出采样图将会占用更多的内存资源，这是个bug。
 </code></pre><h2 id="Fresco混淆配置"><a href="#Fresco混淆配置" class="headerlink" title="Fresco混淆配置"></a><strong>Fresco混淆配置</strong></h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># <span class="type">Keep</span> our interfaces so they can be used by other <span class="type">ProGuard</span> rules.</span><br><span class="line"># <span class="type">See</span> http:<span class="comment">//sourceforge.net/p/proguard/bugs/466/</span></span><br><span class="line">-keep,allowobfuscation <span class="annotation">@interface</span> com.facebook.common.internal.<span class="type">DoNotStrip</span></span><br><span class="line"></span><br><span class="line"># <span class="type">Do</span> not strip any method/<span class="class"><span class="keyword">class</span> <span class="title">that</span> <span class="title">is</span> <span class="title">annotated</span> <span class="keyword"><span class="keyword">with</span></span> <span class="title">@DoNotStrip</span></span><br><span class="line"></span>-keep <span class="annotation">@com</span>.facebook.common.internal.<span class="type">DoNotStrip</span> <span class="class"><span class="keyword">class</span> <span class="title">*</span></span><br><span class="line"></span>-keepclassmembers <span class="class"><span class="keyword">class</span> <span class="title">*</span> &#123;</span></span><br><span class="line">    <span class="annotation">@com</span>.facebook.common.internal.<span class="type">DoNotStrip</span> *;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># <span class="type">Keep</span> native methods</span><br><span class="line">-keepclassmembers <span class="class"><span class="keyword">class</span> <span class="title">*</span> &#123;</span></span><br><span class="line">    native &lt;methods&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-dontwarn okio.**</span><br><span class="line">-dontwarn javax.annotation.**</span><br><span class="line">-dontwarn com.android.volley.toolbox.**</span><br></pre></td></tr></table></figure>
 <h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a><strong>其它</strong></h2><p><a href="http://frescolib.org/docs/requesting-multiple-images.html#_" target="_blank" rel="external">Fresco官方文档</a><br><a href="https://github.com/Sunzxyong/FrescoPlus" target="_blank" rel="external">Fresco二次封装</a></p>
-]]></content>
+]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2016/01/04/Fresco%E5%9B%BE%E7%89%87%E6%A1%86%E6%9E%B6%E5%86%85%E9%83%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%8E%A2%E7%B4%A2/#disqus_thread</comments>
+    </item>
     
-    <summary type="html">
-    
-      &lt;h2 id=&quot;流行的网络框架&quot;&gt;&lt;a href=&quot;#流行的网络框架&quot; class=&quot;headerlink&quot; title=&quot;流行的网络框架&quot;&gt;&lt;/a&gt;&lt;strong&gt;流行的网络框架&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;目前流行的网络图片框架：&lt;br&gt;Picasso、Universal Image Loader、Volley的(ImageLoader、NetworkImageView)、Glide和Fresco&lt;/p&gt;
-&lt;p&gt;简明的介绍下（具体细节和功能可看源码和wiki）：&lt;br&gt;其中Picasso和Universal Image Loader相比其它的算是最轻量级的图片框架了，它们拥有较少的方法数，Universal Image Loader是这五个框架中定制性最强的，它内部实现还是按网络框架的套路走：HttpUrlConnection+线程池+Handler，支持渐显效果。&lt;br&gt;而Picasso只有一些图片加载框架应有的基本功能，所以因此它是最轻量的，在需求只要基本的图片加载与双缓存功能下，可以选Picasso作为项目的基础库，Picasso它内部默认是使用OkHttpClient作为加载网络图片的下载器，毕竟不用自家用谁的，在OkHttpClient没有的情况下则使用HttpUrlConnection，同上面一样，下载器+线程池+Handler，不过它内部的线程池比较有意思，线程池的线程数量是根据当前的网络环境来动态改变的，wifi网络下为4，4G为3，3G为2，2G为1，其它情况下默认为3，支持渐显效果。&lt;br&gt;Volley的没什么可说的，基本功能都有，网络框架的附赠功能。&lt;/p&gt;
-&lt;p&gt;Glide的话，Google官方推荐，支持Gif、图片缩略图、本地视频解码、请求和动画生命周期的自动管理、渐显动画、支持OkHttp和Volley等等，默认是使用HttpUrlConnection加载图片的，源码灰常多，200多个类，不想看&lt;/p&gt;
-&lt;p&gt;Fresco我认为是这几个框架中性能最佳的一个框架，着重介绍，它内部用了大量的建造者模式、单例模式、静态工厂模式、生产/消费者模式。内部实现比较复杂，就拿图片加载来说，是通过在异步线程中回调图片的输入流，然后通过一系列读取、写入、转化成EncodedImage，然后再Decode成Bitmap，通过Handler转给UI线程显示，通过IO操作存储在硬盘缓存目录下。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术沉淀" scheme="http://zhengxiaoyong.me/categories/%E6%8A%80%E6%9C%AF%E6%B2%89%E6%B7%80/"/>
-    
-    
-      <category term="Fresco原理" scheme="http://zhengxiaoyong.me/tags/Fresco%E5%8E%9F%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Android性能优化之被忽视的优化点</title>
-    <link href="http://zhengxiaoyong.me/2015/11/25/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84%E4%BC%98%E5%8C%96%E7%82%B9/"/>
-    <id>http://zhengxiaoyong.me/2015/11/25/Android性能优化之被忽视的优化点/</id>
-    <published>2015-11-25T07:42:30.000Z</published>
-    <updated>2016-04-24T05:41:36.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>对于性能优化这个知识点来说，实在是太广了，博主本人也一直非常关注这方面的学习，而对于性能优化来说它包括了非常非常非常多方面，比如：I/O的优化、网络操作的优化、内存的优化、数据结构的优化、代码层次的优化、UI渲染优化、CPU资源使用率的优化、异常处理的优化等等等等。。。</p>
+    <item>
+      <title>Android性能优化之被忽视的优化点</title>
+      <link>http://zhengxiaoyong.me/2015/11/25/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84%E4%BC%98%E5%8C%96%E7%82%B9/</link>
+      <guid>http://zhengxiaoyong.me/2015/11/25/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84%E4%BC%98%E5%8C%96%E7%82%B9/</guid>
+      <pubDate>Wed, 25 Nov 2015 07:42:30 GMT</pubDate>
+      <description>
+      
+        &lt;p&gt;对于性能优化这个知识点来说，实在是太广了，博主本人也一直非常关注这方面的学习，而对于性能优化来说它包括了非常非常非常多方面，比如：I/O的优化、网络操作的优化、内存的优化、数据结构的优化、代码层次的优化、UI渲染优化、CPU资源使用率的优化、异常处理的优化等等等等。。。&lt;/p&gt;
+&lt;p&gt;本篇文章就博主本人的理解来讲述一些在Android开发中可以优化的地方&lt;/p&gt;
+&lt;h2 id=&quot;ArrayList和Vector&quot;&gt;&lt;a href=&quot;#ArrayList和Vector&quot; class=&quot;headerlink&quot; title=&quot;ArrayList和Vector&quot;&gt;&lt;/a&gt;&lt;strong&gt;ArrayList和Vector&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;ArrayList和Vector都是内部以数组实现的List，它们两唯一的区别就是对多线程的支持，ArrayList是线程不安全的，而Vector内部对大多数方法都做了同步，是线程安全的，既然是线程安全的，所以性能方面肯定不如ArrayList了（当然想法肯定是对的），不过这需要看哪方面了，ArrayList在add、get、remove等操作效率肯定是高于Vector的，而在内存方面，Vector却比ArrayList表现的更好，这归根都是ArrayList的扩容策略导致的，稍后分析&lt;br&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p>对于性能优化这个知识点来说，实在是太广了，博主本人也一直非常关注这方面的学习，而对于性能优化来说它包括了非常非常非常多方面，比如：I/O的优化、网络操作的优化、内存的优化、数据结构的优化、代码层次的优化、UI渲染优化、CPU资源使用率的优化、异常处理的优化等等等等。。。</p>
 <p>本篇文章就博主本人的理解来讲述一些在Android开发中可以优化的地方</p>
 <h2 id="ArrayList和Vector"><a href="#ArrayList和Vector" class="headerlink" title="ArrayList和Vector"></a><strong>ArrayList和Vector</strong></h2><p>ArrayList和Vector都是内部以数组实现的List，它们两唯一的区别就是对多线程的支持，ArrayList是线程不安全的，而Vector内部对大多数方法都做了同步，是线程安全的，既然是线程安全的，所以性能方面肯定不如ArrayList了（当然想法肯定是对的），不过这需要看哪方面了，ArrayList在add、get、remove等操作效率肯定是高于Vector的，而在内存方面，Vector却比ArrayList表现的更好，这归根都是ArrayList的扩容策略导致的，稍后分析<br><a id="more"></a></p>
 <h3 id="实现RandomAccess接口的集合使用fori遍历"><a href="#实现RandomAccess接口的集合使用fori遍历" class="headerlink" title="实现RandomAccess接口的集合使用fori遍历"></a><strong>实现RandomAccess接口的集合使用fori遍历</strong></h3><p>先谈谈List集合的遍历方式，有三种：foreach、iterator、fori。<br>而在开发中一般需要遍历时首选肯定是foreach了，因为它效率高，这个观点没错，不过需要分场合了。<br>下面是我用这三种方式测试遍历有100w条数据的ArrayList集合：</p>
@@ -987,31 +897,25 @@
 <h2 id="优先考虑系统中提供的代码而不是自己写"><a href="#优先考虑系统中提供的代码而不是自己写" class="headerlink" title="优先考虑系统中提供的代码而不是自己写"></a><strong>优先考虑系统中提供的代码而不是自己写</strong></h2><p>系统内置了许多非常方便的api供我们使用，比如：System、Arrays、Collections、String等内置了许多方法api，这比我们自己手写方便多了，除了这个外，对于Android来说许多api都使用了底层C/C++实现，所以效率上也比我们自己写快，同样，对于系统api，DVM往往也会使用内联的方式提高效率</p>
 <h2 id="慎用异常"><a href="#慎用异常" class="headerlink" title="慎用异常"></a><strong>慎用异常</strong></h2><p>慎用异常并不是不用异常，而是指程序中用抛异常的方式来执行某些操作，比如有些人会以强抛异常方式来中断某些操作等。因为抛异常时都会执行fillInStackTrace();方法，该方法作用就是重新调整堆栈，这使得没有必要用异常的地方一定要避免使用</p>
 <p>欢迎补充。。。</p>
-]]></content>
+]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2015/11/25/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84%E4%BC%98%E5%8C%96%E7%82%B9/#disqus_thread</comments>
+    </item>
     
-    <summary type="html">
-    
-      &lt;p&gt;对于性能优化这个知识点来说，实在是太广了，博主本人也一直非常关注这方面的学习，而对于性能优化来说它包括了非常非常非常多方面，比如：I/O的优化、网络操作的优化、内存的优化、数据结构的优化、代码层次的优化、UI渲染优化、CPU资源使用率的优化、异常处理的优化等等等等。。。&lt;/p&gt;
-&lt;p&gt;本篇文章就博主本人的理解来讲述一些在Android开发中可以优化的地方&lt;/p&gt;
-&lt;h2 id=&quot;ArrayList和Vector&quot;&gt;&lt;a href=&quot;#ArrayList和Vector&quot; class=&quot;headerlink&quot; title=&quot;ArrayList和Vector&quot;&gt;&lt;/a&gt;&lt;strong&gt;ArrayList和Vector&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;ArrayList和Vector都是内部以数组实现的List，它们两唯一的区别就是对多线程的支持，ArrayList是线程不安全的，而Vector内部对大多数方法都做了同步，是线程安全的，既然是线程安全的，所以性能方面肯定不如ArrayList了（当然想法肯定是对的），不过这需要看哪方面了，ArrayList在add、get、remove等操作效率肯定是高于Vector的，而在内存方面，Vector却比ArrayList表现的更好，这归根都是ArrayList的扩容策略导致的，稍后分析&lt;br&gt;
-    
-    </summary>
-    
-      <category term="性能优化" scheme="http://zhengxiaoyong.me/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-    
-      <category term="性能优化点" scheme="http://zhengxiaoyong.me/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E7%82%B9/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Android性能优化之常见的内存泄露</title>
-    <link href="http://zhengxiaoyong.me/2015/11/23/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%B8%B8%E8%A7%81%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/"/>
-    <id>http://zhengxiaoyong.me/2015/11/23/Android性能优化之常见的内存泄漏/</id>
-    <published>2015-11-23T14:37:30.000Z</published>
-    <updated>2016-04-24T04:17:10.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将以最直观的方式告诉我们该内存泄漏是由谁产生的和该内存泄漏导致谁泄漏了而不能回收，供我们复查。</p>
+    <item>
+      <title>Android性能优化之常见的内存泄露</title>
+      <link>http://zhengxiaoyong.me/2015/11/23/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%B8%B8%E8%A7%81%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/</link>
+      <guid>http://zhengxiaoyong.me/2015/11/23/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%B8%B8%E8%A7%81%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/</guid>
+      <pubDate>Mon, 23 Nov 2015 14:37:30 GMT</pubDate>
+      <description>
+      
+        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;&lt;strong&gt;前言&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将以最直观的方式告诉我们该内存泄漏是由谁产生的和该内存泄漏导致谁泄漏了而不能回收，供我们复查。&lt;/p&gt;
+&lt;p&gt;最近腾讯bugly也推出了三篇关于Android内存泄漏调优的文章：&lt;br&gt;1、&lt;a href=&quot;http://bugly.qq.com/blog/?p=832&quot;&gt;内存泄露从入门到精通三部曲之基础知识篇&lt;/a&gt;&lt;br&gt;2、&lt;a href=&quot;http://bugly.qq.com/blog/?p=872&quot;&gt;内存泄露从入门到精通三部曲之排查方法篇&lt;/a&gt;&lt;br&gt;3、&lt;a href=&quot;http://bugly.qq.com/blog/?p=884&quot;&gt;内存泄露从入门到精通三部曲之常见原因与用户实践&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;关于性能优化的文章，出自Realm.io：&lt;br&gt;&lt;a href=&quot;https://realm.io/cn/news/droidcon-farber-improving-android-app-performance/&quot;&gt;10 条提升 Android 性能的建议&lt;/a&gt;&lt;br&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将以最直观的方式告诉我们该内存泄漏是由谁产生的和该内存泄漏导致谁泄漏了而不能回收，供我们复查。</p>
 <p>最近腾讯bugly也推出了三篇关于Android内存泄漏调优的文章：<br>1、<a href="http://bugly.qq.com/blog/?p=832" target="_blank" rel="external">内存泄露从入门到精通三部曲之基础知识篇</a><br>2、<a href="http://bugly.qq.com/blog/?p=872" target="_blank" rel="external">内存泄露从入门到精通三部曲之排查方法篇</a><br>3、<a href="http://bugly.qq.com/blog/?p=884" target="_blank" rel="external">内存泄露从入门到精通三部曲之常见原因与用户实践</a></p>
 <p>关于性能优化的文章，出自Realm.io：<br><a href="https://realm.io/cn/news/droidcon-farber-improving-android-app-performance/" target="_blank" rel="external">10 条提升 Android 性能的建议</a><br><a id="more"></a></p>
 <h2 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a><strong>内存泄漏</strong></h2><h3 id="为什么会产生内存泄漏？"><a href="#为什么会产生内存泄漏？" class="headerlink" title="为什么会产生内存泄漏？"></a><strong>为什么会产生内存泄漏？</strong></h3><p>当一个对象已经不需要再使用了，本该被回收时，而有另外一个正在使用的对象持有它的引用从而导致它不能被回收，这导致本该被回收的对象不能被回收而停留在堆内存中，这就产生了内存泄漏。</p>
@@ -1048,31 +952,36 @@
 </ol>
 </blockquote>
 <p>5、对于不再需要使用的对象，显示的将其赋值为null，比如使用完Bitmap后先调用recycle()，再赋为null<br>6、保持对对象生命周期的敏感，特别注意单例、静态对象、全局性集合等的生命周期</p>
-]]></content>
+]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2015/11/23/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%B8%B8%E8%A7%81%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/#disqus_thread</comments>
+    </item>
     
-    <summary type="html">
-    
-      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;&lt;strong&gt;前言&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将以最直观的方式告诉我们该内存泄漏是由谁产生的和该内存泄漏导致谁泄漏了而不能回收，供我们复查。&lt;/p&gt;
-&lt;p&gt;最近腾讯bugly也推出了三篇关于Android内存泄漏调优的文章：&lt;br&gt;1、&lt;a href=&quot;http://bugly.qq.com/blog/?p=832&quot;&gt;内存泄露从入门到精通三部曲之基础知识篇&lt;/a&gt;&lt;br&gt;2、&lt;a href=&quot;http://bugly.qq.com/blog/?p=872&quot;&gt;内存泄露从入门到精通三部曲之排查方法篇&lt;/a&gt;&lt;br&gt;3、&lt;a href=&quot;http://bugly.qq.com/blog/?p=884&quot;&gt;内存泄露从入门到精通三部曲之常见原因与用户实践&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;关于性能优化的文章，出自Realm.io：&lt;br&gt;&lt;a href=&quot;https://realm.io/cn/news/droidcon-farber-improving-android-app-performance/&quot;&gt;10 条提升 Android 性能的建议&lt;/a&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="性能优化" scheme="http://zhengxiaoyong.me/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-    
-      <category term="内存泄露" scheme="http://zhengxiaoyong.me/tags/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Android性能优化之使用线程池处理异步任务</title>
-    <link href="http://zhengxiaoyong.me/2015/11/17/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%A4%84%E7%90%86%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/"/>
-    <id>http://zhengxiaoyong.me/2015/11/17/Android性能优化之使用线程池处理异步任务/</id>
-    <published>2015-11-17T08:06:30.000Z</published>
-    <updated>2016-04-24T04:38:15.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>说到线程，我想大家都不陌生，因为在开发时候或多或少都会用到线程，而通常创建线程有两种方式：</p>
+    <item>
+      <title>Android性能优化之使用线程池处理异步任务</title>
+      <link>http://zhengxiaoyong.me/2015/11/17/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%A4%84%E7%90%86%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/</link>
+      <guid>http://zhengxiaoyong.me/2015/11/17/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%A4%84%E7%90%86%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/</guid>
+      <pubDate>Tue, 17 Nov 2015 08:06:30 GMT</pubDate>
+      <description>
+      
+        &lt;p&gt;说到线程，我想大家都不陌生，因为在开发时候或多或少都会用到线程，而通常创建线程有两种方式：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1、继承Thread类&lt;br&gt;2、实现Runnable接口&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;虽说这两种方式都可以创建出一个线程，不过它们之间还是有一点区别的，主要区别在于在多线程访问同一资源的情况下，用Runnable接口创建的线程可以处理同一资源，而用Thread类创建的线程则各自独立处理，各自拥有自己的资源。&lt;/p&gt;
+&lt;p&gt;所以，在Java中大多数多线程程序都是通过实现Runnable来完成的，而对于Android来说也不例外，当涉及到需要开启线程去完成某件事时，我们都会这样写：&lt;/p&gt;
+&lt;figure class=&quot;highlight less&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;tag&quot;&gt;Thread&lt;/span&gt;(new &lt;span class=&quot;function&quot;&gt;Runnable&lt;/span&gt;() &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;variable&quot;&gt;@Override&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    public void &lt;span class=&quot;function&quot;&gt;run&lt;/span&gt;() &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;comment&quot;&gt;//do sth .&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;)&lt;span class=&quot;class&quot;&gt;.start&lt;/span&gt;();&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这段代码创建了一个线程并执行，它在任务结束后GC会自动回收该线程，一切看起来如此美妙，是的，它在线程并发不多的程序中确实不错，而假如这个程序有很多地方需要开启大量线程来处理任务，那么如果还是用上述的方式去创建线程处理的话，那么将导致系统的性能表现的非常糟糕，更别说在内存有限的移动设备上，主要的影响如下：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1、线程的创建和销毁都需要时间，当有大量的线程创建和销毁时，那么这些时间的消耗则比较明显，将导致性能上的缺失&lt;/p&gt;
+&lt;p&gt;2、大量的线程创建、执行和销毁是非常耗cpu和内存的，这样将直接影响系统的吞吐量，导致性能急剧下降，如果内存资源占用的比较多，还很可能造成OOM&lt;/p&gt;
+&lt;p&gt;3、大量的线程的创建和销毁很容易导致GC频繁的执行，从而发生内存抖动现象，而发生了内存抖动，对于移动端来说，最大的影响就是造成界面卡顿&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;而针对上述所描述的问题，解决的办法归根到底就是：重用已有的线程，从而减少线程的创建。&lt;br&gt;所以这就涉及到线程池（ExecutorService）的概念了，线程池的基本作用就是进行线程的复用，下面将具体介绍线程池的使用&lt;br&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p>说到线程，我想大家都不陌生，因为在开发时候或多或少都会用到线程，而通常创建线程有两种方式：</p>
 <blockquote>
 <p>1、继承Thread类<br>2、实现Runnable接口</p>
 </blockquote>
@@ -1182,34 +1091,10 @@
 <p>###<strong>关于AsyncTask的实现</strong><br>大家都知道AsyncTask内部实现其实就是Thread+Handler。其中Handler是为了处理线程之间的通信，而这个Thread到底是指什么呢？通过AsyncTask源码可以得知，其实这个Thread是线程池，AsyncTask内部实现了两个线程池，分别是：串行线程池和固定线程数量的线程池。而这个固定线程数量则是通过CPU的数量决定的。</p>
 <p>在默认情况下，我们大都通过AsyncTask::execute()来执行任务的，<br>，而execute()内部则是调用executeOnExecutor(sDefaultExecutor, params)方法执行的，第一个参数就是指定处理该任务的线程池，而默认情况下AsyncTask是传入串行线程池（在这里不讲版本的变化），也就是任务只能单个的按顺序执行，而我们要是想让AsyncTask并行的处理任务，大家都知道调用AsyncTask::executeOnExecutor(sDefaultExecutor, params)方法传入这个参数即可：AsyncTask.THREAD_POOL_EXECUTOR。<br>而这个参数的意义在于为任务指定了一个固定线程数量的线程池去处理，从而达到了并行处理的功能，我们可以在源码中看到AsyncTask.THREAD_POOL_EXECUTOR这个参数就是一个固定线程数量的线程池：</p>
 <figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Executor THREAD_POOL_EXECUTOR</span><br><span class="line">        = <span class="keyword">new</span> ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE,</span><br><span class="line">                TimeUnit.SECONDS, sPoolWorkQueue, sThreadFactory);</span><br></pre></td></tr></table></figure>
-]]></content>
+]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2015/11/17/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%A4%84%E7%90%86%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/#disqus_thread</comments>
+    </item>
     
-    <summary type="html">
-    
-      &lt;p&gt;说到线程，我想大家都不陌生，因为在开发时候或多或少都会用到线程，而通常创建线程有两种方式：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;1、继承Thread类&lt;br&gt;2、实现Runnable接口&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;虽说这两种方式都可以创建出一个线程，不过它们之间还是有一点区别的，主要区别在于在多线程访问同一资源的情况下，用Runnable接口创建的线程可以处理同一资源，而用Thread类创建的线程则各自独立处理，各自拥有自己的资源。&lt;/p&gt;
-&lt;p&gt;所以，在Java中大多数多线程程序都是通过实现Runnable来完成的，而对于Android来说也不例外，当涉及到需要开启线程去完成某件事时，我们都会这样写：&lt;/p&gt;
-&lt;figure class=&quot;highlight less&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;tag&quot;&gt;Thread&lt;/span&gt;(new &lt;span class=&quot;function&quot;&gt;Runnable&lt;/span&gt;() &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;variable&quot;&gt;@Override&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    public void &lt;span class=&quot;function&quot;&gt;run&lt;/span&gt;() &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;comment&quot;&gt;//do sth .&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;)&lt;span class=&quot;class&quot;&gt;.start&lt;/span&gt;();&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;这段代码创建了一个线程并执行，它在任务结束后GC会自动回收该线程，一切看起来如此美妙，是的，它在线程并发不多的程序中确实不错，而假如这个程序有很多地方需要开启大量线程来处理任务，那么如果还是用上述的方式去创建线程处理的话，那么将导致系统的性能表现的非常糟糕，更别说在内存有限的移动设备上，主要的影响如下：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;1、线程的创建和销毁都需要时间，当有大量的线程创建和销毁时，那么这些时间的消耗则比较明显，将导致性能上的缺失&lt;/p&gt;
-&lt;p&gt;2、大量的线程创建、执行和销毁是非常耗cpu和内存的，这样将直接影响系统的吞吐量，导致性能急剧下降，如果内存资源占用的比较多，还很可能造成OOM&lt;/p&gt;
-&lt;p&gt;3、大量的线程的创建和销毁很容易导致GC频繁的执行，从而发生内存抖动现象，而发生了内存抖动，对于移动端来说，最大的影响就是造成界面卡顿&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;而针对上述所描述的问题，解决的办法归根到底就是：重用已有的线程，从而减少线程的创建。&lt;br&gt;所以这就涉及到线程池（ExecutorService）的概念了，线程池的基本作用就是进行线程的复用，下面将具体介绍线程池的使用&lt;br&gt;
-    
-    </summary>
-    
-      <category term="性能优化" scheme="http://zhengxiaoyong.me/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-    
-      <category term="异步任务" scheme="http://zhengxiaoyong.me/tags/%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1/"/>
-    
-      <category term="线程池" scheme="http://zhengxiaoyong.me/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"/>
-    
-  </entry>
-  
-</feed>
+  </channel>
+</rss>
