@@ -5,16 +5,19 @@
   
 
 
-<html class="theme-next pisces use-motion">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
 
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
 
 
 
@@ -63,9 +66,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
   <meta name="keywords" content="Hexo, NexT" />
@@ -79,35 +82,54 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
 
 
 
 
 
 
+<meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="zhengxiaoyong">
 <meta property="og:url" content="http://zhengxiaoyong.me/page/2/index.html">
 <meta property="og:site_name" content="zhengxiaoyong">
+<meta property="og:description">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zhengxiaoyong">
+<meta name="twitter:description">
 
 
 
-<script type="text/javascript" id="hexo.configuration">
+<script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
+    root: '/',
     scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: undefined,
+      userId: '0',
       author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
 </script>
+
+
+
+  <link rel="canonical" href="http://zhengxiaoyong.me/page/2/"/>
+
+
+
+
 
   <title> zhengxiaoyong </title>
 </head>
@@ -115,6 +137,10 @@
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
+
+
+
+
 
 
 
@@ -146,7 +172,9 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">生活不止眼前的苟且，还有诗，和远方.</p>
+    
+      <p class="site-subtitle">生活不止眼前的苟且，还有诗，和远方.</p>
+    
 </div>
 
 <div class="site-nav-toggle">
@@ -221,6 +249,8 @@
   
 </nav>
 
+
+
  </div>
     </header>
 
@@ -234,13 +264,26 @@
       
 
   
-  
 
   
   
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhengxiaoyong.me/2016/01/04/Fresco图片框架内部实现原理探索/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="郑晓勇">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="zhengxiaoyong">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="zhengxiaoyong" src="">
+    </span>
+  </span>
 
     
       <header class="post-header">
@@ -262,24 +305,36 @@
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-04T11:38:30+08:00" content="2016-01-04">
-              2016-01-04
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-01-04T11:38:30+08:00">
+                2016-01-04
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/技术沉淀/" itemprop="url" rel="index">
                     <span itemprop="name">技术沉淀</span>
                   </a>
@@ -287,7 +342,6 @@
 
                 
                 
-
               
             </span>
           
@@ -295,29 +349,37 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2016/01/04/Fresco图片框架内部实现原理探索/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/04/Fresco图片框架内部实现原理探索/" itemprop="commentsCount"></span>
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/04/Fresco图片框架内部实现原理探索/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-
-          
           
              <span id="/2016/01/04/Fresco图片框架内部实现原理探索/" class="leancloud_visitors" data-flag-title="Fresco图片框架内部实现原理探索">
-               &nbsp; | &nbsp;
+               <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
@@ -334,11 +396,13 @@
 <p>简明的介绍下（具体细节和功能可看源码和wiki）：<br>其中Picasso和Universal Image Loader相比其它的算是最轻量级的图片框架了，它们拥有较少的方法数，Universal Image Loader是这五个框架中定制性最强的，它内部实现还是按网络框架的套路走：HttpUrlConnection+线程池+Handler，支持渐显效果。<br>而Picasso只有一些图片加载框架应有的基本功能，所以因此它是最轻量的，在需求只要基本的图片加载与双缓存功能下，可以选Picasso作为项目的基础库，Picasso它内部默认是使用OkHttpClient作为加载网络图片的下载器，毕竟不用自家用谁的，在OkHttpClient没有的情况下则使用HttpUrlConnection，同上面一样，下载器+线程池+Handler，不过它内部的线程池比较有意思，线程池的线程数量是根据当前的网络环境来动态改变的，wifi网络下为4，4G为3，3G为2，2G为1，其它情况下默认为3，支持渐显效果。<br>Volley的没什么可说的，基本功能都有，网络框架的附赠功能。</p>
 <p>Glide的话，Google官方推荐，支持Gif、图片缩略图、本地视频解码、请求和动画生命周期的自动管理、渐显动画、支持OkHttp和Volley等等，默认是使用HttpUrlConnection加载图片的，源码灰常多，200多个类，不想看</p>
 <p>Fresco我认为是这几个框架中性能最佳的一个框架，着重介绍，它内部用了大量的建造者模式、单例模式、静态工厂模式、生产/消费者模式。内部实现比较复杂，就拿图片加载来说，是通过在异步线程中回调图片的输入流，然后通过一系列读取、写入、转化成EncodedImage，然后再Decode成Bitmap，通过Handler转给UI线程显示，通过IO操作存储在硬盘缓存目录下。<br>
-          <div class="post-more-link text-center">
+          <!--noindex-->
+          <div class="post-button text-center">
             <a class="btn" href="/2016/01/04/Fresco图片框架内部实现原理探索/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
@@ -351,7 +415,10 @@
       
     </div>
 
+
     <footer class="post-footer">
+      
+
       
 
       
@@ -368,13 +435,26 @@
       
 
   
-  
 
   
   
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhengxiaoyong.me/2015/11/25/Android性能优化之被忽视的优化点/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="郑晓勇">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="zhengxiaoyong">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="zhengxiaoyong" src="">
+    </span>
+  </span>
 
     
       <header class="post-header">
@@ -396,24 +476,36 @@
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-25T15:42:30+08:00" content="2015-11-25">
-              2015-11-25
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2015-11-25T15:42:30+08:00">
+                2015-11-25
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/性能优化/" itemprop="url" rel="index">
                     <span itemprop="name">性能优化</span>
                   </a>
@@ -421,7 +513,6 @@
 
                 
                 
-
               
             </span>
           
@@ -429,29 +520,37 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2015/11/25/Android性能优化之被忽视的优化点/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/25/Android性能优化之被忽视的优化点/" itemprop="commentsCount"></span>
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/25/Android性能优化之被忽视的优化点/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-
-          
           
              <span id="/2015/11/25/Android性能优化之被忽视的优化点/" class="leancloud_visitors" data-flag-title="Android性能优化之被忽视的优化点">
-               &nbsp; | &nbsp;
+               <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
@@ -467,11 +566,13 @@
           <p>对于性能优化这个知识点来说，实在是太广了，博主本人也一直非常关注这方面的学习，而对于性能优化来说它包括了非常非常非常多方面，比如：I/O的优化、网络操作的优化、内存的优化、数据结构的优化、代码层次的优化、UI渲染优化、CPU资源使用率的优化、异常处理的优化等等等等。。。</p>
 <p>本篇文章就博主本人的理解来讲述一些在Android开发中可以优化的地方</p>
 <h2 id="ArrayList和Vector"><a href="#ArrayList和Vector" class="headerlink" title="ArrayList和Vector"></a><strong>ArrayList和Vector</strong></h2><p>ArrayList和Vector都是内部以数组实现的List，它们两唯一的区别就是对多线程的支持，ArrayList是线程不安全的，而Vector内部对大多数方法都做了同步，是线程安全的，既然是线程安全的，所以性能方面肯定不如ArrayList了（当然想法肯定是对的），不过这需要看哪方面了，ArrayList在add、get、remove等操作效率肯定是高于Vector的，而在内存方面，Vector却比ArrayList表现的更好，这归根都是ArrayList的扩容策略导致的，稍后分析<br>
-          <div class="post-more-link text-center">
+          <!--noindex-->
+          <div class="post-button text-center">
             <a class="btn" href="/2015/11/25/Android性能优化之被忽视的优化点/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
@@ -484,7 +585,10 @@
       
     </div>
 
+
     <footer class="post-footer">
+      
+
       
 
       
@@ -501,13 +605,26 @@
       
 
   
-  
 
   
   
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhengxiaoyong.me/2015/11/23/Android性能优化之常见的内存泄漏/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="郑晓勇">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="zhengxiaoyong">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="zhengxiaoyong" src="">
+    </span>
+  </span>
 
     
       <header class="post-header">
@@ -529,24 +646,36 @@
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-23T22:37:30+08:00" content="2015-11-23">
-              2015-11-23
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2015-11-23T22:37:30+08:00">
+                2015-11-23
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/性能优化/" itemprop="url" rel="index">
                     <span itemprop="name">性能优化</span>
                   </a>
@@ -554,7 +683,6 @@
 
                 
                 
-
               
             </span>
           
@@ -562,29 +690,37 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2015/11/23/Android性能优化之常见的内存泄漏/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/23/Android性能优化之常见的内存泄漏/" itemprop="commentsCount"></span>
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/23/Android性能优化之常见的内存泄漏/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-
-          
           
              <span id="/2015/11/23/Android性能优化之常见的内存泄漏/" class="leancloud_visitors" data-flag-title="Android性能优化之常见的内存泄露">
-               &nbsp; | &nbsp;
+               <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
@@ -600,11 +736,13 @@
           <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将以最直观的方式告诉我们该内存泄漏是由谁产生的和该内存泄漏导致谁泄漏了而不能回收，供我们复查。</p>
 <p>最近腾讯bugly也推出了三篇关于Android内存泄漏调优的文章：<br>1、<a href="http://bugly.qq.com/blog/?p=832">内存泄露从入门到精通三部曲之基础知识篇</a><br>2、<a href="http://bugly.qq.com/blog/?p=872">内存泄露从入门到精通三部曲之排查方法篇</a><br>3、<a href="http://bugly.qq.com/blog/?p=884">内存泄露从入门到精通三部曲之常见原因与用户实践</a></p>
 <p>关于性能优化的文章，出自Realm.io：<br><a href="https://realm.io/cn/news/droidcon-farber-improving-android-app-performance/">10 条提升 Android 性能的建议</a><br>
-          <div class="post-more-link text-center">
+          <!--noindex-->
+          <div class="post-button text-center">
             <a class="btn" href="/2015/11/23/Android性能优化之常见的内存泄漏/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
@@ -617,7 +755,10 @@
       
     </div>
 
+
     <footer class="post-footer">
+      
+
       
 
       
@@ -634,13 +775,26 @@
       
 
   
-  
 
   
   
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhengxiaoyong.me/2015/11/17/Android性能优化之使用线程池处理异步任务/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="郑晓勇">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="zhengxiaoyong">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="zhengxiaoyong" src="">
+    </span>
+  </span>
 
     
       <header class="post-header">
@@ -662,24 +816,36 @@
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-17T16:06:30+08:00" content="2015-11-17">
-              2015-11-17
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2015-11-17T16:06:30+08:00">
+                2015-11-17
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/性能优化/" itemprop="url" rel="index">
                     <span itemprop="name">性能优化</span>
                   </a>
@@ -687,7 +853,6 @@
 
                 
                 
-
               
             </span>
           
@@ -695,29 +860,37 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2015/11/17/Android性能优化之使用线程池处理异步任务/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/17/Android性能优化之使用线程池处理异步任务/" itemprop="commentsCount"></span>
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/17/Android性能优化之使用线程池处理异步任务/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-
-          
           
              <span id="/2015/11/17/Android性能优化之使用线程池处理异步任务/" class="leancloud_visitors" data-flag-title="Android性能优化之使用线程池处理异步任务">
-               &nbsp; | &nbsp;
+               <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
@@ -736,7 +909,7 @@
 </blockquote>
 <p>虽说这两种方式都可以创建出一个线程，不过它们之间还是有一点区别的，主要区别在于在多线程访问同一资源的情况下，用Runnable接口创建的线程可以处理同一资源，而用Thread类创建的线程则各自独立处理，各自拥有自己的资源。</p>
 <p>所以，在Java中大多数多线程程序都是通过实现Runnable来完成的，而对于Android来说也不例外，当涉及到需要开启线程去完成某件事时，我们都会这样写：</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">//do sth .</span></div><div class="line">    &#125;</div><div class="line">&#125;).start();</div></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">new</span> <span class="tag">Thread</span>(new <span class="function">Runnable</span>() &#123;</span><br><span class="line">    <span class="variable">@Override</span></span><br><span class="line">    public void <span class="function">run</span>() &#123;</span><br><span class="line">        <span class="comment">//do sth .</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)<span class="class">.start</span>();</span><br></pre></td></tr></table></figure>
 <p>这段代码创建了一个线程并执行，它在任务结束后GC会自动回收该线程，一切看起来如此美妙，是的，它在线程并发不多的程序中确实不错，而假如这个程序有很多地方需要开启大量线程来处理任务，那么如果还是用上述的方式去创建线程处理的话，那么将导致系统的性能表现的非常糟糕，更别说在内存有限的移动设备上，主要的影响如下：</p>
 <blockquote>
 <p>1、线程的创建和销毁都需要时间，当有大量的线程创建和销毁时，那么这些时间的消耗则比较明显，将导致性能上的缺失</p>
@@ -744,11 +917,13 @@
 <p>3、大量的线程的创建和销毁很容易导致GC频繁的执行，从而发生内存抖动现象，而发生了内存抖动，对于移动端来说，最大的影响就是造成界面卡顿</p>
 </blockquote>
 <p>而针对上述所描述的问题，解决的办法归根到底就是：重用已有的线程，从而减少线程的创建。<br>所以这就涉及到线程池（ExecutorService）的概念了，线程池的基本作用就是进行线程的复用，下面将具体介绍线程池的使用<br>
-          <div class="post-more-link text-center">
+          <!--noindex-->
+          <div class="post-button text-center">
             <a class="btn" href="/2015/11/17/Android性能优化之使用线程池处理异步任务/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
@@ -761,7 +936,10 @@
       
     </div>
 
+
     <footer class="post-footer">
+      
+
       
 
       
@@ -783,7 +961,7 @@
   </nav>
 
 
-
+          
           </div>
           
 
@@ -809,21 +987,24 @@
 
       
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.png"
+               src="/images/avatar.png"
                alt="郑晓勇" />
           <p class="site-author-name" itemprop="name">郑晓勇</p>
           <p class="site-description motion-element" itemprop="description"></p>
         </div>
         <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">14</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
 
           
             <div class="site-state-item site-state-categories">
@@ -856,26 +1037,6 @@
 
         <div class="links-of-author motion-element">
           
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/Sunzxyong" target="_blank" title="github">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  github
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/3048730677/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="weibo">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  weibo
-                </a>
-              </span>
-            
-          
         </div>
 
         
@@ -883,20 +1044,9 @@
 
         
         
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              Links
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://blog.csdn.net/u010687392" title="我的CSDN" target="_blank">我的CSDN</a>
-                </li>
-              
-            </ul>
-          </div>
+
         
+
 
       </section>
 
@@ -921,7 +1071,19 @@
   </span>
   <span class="author" itemprop="copyrightHolder">郑晓勇</span>
 </div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
 
         
 
@@ -954,6 +1116,7 @@
 
 
 
+
   
   <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
 
@@ -976,28 +1139,28 @@
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
 
 
 
   
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
 
 
 
@@ -1021,6 +1184,19 @@
   </script>
 
   
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
 
 
 
@@ -1028,27 +1204,8 @@
 
   
   
+
   
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-  </script>
-
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-      var all = MathJax.Hub.getAllJax(), i;
-      for (i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  </script>
-  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
 
   
 
@@ -1082,6 +1239,14 @@
             var element = document.getElementById(url);
 
             $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
           }
         })
         .fail(function (object, error) {
@@ -1152,6 +1317,9 @@
 
 
   
+
+  
+
 
 </body>
 </html>

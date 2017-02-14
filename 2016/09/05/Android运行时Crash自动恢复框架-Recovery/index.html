@@ -5,16 +5,19 @@
   
 
 
-<html class="theme-next pisces use-motion">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
 
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
 
 
 
@@ -63,12 +66,12 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Crash恢复,ActivityStack恢复," />
+  <meta name="keywords" content="ActivityStack恢复,Crash恢复," />
 
 
 
@@ -79,7 +82,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
 
 
 
@@ -108,23 +111,38 @@ Crash的处理对于应用的Crash，一般的做">
 App Crash的恢复，这个想法很早之前就有，目前有些时间就实现了一把，主要是对App运行时发生Crash后，对Activity的堆栈和数据进行恢复，或者重启应用，或者重启并清空缓存，避免因本地的数据类型或格式错误而导致App在读取时一直Crash，Debug模式还包括Crash信息的显示和保存，便于在开发、测试时查看相应CrashInfo
 
 Crash的处理对于应用的Crash，一般的做">
-<meta name="twitter:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/Recovery.png">
 
 
 
-<script type="text/javascript" id="hexo.configuration">
+<script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
+    root: '/',
     scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: undefined,
+      userId: '0',
       author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
 </script>
+
+
+
+  <link rel="canonical" href="http://zhengxiaoyong.me/2016/09/05/Android运行时Crash自动恢复框架-Recovery/"/>
+
+
+
+
 
   <title> Android运行时Crash自动恢复框架-Recovery | zhengxiaoyong </title>
 </head>
@@ -132,6 +150,10 @@ Crash的处理对于应用的Crash，一般的做">
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
+
+
+
+
 
 
 
@@ -161,7 +183,9 @@ Crash的处理对于应用的Crash，一般的做">
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">生活不止眼前的苟且，还有诗，和远方.</p>
+    
+      <p class="site-subtitle">生活不止眼前的苟且，还有诗，和远方.</p>
+    
 </div>
 
 <div class="site-nav-toggle">
@@ -236,6 +260,8 @@ Crash的处理对于应用的Crash，一般的做">
   
 </nav>
 
+
+
  </div>
     </header>
 
@@ -249,13 +275,26 @@ Crash的处理对于应用的Crash，一般的做">
     
 
   
-  
 
   
   
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhengxiaoyong.me/2016/09/05/Android运行时Crash自动恢复框架-Recovery/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="郑晓勇">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="zhengxiaoyong">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="zhengxiaoyong" src="">
+    </span>
+  </span>
 
     
       <header class="post-header">
@@ -274,24 +313,36 @@ Crash的处理对于应用的Crash，一般的做">
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-05T19:35:32+08:00" content="2016-09-05">
-              2016-09-05
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-09-05T19:35:32+08:00">
+                2016-09-05
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/技术沉淀/" itemprop="url" rel="index">
                     <span itemprop="name">技术沉淀</span>
                   </a>
@@ -299,7 +350,6 @@ Crash的处理对于应用的Crash，一般的做">
 
                 
                 
-
               
             </span>
           
@@ -307,29 +357,37 @@ Crash的处理对于应用的Crash，一般的做">
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2016/09/05/Android运行时Crash自动恢复框架-Recovery/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/05/Android运行时Crash自动恢复框架-Recovery/" itemprop="commentsCount"></span>
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/05/Android运行时Crash自动恢复框架-Recovery/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-
-          
           
              <span id="/2016/09/05/Android运行时Crash自动恢复框架-Recovery/" class="leancloud_visitors" data-flag-title="Android运行时Crash自动恢复框架-Recovery">
-               &nbsp; | &nbsp;
+               <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
@@ -345,7 +403,7 @@ Crash的处理对于应用的Crash，一般的做">
 <p>App Crash的恢复，这个想法很早之前就有，目前有些时间就实现了一把，主要是对App运行时发生Crash后，对Activity的堆栈和数据进行恢复，或者重启应用，或者重启并清空缓存，避免因本地的数据类型或格式错误而导致App在读取时一直Crash，Debug模式还包括Crash信息的显示和保存，便于在开发、测试时查看相应CrashInfo</p>
 </blockquote>
 <h1 id="Crash的处理"><a href="#Crash的处理" class="headerlink" title="Crash的处理"></a><strong>Crash的处理</strong></h1><p>对于应用的Crash，一般的做法我们往往都是实现个自定义<code>UncaughtExceptionHandler</code>，而这个自定义的CustomUncaughtHandler我们一般都用于捕捉Crash信息进行上报和监控是否发生Crash，还有一个作用就是可以屏蔽系统默认的Crash对话框，也就是拦截Crash后不把系统默认的UncaughtHandler设置进去，而是直接进行KillProcess，这个过程就是屏蔽了系统的默认Crash处理流程，原因是系统的处理其中在AMS的crashApplication()中会执行这么一段代码：</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Message msg = Message.obtain()<span class="comment">;</span></div><div class="line">msg.what = <span class="keyword">SHOW_ERROR_MSG;</span></div><div class="line">HashMap data = new HashMap()<span class="comment">;</span></div><div class="line">data.put(<span class="string">"result"</span>, result)<span class="comment">;</span></div><div class="line">data.put(<span class="string">"app"</span>, r)<span class="comment">;</span></div><div class="line">msg.obj = data<span class="comment">;</span></div><div class="line">mUiHandler.sendMessage(msg)<span class="comment">;</span></div></pre></td></tr></table></figure>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Message</span> msg = <span class="type">Message</span>.obtain();</span><br><span class="line">msg.what = <span class="type">SHOW_ERROR_MSG</span>;</span><br><span class="line"><span class="type">HashMap</span> data = new <span class="type">HashMap</span>();</span><br><span class="line">data.put(<span class="string">"result"</span>, <span class="literal">result</span>);</span><br><span class="line">data.put(<span class="string">"app"</span>, r);</span><br><span class="line">msg.obj = data;</span><br><span class="line">mUiHandler.sendMessage(msg);</span><br></pre></td></tr></table></figure>
 <p>发送一个显示Dialog的消息，之后便创建一个AppErrorDialog进行显示。<br><a id="more"></a><br>当然还有另外一种屏蔽系统默认ErrorDialog的方法，就是对AMP进行Hook，拦截handleApplicationCrash()方法后进行KillProcess，这样的话永远都将不会出现系统默认对话框，即使把系统默认的设置进去了，这个方法建议App内对AMP进行了Hook的做，其它App反而只为实现这个小功能而进行Hook成本太高，还是用自定义的做法进行屏蔽。</p>
 <h1 id="Recovery"><a href="#Recovery" class="headerlink" title="Recovery"></a><strong>Recovery</strong></h1><h2 id="Crash处理流程"><a href="#Crash处理流程" class="headerlink" title="Crash处理流程"></a><strong>Crash处理流程</strong></h2><p>对于Recovery，在应用发生Crash时，会进入一个Recovery界面，在该界面可以进行界面的恢复、应用的重启，或进入debug模式进行Crash信息的查看与保存</p>
 <h2 id="接入"><a href="#接入" class="headerlink" title="接入"></a><strong>接入</strong></h2><h3 id="请戳这里"><a href="#请戳这里" class="headerlink" title="请戳这里"></a><a href="https://github.com/Sunzxyong/Recovery/blob/master/README.md" target="_blank" rel="external">请戳这里</a></h3><h2 id="RecoveryActivity"><a href="#RecoveryActivity" class="headerlink" title="RecoveryActivity"></a><strong>RecoveryActivity</strong></h2><p>在应用发生Crash后，将进入RecoveryActivity界面<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/Recovery.png" alt="Recovery"></p>
@@ -369,46 +427,31 @@ Crash的处理对于应用的Crash，一般的做">
     <div>
       
         
+
       
     </div>
 
     <div>
       
         
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="http://7xswxf.com2.z0.glb.clouddn.com/blog/weixin.png" alt="郑晓勇 WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="http://7xswxf.com2.z0.glb.clouddn.com/blog/alipay.png" alt="郑晓勇 Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
-  </div>
-
 
       
     </div>
+
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/Crash恢复/" rel="tag">#Crash恢复</a>
+            <a href="/tags/ActivityStack恢复/" rel="tag"># ActivityStack恢复</a>
           
-            <a href="/tags/ActivityStack恢复/" rel="tag">#ActivityStack恢复</a>
+            <a href="/tags/Crash恢复/" rel="tag"># Crash恢复</a>
           
         </div>
+      
+
+      
+        
       
 
       
@@ -420,6 +463,8 @@ Crash的处理对于应用的Crash，一般的做">
               </a>
             
           </div>
+
+          <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
@@ -466,7 +511,7 @@ Crash的处理对于应用的Crash，一般的做">
     </div>
   </div>
 
-
+          
           </div>
           
 
@@ -509,21 +554,24 @@ Crash的处理对于应用的Crash，一般的做">
         </ul>
       
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.png"
+               src="/images/avatar.png"
                alt="郑晓勇" />
           <p class="site-author-name" itemprop="name">郑晓勇</p>
           <p class="site-description motion-element" itemprop="description"></p>
         </div>
         <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">14</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
 
           
             <div class="site-state-item site-state-categories">
@@ -556,26 +604,6 @@ Crash的处理对于应用的Crash，一般的做">
 
         <div class="links-of-author motion-element">
           
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/Sunzxyong" target="_blank" title="github">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  github
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/3048730677/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="weibo">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  weibo
-                </a>
-              </span>
-            
-          
         </div>
 
         
@@ -583,34 +611,28 @@ Crash的处理对于应用的Crash，一般的做">
 
         
         
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              Links
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://blog.csdn.net/u010687392" title="我的CSDN" target="_blank">我的CSDN</a>
-                </li>
-              
-            </ul>
-          </div>
+
         
+
 
       </section>
 
       
+      <!--noindex-->
         <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
+
             
               
             
+
             
               <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Crash的处理"><span class="nav-number">2.</span> <span class="nav-text">Crash的处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Recovery"><span class="nav-number">3.</span> <span class="nav-text">Recovery</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Crash处理流程"><span class="nav-number">3.1.</span> <span class="nav-text">Crash处理流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接入"><span class="nav-number">3.2.</span> <span class="nav-text">接入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#请戳这里"><span class="nav-number">3.2.1.</span> <span class="nav-text">请戳这里</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RecoveryActivity"><span class="nav-number">3.3.</span> <span class="nav-text">RecoveryActivity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ActivityStack的恢复"><span class="nav-number">3.4.</span> <span class="nav-text">ActivityStack的恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主页的回退"><span class="nav-number">3.5.</span> <span class="nav-text">主页的回退</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连续Crash的处理"><span class="nav-number">3.6.</span> <span class="nav-text">连续Crash的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静默恢复"><span class="nav-number">3.7.</span> <span class="nav-text">静默恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无图言屌"><span class="nav-number">3.8.</span> <span class="nav-text">无图言屌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目地址"><span class="nav-number">3.9.</span> <span class="nav-text">项目地址</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#还是戳我"><span class="nav-number">3.9.1.</span> <span class="nav-text">还是戳我</span></a></li></ol></li></ol></li></ol></div>
             
+
           </div>
         </section>
+      <!--/noindex-->
       
 
     </div>
@@ -632,7 +654,19 @@ Crash的处理对于应用的Crash，一般的做">
   </span>
   <span class="author" itemprop="copyrightHolder">郑晓勇</span>
 </div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
 
         
 
@@ -665,6 +699,7 @@ Crash的处理对于应用的Crash，一般的做">
 
 
 
+
   
   <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
 
@@ -687,32 +722,32 @@ Crash的处理对于应用的Crash，一般的做">
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
 
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
 
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
 
 
 
@@ -736,6 +771,19 @@ Crash的处理对于应用的Crash，一般的做">
   </script>
 
   
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
 
 
 
@@ -743,27 +791,8 @@ Crash的处理对于应用的Crash，一般的做">
 
   
   
+
   
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-  </script>
-
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-      var all = MathJax.Hub.getAllJax(), i;
-      for (i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  </script>
-  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
 
   
 
@@ -797,6 +826,14 @@ Crash的处理对于应用的Crash，一般的做">
             var element = document.getElementById(url);
 
             $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
           }
         })
         .fail(function (object, error) {
@@ -867,6 +904,9 @@ Crash的处理对于应用的Crash，一般的做">
 
 
   
+
+  
+
 
 </body>
 </html>

@@ -5,16 +5,19 @@
   
 
 
-<html class="theme-next pisces use-motion">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
 
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
 
 
 
@@ -63,9 +66,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
   <meta name="keywords" content="内存泄露," />
@@ -79,7 +82,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
 
 
 
@@ -98,23 +101,38 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android性能优化之常见的内存泄露">
 <meta name="twitter:description" content="前言对于内存泄漏，我想大家在开发中肯定都遇到过，只不过内存泄漏对我们来说并不是可见的，因为它是在堆中活动，而要想检测程序中是否有内存泄漏的产生，通常我们可以借助LeakCanary、MAT等工具来检测应用程序是否存在内存泄漏，MAT是一款强大的内存分析工具，功能繁多而复杂，而LeakCanary则是由Square开源的一款轻量第三方内存泄漏检测工具，当它检测到程序中有内存泄漏的产生时，它将以最直观">
-<meta name="twitter:image" content="http://7xswxf.com2.z0.glb.clouddn.com/blog/threadlocal.png">
 
 
 
-<script type="text/javascript" id="hexo.configuration">
+<script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
+    root: '/',
     scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: undefined,
+      userId: '0',
       author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
 </script>
+
+
+
+  <link rel="canonical" href="http://zhengxiaoyong.me/2015/11/23/Android性能优化之常见的内存泄漏/"/>
+
+
+
+
 
   <title> Android性能优化之常见的内存泄露 | zhengxiaoyong </title>
 </head>
@@ -122,6 +140,10 @@
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
+
+
+
+
 
 
 
@@ -151,7 +173,9 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">生活不止眼前的苟且，还有诗，和远方.</p>
+    
+      <p class="site-subtitle">生活不止眼前的苟且，还有诗，和远方.</p>
+    
 </div>
 
 <div class="site-nav-toggle">
@@ -226,6 +250,8 @@
   
 </nav>
 
+
+
  </div>
     </header>
 
@@ -239,13 +265,26 @@
     
 
   
-  
 
   
   
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhengxiaoyong.me/2015/11/23/Android性能优化之常见的内存泄漏/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="郑晓勇">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="zhengxiaoyong">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="zhengxiaoyong" src="">
+    </span>
+  </span>
 
     
       <header class="post-header">
@@ -264,24 +303,36 @@
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-23T22:37:30+08:00" content="2015-11-23">
-              2015-11-23
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2015-11-23T22:37:30+08:00">
+                2015-11-23
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/性能优化/" itemprop="url" rel="index">
                     <span itemprop="name">性能优化</span>
                   </a>
@@ -289,7 +340,6 @@
 
                 
                 
-
               
             </span>
           
@@ -297,29 +347,37 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2015/11/23/Android性能优化之常见的内存泄漏/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/23/Android性能优化之常见的内存泄漏/" itemprop="commentsCount"></span>
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/23/Android性能优化之常见的内存泄漏/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-
-          
           
              <span id="/2015/11/23/Android性能优化之常见的内存泄漏/" class="leancloud_visitors" data-flag-title="Android性能优化之常见的内存泄露">
-               &nbsp; | &nbsp;
+               <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
@@ -337,24 +395,24 @@
 <h2 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a><strong>内存泄漏</strong></h2><h3 id="为什么会产生内存泄漏？"><a href="#为什么会产生内存泄漏？" class="headerlink" title="为什么会产生内存泄漏？"></a><strong>为什么会产生内存泄漏？</strong></h3><p>当一个对象已经不需要再使用了，本该被回收时，而有另外一个正在使用的对象持有它的引用从而导致它不能被回收，这导致本该被回收的对象不能被回收而停留在堆内存中，这就产生了内存泄漏。</p>
 <h3 id="内存泄漏对程序的影响？"><a href="#内存泄漏对程序的影响？" class="headerlink" title="内存泄漏对程序的影响？"></a><strong>内存泄漏对程序的影响？</strong></h3><p>内存泄漏是造成应用程序OOM的主要原因之一！我们知道Android系统为每个应用程序分配的内存有限，而当一个应用中产生的内存泄漏比较多时，这就难免会导致应用所需要的内存超过这个系统分配的内存限额，这就造成了内存溢出而导致应用Crash。</p>
 <h2 id="Android中常见的内存泄漏汇总"><a href="#Android中常见的内存泄漏汇总" class="headerlink" title="Android中常见的内存泄漏汇总"></a><strong>Android中常见的内存泄漏汇总</strong></h2><h3 id="单例造成的内存泄漏"><a href="#单例造成的内存泄漏" class="headerlink" title="单例造成的内存泄漏"></a><strong>单例造成的内存泄漏</strong></h3><p>单例模式非常受开发者的喜爱，不过使用的不恰当的话也会造成内存泄漏，由于单例的静态特性使得单例的生命周期和应用的生命周期一样长，这就说明了如果一个对象已经不需要使用了，而单例对象还持有该对象的引用，那么这个对象将不能被正常回收，这就导致了内存泄漏。<br>如下这个典例：</p>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public class AppManager &#123;</div><div class="line">   <span class="keyword"> private</span><span class="keyword"> static</span> AppManager instance;</div><div class="line">   <span class="keyword"> private</span> Context context;</div><div class="line">   <span class="keyword"> private</span> AppManager(Context context) &#123;</div><div class="line">        this.context = context;</div><div class="line">    &#125;</div><div class="line">   <span class="keyword"> public</span><span class="keyword"> static</span> AppManager getInstance(Context context) &#123;</div><div class="line">       <span class="built_in"> if </span>(instance == null) &#123;</div><div class="line">           <span class="built_in"> instance </span>=<span class="built_in"> new </span>AppManager(context);</div><div class="line">        &#125;</div><div class="line">       <span class="built_in"> return </span>instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class AppManager &#123;</span><br><span class="line">   <span class="keyword"> private</span><span class="keyword"> static</span> AppManager instance;</span><br><span class="line">   <span class="keyword"> private</span> Context context;</span><br><span class="line">   <span class="keyword"> private</span><span class="function"> AppManager(</span>Context context<span class="function">)</span> &#123;</span><br><span class="line">        this.context = context;</span><br><span class="line">    &#125;</span><br><span class="line">   <span class="keyword"> public</span><span class="keyword"> static</span> AppManager<span class="function"> getInstance(</span>Context context<span class="function">)</span> &#123;</span><br><span class="line">       <span class="instruction"> if </span>(instance == null<span class="function">)</span> &#123;</span><br><span class="line">           <span class="instruction"> instance </span>=<span class="instruction"> new </span>AppManager(context<span class="function">)</span>;</span><br><span class="line">        &#125;</span><br><span class="line">       <span class="instruction"> return </span>instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这是一个普通的单例模式，当创建这个单例的时候，由于需要传入一个Context，所以这个Context的生命周期的长短至关重要：<br><strong>1、传入的是Application的Context：</strong>这将没有任何问题，因为单例的生命周期和Application的一样长<br><strong>2、传入的是Activity的Context：</strong>当这个Context所对应的Activity退出时，由于该Context和Activity的生命周期一样长（Activity间接继承于Context），所以当前Activity退出时它的内存并不会被回收，因为单例对象持有该Activity的引用。<br>所以正确的单例应该修改为下面这种方式：</p>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public class AppManager &#123;</div><div class="line">   <span class="keyword"> private</span><span class="keyword"> static</span> AppManager instance;</div><div class="line">   <span class="keyword"> private</span> Context context;</div><div class="line">   <span class="keyword"> private</span> AppManager(Context context) &#123;</div><div class="line">        this.context = context.getApplicationContext();</div><div class="line">    &#125;</div><div class="line">   <span class="keyword"> public</span><span class="keyword"> static</span> AppManager getInstance(Context context) &#123;</div><div class="line">       <span class="built_in"> if </span>(instance == null) &#123;</div><div class="line">           <span class="built_in"> instance </span>=<span class="built_in"> new </span>AppManager(context);</div><div class="line">        &#125;</div><div class="line">       <span class="built_in"> return </span>instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class AppManager &#123;</span><br><span class="line">   <span class="keyword"> private</span><span class="keyword"> static</span> AppManager instance;</span><br><span class="line">   <span class="keyword"> private</span> Context context;</span><br><span class="line">   <span class="keyword"> private</span><span class="function"> AppManager(</span>Context context<span class="function">)</span> &#123;</span><br><span class="line">        this.context =<span class="function"> context.getApplicationContext(</span><span class="function">)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">   <span class="keyword"> public</span><span class="keyword"> static</span> AppManager<span class="function"> getInstance(</span>Context context<span class="function">)</span> &#123;</span><br><span class="line">       <span class="instruction"> if </span>(instance == null<span class="function">)</span> &#123;</span><br><span class="line">           <span class="instruction"> instance </span>=<span class="instruction"> new </span>AppManager(context<span class="function">)</span>;</span><br><span class="line">        &#125;</span><br><span class="line">       <span class="instruction"> return </span>instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样不管传入什么Context最终将使用Application的Context，而单例的生命周期和应用的一样长，这样就防止了内存泄漏</p>
 <h3 id="非静态内部类创建静态实例造成的内存泄漏"><a href="#非静态内部类创建静态实例造成的内存泄漏" class="headerlink" title="非静态内部类创建静态实例造成的内存泄漏"></a><strong>非静态内部类创建静态实例造成的内存泄漏</strong></h3><p>有的时候我们可能会在启动频繁的Activity中，为了避免重复创建相同的数据资源，可能会出现这种写法：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> static <span class="type">TestResource</span> mResource = <span class="literal">null</span>;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(<span class="type">R</span>.layout.activity_main);</div><div class="line">        <span class="keyword">if</span>(mManager == <span class="literal">null</span>)&#123;</div><div class="line">            mManager = <span class="keyword">new</span> <span class="type">TestResource</span>();</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//...</span></div><div class="line">    &#125;</div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">TestResource</span> </span>&#123;</div><div class="line">        <span class="comment">//...</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AppCompatActivity</span> &#123;</span></span><br><span class="line">    <span class="keyword">private</span> static <span class="type">TestResource</span> mResource = <span class="literal">null</span>;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(<span class="type">R</span>.layout.activity_main);</span><br><span class="line">        <span class="keyword">if</span>(mManager == <span class="literal">null</span>)&#123;</span><br><span class="line">            mManager = <span class="keyword">new</span> <span class="type">TestResource</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">TestResource</span> &#123;</span></span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样就在Activity内部创建了一个非静态内部类的单例，每次启动Activity时都会使用该单例的数据，这样虽然避免了资源的重复创建，不过这种写法却会造成内存泄漏，因为非静态内部类默认会持有外部类的引用，而又使用了该非静态内部类创建了一个静态的实例，该实例的生命周期和应用的一样长，这就导致了该静态实例一直会持有该Activity的引用，导致Activity的内存资源不能正常回收。正确的做法为：<br>将该内部类设为静态内部类或将该内部类抽取出来封装成一个单例，如果需要使用Context，请使用ApplicationContext</p>
 <h3 id="Handler造成的内存泄漏"><a href="#Handler造成的内存泄漏" class="headerlink" title="Handler造成的内存泄漏"></a><strong>Handler造成的内存泄漏</strong></h3><p>Handler的使用造成的内存泄漏问题应该说最为常见了，平时在处理网络任务或者封装一些请求回调等api都应该会借助Handler来处理，对于Handler的使用代码编写一不规范即有可能造成内存泄漏，如下示例：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="type">Handler</span> mHandler = <span class="keyword">new</span> <span class="type">Handler</span>() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        public void handleMessage(<span class="type">Message</span> msg) &#123;</div><div class="line">            <span class="comment">//...</span></div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(<span class="type">R</span>.layout.activity_main);</div><div class="line">        loadData();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">private</span> void loadData()&#123;</div><div class="line">        <span class="comment">//...request</span></div><div class="line">        <span class="type">Message</span> message = <span class="type">Message</span>.obtain();</div><div class="line">        mHandler.sendMessage(message);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AppCompatActivity</span> &#123;</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">Handler</span> mHandler = <span class="keyword">new</span> <span class="type">Handler</span>() &#123;</span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        public void handleMessage(<span class="type">Message</span> msg) &#123;</span><br><span class="line">            <span class="comment">//...</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(<span class="type">R</span>.layout.activity_main);</span><br><span class="line">        loadData();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> void loadData()&#123;</span><br><span class="line">        <span class="comment">//...request</span></span><br><span class="line">        <span class="type">Message</span> message = <span class="type">Message</span>.obtain();</span><br><span class="line">        mHandler.sendMessage(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这种创建Handler的方式会造成内存泄漏，由于mHandler是Handler的非静态匿名内部类的实例，所以它持有外部类Activity的引用，我们知道消息队列是在一个Looper线程中不断轮询处理消息，那么当这个Activity退出时消息队列中还有未处理的消息或者正在处理消息，而消息队列中的Message持有mHandler实例的引用，mHandler又持有Activity的引用，所以导致该Activity的内存资源无法及时回收，引发内存泄漏，所以另外一种做法为：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="type">MyHandler</span> mHandler = <span class="keyword">new</span> <span class="type">MyHandler</span>(<span class="keyword">this</span>);</div><div class="line">    <span class="keyword">private</span> <span class="type">TextView</span> mTextView ;</div><div class="line">    <span class="keyword">private</span> static <span class="class"><span class="keyword">class</span> <span class="title">MyHandler</span> <span class="keyword">extends</span> <span class="title">Handler</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> <span class="type">WeakReference</span>&lt;<span class="type">Context</span>&gt; reference;</div><div class="line">        public <span class="type">MyHandler</span>(<span class="type">Context</span> context) &#123;</div><div class="line">            reference = <span class="keyword">new</span> <span class="type">WeakReference</span>&lt;&gt;(context);</div><div class="line">        &#125;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        public void handleMessage(<span class="type">Message</span> msg) &#123;</div><div class="line">            <span class="type">MainActivity</span> activity = (<span class="type">MainActivity</span>) reference.get();</div><div class="line">            <span class="keyword">if</span>(activity != <span class="literal">null</span>)&#123;</div><div class="line">                activity.mTextView.setText(<span class="string">""</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(<span class="type">R</span>.layout.activity_main);</div><div class="line">        mTextView = (<span class="type">TextView</span>)findViewById(<span class="type">R</span>.id.textview);</div><div class="line">        loadData();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> void loadData() &#123;</div><div class="line">        <span class="comment">//...request</span></div><div class="line">        <span class="type">Message</span> message = <span class="type">Message</span>.obtain();</div><div class="line">        mHandler.sendMessage(message);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AppCompatActivity</span> &#123;</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">MyHandler</span> mHandler = <span class="keyword">new</span> <span class="type">MyHandler</span>(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="type">TextView</span> mTextView ;</span><br><span class="line">    <span class="keyword">private</span> static <span class="class"><span class="keyword">class</span> <span class="title">MyHandler</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Handler</span> &#123;</span></span><br><span class="line">        <span class="keyword">private</span> <span class="type">WeakReference</span>&lt;<span class="type">Context</span>&gt; reference;</span><br><span class="line">        public <span class="type">MyHandler</span>(<span class="type">Context</span> context) &#123;</span><br><span class="line">            reference = <span class="keyword">new</span> <span class="type">WeakReference</span>&lt;&gt;(context);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        public void handleMessage(<span class="type">Message</span> msg) &#123;</span><br><span class="line">            <span class="type">MainActivity</span> activity = (<span class="type">MainActivity</span>) reference.get();</span><br><span class="line">            <span class="keyword">if</span>(activity != <span class="literal">null</span>)&#123;</span><br><span class="line">                activity.mTextView.setText(<span class="string">""</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(<span class="type">R</span>.layout.activity_main);</span><br><span class="line">        mTextView = (<span class="type">TextView</span>)findViewById(<span class="type">R</span>.id.textview);</span><br><span class="line">        loadData();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> void loadData() &#123;</span><br><span class="line">        <span class="comment">//...request</span></span><br><span class="line">        <span class="type">Message</span> message = <span class="type">Message</span>.obtain();</span><br><span class="line">        mHandler.sendMessage(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>创建一个静态Handler内部类，然后对Handler持有的对象使用弱引用，这样在回收时也可以回收Handler持有的对象，这样虽然避免了Activity泄漏，不过Looper线程的消息队列中还是可能会有待处理的消息，所以我们在Activity的Destroy时或者Stop时应该移除消息队列中的消息，更准确的做法如下：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="type">MyHandler</span> mHandler = <span class="keyword">new</span> <span class="type">MyHandler</span>(<span class="keyword">this</span>);</div><div class="line">    <span class="keyword">private</span> <span class="type">TextView</span> mTextView ;</div><div class="line">    <span class="keyword">private</span> static <span class="class"><span class="keyword">class</span> <span class="title">MyHandler</span> <span class="keyword">extends</span> <span class="title">Handler</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> <span class="type">WeakReference</span>&lt;<span class="type">Context</span>&gt; reference;</div><div class="line">        public <span class="type">MyHandler</span>(<span class="type">Context</span> context) &#123;</div><div class="line">            reference = <span class="keyword">new</span> <span class="type">WeakReference</span>&lt;&gt;(context);</div><div class="line">        &#125;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        public void handleMessage(<span class="type">Message</span> msg) &#123;</div><div class="line">            <span class="type">MainActivity</span> activity = (<span class="type">MainActivity</span>) reference.get();</div><div class="line">            <span class="keyword">if</span>(activity != <span class="literal">null</span>)&#123;</div><div class="line">                activity.mTextView.setText(<span class="string">""</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(<span class="type">R</span>.layout.activity_main);</div><div class="line">        mTextView = (<span class="type">TextView</span>)findViewById(<span class="type">R</span>.id.textview);</div><div class="line">        loadData();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> void loadData() &#123;</div><div class="line">        <span class="comment">//...request</span></div><div class="line">        <span class="type">Message</span> message = <span class="type">Message</span>.obtain();</div><div class="line">        mHandler.sendMessage(message);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> void onDestroy() &#123;</div><div class="line">        <span class="keyword">super</span>.onDestroy();</div><div class="line">        mHandler.removeCallbacksAndMessages(<span class="literal">null</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AppCompatActivity</span> &#123;</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">MyHandler</span> mHandler = <span class="keyword">new</span> <span class="type">MyHandler</span>(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="type">TextView</span> mTextView ;</span><br><span class="line">    <span class="keyword">private</span> static <span class="class"><span class="keyword">class</span> <span class="title">MyHandler</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Handler</span> &#123;</span></span><br><span class="line">        <span class="keyword">private</span> <span class="type">WeakReference</span>&lt;<span class="type">Context</span>&gt; reference;</span><br><span class="line">        public <span class="type">MyHandler</span>(<span class="type">Context</span> context) &#123;</span><br><span class="line">            reference = <span class="keyword">new</span> <span class="type">WeakReference</span>&lt;&gt;(context);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        public void handleMessage(<span class="type">Message</span> msg) &#123;</span><br><span class="line">            <span class="type">MainActivity</span> activity = (<span class="type">MainActivity</span>) reference.get();</span><br><span class="line">            <span class="keyword">if</span>(activity != <span class="literal">null</span>)&#123;</span><br><span class="line">                activity.mTextView.setText(<span class="string">""</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(<span class="type">R</span>.layout.activity_main);</span><br><span class="line">        mTextView = (<span class="type">TextView</span>)findViewById(<span class="type">R</span>.id.textview);</span><br><span class="line">        loadData();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> void loadData() &#123;</span><br><span class="line">        <span class="comment">//...request</span></span><br><span class="line">        <span class="type">Message</span> message = <span class="type">Message</span>.obtain();</span><br><span class="line">        mHandler.sendMessage(message);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> void onDestroy() &#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        mHandler.removeCallbacksAndMessages(<span class="literal">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>使用mHandler.removeCallbacksAndMessages(null);是移除消息队列中所有消息和所有的Runnable。当然也可以使用mHandler.removeCallbacks();或mHandler.removeMessages();来移除指定的Runnable和Message。</p>
 <h3 id="线程造成的内存泄漏"><a href="#线程造成的内存泄漏" class="headerlink" title="线程造成的内存泄漏"></a><strong>线程造成的内存泄漏</strong></h3><p>对于线程造成的内存泄漏，也是平时比较常见的，如下这两个示例可能每个人都这样写过：</p>
-<figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//——————test1</span></div><div class="line">        <span class="literal">new</span> AsyncTask&lt;<span class="literal">Void</span>, <span class="literal">Void</span>, <span class="literal">Void</span>&gt;() &#123;</div><div class="line">            @Override</div><div class="line">            <span class="keyword">protected</span> <span class="literal">Void</span> doInBackground(<span class="literal">Void</span><span class="params">...</span> <span class="keyword">params</span>) &#123;</div><div class="line">                SystemClock.sleep(<span class="number">10000</span>);</div><div class="line">                <span class="keyword">return</span> <span class="built_in">null</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;.execute();</div><div class="line"><span class="comment">//——————test2</span></div><div class="line">		<span class="literal">new</span> <span class="keyword">Thread</span>(<span class="literal">new</span> Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            <span class="keyword">public</span> <span class="literal">void</span> run() &#123;</div><div class="line">                SystemClock.sleep(<span class="number">10000</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div></pre></td></tr></table></figure>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//——————test1</span></span><br><span class="line">        <span class="literal">new</span> AsyncTask&lt;<span class="literal">Void</span>, <span class="literal">Void</span>, <span class="literal">Void</span>&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            <span class="keyword">protected</span> <span class="literal">Void</span> doInBackground(<span class="literal">Void</span><span class="attribute">...</span> <span class="keyword">params</span>) &#123;</span><br><span class="line">                SystemClock<span class="built_in">.</span>sleep(<span class="number">10000</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="built_in">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="built_in">.</span>execute();</span><br><span class="line"><span class="comment">//——————test2</span></span><br><span class="line">		<span class="literal">new</span> <span class="keyword">Thread</span>(<span class="literal">new</span> Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            <span class="keyword">public</span> <span class="literal">void</span> run() &#123;</span><br><span class="line">                SystemClock<span class="built_in">.</span>sleep(<span class="number">10000</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)<span class="built_in">.</span>start();</span><br></pre></td></tr></table></figure>
 <p>上面的异步任务和Runnable都是一个匿名内部类，因此它们对当前Activity都有一个隐式引用。如果Activity在销毁之前，任务还未完成，<br>那么将导致Activity的内存资源无法回收，造成内存泄漏。正确的做法还是使用静态内部类的方式，如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAsyncTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>, <span class="title">Void</span>, <span class="title">Void</span>&gt; </span>&#123;</div><div class="line">        <span class="keyword">private</span> WeakReference&lt;Context&gt; weakReference;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MyAsyncTask</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">            weakReference = <span class="keyword">new</span> WeakReference&lt;&gt;(context);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> Void <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>&#123;</div><div class="line">            SystemClock.sleep(<span class="number">10000</span>);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(Void aVoid)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>.onPostExecute(aVoid);</div><div class="line">            MainActivity activity = (MainActivity) weakReference.get();</div><div class="line">            <span class="keyword">if</span> (activity != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="comment">//...</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            SystemClock.sleep(<span class="number">10000</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"><span class="comment">//——————</span></div><div class="line">    <span class="keyword">new</span> Thread(<span class="keyword">new</span> MyRunnable()).start();</div><div class="line">    <span class="keyword">new</span> MyAsyncTask(<span class="keyword">this</span>).execute();</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAsyncTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>, <span class="title">Void</span>, <span class="title">Void</span>&gt; </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> WeakReference&lt;Context&gt; weakReference;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MyAsyncTask</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">            weakReference = <span class="keyword">new</span> WeakReference&lt;&gt;(context);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> Void <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>&#123;</span><br><span class="line">            SystemClock.sleep(<span class="number">10000</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(Void aVoid)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>.onPostExecute(aVoid);</span><br><span class="line">            MainActivity activity = (MainActivity) weakReference.get();</span><br><span class="line">            <span class="keyword">if</span> (activity != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">//...</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            SystemClock.sleep(<span class="number">10000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//——————</span></span><br><span class="line">    <span class="keyword">new</span> Thread(<span class="keyword">new</span> MyRunnable()).start();</span><br><span class="line">    <span class="keyword">new</span> MyAsyncTask(<span class="keyword">this</span>).execute();</span><br></pre></td></tr></table></figure>
 <p>这样就避免了Activity的内存资源泄漏，当然在Activity销毁时候也应该取消相应的任务AsyncTask::cancel()，避免任务在后台执行浪费资源。</p>
 <h3 id="资源未关闭造成的内存泄漏"><a href="#资源未关闭造成的内存泄漏" class="headerlink" title="资源未关闭造成的内存泄漏"></a><strong>资源未关闭造成的内存泄漏</strong></h3><p>对于使用了BraodcastReceiver，ContentObserver，File，Cursor，Stream，Bitmap等资源的使用，应该在Activity销毁时及时关闭或者注销，否则这些资源将不会被回收，造成内存泄漏。</p>
 <h3 id="ThreadLocal使用不当引起的内存泄露"><a href="#ThreadLocal使用不当引起的内存泄露" class="headerlink" title="ThreadLocal使用不当引起的内存泄露"></a><strong>ThreadLocal使用不当引起的内存泄露</strong></h3><p>对于ThreadLocal，一直涉及到内存的泄露问题，即当该线程不需要再操作某个ThreadLocal内的值时，应该手动的remove掉，为什么呢？我们来看看ThreadLocal与Thread的联系图：<br>此图来自网络：<br><img src="http://7xswxf.com2.z0.glb.clouddn.com/blog/threadlocal.png" alt="ThreadLocal"></p>
@@ -375,44 +433,29 @@
     <div>
       
         
+
       
     </div>
 
     <div>
       
         
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="http://7xswxf.com2.z0.glb.clouddn.com/blog/weixin.png" alt="郑晓勇 WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="http://7xswxf.com2.z0.glb.clouddn.com/blog/alipay.png" alt="郑晓勇 Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
-  </div>
-
 
       
     </div>
+
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/内存泄露/" rel="tag">#内存泄露</a>
+            <a href="/tags/内存泄露/" rel="tag"># 内存泄露</a>
           
         </div>
+      
+
+      
+        
       
 
       
@@ -424,6 +467,8 @@
               </a>
             
           </div>
+
+          <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
@@ -470,7 +515,7 @@
     </div>
   </div>
 
-
+          
           </div>
           
 
@@ -513,21 +558,24 @@
         </ul>
       
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.png"
+               src="/images/avatar.png"
                alt="郑晓勇" />
           <p class="site-author-name" itemprop="name">郑晓勇</p>
           <p class="site-description motion-element" itemprop="description"></p>
         </div>
         <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">14</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
 
           
             <div class="site-state-item site-state-categories">
@@ -560,26 +608,6 @@
 
         <div class="links-of-author motion-element">
           
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/Sunzxyong" target="_blank" title="github">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  github
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/3048730677/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="weibo">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  weibo
-                </a>
-              </span>
-            
-          
         </div>
 
         
@@ -587,34 +615,28 @@
 
         
         
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              Links
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://blog.csdn.net/u010687392" title="我的CSDN" target="_blank">我的CSDN</a>
-                </li>
-              
-            </ul>
-          </div>
+
         
+
 
       </section>
 
       
+      <!--noindex-->
         <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
+
             
               
             
+
             
               <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存泄漏"><span class="nav-number">2.</span> <span class="nav-text">内存泄漏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么会产生内存泄漏？"><span class="nav-number">2.1.</span> <span class="nav-text">为什么会产生内存泄漏？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存泄漏对程序的影响？"><span class="nav-number">2.2.</span> <span class="nav-text">内存泄漏对程序的影响？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android中常见的内存泄漏汇总"><span class="nav-number">3.</span> <span class="nav-text">Android中常见的内存泄漏汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单例造成的内存泄漏"><span class="nav-number">3.1.</span> <span class="nav-text">单例造成的内存泄漏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非静态内部类创建静态实例造成的内存泄漏"><span class="nav-number">3.2.</span> <span class="nav-text">非静态内部类创建静态实例造成的内存泄漏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Handler造成的内存泄漏"><span class="nav-number">3.3.</span> <span class="nav-text">Handler造成的内存泄漏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程造成的内存泄漏"><span class="nav-number">3.4.</span> <span class="nav-text">线程造成的内存泄漏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源未关闭造成的内存泄漏"><span class="nav-number">3.5.</span> <span class="nav-text">资源未关闭造成的内存泄漏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocal使用不当引起的内存泄露"><span class="nav-number">3.6.</span> <span class="nav-text">ThreadLocal使用不当引起的内存泄露</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些建议"><span class="nav-number">3.7.</span> <span class="nav-text">一些建议</span></a></li></ol></li></ol></div>
             
+
           </div>
         </section>
+      <!--/noindex-->
       
 
     </div>
@@ -636,7 +658,19 @@
   </span>
   <span class="author" itemprop="copyrightHolder">郑晓勇</span>
 </div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
 
         
 
@@ -669,6 +703,7 @@
 
 
 
+
   
   <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
 
@@ -691,32 +726,32 @@
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
 
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
 
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
 
 
 
@@ -740,6 +775,19 @@
   </script>
 
   
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
 
 
 
@@ -747,27 +795,8 @@
 
   
   
+
   
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-  </script>
-
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-      var all = MathJax.Hub.getAllJax(), i;
-      for (i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  </script>
-  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
 
   
 
@@ -801,6 +830,14 @@
             var element = document.getElementById(url);
 
             $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
           }
         })
         .fail(function (object, error) {
@@ -871,6 +908,9 @@
 
 
   
+
+  
+
 
 </body>
 </html>

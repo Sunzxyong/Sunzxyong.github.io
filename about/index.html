@@ -5,16 +5,19 @@
   
 
 
-<html class="theme-next pisces use-motion">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
 
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
 
 
 
@@ -63,9 +66,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
   <meta name="keywords" content="Hexo, NexT" />
@@ -79,7 +82,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
 
 
 
@@ -112,23 +115,38 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
 12345678while (true) &amp;#123;	//Performance optimization	//New technology	//Clean code	//UI Design	//Architecture	//...&amp;#125;
 
 PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian.com">
-<meta name="twitter:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/wechat.png">
 
 
 
-<script type="text/javascript" id="hexo.configuration">
+<script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
+    root: '/',
     scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: undefined,
+      userId: '0',
       author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
 </script>
+
+
+
+  <link rel="canonical" href="http://zhengxiaoyong.me/about/"/>
+
+
+
+
 
   <title>
   
@@ -142,6 +160,10 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
+
+
+
+
 
 
 
@@ -171,7 +193,9 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">生活不止眼前的苟且，还有诗，和远方.</p>
+    
+      <p class="site-subtitle">生活不止眼前的苟且，还有诗，和远方.</p>
+    
 </div>
 
 <div class="site-nav-toggle">
@@ -246,6 +270,8 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
   
 </nav>
 
+
+
  </div>
     </header>
 
@@ -256,12 +282,20 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
             
 
   <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h2 class="post-title" itemprop="name headline">关于</h2>
+
+
+
+</header>
+
     
     
       <blockquote class="blockquote-center"><h3>关于我</h3></blockquote>
 
 <p><strong>坐标：杭州</strong><br><strong>职位：Android</strong><br><strong>府邸：微店</strong><br><strong>喜好：</strong></p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</div><div class="line">	<span class="comment">//Performance optimization</span></div><div class="line">	<span class="comment">//New technology</span></div><div class="line">	<span class="comment">//Clean code</span></div><div class="line">	<span class="comment">//UI Design</span></div><div class="line">	<span class="comment">//Architecture</span></div><div class="line">	<span class="comment">//...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	<span class="comment">//Performance optimization</span></span><br><span class="line">	<span class="comment">//New technology</span></span><br><span class="line">	<span class="comment">//Clean code</span></span><br><span class="line">	<span class="comment">//UI Design</span></span><br><span class="line">	<span class="comment">//Architecture</span></span><br><span class="line">	<span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <hr>
 <p><strong>PS</strong><br>有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian.com </p>
 <hr>
@@ -270,7 +304,7 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
     
   </div>
 
-
+          
           </div>
           
 
@@ -304,21 +338,24 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
 
       
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.png"
+               src="/images/avatar.png"
                alt="郑晓勇" />
           <p class="site-author-name" itemprop="name">郑晓勇</p>
           <p class="site-description motion-element" itemprop="description"></p>
         </div>
         <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">14</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
 
           
             <div class="site-state-item site-state-categories">
@@ -351,26 +388,6 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
 
         <div class="links-of-author motion-element">
           
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/Sunzxyong" target="_blank" title="github">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  github
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/3048730677/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="weibo">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  weibo
-                </a>
-              </span>
-            
-          
         </div>
 
         
@@ -378,20 +395,9 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
 
         
         
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              Links
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://blog.csdn.net/u010687392" title="我的CSDN" target="_blank">我的CSDN</a>
-                </li>
-              
-            </ul>
-          </div>
+
         
+
 
       </section>
 
@@ -416,7 +422,19 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
   </span>
   <span class="author" itemprop="copyrightHolder">郑晓勇</span>
 </div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
 
         
 
@@ -449,6 +467,7 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
 
 
 
+
   
   <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
 
@@ -471,28 +490,28 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
 
 
 
   
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
 
 
 
@@ -516,6 +535,19 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
   </script>
 
   
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
 
 
 
@@ -523,27 +555,8 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
 
   
   
+
   
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-  </script>
-
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-      var all = MathJax.Hub.getAllJax(), i;
-      for (i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  </script>
-  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
 
   
 
@@ -577,6 +590,14 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
             var element = document.getElementById(url);
 
             $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
           }
         })
         .fail(function (object, error) {
@@ -647,6 +668,9 @@ PS有想来微店的同学可以把简历发至我邮箱：zhengxiaoyong@weidian
 
 
   
+
+  
+
 
 </body>
 </html>

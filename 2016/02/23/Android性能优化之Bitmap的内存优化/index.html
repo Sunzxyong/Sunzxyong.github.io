@@ -5,16 +5,19 @@
   
 
 
-<html class="theme-next pisces use-motion">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
 
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
 
 
 
@@ -63,9 +66,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
   <meta name="keywords" content="Bitmap,内存优化," />
@@ -79,7 +82,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
 
 
 
@@ -104,23 +107,38 @@
 <meta name="twitter:description" content="BitmapFactory解析Bitmap的原理BitmapFactory提供的解析Bitmap的静态工厂方法有以下五种：
 12345Bitmap decodeFile(...)Bitmap decodeResource(...)Bitmap decodeByteArray(...)Bitmap decodeStream(...)Bitmap decodeFileDescriptor(...)
 其">
-<meta name="twitter:image" content="http://7xswxf.com2.z0.glb.clouddn.com/blog/bitmap1.png">
 
 
 
-<script type="text/javascript" id="hexo.configuration">
+<script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
+    root: '/',
     scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: undefined,
+      userId: '0',
       author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
 </script>
+
+
+
+  <link rel="canonical" href="http://zhengxiaoyong.me/2016/02/23/Android性能优化之Bitmap的内存优化/"/>
+
+
+
+
 
   <title> Android性能优化之Bitmap的内存优化 | zhengxiaoyong </title>
 </head>
@@ -128,6 +146,10 @@
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
+
+
+
+
 
 
 
@@ -157,7 +179,9 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">生活不止眼前的苟且，还有诗，和远方.</p>
+    
+      <p class="site-subtitle">生活不止眼前的苟且，还有诗，和远方.</p>
+    
 </div>
 
 <div class="site-nav-toggle">
@@ -232,6 +256,8 @@
   
 </nav>
 
+
+
  </div>
     </header>
 
@@ -245,13 +271,26 @@
     
 
   
-  
 
   
   
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhengxiaoyong.me/2016/02/23/Android性能优化之Bitmap的内存优化/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="郑晓勇">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="zhengxiaoyong">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="zhengxiaoyong" src="">
+    </span>
+  </span>
 
     
       <header class="post-header">
@@ -270,24 +309,36 @@
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-23T10:53:30+08:00" content="2016-02-23">
-              2016-02-23
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-02-23T10:53:30+08:00">
+                2016-02-23
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/性能优化/" itemprop="url" rel="index">
                     <span itemprop="name">性能优化</span>
                   </a>
@@ -295,7 +346,6 @@
 
                 
                 
-
               
             </span>
           
@@ -303,29 +353,37 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2016/02/23/Android性能优化之Bitmap的内存优化/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/23/Android性能优化之Bitmap的内存优化/" itemprop="commentsCount"></span>
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/23/Android性能优化之Bitmap的内存优化/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-
-          
           
              <span id="/2016/02/23/Android性能优化之Bitmap的内存优化/" class="leancloud_visitors" data-flag-title="Android性能优化之Bitmap的内存优化">
-               &nbsp; | &nbsp;
+               <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
@@ -338,15 +396,15 @@
 
       
         <h2 id="BitmapFactory解析Bitmap的原理"><a href="#BitmapFactory解析Bitmap的原理" class="headerlink" title="BitmapFactory解析Bitmap的原理"></a><strong>BitmapFactory解析Bitmap的原理</strong></h2><p>BitmapFactory提供的解析Bitmap的静态工厂方法有以下五种：</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">Bitmap</span></span> decodeFile(...)</div><div class="line"><span class="function"><span class="title">Bitmap</span></span> decodeResource(...)</div><div class="line"><span class="function"><span class="title">Bitmap</span></span> decodeByteArray(...)</div><div class="line"><span class="function"><span class="title">Bitmap</span></span> decodeStream(...)</div><div class="line"><span class="function"><span class="title">Bitmap</span></span> decodeFileDescriptor(...)</div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Bitmap <span class="function"><span class="title">decodeFile</span><span class="params">(...)</span></span></span><br><span class="line">Bitmap <span class="function"><span class="title">decodeResource</span><span class="params">(...)</span></span></span><br><span class="line">Bitmap <span class="function"><span class="title">decodeByteArray</span><span class="params">(...)</span></span></span><br><span class="line">Bitmap <span class="function"><span class="title">decodeStream</span><span class="params">(...)</span></span></span><br><span class="line">Bitmap <span class="function"><span class="title">decodeFileDescriptor</span><span class="params">(...)</span></span></span><br></pre></td></tr></table></figure>
 <p>其中常用的三个：decodeFile、decodeResource、decodeStream。<br>decodeFile和decodeResource其实最终都是调用decodeStream方法来解析Bitmap，decodeStream的内部则是调用两个native方法解析Bitmap的：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">nativeDecodeAsset</span><span class="params">()</span></span></div><div class="line"><span class="function"><span class="title">nativeDecodeStream</span><span class="params">()</span></span></div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">nativeDecodeAsset</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="title">nativeDecodeStream</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
 <p>这两个native方法只是对应decodeFile和decodeResource、decodeStream来解析的，像decodeByteArray、decodeFileDescriptor也有专门的native方法负责解析Bitmap。<br><a id="more"></a><br>接下来就是看看这两个方法在解析Bitmap时究竟有什么区别decodeFile、decodeResource，查看后发现它们调用路径如下：</p>
 <blockquote>
 <p>decodeFile-&gt;decodeStream<br>decodeResource-&gt;decodeResourceStream-&gt;decodeStream</p>
 </blockquote>
 <p>decodeResource在解析时多调用了一个<strong>decodeResourceStream</strong>方法，而这个decodeResourceStream方法代码如下：</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">decodeResourceStream</span>(<span class="params">Resources res, TypedValue <span class="keyword">value</span>,</span></span></div><div class="line">        InputStream <span class="keyword">is</span>, Rect pad, Options opts) &#123;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (opts == <span class="literal">null</span>) &#123;</div><div class="line">        opts = <span class="keyword">new</span> Options();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (opts.inDensity == <span class="number">0</span> &amp;&amp; <span class="keyword">value</span> != <span class="literal">null</span>) &#123;</div><div class="line">        final <span class="keyword">int</span> density = <span class="keyword">value</span>.density;</div><div class="line">        <span class="keyword">if</span> (density == TypedValue.DENSITY_DEFAULT) &#123;</div><div class="line">            opts.inDensity = DisplayMetrics.DENSITY_DEFAULT;</div><div class="line">        &#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> (<span class="params">density != TypedValue.DENSITY_NONE</span>) </span>&#123;</div><div class="line">            opts.inDensity = density;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (opts.inTargetDensity == <span class="number">0</span> &amp;&amp; res != <span class="literal">null</span>) &#123;</div><div class="line">        opts.inTargetDensity = res.getDisplayMetrics().densityDpi;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> decodeStream(<span class="keyword">is</span>, pad, opts);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">decodeResourceStream</span>(<span class="params">Resources res, TypedValue <span class="keyword">value</span>,</span><br><span class="line">        InputStream <span class="keyword">is</span>, Rect pad, Options opts</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (opts == <span class="keyword">null</span>) &#123;</span><br><span class="line">        opts = <span class="keyword">new</span> Options();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (opts.inDensity == <span class="number">0</span> &amp;&amp; <span class="keyword">value</span> != <span class="keyword">null</span>) &#123;</span><br><span class="line">        final <span class="keyword">int</span> density = <span class="keyword">value</span>.density;</span><br><span class="line">        <span class="keyword">if</span> (density == TypedValue.DENSITY_DEFAULT) &#123;</span><br><span class="line">            opts.inDensity = DisplayMetrics.DENSITY_DEFAULT;</span><br><span class="line">        &#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> (<span class="params">density != TypedValue.DENSITY_NONE</span>) </span>&#123;</span><br><span class="line">            opts.inDensity = density;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (opts.inTargetDensity == <span class="number">0</span> &amp;&amp; res != <span class="keyword">null</span>) &#123;</span><br><span class="line">        opts.inTargetDensity = res.getDisplayMetrics().densityDpi;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> decodeStream(<span class="keyword">is</span>, pad, opts);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>它主要是对Options进行处理了，在得到<strong>opts.inDensity</strong>属性的前提下，如果我们没有对该属性设定值，那么将opts.inDensity = DisplayMetrics.DENSITY_DEFAULT;赋定这个默认的Density值，这个默认值为160，为标准的dpi比例，即在Density=160的设备上1dp=1px，这个方法中还有这么一行</p>
 <blockquote>
 <p>opts.inTargetDensity = res.getDisplayMetrics().densityDpi;</p>
@@ -356,7 +414,7 @@
 <p>1、对opts.inDensity赋值，没有则赋默认值160<br>2、对opts.inTargetDensity赋值，没有则赋当前设备的densityDpi值</p>
 </blockquote>
 <p>之后重点来了，之后参数将传入decodeStream方法，该方法中在调用native方法进行解析Bitmap后会调用这个方法<strong>setDensityFromOptions(bm, opts);</strong>：</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="function"><span class="keyword">void</span> <span class="title">setDensityFromOptions</span><span class="params">(Bitmap outputBitmap, Options opts)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (outputBitmap == <span class="keyword">null</span> || opts == <span class="keyword">null</span>) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> density = opts.inDensity;</div><div class="line">    <span class="keyword">if</span> (density != <span class="number">0</span>) &#123;</div><div class="line">        outputBitmap.setDensity(density);</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> targetDensity = opts.inTargetDensity;</div><div class="line">        <span class="keyword">if</span> (targetDensity == <span class="number">0</span> || density == targetDensity || density == opts.inScreenDensity) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">byte</span>[] np = outputBitmap.getNinePatchChunk();</div><div class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> isNinePatch = np != <span class="keyword">null</span> &amp;&amp; NinePatch.isNinePatchChunk(np);</div><div class="line">        <span class="keyword">if</span> (opts.inScaled || isNinePatch) &#123;</div><div class="line">            outputBitmap.setDensity(targetDensity);</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> <span class="params">(opts.inBitmap != <span class="keyword">null</span>)</span> </span>&#123;</div><div class="line">        <span class="comment">// bitmap was reused, ensure density is reset</span></div><div class="line">        outputBitmap.setDensity(Bitmap.getDefaultDensity());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="function"><span class="keyword">void</span> <span class="title">setDensityFromOptions</span><span class="params">(Bitmap outputBitmap, Options opts)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (outputBitmap == <span class="keyword">null</span> || opts == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> density = opts.inDensity;</span><br><span class="line">    <span class="keyword">if</span> (density != <span class="number">0</span>) &#123;</span><br><span class="line">        outputBitmap.setDensity(density);</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> targetDensity = opts.inTargetDensity;</span><br><span class="line">        <span class="keyword">if</span> (targetDensity == <span class="number">0</span> || density == targetDensity || density == opts.inScreenDensity) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">byte</span>[] np = outputBitmap.getNinePatchChunk();</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> isNinePatch = np != <span class="keyword">null</span> &amp;&amp; NinePatch.isNinePatchChunk(np);</span><br><span class="line">        <span class="keyword">if</span> (opts.inScaled || isNinePatch) &#123;</span><br><span class="line">            outputBitmap.setDensity(targetDensity);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> <span class="params">(opts.inBitmap != <span class="keyword">null</span>)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// bitmap was reused, ensure density is reset</span></span><br><span class="line">        outputBitmap.setDensity(Bitmap.getDefaultDensity());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>该方法主要就是把刚刚赋值过的两个属性inDensity和inTargetDensity给Bitmap进行赋值，不过并不是直接赋给Bitmap就完了，中间有个判断，当inDensity的值与inTargetDensity或与设备的屏幕Density不相等时，则将应用inTargetDensity的值，如果相等则应用inDensity的值。</p>
 <blockquote>
 <p>所以总结来说，<strong>setDensityFromOptions</strong>方法就是把<strong>inTargetDensity</strong>的值赋给Bitmap，不过前提是opts.inScaled = true；</p>
@@ -416,12 +474,12 @@
 </blockquote>
 <p>举个栗子：在屏幕密度为160的设备下，1dp=1px。在屏幕密度为320的设备下，1dp=2px。<br>所以这就为什么在安卓中布局建议使用dp为单位，因为可以根据当前设备的屏幕密度动态的调整进行适配</p>
 <h2 id="Bitmap的优化策略"><a href="#Bitmap的优化策略" class="headerlink" title="Bitmap的优化策略"></a><strong>Bitmap的优化策略</strong></h2><h3 id="BitmapFactory-Options的属性解析"><a href="#BitmapFactory-Options的属性解析" class="headerlink" title="BitmapFactory.Options的属性解析"></a><strong>BitmapFactory.Options的属性解析</strong></h3><p>BitmapFactory.Options中有以下属性：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">in</span>Bitmap——在解析Bitmap时重用该Bitmap，不过必须等大的Bitmap而且<span class="keyword">in</span>Mutable须为<span class="literal">true</span></div><div class="line"><span class="keyword">in</span>Mutable——配置Bitmap是否可以更改，比如：在Bitmap上隔几个像素加一条线段</div><div class="line"><span class="keyword">in</span>JustDecodeBounds——为<span class="literal">true</span>仅返回Bitmap的宽高等属性</div><div class="line"><span class="keyword">in</span>SampleSize——须&gt;=1,表示Bitmap的压缩比例，如：<span class="keyword">in</span>SampleSize=4，将返回一个是原始图的1/16大小的Bitmap</div><div class="line"><span class="keyword">in</span>PreferredConfig——Bitmap.Config.ARGB_8888等</div><div class="line"><span class="keyword">in</span>Dither——是否抖动，默认为<span class="literal">false</span></div><div class="line"><span class="keyword">in</span>Premultiplied——默认为<span class="literal">true</span>，一般不改变它的值</div><div class="line"><span class="keyword">in</span>Density——Bitmap的像素密度</div><div class="line"><span class="keyword">in</span>TargetDensity——Bitmap最终的像素密度</div><div class="line"><span class="keyword">in</span>ScreenDensity——当前屏幕的像素密度</div><div class="line"><span class="keyword">in</span>Scaled——是否支持缩放，默认为<span class="literal">true</span>，当设置了这个，Bitmap将会以<span class="keyword">in</span>TargetDensity的值进行缩放</div><div class="line"><span class="keyword">in</span>Purgeable——当存储Pixel的内存空间在系统内存不足时是否可以被回收</div><div class="line"><span class="keyword">in</span>InputShareable——<span class="keyword">in</span>Purgeable为<span class="literal">true</span>情况下才生效，是否可以共享一个InputStream</div><div class="line"><span class="keyword">in</span>PreferQualityOverSpeed——为<span class="literal">true</span>则优先保证Bitmap质量其次是解码速度</div><div class="line">outWidth——返回的Bitmap的宽</div><div class="line">outHeight——返回的Bitmap的高</div><div class="line"><span class="keyword">in</span>TempStorage——解码时的临时空间，建议16*1024</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">in</span>Bitmap——在解析Bitmap时重用该Bitmap，不过必须等大的Bitmap而且<span class="keyword">in</span>Mutable须为<span class="literal">true</span></span><br><span class="line"><span class="keyword">in</span>Mutable——配置Bitmap是否可以更改，比如：在Bitmap上隔几个像素加一条线段</span><br><span class="line"><span class="keyword">in</span>JustDecodeBounds——为<span class="literal">true</span>仅返回Bitmap的宽高等属性</span><br><span class="line"><span class="keyword">in</span>SampleSize——须&gt;=<span class="number">1</span>,表示Bitmap的压缩比例，如：<span class="keyword">in</span>SampleSize=<span class="number">4</span>，将返回一个是原始图的<span class="number">1</span>/<span class="number">16</span>大小的Bitmap</span><br><span class="line"><span class="keyword">in</span>PreferredConfig——Bitmap.Config.ARGB_8888等</span><br><span class="line"><span class="keyword">in</span>Dither——是否抖动，默认为<span class="literal">false</span></span><br><span class="line"><span class="keyword">in</span>Premultiplied——默认为<span class="literal">true</span>，一般不改变它的值</span><br><span class="line"><span class="keyword">in</span>Density——Bitmap的像素密度</span><br><span class="line"><span class="keyword">in</span>TargetDensity——Bitmap最终的像素密度</span><br><span class="line"><span class="keyword">in</span>ScreenDensity——当前屏幕的像素密度</span><br><span class="line"><span class="keyword">in</span>Scaled——是否支持缩放，默认为<span class="literal">true</span>，当设置了这个，Bitmap将会以<span class="keyword">in</span>TargetDensity的值进行缩放</span><br><span class="line"><span class="keyword">in</span>Purgeable——当存储Pixel的内存空间在系统内存不足时是否可以被回收</span><br><span class="line"><span class="keyword">in</span>InputShareable——<span class="keyword">in</span>Purgeable为<span class="literal">true</span>情况下才生效，是否可以共享一个InputStream</span><br><span class="line"><span class="keyword">in</span>PreferQualityOverSpeed——为<span class="literal">true</span>则优先保证Bitmap质量其次是解码速度</span><br><span class="line">outWidth——返回的Bitmap的宽</span><br><span class="line">outHeight——返回的Bitmap的高</span><br><span class="line"><span class="keyword">in</span>TempStorage——解码时的临时空间，建议<span class="number">16</span>*<span class="number">1024</span></span><br></pre></td></tr></table></figure>
 <h3 id="优化策略"><a href="#优化策略" class="headerlink" title="优化策略"></a><strong>优化策略</strong></h3><blockquote>
 <p><strong>1、BitmapConfig的配置</strong><br><strong>2、使用decodeFile、decodeResource、decodeStream进行解析Bitmap时，配置inDensity和inTargetDensity，两者应该相等,值可以等于屏幕像素密度*0.75f</strong><br><strong>3、使用inJustDecodeBounds预判断Bitmap的大小及使用inSampleSize进行压缩</strong><br><strong>4、对Density&gt;240的设备进行Bitmap的适配（缩放Density）</strong><br><strong>5、2.3版本inNativeAlloc的使用</strong><br><strong>6、4.4以下版本inPurgeable、inInputShareable的使用</strong><br><strong>7、Bitmap的回收</strong></p>
 </blockquote>
 <p>针对上面方案，把Bitmap解码的代码封装成了一个工具类，如下：</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">BitmapDecodeUtil</span> &#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> final <span class="keyword">int</span> DEFAULT_DENSITY = <span class="number">240</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> final <span class="keyword">float</span> SCALE_FACTOR = <span class="number">0.75</span>f;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> final Bitmap.Config DEFAULT_BITMAP_CONFIG = Bitmap.Config.RGB_565;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> BitmapFactory.<span class="function">Options <span class="title">getBitmapOptions</span>(<span class="params">Context context</span>) </span>&#123;</div><div class="line">        BitmapFactory.Options options = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">        options.inScaled = <span class="literal">true</span>;</div><div class="line">        options.inPreferredConfig = DEFAULT_BITMAP_CONFIG;</div><div class="line">        options.inPurgeable = <span class="literal">true</span>;</div><div class="line">        options.inInputShareable = <span class="literal">true</span>;</div><div class="line">        options.inJustDecodeBounds = <span class="literal">false</span>;</div><div class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &lt;= Build.VERSION_CODES.GINGERBREAD_MR1) &#123;</div><div class="line">            Field field = <span class="literal">null</span>;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                field = BitmapFactory.Options.class.getDeclaredField(<span class="string">"inNativeAlloc"</span>);</div><div class="line">                field.setAccessible(<span class="literal">true</span>);</div><div class="line">                field.setBoolean(options, <span class="literal">true</span>);</div><div class="line">            &#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> displayDensityDpi = context.getResources().getDisplayMetrics().densityDpi;</div><div class="line">        <span class="keyword">float</span> displayDensity = context.getResources().getDisplayMetrics().density;</div><div class="line">        <span class="keyword">if</span> (displayDensityDpi &gt; DEFAULT_DENSITY &amp;&amp; displayDensity &gt; <span class="number">1.5</span>f) &#123;</div><div class="line">            <span class="keyword">int</span> density = (<span class="keyword">int</span>) (displayDensityDpi * SCALE_FACTOR);</div><div class="line">            options.inDensity = density;</div><div class="line">            options.inTargetDensity = density;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> options;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">decodeBitmap</span>(<span class="params">Context context, <span class="keyword">int</span> resId</span>) </span>&#123;</div><div class="line">        checkParam(context);</div><div class="line">        <span class="keyword">return</span> BitmapFactory.decodeResource(context.getResources(), resId, getBitmapOptions(context));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">decodeBitmap</span>(<span class="params">Context context, String pathName</span>) </span>&#123;</div><div class="line">        checkParam(context);</div><div class="line">        <span class="keyword">return</span> BitmapFactory.decodeFile(pathName, getBitmapOptions(context));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">decodeBitmap</span>(<span class="params">Context context, InputStream <span class="keyword">is</span></span>) </span>&#123;</div><div class="line">        checkParam(context);</div><div class="line">        checkParam(<span class="keyword">is</span>);</div><div class="line">        <span class="keyword">return</span> BitmapFactory.decodeStream(<span class="keyword">is</span>, <span class="literal">null</span>, getBitmapOptions(context));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">compressBitmap</span>(<span class="params">Context context,<span class="keyword">int</span> resId, <span class="keyword">int</span> maxWidth, <span class="keyword">int</span> maxHeight</span>) </span>&#123;</div><div class="line">        checkParam(context);</div><div class="line">        final TypedValue <span class="keyword">value</span> = <span class="keyword">new</span> TypedValue();</div><div class="line">        InputStream <span class="keyword">is</span> = <span class="literal">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">is</span> = context.getResources().openRawResource(resId, <span class="keyword">value</span>);</div><div class="line">            <span class="keyword">return</span> compressBitmap(context, <span class="keyword">is</span>, maxWidth, maxHeight);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">is</span> != <span class="literal">null</span>) &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="keyword">is</span>.close();</div><div class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">compressBitmap</span>(<span class="params">Context context, String pathName, <span class="keyword">int</span> maxWidth, <span class="keyword">int</span> maxHeight</span>) </span>&#123;</div><div class="line">        checkParam(context);</div><div class="line">        InputStream <span class="keyword">is</span> = <span class="literal">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">is</span> = <span class="keyword">new</span> FileInputStream(pathName);</div><div class="line">            <span class="keyword">return</span> compressBitmap(context, <span class="keyword">is</span>, maxWidth, maxHeight);</div><div class="line">        &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">is</span> != <span class="literal">null</span>) &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="keyword">is</span>.close();</div><div class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">compressBitmap</span>(<span class="params">Context context, InputStream <span class="keyword">is</span>, <span class="keyword">int</span> maxWidth, <span class="keyword">int</span> maxHeight</span>) </span>&#123;</div><div class="line">        checkParam(context);</div><div class="line">        checkParam(<span class="keyword">is</span>);</div><div class="line">        BitmapFactory.Options opt = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">        opt.inJustDecodeBounds = <span class="literal">true</span>;</div><div class="line">        BitmapFactory.decodeStream(<span class="keyword">is</span>, <span class="literal">null</span>, opt);</div><div class="line">        <span class="keyword">int</span> height = opt.outHeight;</div><div class="line">        <span class="keyword">int</span> width = opt.outWidth;</div><div class="line">        <span class="keyword">int</span> sampleSize = computeSampleSize(width, height, maxWidth, maxHeight);</div><div class="line">        BitmapFactory.Options options = getBitmapOptions(context);</div><div class="line">        options.inSampleSize = sampleSize;</div><div class="line">        <span class="keyword">return</span> BitmapFactory.decodeStream(<span class="keyword">is</span>, <span class="literal">null</span>, options);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">computeSampleSize</span>(<span class="params"><span class="keyword">int</span> width, <span class="keyword">int</span> height, <span class="keyword">int</span> maxWidth, <span class="keyword">int</span> maxHeight</span>) </span>&#123;</div><div class="line">        <span class="keyword">int</span> inSampleSize = <span class="number">1</span>;</div><div class="line">        <span class="keyword">if</span> (height &gt; maxHeight || width &gt; maxWidth) &#123;</div><div class="line">            final <span class="keyword">int</span> heightRate = Math.round((<span class="keyword">float</span>) height / (<span class="keyword">float</span>) maxHeight);</div><div class="line">            final <span class="keyword">int</span> widthRate = Math.round((<span class="keyword">float</span>) width / (<span class="keyword">float</span>) maxWidth);</div><div class="line">            inSampleSize = heightRate &lt; widthRate ? heightRate : widthRate;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (inSampleSize % <span class="number">2</span> != <span class="number">0</span>) &#123;</div><div class="line">            inSampleSize -= <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> inSampleSize &lt;= <span class="number">1</span> ? <span class="number">1</span> : inSampleSize;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">checkParam</span>(<span class="params">T param</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(param == <span class="literal">null</span>)</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">BitmapDecodeUtil</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> final <span class="keyword">int</span> DEFAULT_DENSITY = <span class="number">240</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> final <span class="keyword">float</span> SCALE_FACTOR = <span class="number">0.75</span>f;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> final Bitmap.Config DEFAULT_BITMAP_CONFIG = Bitmap.Config.RGB_565;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> BitmapFactory.<span class="function">Options <span class="title">getBitmapOptions</span>(<span class="params">Context context</span>) </span>&#123;</span><br><span class="line">        BitmapFactory.Options options = <span class="keyword">new</span> BitmapFactory.Options();</span><br><span class="line">        options.inScaled = <span class="keyword">true</span>;</span><br><span class="line">        options.inPreferredConfig = DEFAULT_BITMAP_CONFIG;</span><br><span class="line">        options.inPurgeable = <span class="keyword">true</span>;</span><br><span class="line">        options.inInputShareable = <span class="keyword">true</span>;</span><br><span class="line">        options.inJustDecodeBounds = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &lt;= Build.VERSION_CODES.GINGERBREAD_MR1) &#123;</span><br><span class="line">            Field field = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                field = BitmapFactory.Options.class.getDeclaredField(<span class="string">"inNativeAlloc"</span>);</span><br><span class="line">                field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">                field.setBoolean(options, <span class="keyword">true</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> displayDensityDpi = context.getResources().getDisplayMetrics().densityDpi;</span><br><span class="line">        <span class="keyword">float</span> displayDensity = context.getResources().getDisplayMetrics().density;</span><br><span class="line">        <span class="keyword">if</span> (displayDensityDpi &gt; DEFAULT_DENSITY &amp;&amp; displayDensity &gt; <span class="number">1.5</span>f) &#123;</span><br><span class="line">            <span class="keyword">int</span> density = (<span class="keyword">int</span>) (displayDensityDpi * SCALE_FACTOR);</span><br><span class="line">            options.inDensity = density;</span><br><span class="line">            options.inTargetDensity = density;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> options;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">decodeBitmap</span>(<span class="params">Context context, <span class="keyword">int</span> resId</span>) </span>&#123;</span><br><span class="line">        checkParam(context);</span><br><span class="line">        <span class="keyword">return</span> BitmapFactory.decodeResource(context.getResources(), resId, getBitmapOptions(context));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">decodeBitmap</span>(<span class="params">Context context, String pathName</span>) </span>&#123;</span><br><span class="line">        checkParam(context);</span><br><span class="line">        <span class="keyword">return</span> BitmapFactory.decodeFile(pathName, getBitmapOptions(context));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">decodeBitmap</span>(<span class="params">Context context, InputStream <span class="keyword">is</span></span>) </span>&#123;</span><br><span class="line">        checkParam(context);</span><br><span class="line">        checkParam(<span class="keyword">is</span>);</span><br><span class="line">        <span class="keyword">return</span> BitmapFactory.decodeStream(<span class="keyword">is</span>, <span class="keyword">null</span>, getBitmapOptions(context));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">compressBitmap</span>(<span class="params">Context context,<span class="keyword">int</span> resId, <span class="keyword">int</span> maxWidth, <span class="keyword">int</span> maxHeight</span>) </span>&#123;</span><br><span class="line">        checkParam(context);</span><br><span class="line">        final TypedValue <span class="keyword">value</span> = <span class="keyword">new</span> TypedValue();</span><br><span class="line">        InputStream <span class="keyword">is</span> = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">is</span> = context.getResources().openRawResource(resId, <span class="keyword">value</span>);</span><br><span class="line">            <span class="keyword">return</span> compressBitmap(context, <span class="keyword">is</span>, maxWidth, maxHeight);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">is</span> != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">is</span>.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">compressBitmap</span>(<span class="params">Context context, String pathName, <span class="keyword">int</span> maxWidth, <span class="keyword">int</span> maxHeight</span>) </span>&#123;</span><br><span class="line">        checkParam(context);</span><br><span class="line">        InputStream <span class="keyword">is</span> = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">is</span> = <span class="keyword">new</span> FileInputStream(pathName);</span><br><span class="line">            <span class="keyword">return</span> compressBitmap(context, <span class="keyword">is</span>, maxWidth, maxHeight);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">is</span> != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">is</span>.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">compressBitmap</span>(<span class="params">Context context, InputStream <span class="keyword">is</span>, <span class="keyword">int</span> maxWidth, <span class="keyword">int</span> maxHeight</span>) </span>&#123;</span><br><span class="line">        checkParam(context);</span><br><span class="line">        checkParam(<span class="keyword">is</span>);</span><br><span class="line">        BitmapFactory.Options opt = <span class="keyword">new</span> BitmapFactory.Options();</span><br><span class="line">        opt.inJustDecodeBounds = <span class="keyword">true</span>;</span><br><span class="line">        BitmapFactory.decodeStream(<span class="keyword">is</span>, <span class="keyword">null</span>, opt);</span><br><span class="line">        <span class="keyword">int</span> height = opt.outHeight;</span><br><span class="line">        <span class="keyword">int</span> width = opt.outWidth;</span><br><span class="line">        <span class="keyword">int</span> sampleSize = computeSampleSize(width, height, maxWidth, maxHeight);</span><br><span class="line">        BitmapFactory.Options options = getBitmapOptions(context);</span><br><span class="line">        options.inSampleSize = sampleSize;</span><br><span class="line">        <span class="keyword">return</span> BitmapFactory.decodeStream(<span class="keyword">is</span>, <span class="keyword">null</span>, options);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">computeSampleSize</span>(<span class="params"><span class="keyword">int</span> width, <span class="keyword">int</span> height, <span class="keyword">int</span> maxWidth, <span class="keyword">int</span> maxHeight</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> inSampleSize = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (height &gt; maxHeight || width &gt; maxWidth) &#123;</span><br><span class="line">            final <span class="keyword">int</span> heightRate = Math.round((<span class="keyword">float</span>) height / (<span class="keyword">float</span>) maxHeight);</span><br><span class="line">            final <span class="keyword">int</span> widthRate = Math.round((<span class="keyword">float</span>) width / (<span class="keyword">float</span>) maxWidth);</span><br><span class="line">            inSampleSize = heightRate &lt; widthRate ? heightRate : widthRate;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (inSampleSize % <span class="number">2</span> != <span class="number">0</span>) &#123;</span><br><span class="line">            inSampleSize -= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> inSampleSize &lt;= <span class="number">1</span> ? <span class="number">1</span> : inSampleSize;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">checkParam</span>(<span class="params">T param</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(param == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>主要有两类方法：<br>一、decodeBitmap:对Bitmap不压缩，但是会根据屏幕的密度合适的进行缩放压缩<br>二、compressBimtap:对Bitmap进行超过最大宽高的压缩，同时也会根据屏幕的密度合适的进行缩放压缩。</p>
 <h2 id="Bitmap优化前后性能对比"><a href="#Bitmap优化前后性能对比" class="headerlink" title="Bitmap优化前后性能对比"></a><strong>Bitmap优化前后性能对比</strong></h2><p>针对上面方案，做一下性能对比,图片大小为3.26M,分辨率为2048*2048<br>有两台设备：</p>
 <h3 id="density为320的设备"><a href="#density为320的设备" class="headerlink" title="density为320的设备"></a><strong>density为320的设备</strong></h3><p><img src="http://7xswxf.com2.z0.glb.clouddn.com/blog/bitmap1.png" alt="这里写图片描述"></p>
@@ -436,46 +494,31 @@
     <div>
       
         
+
       
     </div>
 
     <div>
       
         
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="http://7xswxf.com2.z0.glb.clouddn.com/blog/weixin.png" alt="郑晓勇 WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="http://7xswxf.com2.z0.glb.clouddn.com/blog/alipay.png" alt="郑晓勇 Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
-  </div>
-
 
       
     </div>
+
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/Bitmap/" rel="tag">#Bitmap</a>
+            <a href="/tags/Bitmap/" rel="tag"># Bitmap</a>
           
-            <a href="/tags/内存优化/" rel="tag">#内存优化</a>
+            <a href="/tags/内存优化/" rel="tag"># 内存优化</a>
           
         </div>
+      
+
+      
+        
       
 
       
@@ -487,6 +530,8 @@
               </a>
             
           </div>
+
+          <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
@@ -533,7 +578,7 @@
     </div>
   </div>
 
-
+          
           </div>
           
 
@@ -576,21 +621,24 @@
         </ul>
       
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.png"
+               src="/images/avatar.png"
                alt="郑晓勇" />
           <p class="site-author-name" itemprop="name">郑晓勇</p>
           <p class="site-description motion-element" itemprop="description"></p>
         </div>
         <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">14</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
 
           
             <div class="site-state-item site-state-categories">
@@ -623,26 +671,6 @@
 
         <div class="links-of-author motion-element">
           
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/Sunzxyong" target="_blank" title="github">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  github
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/3048730677/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="weibo">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  weibo
-                </a>
-              </span>
-            
-          
         </div>
 
         
@@ -650,34 +678,28 @@
 
         
         
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              Links
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://blog.csdn.net/u010687392" title="我的CSDN" target="_blank">我的CSDN</a>
-                </li>
-              
-            </ul>
-          </div>
+
         
+
 
       </section>
 
       
+      <!--noindex-->
         <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
+
             
               
             
+
             
               <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#BitmapFactory解析Bitmap的原理"><span class="nav-number">1.</span> <span class="nav-text">BitmapFactory解析Bitmap的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于Density、分辨率、-hdpi等res目录之间的关系"><span class="nav-number">1.1.</span> <span class="nav-text">关于Density、分辨率、-hdpi等res目录之间的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DisplayMetrics-densityDpi与density的区别"><span class="nav-number">1.2.</span> <span class="nav-text">DisplayMetrics::densityDpi与density的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bitmap的优化策略"><span class="nav-number">2.</span> <span class="nav-text">Bitmap的优化策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BitmapFactory-Options的属性解析"><span class="nav-number">2.1.</span> <span class="nav-text">BitmapFactory.Options的属性解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化策略"><span class="nav-number">2.2.</span> <span class="nav-text">优化策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bitmap优化前后性能对比"><span class="nav-number">3.</span> <span class="nav-text">Bitmap优化前后性能对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#density为320的设备"><span class="nav-number">3.1.</span> <span class="nav-text">density为320的设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#density为560的设备"><span class="nav-number">3.2.</span> <span class="nav-text">density为560的设备</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bitmap的回收"><span class="nav-number">4.</span> <span class="nav-text">Bitmap的回收</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-2-3-3-API-10-及以下的系统"><span class="nav-number">4.1.</span> <span class="nav-text">Android 2.3.3(API 10)及以下的系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-3-0-API-11-及以上的系统"><span class="nav-number">4.2.</span> <span class="nav-text">Android 3.0(API 11)及以上的系统</span></a></li></ol></li></ol></div>
             
+
           </div>
         </section>
+      <!--/noindex-->
       
 
     </div>
@@ -699,7 +721,19 @@
   </span>
   <span class="author" itemprop="copyrightHolder">郑晓勇</span>
 </div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
 
         
 
@@ -732,6 +766,7 @@
 
 
 
+
   
   <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
 
@@ -754,32 +789,32 @@
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
 
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
 
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
 
 
 
@@ -803,6 +838,19 @@
   </script>
 
   
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
 
 
 
@@ -810,27 +858,8 @@
 
   
   
+
   
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-  </script>
-
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-      var all = MathJax.Hub.getAllJax(), i;
-      for (i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  </script>
-  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
 
   
 
@@ -864,6 +893,14 @@
             var element = document.getElementById(url);
 
             $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
           }
         })
         .fail(function (object, error) {
@@ -934,6 +971,9 @@
 
 
   
+
+  
+
 
 </body>
 </html>

@@ -5,16 +5,19 @@
   
 
 
-<html class="theme-next pisces use-motion">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
 
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
 
 
 
@@ -63,9 +66,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
   <meta name="keywords" content="Fresco原理," />
@@ -79,7 +82,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
 
 
 
@@ -101,23 +104,38 @@
 <meta name="twitter:title" content="Fresco图片框架内部实现原理探索">
 <meta name="twitter:description" content="流行的网络框架目前流行的网络图片框架：Picasso、Universal Image Loader、Volley的(ImageLoader、NetworkImageView)、Glide和Fresco
 简明的介绍下（具体细节和功能可看源码和wiki）：其中Picasso和Universal Image Loader相比其它的算是最轻量级的图片框架了，它们拥有较少的方法数，Universal Ima">
-<meta name="twitter:image" content="http://7xswxf.com2.z0.glb.clouddn.com/blog/fresco1.png">
 
 
 
-<script type="text/javascript" id="hexo.configuration">
+<script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
+    root: '/',
     scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: undefined,
+      userId: '0',
       author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
 </script>
+
+
+
+  <link rel="canonical" href="http://zhengxiaoyong.me/2016/01/04/Fresco图片框架内部实现原理探索/"/>
+
+
+
+
 
   <title> Fresco图片框架内部实现原理探索 | zhengxiaoyong </title>
 </head>
@@ -125,6 +143,10 @@
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
+
+
+
+
 
 
 
@@ -154,7 +176,9 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">生活不止眼前的苟且，还有诗，和远方.</p>
+    
+      <p class="site-subtitle">生活不止眼前的苟且，还有诗，和远方.</p>
+    
 </div>
 
 <div class="site-nav-toggle">
@@ -229,6 +253,8 @@
   
 </nav>
 
+
+
  </div>
     </header>
 
@@ -242,13 +268,26 @@
     
 
   
-  
 
   
   
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhengxiaoyong.me/2016/01/04/Fresco图片框架内部实现原理探索/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="郑晓勇">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="zhengxiaoyong">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="zhengxiaoyong" src="">
+    </span>
+  </span>
 
     
       <header class="post-header">
@@ -267,24 +306,36 @@
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-04T11:38:30+08:00" content="2016-01-04">
-              2016-01-04
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-01-04T11:38:30+08:00">
+                2016-01-04
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/技术沉淀/" itemprop="url" rel="index">
                     <span itemprop="name">技术沉淀</span>
                   </a>
@@ -292,7 +343,6 @@
 
                 
                 
-
               
             </span>
           
@@ -300,29 +350,37 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2016/01/04/Fresco图片框架内部实现原理探索/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/04/Fresco图片框架内部实现原理探索/" itemprop="commentsCount"></span>
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/04/Fresco图片框架内部实现原理探索/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-
-          
           
              <span id="/2016/01/04/Fresco图片框架内部实现原理探索/" class="leancloud_visitors" data-flag-title="Fresco图片框架内部实现原理探索">
-               &nbsp; | &nbsp;
+               <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
@@ -341,14 +399,14 @@
 <h2 id="Fresco性能上的优点"><a href="#Fresco性能上的优点" class="headerlink" title="Fresco性能上的优点"></a><strong>Fresco性能上的优点</strong></h2><h3 id="优一："><a href="#优一：" class="headerlink" title="优一："></a><strong>优一：</strong></h3><p>1、支持webp格式的图片，是Google官方推行的，它的大小比其它格式图片的大小要小一半左右，目前各个大公司都渐入的使用这种图片格式了，比如：Youtube、Gmail、淘宝、QQ空间等都已尝鲜，使用该格式最大的优点就是轻量、省流量、图片加载迅速。而Fresco是通过jni来实现支持WebP格式图片。</p>
 <h3 id="优二："><a href="#优二：" class="headerlink" title="优二："></a><strong>优二：</strong></h3><p>2、5.0以下系统：使用”ashmem”（匿名共享内存）区域存储Bitmap缓存，这样Bitmap对象的创建、释放将永远不会触发GC，关于”ashmem”存储区域，它是一个不在Java堆区的一片存储内存空间，它的管理由Linux内核驱动管理，不必深究，只要知道这块存储区域是别于堆内存之外的一块空间就行了，且这块空间是可以多进程共享的，GC的活动不会影响到它。5.0以上系统，由于内存管理的优化，所以对于5.0以上的系统Fresco将Bitmap缓存直接放到了堆内存中。</p>
 <p>关于”ashmem”的存储区域，我们的应用程序并不能像访问堆内存一样直接访问这块内存块，但是也有一些例外，对于Bitmap而言，有一种为”Purgeable Bitmap”可擦除的Bitmap位图是存储在这块内存区域中的，BitmapFactory.Options中有这么一个属性<code>inPurgeable</code>：</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">BitmapFactory.Options </span>= new <span class="keyword">BitmapFactory.Options();</span></div><div class="line">options.inPurgeable = true<span class="comment">;</span></div><div class="line"><span class="keyword">Bitmap </span><span class="keyword">bitmap </span>= <span class="keyword">BitmapFactory.decodeByteArray(jpeg, </span><span class="number">0</span>, <span class="keyword">jpeg.length, </span>options)<span class="comment">;</span></div></pre></td></tr></table></figure>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BitmapFactory.<span class="keyword">Options</span> = <span class="keyword">new</span> BitmapFactory.<span class="keyword">Options</span>();</span><br><span class="line"><span class="keyword">options</span>.inPurgeable = <span class="keyword">true</span>;</span><br><span class="line">Bitmap bitmap = BitmapFactory.decodeByteArray(jpeg, <span class="number">0</span>, jpeg.length, <span class="keyword">options</span>);</span><br></pre></td></tr></table></figure>
 <p>所以通过配置inPurgeable = true这个属性，这样解码出来的Bitmap位图就存储在”ashmem”区域中，之后用到”ashmem”中得图片时，则把这个图片从这个区域中取出来，渲染完毕后则放回这个位置。</p>
 <p>既然Fresco中Bitmap缓存在5.0以前是放在”ashmem”中，GC并不会回收它们，且也不会被”ashmeme”内置的清除机制回收它们，所以这样虽然使得在堆中不会造成内存泄露，而在这块区域可能造成内存泄露，Fresco中采取的办法则是使用引用计数的方式，其中有一个SharedReference这个类，这个类中有这么两个方法：addReference()和deleteReference()，通过这两个基本方法来对引用进行计数，一旦计数为零时，则对应的资源将会清除（如：Bitmap.recycle()等），而Fresco为了考虑更容易被我们使用，又提供了一个CloseableReference类，该类可以说是SharedReference类上功能的封装，CloseableReference同时也实现了Cloneable、Closeable接口，它在调用.clone()方法时同时会调用addReference()来增加一个引用计数，在调用.close()方法时同时会调用deleteReference()来删除一个引用计数，所以在使用Fresco的使用，我们都是与CloseableReference类打交道，使用CloseableReference必须遵循以下两条规则：<br>1、在赋值CloseableReference给新对象的时候，调用.clone()进行赋值<br>2、在超出作用域范围的时候，必须调用.close()，通常会在finally代码块中调用</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">gee</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  CloseableReference&lt;Val&gt; <span class="keyword">ref</span> = foo();</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    haa(<span class="keyword">ref</span>);</div><div class="line">  &#125; <span class="keyword">finally</span> &#123;</div><div class="line">    <span class="keyword">ref</span>.close();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> gee() &#123;</span><br><span class="line">  <span class="type">CloseableReference</span>&lt;<span class="type">Val</span>&gt; <span class="keyword">ref</span> = foo();</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    haa(<span class="keyword">ref</span>);</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">ref</span>.close();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>遵循这些规则可以有效地防止内存泄漏。</p>
 <h3 id="优三："><a href="#优三：" class="headerlink" title="优三："></a><strong>优三：</strong></h3><p>3、使用了三级缓存：Bitmap缓存+未解码图片缓存+硬盘缓存。<br>其中前两个就是内存缓存，Bitmap缓存根据系统版本不同放在了不同内存区域中，而未解码图片的缓存只在堆内存中，Fresco分了两步做内存缓存，这样做有什么好处呢？第一个好处就如上的第二条，第二个好处是加快图片的加载速度，Fresco的加载图片的流程为：查找Bitmap缓存中是否存在，存在则直接返回Bitmap直接使用，不存在则查找未解码图片的缓存，如果存在则进行Decode成Bitmap然后直接使用并加入Bitmap缓存中，如果未解码图片缓存中查找不到，则进行硬盘缓存的检查，如有，则进行IO、转化、解码等一系列操作，最后成Bitmap供我们直接使用，并把未解码（Encode）的图片加入未解码图片缓存，把Bitmap加入Bitmap缓存中，如硬盘缓存中没有，则进行Network操作下载图片，然后加入到各个缓存中。</p>
 <p>既然Fresco使用了三级缓存，而有两级是内存缓存，所以当我们的App在后台时或者在内存低的情况下在onLowMemory()方法中，我们应该手动清除应用的内存缓存，我们可以使用下面的方式：</p>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">ImagePipeline imagePipeline = Fresco.getImagePipeline()<span class="comment">;</span></div><div class="line">//清空内存缓存（包括Bitmap缓存和未解码图片的缓存）</div><div class="line">imagePipeline.clearMemoryCaches()<span class="comment">;</span></div><div class="line">//清空硬盘缓存，一般在设置界面供用户手动清理</div><div class="line">imagePipeline.clearDiskCaches()<span class="comment">;</span></div><div class="line"></div><div class="line">//同时清理内存缓存和硬盘缓存</div><div class="line">imagePipeline.clearCaches()<span class="comment">;</span></div></pre></td></tr></table></figure>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ImagePipeline imagePipeline = Fresco.getImagePipeline()<span class="comment">;</span></span><br><span class="line">//清空内存缓存（包括Bitmap缓存和未解码图片的缓存）</span><br><span class="line">imagePipeline.clearMemoryCaches()<span class="comment">;</span></span><br><span class="line">//清空硬盘缓存，一般在设置界面供用户手动清理</span><br><span class="line">imagePipeline.clearDiskCaches()<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">//同时清理内存缓存和硬盘缓存</span><br><span class="line">imagePipeline.clearCaches()<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 <h3 id="优四："><a href="#优四：" class="headerlink" title="优四："></a><strong>优四：</strong></h3><p>4、Fresco框架的ImagePipeline设计图<br><img src="http://7xswxf.com2.z0.glb.clouddn.com/blog/fresco1.png" alt="这里写图片描述"><br>从设计图中可以看出，UIThread只做图片的显示和从内存缓存中加载图片这两件事，而其它事情如：图片的Decode、内存缓存的写、硬盘缓存的IO操作、网络操作等都用非UIThread来处理了，这使得UIThread专注界面的显示，而其它工作由其它线程完成，使UI更加流畅。</p>
 <h2 id="Fresco中的MVC模式"><a href="#Fresco中的MVC模式" class="headerlink" title="Fresco中的MVC模式"></a><strong>Fresco中的MVC模式</strong></h2><p>Fresco框架整体是一个MVC模式</p>
 <blockquote>
@@ -357,73 +415,73 @@
 <p>它们之间的关系大致如下：<br>DraweeHierarchy意为视图的层次结构，用来存储和描述图片的信息，同时也封装了一些图片的显示和视图层级的方法。<br>DraweeView用来显示顶层视图（getTopLevelDrawable()）。DraweeController控制加载图片的配置、顶层显示哪个视图以及控制事件的分发。<br>【注】DraweeView目前版本时继承于ImageView，但这并不意味着我们可以随意的使用ImageView相关的方法（如：setScaleType等），官方并不建议我们使用，因为后期DraweeView将继承于View，所以最好只使用DraweeView控件内置的方法。</p>
 <hr>
 <h3 id="DraweeHierarchy"><a href="#DraweeHierarchy" class="headerlink" title="DraweeHierarchy"></a><strong>DraweeHierarchy</strong></h3><p>DraweeHierarchy除了描述了视图的信息和存储6种视图外，其中还对我们提供了一些额外的方法，比如：让图片渐渐显示Fade效果、设置默认状态下显示的图片、设置点击时显示的图片和加载失败时显示的图片等方法，这些方法可以在我们加载其它图片时保持一些良好的交互效果，值得注意的是，DraweeHierarchy是一个接口，只提供了一个默认方法：</p>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public interface DraweeHierarchy &#123;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Returns the top level drawable in the corresponding hierarchy. Hierarchy should always have</div><div class="line">   * the same<span class="built_in"> instance </span>of its top level drawable.</div><div class="line">   * @return top level drawable</div><div class="line">   */</div><div class="line">  Drawable getTopLevelDrawable();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public interface DraweeHierarchy &#123;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * Returns the top level drawable in the corresponding hierarchy. Hierarchy should always have</span><br><span class="line">   * the same<span class="instruction"> instance </span>of its top level drawable.</span><br><span class="line">   * @return top level drawable</span><br><span class="line">   */</span><br><span class="line">  Drawable<span class="function"> getTopLevelDrawable(</span><span class="function">)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个方法从官方注释上来看，是得到当前视图中最顶层的那个Drawable，如：<br>下面这个视图层次最顶层的视图为FadeDrawable</p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">o FadeDrawable (top level drawable)</div><div class="line">|<span class="string"></span></div><div class="line">+--o ScaleTypeDrawable</div><div class="line">|<span class="string">  </span>|</div><div class="line">|<span class="string">  +--o BitmapDrawable</span></div><div class="line">|</div><div class="line">+--o ScaleTypeDrawable</div><div class="line">   |<span class="string"></span></div><div class="line">   +--o BitmapDrawable</div></pre></td></tr></table></figure>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">o FadeDrawable (top level drawable)</span><br><span class="line">|<span class="string"></span><br><span class="line">+--o ScaleTypeDrawable</span><br><span class="line"></span>|<span class="string">  </span>|</span><br><span class="line">|<span class="string">  +--o BitmapDrawable</span><br><span class="line"></span>|</span><br><span class="line">+--o ScaleTypeDrawable</span><br><span class="line">   |<span class="string"></span><br><span class="line">   +--o BitmapDrawable</span></span><br></pre></td></tr></table></figure>
 <p>所以，在Fresco框架中，并不是一个DraweeView只能设置一个图片（Drawable），而是可以设置一个视图图层（类似Android中的LayerDrawable可以设置视图叠加），然后通过DraweeHolder在不同状态下得到（getTopLevelDrawable()）最顶层那个图片从而使得DraweeView显示不同的视图，比如下面这个按下时显示一个overlay（顶层）图片效果：<br><img src="http://7xswxf.com2.z0.glb.clouddn.com/blog/fresco2.gif" alt="这里写图片描述"><br>我想这也是Facebook不想把DraweeView这个组件单纯的定义为一个的ImageView的原因吧。</p>
 <h3 id="DraweeView"><a href="#DraweeView" class="headerlink" title="DraweeView"></a><strong>DraweeView</strong></h3><p>DraweeView是官方给我们提供显示图片的一个基类，我们在使用过程中大多时候并不需要用到它，而是用到一个官方已经简单封好的SimpleDraweeView类，DraweeView类中提供了与DraweeController和DraweeHierarchy交互的接口，而与它们之间的交互本质上是通过一个DraweeHolder类进行交互，这类DraweeHolder是协调DraweeView、DraweeHierarchy、DraweeController这三个类交互工作的核心类，像平时我们都会这样使用：</p>
 <p>比如：配置一个DraweeHierarchy简便起见通常会使用SimpleDraweeView直接设置：</p>
-<figure class="highlight pony"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="type">SimpleDraweeView</span> simpleDraweeView = (<span class="type">SimpleDraweeView</span>) findViewById(<span class="type">R</span>.id.drawee_view);</div><div class="line">        <span class="type">Uri</span> uri = <span class="type">Uri</span>.parse(<span class="string">"https://raw.githubusercontent.com/facebook/fresco/gh-pages/static/fresco-logo.png"</span>);</div><div class="line">        simpleDraweeView.setImageURI(uri);</div><div class="line">        <span class="comment">//创建一个DraweeHierarchy</span></div><div class="line">        <span class="type">GenericDraweeHierarchy</span> hierarchy = <span class="function"><span class="keyword">new</span> <span class="title">GenericDraweeHierarchyBuilder</span>(getResources()).<span class="title">setPlaceholderImage</span>(getDrawable(<span class="type">R</span>.drawable.holder)).<span class="title">build</span>();</span></div><div class="line">        <span class="comment">//设置一个hierarchy</span></div><div class="line"><span class="title">simpleDraweeView</span>.<span class="title">setHierarchy</span>(hierarchy);</div></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SimpleDraweeView simpleDraweeView = (SimpleDraweeView) findViewById(R.id.drawee_view);</span><br><span class="line">        <span class="built_in">Uri</span> uri = <span class="built_in">Uri</span>.parse(<span class="string">"https://raw.githubusercontent.com/facebook/fresco/gh-pages/static/fresco-logo.png"</span>);</span><br><span class="line">        simpleDraweeView.setImageURI(uri);</span><br><span class="line">        <span class="comment">//创建一个DraweeHierarchy</span></span><br><span class="line">        GenericDraweeHierarchy hierarchy = <span class="keyword">new</span> GenericDraweeHierarchyBuilder(getResources()).setPlaceholderImage(getDrawable(R.drawable.holder)).build();</span><br><span class="line">        <span class="comment">//设置一个hierarchy</span></span><br><span class="line">simpleDraweeView.setHierarchy(hierarchy);</span><br></pre></td></tr></table></figure>
 <p>其实上述方法最终都是通过mController.setHierarchy(hierarchy);来设置的，本质是调用DraweeHolder类封装好的setHierarchy()方法，可以看看其内部：<br>DraweeHolder::setHierarchy()</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setHierarchy</span><span class="params">(DH hierarchy)</span> </span>&#123;</div><div class="line">  <span class="comment">//...</span></div><div class="line">  <span class="keyword">if</span> (mController != <span class="keyword">null</span>) &#123;</div><div class="line">    mController.setHierarchy(hierarchy);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setHierarchy</span><span class="params">(DH hierarchy)</span> </span>&#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="keyword">if</span> (mController != <span class="keyword">null</span>) &#123;</span><br><span class="line">    mController.setHierarchy(hierarchy);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>所以通过simpleDraweeView.setHierarchy(hierarchy);来设置等价于通过构建一个DraweeController来设置，如下：</p>
-<figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">DraweeController controller = Fresco.newDraweeControllerBuilder().<span class="built_in">set</span>Uri(url).<span class="built_in">set</span>Xxx()...build();</div><div class="line">//通过DraweeController设置</div><div class="line">controller.<span class="built_in">set</span>Hierarchy();</div><div class="line">simpleDraweeView.<span class="built_in">set</span>Controller(controller);</div></pre></td></tr></table></figure>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DraweeController controller = Fresco.newDraweeControllerBuilder().<span class="built_in">set</span>Uri(url).<span class="built_in">set</span>Xxx()...build();</span><br><span class="line">//通过DraweeController设置</span><br><span class="line">controller.<span class="built_in">set</span>Hierarchy();</span><br><span class="line">simpleDraweeView.<span class="built_in">set</span>Controller(controller);</span><br></pre></td></tr></table></figure>
 <p>这个DraweeHolder类的出现，更准确的定位是降低耦合度、解耦的定位。</p>
 <p>对于上面我们知道了通过simpleDraweeView.setHierarchy(hierarchy);来设置等价于通过DraweeController::setHierarchy()来设置，那么simpleDraweeView.setController(controller);有没有等价的呢？答案是没有，<strong>因为要加载图片那么就必须设置一个DraweeController来控制图片的加载</strong>，（当然我们如果设置了SimpleDraweeView的一些属性，那么默认也会创建一个DraweeHierarchy），而我们平时简便的写法：</p>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SimpleDraweeView simpleDraweeView = (SimpleDraweeView) findViewById(R.id.drawee_view)<span class="comment">;</span></div><div class="line">        Uri uri = Uri.parse(<span class="string">"https://raw.githubusercontent.com/facebook/fresco/gh-pages/static/fresco-logo.png"</span>)<span class="comment">;</span></div><div class="line">        simpleDraweeView.setImageURI(uri)<span class="comment">;</span></div></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SimpleDraweeView simpleDraweeView = (SimpleDraweeView) findViewById(R.id.drawee_view);</span><br><span class="line">        <span class="built_in">Uri</span> uri = <span class="built_in">Uri</span>.parse(<span class="string">"https://raw.githubusercontent.com/facebook/fresco/gh-pages/static/fresco-logo.png"</span>);</span><br><span class="line">        simpleDraweeView.setImageURI(uri);</span><br></pre></td></tr></table></figure>
 <p>这是一段最基本的写法，我们都知道这样设置了Fresco内部就自动会给我们加载图片了，而网上也流传着另外一种加载图片的方法，为：</p>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">DraweeController controller = Fresco.newDraweeControllerBuilder().setUri(url).build()<span class="comment">;</span></div><div class="line">simpleDraweeView.setController(controller)<span class="comment">;</span></div></pre></td></tr></table></figure>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DraweeController controller = Fresco.newDraweeControllerBuilder().setUri(url).build()<span class="comment">;</span></span><br><span class="line">simpleDraweeView.setController(controller)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 <p>其实这两种写法都是一种写法，<strong>Fresco真正加载图片仅仅只有这一种方法</strong>，就是通过simpleDraweeView.setController(controller);来设置，只不过我们可以对DraweeController和DraweeHierarchy做各种各样的配置来达到我们想要的效果，我们可以看看simpleDraweeView.setImageURI(uri);的源码，其实还是通过setController(controller);设置一个控制器来控制图片的加载，源码为：</p>
-<figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public void <span class="built_in">set</span>ImageURI(Uri uri, @Nullable Object callerContext) &#123;</div><div class="line">  DraweeController controller = mSimpleDraweeControllerBuilder</div><div class="line">      .<span class="built_in">set</span>CallerContext(callerContext)</div><div class="line">      .<span class="built_in">set</span>Uri(uri)</div><div class="line">      .<span class="built_in">set</span>OldController(getController())</div><div class="line">      .build();</div><div class="line">  <span class="built_in">set</span>Controller(controller);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public void <span class="built_in">set</span>ImageURI(Uri uri, @Nullable Object callerContext) &#123;</span><br><span class="line">  DraweeController controller = mSimpleDraweeControllerBuilder</span><br><span class="line">      .<span class="built_in">set</span>CallerContext(callerContext)</span><br><span class="line">      .<span class="built_in">set</span>Uri(uri)</span><br><span class="line">      .<span class="built_in">set</span>OldController(getController())</span><br><span class="line">      .build();</span><br><span class="line">  <span class="built_in">set</span>Controller(controller);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>所以，<strong>使用Fresco通用的写法便是：</strong></p>
-<figure class="highlight pony"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="type">SimpleDraweeView</span> simpleDraweeView = (<span class="type">SimpleDraweeView</span>) findViewById(<span class="type">R</span>.id.drawee_view);</div><div class="line"><span class="type">Uri</span> uri = <span class="type">Uri</span>.parse(<span class="string">"https://raw.githubusercontent.com/facebook/fresco/gh-pages/static/fresco-logo.png"</span>);</div><div class="line"></div><div class="line"><span class="type">GenericDraweeHierarchy</span> hierarchy = <span class="function"><span class="keyword">new</span> <span class="title">GenericDraweeHierarchyBuilder</span>(getResources())</span></div><div class="line">        .<span class="title">setFadeDuration</span>(<span class="number">400</span>)</div><div class="line">        .<span class="title">setPlaceholderImage</span>(getDrawable(<span class="type">R</span>.drawable.holder))</div><div class="line">        .<span class="title">setFailureImage</span>(getDrawable(<span class="type">R</span>.drawable.fail))</div><div class="line">        .<span class="title">build</span>();</div><div class="line"></div><div class="line"><span class="title">DraweeController</span> <span class="title">controller</span> = <span class="title">Fresco</span>.<span class="title">newDraweeControllerBuilder</span>().<span class="title">setUri</span>(uri).<span class="title">setOldController</span>(simpleDraweeView.getController()).<span class="title">build</span>();</div><div class="line"><span class="title">controller</span>.<span class="title">setHierarchy</span>(hierarchy);</div><div class="line"></div><div class="line"><span class="title">simpleDraweeView</span>.<span class="title">setController</span>(controller);</div></pre></td></tr></table></figure>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">SimpleDraweeView simpleDraweeView = (SimpleDraweeView) findViewById(R.id.drawee_view);</span><br><span class="line">Uri uri = Uri.parse(<span class="string">"https://raw.githubusercontent.com/facebook/fresco/gh-pages/static/fresco-logo.png"</span>);</span><br><span class="line"></span><br><span class="line">GenericDraweeHierarchy hierarchy = new GenericDraweeHierarchyBuilder(getResources())</span><br><span class="line">        .<span class="built_in">set</span>FadeDuration(<span class="number">400</span>)</span><br><span class="line">        .<span class="built_in">set</span>PlaceholderImage(getDrawable(R.drawable.holder))</span><br><span class="line">        .<span class="built_in">set</span>FailureImage(getDrawable(R.drawable.fail))</span><br><span class="line">        .build();</span><br><span class="line"></span><br><span class="line">DraweeController controller = Fresco.newDraweeControllerBuilder().<span class="built_in">set</span>Uri(uri).<span class="built_in">set</span>OldController(simpleDraweeView.getController()).build();</span><br><span class="line">controller.<span class="built_in">set</span>Hierarchy(hierarchy);</span><br><span class="line"></span><br><span class="line">simpleDraweeView.<span class="built_in">set</span>Controller(controller);</span><br></pre></td></tr></table></figure>
 <p>或者直接使用ImageRequet:</p>
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ImageRequest imageRequest = ImageRequestBuilder.<span class="keyword">new</span><span class="type">BuilderWithSource</span>(Uri.parse(url)).build();</div><div class="line">DraweeController draweeController = Fresco.<span class="keyword">new</span><span class="type">DraweeControllerBuilder</span>().setImageRequest(imageRequest).setOldController(simpleDraweeView.getController()).build();</div><div class="line">simpleDraweeView.setController(controller);</div></pre></td></tr></table></figure>
+<figure class="highlight sml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ImageRequest</span> imageRequest = <span class="type">ImageRequestBuilder</span>.newBuilderWithSource(<span class="type">Uri</span>.parse(url)).build<span class="literal">()</span>;</span><br><span class="line"><span class="type">DraweeController</span> draweeController = <span class="type">Fresco</span>.newDraweeControllerBuilder<span class="literal">()</span>.setImageRequest(imageRequest).setOldController(simpleDraweeView.getController<span class="literal">()</span>).build<span class="literal">()</span>;</span><br><span class="line">simpleDraweeView.setController(controller);</span><br></pre></td></tr></table></figure>
 <p>当然配置其它属性只要设置Controller和Hierarchy相应的方法即可。<br>【<strong>注</strong>】：上面中用到了一个这个方法simpleDraweeView.getController();当然也还有simpleDraweeView.getHierarchy();，这两个方法是返回当前DraweeView所设置的Control和Hierarchy，使用这两个方法的好处是复用以前创建的Control和Hierarchy对象，因为重新创建一个对象肯定不如复用好，而且创建相对耗时，所以官方也建议我们复用这两个对象。如果你用simpleDraweeView.getHierarchy()来加载图片，那么它将不可能为空，除非你什么不设置，而getController()则可能为空，所以在使用工厂方法</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">Fresco</span><span class="selector-class">.newDraweeControllerBuilder</span>()<span class="selector-class">.setUri</span>(<span class="selector-tag">uri</span>)<span class="selector-class">.setOldController</span>(<span class="selector-tag">simpleDraweeView</span><span class="selector-class">.getController</span>())<span class="selector-class">.build</span>();</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">Fresco</span><span class="class">.newDraweeControllerBuilder</span>()<span class="class">.setUri</span>(<span class="tag">uri</span>)<span class="class">.setOldController</span>(<span class="tag">simpleDraweeView</span><span class="class">.getController</span>())<span class="class">.build</span>();</span><br></pre></td></tr></table></figure>
 <p>来创建一个DraweeController的时候给它配置一个setOldController()，如果这里面这个参数为null，那么就会重新创建一个DraweeController，如果不为空则复用当前传入的。</p>
 <hr>
 <p>顺便说一句，直接使用SimpleDraweeView就足够了，毕竟配置功能都落在DraweeController和DraweeHierarchy身上，SimpleDraweeView仅仅起个显示最顶层视图的作用。</p>
 <h3 id="DraweeController"><a href="#DraweeController" class="headerlink" title="DraweeController"></a><strong>DraweeController</strong></h3><p>关于DraweeController，好像在上面已经讲的差不多了，它主要就是起个控制图片的加载和配置以及决定顶层显示哪个视图的作用，其它的它也可以设置设置个ControllerListener来监听图片加载的进度，也可以配置一个ImageRequest来设置渐进式JPEG图片的加载，具体使用可以看其官方文档。</p>
-<h2 id="认识Fresco中的视图层次"><a href="#认识Fresco中的视图层次" class="headerlink" title="认识Fresco中的视图层次"></a><strong>认识Fresco中的视图层次</strong></h2><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="bullet">*     </span>o FadeDrawable (top level drawable)</div><div class="line"><span class="bullet">*     </span>|</div><div class="line"><span class="bullet">*     </span>+--o ScaleTypeDrawable</div><div class="line"><span class="bullet">*     </span>|  |</div><div class="line"><span class="bullet">*     </span>|  +--o Drawable (placeholder image)</div><div class="line"><span class="bullet">*     </span>|</div><div class="line"><span class="bullet">*     </span>+--o ScaleTypeDrawable</div><div class="line"><span class="bullet">*     </span>|  |</div><div class="line"><span class="bullet">*     </span>|  +--o SettableDrawable</div><div class="line"><span class="bullet">*     </span>|     |</div><div class="line"><span class="bullet">*     </span>|     +--o Drawable (actual image)</div><div class="line"><span class="bullet">*     </span>|</div><div class="line"><span class="bullet">*     </span>+--o ScaleTypeDrawable</div><div class="line"><span class="bullet">*     </span>|  |</div><div class="line"><span class="bullet">*     </span>|  +--o Drawable (retry image)</div><div class="line"><span class="bullet">*     </span>|</div><div class="line"><span class="bullet">*     </span>+--o ScaleTypeDrawable</div><div class="line"><span class="bullet">*        </span>|</div><div class="line"><span class="bullet">*        </span>+--o Drawable (failure image)</div></pre></td></tr></table></figure>
+<h2 id="认识Fresco中的视图层次"><a href="#认识Fresco中的视图层次" class="headerlink" title="认识Fresco中的视图层次"></a><strong>认识Fresco中的视图层次</strong></h2><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">*</span>     o FadeDrawable (top level drawable)</span><br><span class="line"><span class="keyword">*</span>     |<span class="string"></span><br><span class="line">*     +--o ScaleTypeDrawable</span><br><span class="line">*     </span>|<span class="string">  </span>|</span><br><span class="line"><span class="keyword">*</span>     |<span class="string">  +--o Drawable (placeholder image)</span><br><span class="line">*     </span>|</span><br><span class="line"><span class="keyword">*</span>     +--o ScaleTypeDrawable</span><br><span class="line"><span class="keyword">*</span>     |<span class="string">  </span>|</span><br><span class="line"><span class="keyword">*</span>     |<span class="string">  +--o SettableDrawable</span><br><span class="line">*     </span>|<span class="string">     </span>|</span><br><span class="line"><span class="keyword">*</span>     |<span class="string">     +--o Drawable (actual image)</span><br><span class="line">*     </span>|</span><br><span class="line"><span class="keyword">*</span>     +--o ScaleTypeDrawable</span><br><span class="line"><span class="keyword">*</span>     |<span class="string">  </span>|</span><br><span class="line"><span class="keyword">*</span>     |<span class="string">  +--o Drawable (retry image)</span><br><span class="line">*     </span>|</span><br><span class="line"><span class="keyword">*</span>     +--o ScaleTypeDrawable</span><br><span class="line"><span class="keyword">*</span>        |<span class="string"></span><br><span class="line">*        +--o Drawable (failure image)</span></span><br></pre></td></tr></table></figure>
 <p>Fresco中对于DraweeHierarchy视图层次的描述中，视图层次的结构为6种不同的视图，依次为顶层Drawable（可用FadeDrawable配置显示效果）、默认显示的Drawable、实际的Drawable（其中有一层可设置的Drawable包裹它作为对我们实际加载到的Drawable进行配置）、重试的Drawable、加载失败的Drawable。</p>
 <p>上面这种层次从GenericDraweeHierarchy源码中就有所体现，如下：</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> Drawable mEmptyPlaceholderDrawable;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> Drawable mEmptyActualImageDrawable = <span class="keyword">new</span> ColorDrawable(Color.TRANSPARENT);</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> Drawable mEmptyControllerOverlayDrawable = <span class="keyword">new</span> ColorDrawable(Color.TRANSPARENT);</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> RootDrawable mTopLevelDrawable;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> FadeDrawable mFadeDrawable;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> SettableDrawable mActualImageSettableDrawable;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> mPlaceholderImageIndex;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> mProgressBarImageIndex;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> mActualImageIndex;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> mRetryImageIndex;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> mFailureImageIndex;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> mControllerOverlayIndex;</div></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Drawable mEmptyPlaceholderDrawable;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Drawable mEmptyActualImageDrawable = <span class="keyword">new</span> ColorDrawable(Color.TRANSPARENT);</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Drawable mEmptyControllerOverlayDrawable = <span class="keyword">new</span> ColorDrawable(Color.TRANSPARENT);</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> RootDrawable mTopLevelDrawable;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> FadeDrawable mFadeDrawable;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> SettableDrawable mActualImageSettableDrawable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> mPlaceholderImageIndex;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> mProgressBarImageIndex;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> mActualImageIndex;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> mRetryImageIndex;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> mFailureImageIndex;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> mControllerOverlayIndex;</span><br></pre></td></tr></table></figure>
 <p>上述定义了不同功能的Drawable，比如FadeDrawable和SettableDrawable都是可以对视图进行配置。而也定义了6个int下标，这6个int类型的下标主要就是用于存储视图层次中各个Drawable中的位置，都是用一个Drawable[]  layers ；数组进行存储的：</p>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">layers[mPlaceholderImageIndex] = placeholderImageBranch<span class="comment">;</span></div><div class="line">   layers[mActualImageIndex] = actualImageBranch<span class="comment">;</span></div><div class="line">   layers[mProgressBarImageIndex] = progressBarImageBranch<span class="comment">;</span></div><div class="line">   layers[mRetryImageIndex] = retryImageBranch<span class="comment">;</span></div><div class="line">   layers[mFailureImageIndex] = failureImageBranch<span class="comment">;</span></div><div class="line">   layers[mControllerOverlayIndex] = mEmptyControllerOverlayDrawable<span class="comment">;</span></div></pre></td></tr></table></figure>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">layers<span class="string">[mPlaceholderImageIndex]</span> = placeholderImageBranch;</span><br><span class="line">   layers<span class="string">[mActualImageIndex]</span> = actualImageBranch;</span><br><span class="line">   layers<span class="string">[mProgressBarImageIndex]</span> = progressBarImageBranch;</span><br><span class="line">   layers<span class="string">[mRetryImageIndex]</span> = retryImageBranch;</span><br><span class="line">   layers<span class="string">[mFailureImageIndex]</span> = failureImageBranch;</span><br><span class="line">   layers<span class="string">[mControllerOverlayIndex]</span> = mEmptyControllerOverlayDrawable;</span><br></pre></td></tr></table></figure>
 <p>这些存储着视图层次资源的layers数组将会由ArrayDrawable类进行管理和绘制，最终将需要显示的视图回调给RootDrawable::mTopLevelDrawable。</p>
 <h2 id="ImagePipelineConfig"><a href="#ImagePipelineConfig" class="headerlink" title="ImagePipelineConfig"></a><strong>ImagePipelineConfig</strong></h2><p>我们对Fresco进行初始化时，有两种方式：</p>
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Fresco.initialize(<span class="built_in">this</span>);</div><div class="line"><span class="comment">//or</span></div><div class="line">      ImagePipelineConfig pipelineConfig = ImagePipelineConfig.<span class="keyword">new</span><span class="type">Builder</span>(getApplicationContext()).build();</div><div class="line">      Fresco.initialize(<span class="built_in">this</span>,pipelineConfig);</div></pre></td></tr></table></figure>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Fresco.initialize(<span class="keyword">this</span>);</span><br><span class="line"><span class="comment">//or</span></span><br><span class="line">      ImagePipelineConfig pipelineConfig = ImagePipelineConfig.newBuilder(getApplicationContext()).build();</span><br><span class="line">      Fresco.initialize(<span class="keyword">this</span>,pipelineConfig);</span><br></pre></td></tr></table></figure>
 <p>对于不对ImagePipeline进行配置的话，Fresco将采用默认的配置，而默认的配置到底配置了哪些信息这个我们要清楚。<br>对于ImagePipelineConfig我们主要可以配置以下属性：</p>
 <p>1、Bitmap.Config mBitmapConfig ——<strong>所加载图片的配置</strong>，默认为Bitmap.Config.ARGB_8888</p>
 <p>2、Supplier&lt;<strong>MemoryCacheParams</strong>&gt; mBitmapMemoryCacheParamsSupplier——<strong>已解码图片的内存缓存</strong>，默认配置：缓存容量最大存储256个Bitmap元素，缓存大小是根据最大可用内存来动态改变的，如下：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> int getMaxCacheSize() &#123;</div><div class="line">  <span class="keyword">final</span> int maxMemory =</div><div class="line">      Math.min(mActivityManager.getMemoryClass() * ByteConstants.MB, Integer.MAX_VALUE);</div><div class="line">  <span class="keyword">if</span> (maxMemory &lt; <span class="number">32</span> * ByteConstants.MB) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">4</span> * ByteConstants.MB;</div><div class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (maxMemory &lt; <span class="number">64</span> * ByteConstants.MB) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">6</span> * ByteConstants.MB;</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// We don't want to use more ashmem on Gingerbread for now, since it doesn't respond well to</span></div><div class="line">    <span class="comment">// native memory pressure (doesn't throw exceptions, crashes app, crashes phone)</span></div><div class="line">    <span class="keyword">if</span> (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.HONEYCOMB) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="number">8</span> * ByteConstants.MB;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">return</span> maxMemory / <span class="number">4</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getMaxCacheSize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  final <span class="keyword">int</span> maxMemory =</span><br><span class="line">      Math.min(mActivityManager.getMemoryClass() * ByteConstants.MB, Integer.MAX_VALUE);</span><br><span class="line">  <span class="keyword">if</span> (maxMemory &lt; <span class="number">32</span> * ByteConstants.MB) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">4</span> * ByteConstants.MB;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (maxMemory &lt; <span class="number">64</span> * ByteConstants.MB) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">6</span> * ByteConstants.MB;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// We don't want to use more ashmem on Gingerbread for now, since it doesn't respond well to</span></span><br><span class="line">    <span class="comment">// native memory pressure (doesn't throw exceptions, crashes app, crashes phone)</span></span><br><span class="line">    <span class="keyword">if</span> (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.HONEYCOMB) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">8</span> * ByteConstants.MB;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> maxMemory / <span class="number">4</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>3、mDecodeMemoryFileEnabled——是否根据不同的平台来构建相应的解码器，默认为false。所以我们需要设置为true。</p>
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> PlatformDecoder buildPlatformDecoder(</div><div class="line">    PoolFactory poolFactory,</div><div class="line">    boolean decodeMemoryFileEnabled) &#123;</div><div class="line">  <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">ArtDecoder</span>(</div><div class="line">        poolFactory.getBitmapPool(),</div><div class="line">        poolFactory.getFlexByteArrayPoolMaxNumThreads());</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">if</span> (decodeMemoryFileEnabled &amp;&amp; Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.KITKAT) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">GingerbreadPurgeableDecoder</span>();</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">KitKatPurgeableDecoder</span>(poolFactory.getFlexByteArrayPool());</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function">PlatformDecoder <span class="title">buildPlatformDecoder</span><span class="params">(</span><br><span class="line">    PoolFactory poolFactory,</span><br><span class="line">    <span class="keyword">boolean</span> decodeMemoryFileEnabled)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ArtDecoder(</span><br><span class="line">        poolFactory.getBitmapPool(),</span><br><span class="line">        poolFactory.getFlexByteArrayPoolMaxNumThreads());</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (decodeMemoryFileEnabled &amp;&amp; Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.KITKAT) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> GingerbreadPurgeableDecoder();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> KitKatPurgeableDecoder(poolFactory.getFlexByteArrayPool());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>4、mDownsampleEnabled——设置EncodeImage解码时是否解码图片样图，必须和ImageRequest的ResizeOptions一起使用，作用就是在图片解码时根据ResizeOptions所设的宽高的像素进行解码，这样解码出来可以得到一个更小的Bitmap。通过在Decode图片时，来改变采样率来实现得，使其采样ResizeOptions大小。<br><strong>ResizeOptions和DownsampleEnabled参数都不影响原图片的大小，影响的是EncodeImage的大小，进而影响Decode出来的Bitmap的大小，ResizeOptions须和此参数结合使用是因为单独使用ResizeOptions的话只支持JPEG图，所以需支持png、jpg、webp需要先设置此参数。</strong></p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">JobRunnable job = <span class="keyword">new</span> JobRunnable() &#123;</div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">(EncodedImage encodedImage, <span class="keyword">boolean</span> isLast)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (encodedImage != <span class="keyword">null</span>) &#123;</div><div class="line">      <span class="keyword">if</span> (mDownsampleEnabled) &#123;</div><div class="line">        ImageRequest request = producerContext.getImageRequest();</div><div class="line">        <span class="keyword">if</span> (mDownsampleEnabledForNetwork ||</div><div class="line">            !UriUtil.isNetworkUri(request.getSourceUri())) &#123;</div><div class="line">          encodedImage.setSampleSize(DownsampleUtil.determineSampleSize(</div><div class="line">              request, encodedImage));</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">      doDecode(encodedImage, isLast);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">JobRunnable job = <span class="keyword">new</span> JobRunnable() &#123;</span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">(EncodedImage encodedImage, <span class="keyword">boolean</span> isLast)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (encodedImage != <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (mDownsampleEnabled) &#123;</span><br><span class="line">        ImageRequest request = producerContext.getImageRequest();</span><br><span class="line">        <span class="keyword">if</span> (mDownsampleEnabledForNetwork ||</span><br><span class="line">            !UriUtil.isNetworkUri(request.getSourceUri())) &#123;</span><br><span class="line">          encodedImage.setSampleSize(DownsampleUtil.determineSampleSize(</span><br><span class="line">              request, encodedImage));</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      doDecode(encodedImage, isLast);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>5、mEncodedMemoryCacheParamsSupplier——编码图片的内存缓存。缓存大小默认是通过app运行时最大内存决定的，且最多可存储<strong>getMaxCacheSize()/8</strong>个缓存元素，如下代码：</p>
-<figure class="highlight fortran"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="built_in">int</span> getMaxCacheSize() &#123;</div><div class="line">  <span class="keyword">final</span> <span class="built_in">int</span> maxMemory = (<span class="built_in">int</span>) Math.<span class="built_in">min</span>(Runtime.getRuntime().maxMemory(), <span class="keyword">Integer</span>.MAX_VALUE);</div><div class="line">  <span class="keyword">if</span> (maxMemory &lt; <span class="number">16</span> * ByteConstants.MB) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">1</span> * ByteConstants.MB;</div><div class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (maxMemory &lt; <span class="number">32</span> * ByteConstants.MB) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">2</span> * ByteConstants.MB;</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">4</span> * ByteConstants.MB;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getMaxCacheSize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  final <span class="keyword">int</span> maxMemory = (<span class="keyword">int</span>) Math.min(Runtime.getRuntime().maxMemory(), Integer.MAX_VALUE);</span><br><span class="line">  <span class="keyword">if</span> (maxMemory &lt; <span class="number">16</span> * ByteConstants.MB) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span> * ByteConstants.MB;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (maxMemory &lt; <span class="number">32</span> * ByteConstants.MB) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span> * ByteConstants.MB;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">4</span> * ByteConstants.MB;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>想要自己改造那么就自己实现Supplier接口。<br>6、mImageCacheStatsTracker——缓存的统计数据追踪器。它是一个接口，提供了各个缓存中图片Hit与Miss的回调方法，通常可以使用它来统计缓存命中率，默认情况下Fresco提供了一个NoOp无操作的实现类，我们若是需要使用此功能，必须我们实现ImageCacheStatsTracker接口，在各个回调方法处理。各个方法回调的顺序如下：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="number">12</span><span class="number">-25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.170</span> <span class="number">25920</span><span class="number">-25920</span><span class="regexp">/com.sunzxy.myapplication E/</span><span class="string">zxy:</span> <span class="string">zxy:</span>registerBitmapMemoryCache</div><div class="line"><span class="number">12</span><span class="number">-25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.170</span> <span class="number">25920</span><span class="number">-25920</span><span class="regexp">/com.sunzxy.myapplication E/</span><span class="string">zxy:</span> <span class="string">zxy:</span>registerEncodedMemoryCache</div><div class="line"><span class="number">12</span><span class="number">-25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.330</span> <span class="number">25920</span><span class="number">-25920</span><span class="regexp">/com.sunzxy.myapplication E/</span><span class="string">zxy:</span> <span class="string">zxy:</span>onBitmapCacheMiss</div><div class="line"><span class="number">12</span><span class="number">-25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.330</span> <span class="number">25920</span><span class="number">-25958</span><span class="regexp">/com.sunzxy.myapplication E/</span><span class="string">zxy:</span> <span class="string">zxy:</span>onBitmapCacheMiss</div><div class="line"><span class="number">12</span><span class="number">-25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.340</span> <span class="number">25920</span><span class="number">-25958</span><span class="regexp">/com.sunzxy.myapplication E/</span><span class="string">zxy:</span> <span class="string">zxy:</span>onMemoryCacheMiss</div><div class="line"><span class="number">12</span><span class="number">-25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.340</span> <span class="number">25920</span><span class="number">-25960</span><span class="regexp">/com.sunzxy.myapplication E/</span><span class="string">zxy:</span> <span class="string">zxy:</span>onStagingAreaMiss</div><div class="line"><span class="number">12</span><span class="number">-25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.360</span> <span class="number">25920</span><span class="number">-25960</span><span class="regexp">/com.sunzxy.myapplication E/</span><span class="string">zxy:</span> <span class="string">zxy:</span>onDiskCacheHit</div><div class="line"><span class="number">12</span><span class="number">-25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.360</span> <span class="number">25920</span><span class="number">-25960</span><span class="regexp">/com.sunzxy.myapplication E/</span><span class="string">zxy:</span> <span class="string">zxy:</span>onMemoryCachePut</div><div class="line"><span class="number">12</span><span class="number">-25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.380</span> <span class="number">25920</span><span class="number">-25965</span><span class="regexp">/com.sunzxy.myapplication E/</span><span class="string">zxy:</span> <span class="string">zxy:</span>BitmapCachePut</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">12</span>-<span class="number">25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.170</span> <span class="number">25920</span>-<span class="number">25920</span>/com.sunzxy.myapplication E/zxy: zxy:registerBitmapMemoryCache</span><br><span class="line"><span class="number">12</span>-<span class="number">25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.170</span> <span class="number">25920</span>-<span class="number">25920</span>/com.sunzxy.myapplication E/zxy: zxy:registerEncodedMemoryCache</span><br><span class="line"><span class="number">12</span>-<span class="number">25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.330</span> <span class="number">25920</span>-<span class="number">25920</span>/com.sunzxy.myapplication E/zxy: zxy:onBitmapCacheMiss</span><br><span class="line"><span class="number">12</span>-<span class="number">25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.330</span> <span class="number">25920</span>-<span class="number">25958</span>/com.sunzxy.myapplication E/zxy: zxy:onBitmapCacheMiss</span><br><span class="line"><span class="number">12</span>-<span class="number">25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.340</span> <span class="number">25920</span>-<span class="number">25958</span>/com.sunzxy.myapplication E/zxy: zxy:onMemoryCacheMiss</span><br><span class="line"><span class="number">12</span>-<span class="number">25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.340</span> <span class="number">25920</span>-<span class="number">25960</span>/com.sunzxy.myapplication E/zxy: zxy:onStagingAreaMiss</span><br><span class="line"><span class="number">12</span>-<span class="number">25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.360</span> <span class="number">25920</span>-<span class="number">25960</span>/com.sunzxy.myapplication E/zxy: zxy:onDiskCacheHit</span><br><span class="line"><span class="number">12</span>-<span class="number">25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.360</span> <span class="number">25920</span>-<span class="number">25960</span>/com.sunzxy.myapplication E/zxy: zxy:onMemoryCachePut</span><br><span class="line"><span class="number">12</span>-<span class="number">25</span> <span class="number">15</span>:<span class="number">36</span>:<span class="number">35.380</span> <span class="number">25920</span>-<span class="number">25965</span>/com.sunzxy.myapplication E/zxy: zxy:BitmapCachePut</span><br></pre></td></tr></table></figure>
 <p>每次请求图片时，都会走这个路径，当在各个缓存中hit时，将回调对应得方法，然后在hit时会将图片分别添加至Encode和Decode缓存。<br>7、mMainDiskCacheConfig——硬盘缓存的配置，默认缓存目录在app自身CacheDir的image_cache目录下，其中设置了三个必备的属性，分别为：最大缓存大小、在低内存设备下的缓存大小、在极低内存设备下的缓存大小。默认值为40M、10M、2M。<br>这是配置一个DiskCacheConfig的代码：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">DiskCacheConfig</span><span class="selector-class">.newBuilder</span>()</div><div class="line">        <span class="selector-class">.setBaseDirectoryPathSupplier</span>(</div><div class="line">            new Supplier&lt;File&gt;() &#123;</div><div class="line">              <span class="variable">@Override</span></div><div class="line">              public File get() &#123;</div><div class="line">                <span class="selector-tag">return</span> <span class="selector-tag">context</span><span class="selector-class">.getApplicationContext</span>()<span class="selector-class">.getCacheDir</span>();</div><div class="line">              &#125;</div><div class="line">            &#125;)</div><div class="line">        <span class="selector-class">.setBaseDirectoryName</span>(<span class="string">"image_cache"</span>)</div><div class="line">        <span class="selector-class">.setMaxCacheSize</span>(<span class="number">40</span> * ByteConstants.MB)</div><div class="line">        <span class="selector-class">.setMaxCacheSizeOnLowDiskSpace</span>(<span class="number">10</span> * ByteConstants.MB)</div><div class="line">        <span class="selector-class">.setMaxCacheSizeOnVeryLowDiskSpace</span>(<span class="number">2</span> * ByteConstants.MB)</div><div class="line">        <span class="selector-class">.build</span>();</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">DiskCacheConfig.newBuilder()</span><br><span class="line">        .setBaseDirectoryPathSupplier(</span><br><span class="line">            <span class="keyword">new</span> Supplier&lt;File&gt;() &#123;</span><br><span class="line">              @<span class="function">Override</span><br><span class="line">              <span class="keyword">public</span> File <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> context.getApplicationContext().getCacheDir();</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        .setBaseDirectoryName(<span class="string">"image_cache"</span>)</span><br><span class="line">        .setMaxCacheSize(<span class="number">40</span> * ByteConstants.MB)</span><br><span class="line">        .setMaxCacheSizeOnLowDiskSpace(<span class="number">10</span> * ByteConstants.MB)</span><br><span class="line">        .setMaxCacheSizeOnVeryLowDiskSpace(<span class="number">2</span> * ByteConstants.MB)</span><br><span class="line">        .build();</span><br></pre></td></tr></table></figure>
 <p>8、mMemoryTrimmableRegistry——注册一个内存调节器，它将根据不同的MemoryTrimType回收类型在需要降低内存使用时候进行回收一些内存缓存资源(Bitmap和Encode)。默认传入NoOp无操作的一个实现类。<br>我们自己实现需要实现MemoryTrimmableRegistry接口，然后在它的两个方法中根据自身需求进行MemoryTrimType的赋值来决定是采取哪个清除策略来回收内存缓存资源。MemoryTrimType是一个枚举，类型共有四个：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">public enum MemoryTrimType &#123;</div><div class="line"></div><div class="line">  /** The <span class="built_in">application</span> <span class="keyword">is</span> approaching <span class="keyword">the</span> device-specific Java heap limit. */</div><div class="line">  OnCloseToDalvikHeapLimit(<span class="number">0.5</span>),</div><div class="line"></div><div class="line">  /** The system <span class="keyword">as</span> a whole <span class="keyword">is</span> <span class="built_in">running</span> <span class="keyword">out of</span> memory, <span class="keyword">and</span> this <span class="built_in">application</span> <span class="keyword">is</span> <span class="keyword">in</span> <span class="keyword">the</span> foreground. */</div><div class="line">  OnSystemLowMemoryWhileAppInForeground(<span class="number">0.5</span>),</div><div class="line"></div><div class="line">  /** The system <span class="keyword">as</span> a whole <span class="keyword">is</span> <span class="built_in">running</span> <span class="keyword">out of</span> memory, <span class="keyword">and</span> this <span class="built_in">application</span> <span class="keyword">is</span> <span class="keyword">in</span> <span class="keyword">the</span> background. */</div><div class="line">  OnSystemLowMemoryWhileAppInBackground(<span class="number">1</span>),</div><div class="line"></div><div class="line">  /** This app <span class="keyword">is</span> moving <span class="keyword">into</span> <span class="keyword">the</span> background, usually because <span class="keyword">the</span> user navigated <span class="keyword">to</span> another app. */</div><div class="line">  OnAppBackgrounded(<span class="number">1</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public enum MemoryTrimType &#123;</span><br><span class="line"></span><br><span class="line">  /** The <span class="type">application</span> <span class="keyword">is</span> approaching <span class="keyword">the</span> device-specific Java heap limit. */</span><br><span class="line">  OnCloseToDalvikHeapLimit(<span class="number">0.5</span>),</span><br><span class="line"></span><br><span class="line">  /** The system <span class="keyword">as</span> a whole <span class="keyword">is</span> <span class="property">running</span> <span class="keyword">out of</span> memory, <span class="keyword">and</span> this <span class="type">application</span> <span class="keyword">is</span> <span class="keyword">in</span> <span class="keyword">the</span> foreground. */</span><br><span class="line">  OnSystemLowMemoryWhileAppInForeground(<span class="number">0.5</span>),</span><br><span class="line"></span><br><span class="line">  /** The system <span class="keyword">as</span> a whole <span class="keyword">is</span> <span class="property">running</span> <span class="keyword">out of</span> memory, <span class="keyword">and</span> this <span class="type">application</span> <span class="keyword">is</span> <span class="keyword">in</span> <span class="keyword">the</span> background. */</span><br><span class="line">  OnSystemLowMemoryWhileAppInBackground(<span class="number">1</span>),</span><br><span class="line"></span><br><span class="line">  /** This app <span class="keyword">is</span> moving <span class="keyword">into</span> <span class="keyword">the</span> background, usually because <span class="keyword">the</span> user navigated <span class="keyword">to</span> another app. */</span><br><span class="line">  OnAppBackgrounded(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>自己实现得内存调节器如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyMemoryTrimmableRegistry</span> <span class="keyword">implements</span> <span class="title">MemoryTrimmableRegistry</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerMemoryTrimmable</span><span class="params">(MemoryTrimmable trimmable)</span> </span>&#123;</div><div class="line"></div><div class="line">trimmable.trim(MemoryTrimType.OnSystemLowMemoryWhileAppInBackground);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unregisterMemoryTrimmable</span><span class="params">(MemoryTrimmable trimmable)</span> </span>&#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyMemoryTrimmableRegistry</span> <span class="keyword">implements</span> <span class="title">MemoryTrimmableRegistry</span> </span>&#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerMemoryTrimmable</span><span class="params">(MemoryTrimmable trimmable)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">trimmable.trim(MemoryTrimType.OnSystemLowMemoryWhileAppInBackground);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unregisterMemoryTrimmable</span><span class="params">(MemoryTrimmable trimmable)</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其中Fresco并没有对unregister方法进行回调，其中MemoryTrimmable是一个接口，它只有一个方法trim()，就是回收内存缓存资源的，它的实现不需要我们自己写，而是在CountingMemoryCache类中帮我们实现好了，CountingMemoryCache是一个基于LRU策略来管理缓存中元素的一个类，它实现的trim()方法可以根据Type的不同来采取不同策略的回收为：</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">trim</span><span class="params">(MemoryTrimType trimType)</span> </span>&#123;</div><div class="line">  ArrayList&lt;Entry&lt;K, V&gt;&gt; oldEntries;</div><div class="line">  <span class="keyword">final</span> <span class="keyword">double</span> trimRatio = mCacheTrimStrategy.getTrimRatio(trimType);</div><div class="line">  <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</div><div class="line">    <span class="keyword">int</span> targetCacheSize = (<span class="keyword">int</span>) (mCachedEntries.getSizeInBytes() * (<span class="number">1</span> - trimRatio));</div><div class="line">    <span class="keyword">int</span> targetEvictionQueueSize = Math.max(<span class="number">0</span>, targetCacheSize - getInUseSizeInBytes());</div><div class="line">    oldEntries = trimExclusivelyOwnedEntries(Integer.MAX_VALUE, targetEvictionQueueSize);</div><div class="line">    makeOrphans(oldEntries);</div><div class="line">  &#125;</div><div class="line">  maybeClose(oldEntries);</div><div class="line">  maybeNotifyExclusiveEntryRemoval(oldEntries);</div><div class="line">  maybeUpdateCacheParams();</div><div class="line">  maybeEvictEntries();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">trim</span><span class="params">(MemoryTrimType trimType)</span> </span>&#123;</span><br><span class="line">  ArrayList&lt;Entry&lt;K, V&gt;&gt; oldEntries;</span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">double</span> trimRatio = mCacheTrimStrategy.getTrimRatio(trimType);</span><br><span class="line">  <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">    <span class="keyword">int</span> targetCacheSize = (<span class="keyword">int</span>) (mCachedEntries.getSizeInBytes() * (<span class="number">1</span> - trimRatio));</span><br><span class="line">    <span class="keyword">int</span> targetEvictionQueueSize = Math.max(<span class="number">0</span>, targetCacheSize - getInUseSizeInBytes());</span><br><span class="line">    oldEntries = trimExclusivelyOwnedEntries(Integer.MAX_VALUE, targetEvictionQueueSize);</span><br><span class="line">    makeOrphans(oldEntries);</span><br><span class="line">  &#125;</span><br><span class="line">  maybeClose(oldEntries);</span><br><span class="line">  maybeNotifyExclusiveEntryRemoval(oldEntries);</span><br><span class="line">  maybeUpdateCacheParams();</span><br><span class="line">  maybeEvictEntries();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>trim()方法中主要就是做了这么一件事：根据Type的不同来回收不同比例的内存缓存中最近未被使用的元素。体现在下面这行代码：</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> targetEvictionQueueSize = Math.<span class="built_in">max</span>(<span class="number">0</span>, targetCacheSize - getInUseSizeInBytes());</div></pre></td></tr></table></figure>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> targetEvictionQueueSize = Math.<span class="built_in">max</span>(<span class="number">0</span>, targetCacheSize - getInUseSizeInBytes())<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 <p>9、mNetworkFetcher——网络图片下载请求类，底层网络请求默认使用HttpUrlConnection，并且使用一个固定线程数为3的线程池来管理请求。也可以使用Volley和Okhttp进行扩展，官方默认已经实现好了，如需使用可以参考官方文档引入额外jar包。<br>10、mProgressiveJpegConfig——渐进式显示网络的JPEG图的配置，默认传入一个SimpleProgressiveJpegConfig，通常使用默认配置即可，图片加载时会从模糊慢慢的到清晰的一个显示过程，不过要使用渐进式显示图片，需要在ImageRequest中显示的设置是否支持渐进式显示：</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">ImageRequest request</span> = ImageRequestBuilder</div><div class="line">    .setProgressiveRenderingEnabled(true)</div><div class="line">    .build();</div></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">ImageRequest</span> request = ImageRequestBuilder</span><br><span class="line">    .setProgressiveRenderingEnabled(<span class="built_in">true</span>)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure>
 <p>说明一点，渐进式显示的效果和渐入图片显示效果是两码事，渐进式使用的策略是在通过设置统计扫描数，当扫描数大于某个阀值时，然后进行解码一次并显示图片，最后扫描数为峰值时，进行最后一次解码，这样就显示出清晰的图片了，也就是说它是采用断点解码的。而渐入显示效果则是通过属性动画来改变alpha属性来显示图片的。<br>11、mResizeAndRotateEnabledForNetwork——最终影响的是mDownsampleEnabledForNetwork参数。<br>这个参数的作用是在mDownsampleEnabled为true的情况下，设置是否当这次请求是从网络中加载图片时，来对EncodeImage重新改变大小。也就是说设置了这个为true，可以在从网络中加载图片时候根据Resizing参数Decode出更小的样图，具体是在Decode时通过采样Resizing的像素来实现的。</p>
-<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (encodedImage != <span class="literal">null</span>) &#123;</div><div class="line">  <span class="keyword">if</span> (mDownsampleEnabled) &#123;</div><div class="line">    ImageRequest <span class="built_in">request</span> = producerContext.getImageRequest();</div><div class="line">    <span class="keyword">if</span> (mDownsampleEnabledForNetwork ||</div><div class="line">        !UriUtil.isNetworkUri(<span class="built_in">request</span>.getSourceUri())) &#123;</div><div class="line">      encodedImage.setSampleSize(DownsampleUtil.determineSampleSize(</div><div class="line">          <span class="built_in">request</span>, encodedImage));</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  doDecode(encodedImage, isLast);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (encodedImage != <span class="literal">null</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (mDownsampleEnabled) &#123;</span><br><span class="line">    ImageRequest <span class="built_in">request</span> = producerContext.getImageRequest();</span><br><span class="line">    <span class="keyword">if</span> (mDownsampleEnabledForNetwork ||</span><br><span class="line">        !UriUtil.isNetworkUri(<span class="built_in">request</span>.getSourceUri())) &#123;</span><br><span class="line">      encodedImage.setSampleSize(DownsampleUtil.determineSampleSize(</span><br><span class="line">          <span class="built_in">request</span>, encodedImage));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  doDecode(encodedImage, isLast);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这段代码的意思为：mDownsampleEnabled为true的前提下，在第一次加载图片时候，是从网络中加载，这时</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">!<span class="selector-tag">UriUtil</span><span class="selector-class">.isNetworkUri</span>(<span class="selector-tag">request</span><span class="selector-class">.getSourceUri</span>())</div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!UriUtil.<span class="function"><span class="title">isNetworkUri</span><span class="params">(request.getSourceUri()</span></span>)</span><br></pre></td></tr></table></figure>
 <p>肯定为false，所以默认不支持对网络中加载的图片的EncodeImage的改变。当以后加载该图片并解析时，由于应用重新启动或者在后台中启动，这时是从硬盘中加载的，这时Uri肯定为Local的</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">!<span class="selector-tag">UriUtil</span><span class="selector-class">.isNetworkUri</span>(<span class="selector-tag">request</span><span class="selector-class">.getSourceUri</span>())</div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!UriUtil.<span class="function"><span class="title">isNetworkUri</span><span class="params">(request.getSourceUri()</span></span>)</span><br></pre></td></tr></table></figure>
 <p>肯定为true，所以可以从本地加载并解析出<strong><code>sampleBitmap</code></strong>。<strong>所以设置mDownsampleEnabledForNetwork为ture，这样无论是从网络还是本地都可以改变EncodeImage的大小，在图片Decode的时候解析出更小的<code>sampleBitmap</code>。</strong></p>
 <p>12、mSmallImageDiskCacheConfig——小图的硬盘缓存配置，默认传入mMainDiskCacheConfig，和主硬盘缓存目录是共用的。如果需要把小图和普通图片分开，则需重新配置。</p>
 <p>13、mExecutorSupplier——执行各个任务的线程池配置，包括配置执行IO任务、后台任务、优先级低的后台任务、Decode任务的线程池的配置。这些线程池Fresco默认都配置为Fix固定线程数量的。</p>
@@ -432,18 +490,18 @@
 </blockquote>
 <p>没有什么特别需求，这些后台任务的线程池配置一般用默认的即可，默认的已经差不多做到极致了。</p>
 <h2 id="ImagePipeline"><a href="#ImagePipeline" class="headerlink" title="ImagePipeline"></a><strong>ImagePipeline</strong></h2><p>Image pipeline是Fresco中负责图片加载的，它支持从本地和网络中加载，文件加载支持：File、content、asset、res目录下的文件，网络加载支持http和https，支持的图片格式有：PNG、GIF、WebP、JPEG。<br>获取ImagePipeline可以通过Fresco的静态工厂方法：</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">ImagePipeline ipl</span> = Fresco.getImagePipeline()；</div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ImagePipeline ipl = Fresco.<span class="function"><span class="title">getImagePipeline</span><span class="params">()</span></span>；</span><br></pre></td></tr></table></figure>
 <p>或者通过ImagePipelineFactory的工厂方法：</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">ImagePipeline  ipl</span> =ImagePipelineFactory.getInstance().getImagePipeline();</div></pre></td></tr></table></figure>
-<h2 id="监听图片下载进度"><a href="#监听图片下载进度" class="headerlink" title="监听图片下载进度"></a><strong>监听图片下载进度</strong></h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">ControllerListener controllerListener = <span class="keyword">new</span> BaseControllerListener&lt;ImageInfo&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="built_in">void</span> onFinalImageSet(</div><div class="line">        <span class="built_in">String</span> id,</div><div class="line">        <span class="meta">@Nullable</span> ImageInfo imageInfo,</div><div class="line">        <span class="meta">@Nullable</span> Animatable anim) &#123;</div><div class="line">      <span class="keyword">if</span> (imageInfo == <span class="literal">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">      &#125;</div><div class="line">      QualityInfo qualityInfo = imageInfo.getQualityInfo();</div><div class="line">      FLog.d(<span class="string">"Final image received! "</span> + </div><div class="line">          <span class="string">"Size %d x %d"</span>,</div><div class="line">          <span class="string">"Quality level %d, good enough: %s, full quality: %s"</span>,</div><div class="line">          imageInfo.getWidth(),</div><div class="line">          imageInfo.getHeight(),</div><div class="line">          qualityInfo.getQuality(),</div><div class="line">          qualityInfo.isOfGoodEnoughQuality(),</div><div class="line">          qualityInfo.isOfFullQuality());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span> </div><div class="line">    <span class="keyword">public</span> <span class="built_in">void</span> onIntermediateImageSet(<span class="built_in">String</span> id, <span class="meta">@Nullable</span> ImageInfo imageInfo) &#123;</div><div class="line">      FLog.d(<span class="string">"Intermediate image received"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="built_in">void</span> onFailure(<span class="built_in">String</span> id, Throwable throwable) &#123;</div><div class="line">      FLog.e(getClass(), throwable, <span class="string">"Error loading %s"</span>, id)</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Uri uri;</div><div class="line">DraweeController controller = Fresco.newDraweeControllerBuilder()</div><div class="line">    .setControllerListener(controllerListener)</div><div class="line">    .setUri(uri);</div><div class="line">    <span class="comment">// other setters</span></div><div class="line">    .build();</div><div class="line">mSimpleDraweeView.setController(controller);</div></pre></td></tr></table></figure>
+<figure class="highlight sml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ImagePipeline</span>  ipl =<span class="type">ImagePipelineFactory</span>.getInstance<span class="literal">()</span>.getImagePipeline<span class="literal">()</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="监听图片下载进度"><a href="#监听图片下载进度" class="headerlink" title="监听图片下载进度"></a><strong>监听图片下载进度</strong></h2><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">ControllerListener controllerListener = <span class="keyword">new</span> BaseControllerListener&lt;ImageInfo&gt;() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    public <span class="keyword">void</span> onFinalImageSet(</span><br><span class="line">        <span class="built_in">String</span> id,</span><br><span class="line">        <span class="annotation">@Nullable</span> ImageInfo imageInfo,</span><br><span class="line">        <span class="annotation">@Nullable</span> Animatable anim) &#123;</span><br><span class="line">      <span class="keyword">if</span> (imageInfo == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      QualityInfo qualityInfo = imageInfo.getQualityInfo();</span><br><span class="line">      FLog.d(<span class="string">"Final image received! "</span> + </span><br><span class="line">          <span class="string">"Size %d x %d"</span>,</span><br><span class="line">          <span class="string">"Quality level %d, good enough: %s, full quality: %s"</span>,</span><br><span class="line">          imageInfo.getWidth(),</span><br><span class="line">          imageInfo.getHeight(),</span><br><span class="line">          qualityInfo.getQuality(),</span><br><span class="line">          qualityInfo.isOfGoodEnoughQuality(),</span><br><span class="line">          qualityInfo.isOfFullQuality());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span> </span><br><span class="line">    public <span class="keyword">void</span> onIntermediateImageSet(<span class="built_in">String</span> id, <span class="annotation">@Nullable</span> ImageInfo imageInfo) &#123;</span><br><span class="line">      FLog.d(<span class="string">"Intermediate image received"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    public <span class="keyword">void</span> onFailure(<span class="built_in">String</span> id, Throwable throwable) &#123;</span><br><span class="line">      FLog.e(getClass(), throwable, <span class="string">"Error loading %s"</span>, id)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Uri</span> uri;</span><br><span class="line">DraweeController controller = Fresco.newDraweeControllerBuilder()</span><br><span class="line">    .setControllerListener(controllerListener)</span><br><span class="line">    .setUri(uri);</span><br><span class="line">    <span class="comment">// other setters</span></span><br><span class="line">    .build();</span><br><span class="line">mSimpleDraweeView.setController(controller);</span><br></pre></td></tr></table></figure>
 <p>其中三个回调函数：</p>
 <blockquote>
 <p>onFinalImageSet——在加载成功时回调<br>onFailure——在加载失败时回调<br>onIntermediateImageSet——在显示渐进式JPEG图片时，这个函数会在每个扫描被解码后回调</p>
 </blockquote>
 <h2 id="Fresco的多图请求"><a href="#Fresco的多图请求" class="headerlink" title="Fresco的多图请求"></a><strong>Fresco的多图请求</strong></h2><p>假如你需要加载一张大图，这通常会比较耗时，此时你可以先下载一张缩略图先显示，待大图下载完后则显示大图。这样用户体验会好很多</p>
-<figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Uri lowResUri, highResUri;</div><div class="line">DraweeController controller = Fresco.newDraweeControllerBuilder()</div><div class="line">    .<span class="built_in">set</span>LowResImageRequest(ImageRequest.<span class="keyword">from</span>Uri(lowResUri))</div><div class="line">    .<span class="built_in">set</span>ImageRequest(ImageRequest.<span class="keyword">from</span>Uri(highResUri))</div><div class="line">    .<span class="built_in">set</span>OldController(mSimpleDraweeView.getController())</div><div class="line">    .build();</div><div class="line">mSimpleDraweeView.<span class="built_in">set</span>Controller(controller);</div></pre></td></tr></table></figure>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Uri lowResUri, highResUri;</span><br><span class="line">DraweeController controller = Fresco.newDraweeControllerBuilder()</span><br><span class="line">    .<span class="built_in">set</span>LowResImageRequest(ImageRequest.<span class="keyword">from</span>Uri(lowResUri))</span><br><span class="line">    .<span class="built_in">set</span>ImageRequest(ImageRequest.<span class="keyword">from</span>Uri(highResUri))</span><br><span class="line">    .<span class="built_in">set</span>OldController(mSimpleDraweeView.getController())</span><br><span class="line">    .build();</span><br><span class="line">mSimpleDraweeView.<span class="built_in">set</span>Controller(controller);</span><br></pre></td></tr></table></figure>
 <h3 id="图片复用"><a href="#图片复用" class="headerlink" title="图片复用"></a><strong>图片复用</strong></h3><p>假如有一张图片，本地和服务端都存在。就比如用户上传头像，会在服务器存一张，而本地也本身就有，所以当加载用户头像时，可以设置两个Uri，本地和网络，当在本地找到时就不必去服务端加载了，达到复用的效果</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Uri uri1, uri2<span class="comment">;</span></div><div class="line">ImageRequest request = ImageRequest.fromUri(uri1)<span class="comment">;</span></div><div class="line">ImageRequest request2 = ImageRequest.fromUri(uri2)<span class="comment">;</span></div><div class="line">ImageRequest[] requests = &#123; request1, request2 &#125;<span class="comment">;</span></div><div class="line"></div><div class="line">DraweeController controller = Fresco.newDraweeControllerBuilder()</div><div class="line">    .setFirstAvailableImageRequests(requests)</div><div class="line">    .setOldController(mSimpleDraweeView.getController())</div><div class="line">    .<span class="keyword">build();</span></div><div class="line">mSimpleDraweeView.setController(controller)<span class="comment">;</span></div></pre></td></tr></table></figure>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Uri uri1, uri2<span class="comment">;</span></span><br><span class="line">ImageRequest request = ImageRequest.fromUri(uri1)<span class="comment">;</span></span><br><span class="line">ImageRequest request2 = ImageRequest.fromUri(uri2)<span class="comment">;</span></span><br><span class="line">ImageRequest[] requests = &#123; request1, request2 &#125;<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">DraweeController controller = Fresco.newDraweeControllerBuilder()</span><br><span class="line">    .setFirstAvailableImageRequests(requests)</span><br><span class="line">    .setOldController(mSimpleDraweeView.getController())</span><br><span class="line">    .build()<span class="comment">;</span></span><br><span class="line">mSimpleDraweeView.setController(controller)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 <h2 id="图片的缩放和旋转"><a href="#图片的缩放和旋转" class="headerlink" title="图片的缩放和旋转"></a><strong>图片的缩放和旋转</strong></h2><h3 id="1、BitmapFactory-Options的inSampleSize"><a href="#1、BitmapFactory-Options的inSampleSize" class="headerlink" title="1、BitmapFactory.Options的inSampleSize"></a><strong>1、BitmapFactory.Options的inSampleSize</strong></h3><p>这种方式对图片进行解码压缩，一系列操作都是通过native层的c/c++代码进行的，所以进行压缩过后Bitmap所占用的空间大小会比原来的小很多。</p>
 <pre><code>应用场景：通常使用在图片的压缩上，先用inJustDecodeBounds获取图片的宽高大小，通过判断图片是否过大来进行压缩。
 </code></pre><h3 id="2、View的Scale"><a href="#2、View的Scale" class="headerlink" title="2、View的Scale"></a><strong>2、View的Scale</strong></h3><p>这种方式的缩放就是通过绘制（Canvas）来实现得，通常我们在动画方面用的较多，这种方式的特点只是单纯的对Bitmap进行放大或缩小的绘制，而实际上Bitmap所占用的内存空间在Bitmap放大、缩小和原始状态时的完全一样，并不能实际的改变内存的占用。</p>
@@ -452,7 +510,7 @@
 <pre><code>应用场景：ImageRequest中的参数，与ImagePipelineConfig中的Downsampling结合使用，Fresco内置方法。
 </code></pre><p>###4、Fresco的Downsampling<br>通过在Decode图片时，来改变采样率来实现得，使其采样EncodeImage的sampleSize的大小，这样Downsampling就变成了Decode过程中的一部分，只需改变Decode过程中对像素点的采样率就行，而不必新生成一份EncodeImage，而采样率则是建立在Resizing的宽高大小上，通过Resizing的宽高来决定采样的部分的像素点。比Resizing更快。</p>
 <pre><code>应用场景：和Resizing结合使用，不过在4.4版本中Decode出采样图将会占用更多的内存资源，这是个bug。
-</code></pre><h2 id="Fresco混淆配置"><a href="#Fresco混淆配置" class="headerlink" title="Fresco混淆配置"></a><strong>Fresco混淆配置</strong></h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"># <span class="type">Keep</span> our interfaces so they can be used by other <span class="type">ProGuard</span> rules.</div><div class="line"># <span class="type">See</span> http:<span class="comment">//sourceforge.net/p/proguard/bugs/466/</span></div><div class="line">-keep,allowobfuscation <span class="meta">@interface</span> com.facebook.common.internal.<span class="type">DoNotStrip</span></div><div class="line"></div><div class="line"># <span class="type">Do</span> not strip any method/<span class="class"><span class="keyword">class</span> <span class="title">that</span> <span class="title">is</span> <span class="title">annotated</span> <span class="keyword">with</span> <span class="title">@DoNotStrip</span></span></div><div class="line">-keep <span class="meta">@com</span>.facebook.common.internal.<span class="type">DoNotStrip</span> <span class="class"><span class="keyword">class</span> <span class="title">*</span></span></div><div class="line">-keepclassmembers <span class="class"><span class="keyword">class</span> <span class="title">*</span> </span>&#123;</div><div class="line">    <span class="meta">@com</span>.facebook.common.internal.<span class="type">DoNotStrip</span> *;</div><div class="line">&#125;</div><div class="line"></div><div class="line"># <span class="type">Keep</span> native methods</div><div class="line">-keepclassmembers <span class="class"><span class="keyword">class</span> <span class="title">*</span> </span>&#123;</div><div class="line">    native &lt;methods&gt;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">-dontwarn okio.**</div><div class="line">-dontwarn javax.annotation.**</div><div class="line">-dontwarn com.android.volley.toolbox.**</div></pre></td></tr></table></figure>
+</code></pre><h2 id="Fresco混淆配置"><a href="#Fresco混淆配置" class="headerlink" title="Fresco混淆配置"></a><strong>Fresco混淆配置</strong></h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># <span class="type">Keep</span> our interfaces so they can be used by other <span class="type">ProGuard</span> rules.</span><br><span class="line"># <span class="type">See</span> http:<span class="comment">//sourceforge.net/p/proguard/bugs/466/</span></span><br><span class="line">-keep,allowobfuscation <span class="annotation">@interface</span> com.facebook.common.internal.<span class="type">DoNotStrip</span></span><br><span class="line"></span><br><span class="line"># <span class="type">Do</span> not strip any method/<span class="class"><span class="keyword">class</span> <span class="title">that</span> <span class="title">is</span> <span class="title">annotated</span> <span class="keyword"><span class="keyword">with</span></span> <span class="title">@DoNotStrip</span></span><br><span class="line"></span>-keep <span class="annotation">@com</span>.facebook.common.internal.<span class="type">DoNotStrip</span> <span class="class"><span class="keyword">class</span> <span class="title">*</span></span><br><span class="line"></span>-keepclassmembers <span class="class"><span class="keyword">class</span> <span class="title">*</span> &#123;</span></span><br><span class="line">    <span class="annotation">@com</span>.facebook.common.internal.<span class="type">DoNotStrip</span> *;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># <span class="type">Keep</span> native methods</span><br><span class="line">-keepclassmembers <span class="class"><span class="keyword">class</span> <span class="title">*</span> &#123;</span></span><br><span class="line">    native &lt;methods&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-dontwarn okio.**</span><br><span class="line">-dontwarn javax.annotation.**</span><br><span class="line">-dontwarn com.android.volley.toolbox.**</span><br></pre></td></tr></table></figure>
 <h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a><strong>其它</strong></h2><p><a href="http://frescolib.org/docs/requesting-multiple-images.html#_" target="_blank" rel="external">Fresco官方文档</a><br><a href="https://github.com/Sunzxyong/FrescoPlus" target="_blank" rel="external">Fresco二次封装</a></p>
 
       
@@ -461,44 +519,29 @@
     <div>
       
         
+
       
     </div>
 
     <div>
       
         
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="http://7xswxf.com2.z0.glb.clouddn.com/blog/weixin.png" alt="郑晓勇 WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="http://7xswxf.com2.z0.glb.clouddn.com/blog/alipay.png" alt="郑晓勇 Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
-  </div>
-
 
       
     </div>
+
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/Fresco原理/" rel="tag">#Fresco原理</a>
+            <a href="/tags/Fresco原理/" rel="tag"># Fresco原理</a>
           
         </div>
+      
+
+      
+        
       
 
       
@@ -510,6 +553,8 @@
               </a>
             
           </div>
+
+          <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
@@ -556,7 +601,7 @@
     </div>
   </div>
 
-
+          
           </div>
           
 
@@ -599,21 +644,24 @@
         </ul>
       
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.png"
+               src="/images/avatar.png"
                alt="郑晓勇" />
           <p class="site-author-name" itemprop="name">郑晓勇</p>
           <p class="site-description motion-element" itemprop="description"></p>
         </div>
         <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">14</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
 
           
             <div class="site-state-item site-state-categories">
@@ -646,26 +694,6 @@
 
         <div class="links-of-author motion-element">
           
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/Sunzxyong" target="_blank" title="github">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  github
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/3048730677/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="weibo">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  weibo
-                </a>
-              </span>
-            
-          
         </div>
 
         
@@ -673,34 +701,28 @@
 
         
         
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              Links
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://blog.csdn.net/u010687392" title="我的CSDN" target="_blank">我的CSDN</a>
-                </li>
-              
-            </ul>
-          </div>
+
         
+
 
       </section>
 
       
+      <!--noindex-->
         <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
+
             
               
             
+
             
               <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#流行的网络框架"><span class="nav-number">1.</span> <span class="nav-text">流行的网络框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fresco性能上的优点"><span class="nav-number">2.</span> <span class="nav-text">Fresco性能上的优点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优一："><span class="nav-number">2.1.</span> <span class="nav-text">优一：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优二："><span class="nav-number">2.2.</span> <span class="nav-text">优二：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优三："><span class="nav-number">2.3.</span> <span class="nav-text">优三：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优四："><span class="nav-number">2.4.</span> <span class="nav-text">优四：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fresco中的MVC模式"><span class="nav-number">3.</span> <span class="nav-text">Fresco中的MVC模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DraweeHierarchy"><span class="nav-number">3.1.</span> <span class="nav-text">DraweeHierarchy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DraweeView"><span class="nav-number">3.2.</span> <span class="nav-text">DraweeView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DraweeController"><span class="nav-number">3.3.</span> <span class="nav-text">DraweeController</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#认识Fresco中的视图层次"><span class="nav-number">4.</span> <span class="nav-text">认识Fresco中的视图层次</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ImagePipelineConfig"><span class="nav-number">5.</span> <span class="nav-text">ImagePipelineConfig</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ImagePipeline"><span class="nav-number">6.</span> <span class="nav-text">ImagePipeline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监听图片下载进度"><span class="nav-number">7.</span> <span class="nav-text">监听图片下载进度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fresco的多图请求"><span class="nav-number">8.</span> <span class="nav-text">Fresco的多图请求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图片复用"><span class="nav-number">8.1.</span> <span class="nav-text">图片复用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片的缩放和旋转"><span class="nav-number">9.</span> <span class="nav-text">图片的缩放和旋转</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、BitmapFactory-Options的inSampleSize"><span class="nav-number">9.1.</span> <span class="nav-text">1、BitmapFactory.Options的inSampleSize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、View的Scale"><span class="nav-number">9.2.</span> <span class="nav-text">2、View的Scale</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、Fresco的Resizing"><span class="nav-number">9.3.</span> <span class="nav-text">3、Fresco的Resizing</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fresco混淆配置"><span class="nav-number">10.</span> <span class="nav-text">Fresco混淆配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它"><span class="nav-number">11.</span> <span class="nav-text">其它</span></a></li></ol></div>
             
+
           </div>
         </section>
+      <!--/noindex-->
       
 
     </div>
@@ -722,7 +744,19 @@
   </span>
   <span class="author" itemprop="copyrightHolder">郑晓勇</span>
 </div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
 
         
 
@@ -755,6 +789,7 @@
 
 
 
+
   
   <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
 
@@ -777,32 +812,32 @@
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
 
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
 
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
 
 
 
@@ -826,6 +861,19 @@
   </script>
 
   
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
 
 
 
@@ -833,27 +881,8 @@
 
   
   
+
   
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-  </script>
-
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-      var all = MathJax.Hub.getAllJax(), i;
-      for (i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  </script>
-  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
 
   
 
@@ -887,6 +916,14 @@
             var element = document.getElementById(url);
 
             $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
           }
         })
         .fail(function (object, error) {
@@ -957,6 +994,9 @@
 
 
   
+
+  
+
 
 </body>
 </html>
