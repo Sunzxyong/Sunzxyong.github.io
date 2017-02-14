@@ -103,6 +103,7 @@
 <meta name="twitter:title" content="Android端应用秒开优化体验">
 <meta name="twitter:description" content="前言最近部门内抛出了一个问题，应用启动很慢、卡图标？主要表现在中低端机型中。究其这个问题，由于对性能优化比较感兴趣，借了个低端机和一个中端机来一看究竟，对同一应用分别测了下它在中低端机的启动时间，下面为启动耗时情况：
 启动了三次，基本都在4s左右。">
+<meta name="twitter:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/launch_one.jpg">
 
 
 
@@ -363,7 +364,7 @@
 <p>1、App切回后台，内存不足导致Application被回收，从最近任务列表中恢复界面时Application需重新创建<br>2、应用没挂起时，Push推送需从Notification跳入应用内某界面<br>3、应用没挂起时，浏览器外链需跳入应用内某界面</p>
 </blockquote>
 <p>这些Case可能导致的问题是被跳入的界面使用到了未初始化的SDK，可能导致Crash或者数据异常，所以目标页面启动前必须确保SDK已经初始化，这个过程的原因是没有唤起启动页来初始化SDK，可以通过hook newActivity解决，其中判断Application是否初始化和各个SDK是否初始化，并且判断该次启动不来自系统的Launcher。</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function">Activity <span class="title">newActivity</span><span class="params">(ClassLoader cl, String className, Intent intent)</span> <span class="keyword">throws</span> InstantiationException, IllegalAccessException, ClassNotFoundException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (InitializeOptimizer.isApplicationCreated()</span><br><span class="line">            &amp;&amp; (!InitializeOptimizer.isHighSDKInitialized()</span><br><span class="line">            || !InitializeOptimizer.isLowSDKInitialized()</span><br><span class="line">            || !InitializeOptimizer.isAsyncSDKInitialized()) &amp;&amp; !InitializeUtil.isAppLauncher(intent)) &#123;</span><br><span class="line">        InitializeOptimizer.setApplicationCreated(<span class="keyword">false</span>);</span><br><span class="line">        intent.addCategory(InitializeUtil.INITIALIZE_CATEGORY);</span><br><span class="line">        <span class="keyword">return</span> (Activity) cl.loadClass(WDInitializeOptimizer.getLaunchClassName()).newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">    InitializeOptimizer.setApplicationCreated(<span class="keyword">false</span>);</span><br><span class="line">    <span class="function"><span class="keyword">return</span> <span class="keyword">super</span>.<span class="title">newActivity</span><span class="params">(cl, className, intent)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> Activity <span class="keyword">new</span><span class="type">Activity</span>(ClassLoader cl, <span class="keyword">String</span> className, Intent intent) throws InstantiationException, IllegalAccessException, ClassNotFoundException &#123;</div><div class="line">    <span class="keyword">if</span> (InitializeOptimizer.isApplicationCreated()</div><div class="line">            &amp;&amp; (!InitializeOptimizer.isHighSDKInitialized()</div><div class="line">            || !InitializeOptimizer.isLowSDKInitialized()</div><div class="line">            || !InitializeOptimizer.isAsyncSDKInitialized()) &amp;&amp; !InitializeUtil.isAppLauncher(intent)) &#123;</div><div class="line">        InitializeOptimizer.setApplicationCreated(<span class="literal">false</span>);</div><div class="line">        intent.addCategory(InitializeUtil.INITIALIZE_CATEGORY);</div><div class="line">        <span class="keyword">return</span> (Activity) cl.loadClass(WDInitializeOptimizer.getLaunchClassName()).<span class="keyword">new</span><span class="type">Instance</span>();</div><div class="line">    &#125;</div><div class="line">    InitializeOptimizer.setApplicationCreated(<span class="literal">false</span>);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.<span class="keyword">new</span><span class="type">Activity</span>(cl, className, intent);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -371,11 +372,6 @@
     <div>
       
         
-<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
-    <img id="wechat_subscriber_qcode" src="/uploads/avatar.png" alt="郑晓勇 wechat" style="width: 200px; max-width: 100%;"/>
-    <div>subscribe to my blog by scanning my public wechat account</div>
-</div>
-
       
     </div>
 

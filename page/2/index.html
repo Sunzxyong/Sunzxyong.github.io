@@ -86,15 +86,12 @@
 
 
 
-<meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="zhengxiaoyong">
 <meta property="og:url" content="http://zhengxiaoyong.me/page/2/index.html">
 <meta property="og:site_name" content="zhengxiaoyong">
-<meta property="og:description">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zhengxiaoyong">
-<meta name="twitter:description">
 
 
 
@@ -739,7 +736,7 @@
 </blockquote>
 <p>虽说这两种方式都可以创建出一个线程，不过它们之间还是有一点区别的，主要区别在于在多线程访问同一资源的情况下，用Runnable接口创建的线程可以处理同一资源，而用Thread类创建的线程则各自独立处理，各自拥有自己的资源。</p>
 <p>所以，在Java中大多数多线程程序都是通过实现Runnable来完成的，而对于Android来说也不例外，当涉及到需要开启线程去完成某件事时，我们都会这样写：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">new</span> <span class="tag">Thread</span>(new <span class="function">Runnable</span>() &#123;</span><br><span class="line">    <span class="variable">@Override</span></span><br><span class="line">    public void <span class="function">run</span>() &#123;</span><br><span class="line">        <span class="comment">//do sth .</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)<span class="class">.start</span>();</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">//do sth .</span></div><div class="line">    &#125;</div><div class="line">&#125;).start();</div></pre></td></tr></table></figure>
 <p>这段代码创建了一个线程并执行，它在任务结束后GC会自动回收该线程，一切看起来如此美妙，是的，它在线程并发不多的程序中确实不错，而假如这个程序有很多地方需要开启大量线程来处理任务，那么如果还是用上述的方式去创建线程处理的话，那么将导致系统的性能表现的非常糟糕，更别说在内存有限的移动设备上，主要的影响如下：</p>
 <blockquote>
 <p>1、线程的创建和销毁都需要时间，当有大量的线程创建和销毁时，那么这些时间的消耗则比较明显，将导致性能上的缺失</p>
