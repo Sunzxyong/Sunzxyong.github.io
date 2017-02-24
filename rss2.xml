@@ -512,7 +512,7 @@
 </blockquote>
 <p>进过上面的分析，可以得出这样一个结论：</p>
 <blockquote>
-<p>在不配置Options的情况下：<br>1、decodeFile、decodeStream在解析时不会对Bitmap进行一系列的屏幕适配，解析出来的图所占内存将是：<code>width*height*单位像素所占字节数</code><br>2、decodeResource在解析时会对Bitmap根据当前设备屏幕像素密度densityDpi的值进行缩放适配操作，使得解析出来的Bitmap与当前设备的分辨率匹配，达到一个最佳的显示效果，并且Bitmap的大小将比原始的小</p>
+<p>在不配置Options的情况下：<br>1、decodeFile、decodeStream在解析时不会对Bitmap进行一系列的屏幕适配，解析出来的图所占内存将是：<code>width*height*单位像素所占字节数</code><br>2、decodeResource在解析时会对Bitmap根据当前设备屏幕像素密度densityDpi的值与drawable目录进行匹配，使得解析出来的Bitmap与当前设备的分辨率匹配，规则是如果有和当前设备分辨率一样drawable目录下的资源图片，则所占内存大小事正常计算：<code>width*height*单位像素所占字节数</code>，如果没有，分两种情景，当前设备分辨率比资源图片所在drawable目录的分辨率小，那么将进行缩放操作，实际占用内存比正常计算的小，如果当前设备分辨率比资源图片所在drawable目录的分辨率大，那么将进行放大操作，实际占用内存比正常计算的大</p>
 </blockquote>
 <h3 id="关于Density、分辨率、-hdpi等res目录之间的关系"><a href="#关于Density、分辨率、-hdpi等res目录之间的关系" class="headerlink" title="关于Density、分辨率、-hdpi等res目录之间的关系"></a><strong>关于Density、分辨率、-hdpi等res目录之间的关系</strong></h3><table>
 <thead>
