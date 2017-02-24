@@ -512,7 +512,7 @@
 </blockquote>
 <p>进过上面的分析，可以得出这样一个结论：</p>
 <blockquote>
-<p>在不配置Options的情况下：<br>1、decodeFile、decodeStream在解析时不会对Bitmap进行一系列的屏幕适配，解析出来的将是原始大小的图<br>2、decodeResource在解析时会对Bitmap根据当前设备屏幕像素密度densityDpi的值进行缩放适配操作，使得解析出来的Bitmap与当前设备的分辨率匹配，达到一个最佳的显示效果，并且Bitmap的大小将比原始的大</p>
+<p>在不配置Options的情况下：<br>1、decodeFile、decodeStream在解析时不会对Bitmap进行一系列的屏幕适配，解析出来的图所占内存将是：<code>width*height*单位像素所占字节数</code><br>2、decodeResource在解析时会对Bitmap根据当前设备屏幕像素密度densityDpi的值进行缩放适配操作，使得解析出来的Bitmap与当前设备的分辨率匹配，达到一个最佳的显示效果，并且Bitmap的大小将比原始的小</p>
 </blockquote>
 <h3 id="关于Density、分辨率、-hdpi等res目录之间的关系"><a href="#关于Density、分辨率、-hdpi等res目录之间的关系" class="headerlink" title="关于Density、分辨率、-hdpi等res目录之间的关系"></a><strong>关于Density、分辨率、-hdpi等res目录之间的关系</strong></h3><table>
 <thead>
