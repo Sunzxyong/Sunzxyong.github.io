@@ -8,8 +8,66 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Sun, 20 Nov 2016 13:09:10 GMT</pubDate>
+    <pubDate>Sun, 23 Apr 2017 08:30:06 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>Android图片压缩框架-Tiny</title>
+      <link>http://zhengxiaoyong.me/2017/04/23/Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%A1%86%E6%9E%B6-Tiny/</link>
+      <guid>http://zhengxiaoyong.me/2017/04/23/Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%A1%86%E6%9E%B6-Tiny/</guid>
+      <pubDate>Sun, 23 Apr 2017 08:23:56 GMT</pubDate>
+      <description>
+      
+        &lt;h2 id=&quot;目的&quot;&gt;&lt;a href=&quot;#目的&quot; class=&quot;headerlink&quot; title=&quot;目的&quot;&gt;&lt;/a&gt;&lt;strong&gt;目的&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;为了简化对图片压缩的调用，提供最简洁与合理的api压缩逻辑，对于压缩为Bitmap根据屏幕分辨率动态适配最
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a><strong>目的</strong></h2><p>为了简化对图片压缩的调用，提供最简洁与合理的api压缩逻辑，对于压缩为Bitmap根据屏幕分辨率动态适配最佳大小，对于压缩为File优化底层<code>libjpeg</code>的压缩，整个图片压缩过程全在压缩线程池中异步压缩，结束后分发回UI线程。</p>
+<h2 id="支持的压缩类型"><a href="#支持的压缩类型" class="headerlink" title="支持的压缩类型"></a><strong>支持的压缩类型</strong></h2><p><code>Tiny</code>图片压缩框架支持的压缩数据源类型：</p>
+<blockquote>
+<p>1、Bytes<br>2、File<br>3、Bitmap<br>4、Stream<br>5、Resource<br>6、Uri（network、file、content）</p>
+</blockquote>
+<p><code>Tiny</code>支持单个数据源压缩以及批量压缩，支持的压缩类型：</p>
+<blockquote>
+<p>1、数据源—&gt;压缩为Bitmap<br>2、数据源—&gt;压缩为File<br>3、数据源—&gt;压缩为File并返回压缩后的Bitmap<br>4、批量数据源—&gt;批量压缩为Bitmap<br>5、批量数据源—&gt;批量压缩为File<br>6、批量数据源—&gt;批量压缩为File并返回压缩后Bitmap</p>
+</blockquote>
+<h3 id="压缩参数"><a href="#压缩参数" class="headerlink" title="压缩参数"></a><strong>压缩参数</strong></h3><h4 id="Tiny-BitmapCompressOptions"><a href="#Tiny-BitmapCompressOptions" class="headerlink" title="Tiny.BitmapCompressOptions"></a><strong>Tiny.BitmapCompressOptions</strong></h4><p><strong>Bitmap</strong>压缩参数可配置三个：</p>
+<blockquote>
+<p>1、width<br>2、height<br>3、Bitmap.Config</p>
+</blockquote>
+<p>如果不配置，<code>Tiny</code>内部会根据屏幕动态适配以及默认使用<code>ARGB_8888</code></p>
+<h4 id="Tiny-FileCompressOptions"><a href="#Tiny-FileCompressOptions" class="headerlink" title="Tiny.FileCompressOptions"></a><strong>Tiny.FileCompressOptions</strong></h4><p><strong>File</strong>压缩参数可配置四个：</p>
+<blockquote>
+<p>1、quality-压缩质量，默认为76<br>2、isKeepSampling-是否保持原数据源图片的宽高<br>3、fileSize-压缩后文件大小<br>4、outfile-压缩后文件存储路径</p>
+</blockquote>
+<p>如果不配置，<code>Tiny</code>内部会根据默认压缩质量进行压缩，压缩后文件默认存储在：ExternalStorage/Android/data/${packageName}/tiny/目录下</p>
+<h3 id="接入"><a href="#接入" class="headerlink" title="接入"></a><strong>接入</strong></h3><p>见项目<a href="https://github.com/Sunzxyong/Tiny/blob/master/README.md" target="_blank" rel="external">README</a></p>
+<h3 id="压缩为Bitmap"><a href="#压缩为Bitmap" class="headerlink" title="压缩为Bitmap"></a><strong>压缩为Bitmap</strong></h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Tiny.BitmapCompressOptions <span class="keyword">options</span> = <span class="keyword">new</span> Tiny.BitmapCompressOptions();</span><br><span class="line">Tiny.getInstance().<span class="keyword">source</span>(<span class="string">""</span>).asBitmap().withOptions(<span class="keyword">options</span>).compress(<span class="keyword">new</span> BitmapCallback() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> callback(<span class="keyword">boolean</span> isSuccess, Bitmap bitmap) &#123;</span><br><span class="line">        <span class="comment">//return the compressed bitmap object</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="压缩为File"><a href="#压缩为File" class="headerlink" title="压缩为File"></a><strong>压缩为File</strong></h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Tiny.FileCompressOptions <span class="keyword">options</span> = <span class="keyword">new</span> Tiny.FileCompressOptions();</span><br><span class="line">Tiny.getInstance().<span class="keyword">source</span>(<span class="string">""</span>).asFile().withOptions(<span class="keyword">options</span>).compress(<span class="keyword">new</span> FileCallback() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> callback(<span class="keyword">boolean</span> isSuccess, String outfile) &#123;</span><br><span class="line">        <span class="comment">//return the compressed file path</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="压缩为File并返回Bitmap"><a href="#压缩为File并返回Bitmap" class="headerlink" title="压缩为File并返回Bitmap"></a><strong>压缩为File并返回Bitmap</strong></h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Tiny.FileCompressOptions <span class="keyword">options</span> = <span class="keyword">new</span> Tiny.FileCompressOptions();</span><br><span class="line">Tiny.getInstance().<span class="keyword">source</span>(<span class="string">""</span>).asFile().withOptions(<span class="keyword">options</span>).compress(<span class="keyword">new</span> FileWithBitmapCallback() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> callback(<span class="keyword">boolean</span> isSuccess, Bitmap bitmap, String outfile) &#123;</span><br><span class="line">        <span class="comment">//return the compressed file path and bitmap object</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="批量压缩为Bitmap"><a href="#批量压缩为Bitmap" class="headerlink" title="批量压缩为Bitmap"></a><strong>批量压缩为Bitmap</strong></h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Tiny.BitmapCompressOptions <span class="keyword">options</span> = <span class="keyword">new</span> Tiny.BitmapCompressOptions();</span><br><span class="line">Tiny.getInstance().<span class="keyword">source</span>(<span class="string">""</span>).batchAsBitmap().withOptions(<span class="keyword">options</span>).batchCompress(<span class="keyword">new</span> BitmapBatchCallback() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> callback(<span class="keyword">boolean</span> isSuccess, Bitmap[] bitmaps) &#123;</span><br><span class="line">        <span class="comment">//return the batch compressed bitmap object</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="批量压缩为File"><a href="#批量压缩为File" class="headerlink" title="批量压缩为File"></a><strong>批量压缩为File</strong></h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Tiny.FileCompressOptions <span class="keyword">options</span> = <span class="keyword">new</span> Tiny.FileCompressOptions();</span><br><span class="line">Tiny.getInstance().<span class="keyword">source</span>(<span class="string">""</span>).batchAsFile().withOptions(<span class="keyword">options</span>).batchCompress(<span class="keyword">new</span> FileBatchCallback() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> callback(<span class="keyword">boolean</span> isSuccess, String[] outfile) &#123;</span><br><span class="line">        <span class="comment">//return the batch compressed file path</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="批量压缩为File并返回Bitmap"><a href="#批量压缩为File并返回Bitmap" class="headerlink" title="批量压缩为File并返回Bitmap"></a><strong>批量压缩为File并返回Bitmap</strong></h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Tiny.FileCompressOptions <span class="keyword">options</span> = <span class="keyword">new</span> Tiny.FileCompressOptions();</span><br><span class="line">Tiny.getInstance().<span class="keyword">source</span>(<span class="string">""</span>).batchAsFile().withOptions(<span class="keyword">options</span>).batchCompress(<span class="keyword">new</span> FileWithBitmapBatchCallback() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> callback(<span class="keyword">boolean</span> isSuccess, Bitmap[] bitmaps, String[] outfile) &#123;</span><br><span class="line">        <span class="comment">//return the batch compressed file path and bitmap object</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="Tiny与微信朋友圈的压缩率比较"><a href="#Tiny与微信朋友圈的压缩率比较" class="headerlink" title="Tiny与微信朋友圈的压缩率比较"></a><strong>Tiny与微信朋友圈的压缩率比较</strong></h2><p>下面是使用<a href="https://github.com/Sunzxyong/Tiny" target="_blank" rel="external">Tiny</a>图片压缩库进行压缩的效果对比示例：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">图片信息</th>
+<th style="text-align:center">Tiny</th>
+<th style="text-align:center">Wechat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<p>6.66MB (3500x2156) | 151KB (1280x788) | 135KB (1280x789)|<br>4.28MB (4160x3120) | 219KB (1280x960)| 195KB (1280x960)|<br>2.60MB (4032x3024) | 193KB (1280x960))| 173KB (1280x960)|<br>372KB (500x500) | 38.67KB (500x500) | 34.05KB (500x500)|<br>236KB (960x1280) | 127KB (960x1280) | 118KB (960x1280)|</p>
+<h2 id="Tiny项目地址"><a href="#Tiny项目地址" class="headerlink" title="Tiny项目地址"></a>Tiny项目地址</h2><h3 id="Tiny"><a href="#Tiny" class="headerlink" title="Tiny"></a><a href="https://github.com/Sunzxyong/Tiny" target="_blank" rel="external">Tiny</a></h3>]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.me/2017/04/23/Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%A1%86%E6%9E%B6-Tiny/#disqus_thread</comments>
+    </item>
     
     <item>
       <title>简述RTMPDump与编译移植</title>
@@ -662,53 +720,6 @@
 ]]></content:encoded>
       
       <comments>http://zhengxiaoyong.me/2016/01/17/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8BSplash%E9%A1%B5%E5%BA%94%E8%AF%A5%E8%BF%99%E6%A0%B7%E8%AE%BE%E8%AE%A1/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>Android性能优化之加快应用启动速度</title>
-      <link>http://zhengxiaoyong.me/2016/01/14/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%8A%A0%E5%BF%AB%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E9%80%9F%E5%BA%A6/</link>
-      <guid>http://zhengxiaoyong.me/2016/01/14/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%8A%A0%E5%BF%AB%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E9%80%9F%E5%BA%A6/</guid>
-      <pubDate>Thu, 14 Jan 2016 14:51:30 GMT</pubDate>
-      <description>
-      
-        &lt;h2 id=&quot;应用的启动&quot;&gt;&lt;a href=&quot;#应用的启动&quot; class=&quot;headerlink&quot; title=&quot;应用的启动&quot;&gt;&lt;/a&gt;&lt;strong&gt;应用的启动&lt;/strong&gt;&lt;/h2&gt;&lt;h3 id=&quot;启动方式&quot;&gt;&lt;a href=&quot;#启动方式&quot; class=&quot;headerlink&quot; title=&quot;启动方式&quot;&gt;&lt;/a&gt;&lt;strong&gt;启动方式&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;通常来说，在安卓中应用的启动方式分为两种：冷启动和热启动&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;1、冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。&lt;/p&gt;
-&lt;p&gt;2、热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启动应用，这个方式叫热启动。&lt;/p&gt;
-&lt;/blockquote&gt;
-      
-      </description>
-      
-      <content:encoded><![CDATA[<h2 id="应用的启动"><a href="#应用的启动" class="headerlink" title="应用的启动"></a><strong>应用的启动</strong></h2><h3 id="启动方式"><a href="#启动方式" class="headerlink" title="启动方式"></a><strong>启动方式</strong></h3><p>通常来说，在安卓中应用的启动方式分为两种：冷启动和热启动</p>
-<blockquote>
-<p>1、冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。</p>
-<p>2、热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启动应用，这个方式叫热启动。</p>
-</blockquote>
-<a id="more"></a>
-<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a><strong>特点</strong></h3><p>1、冷启动：冷启动因为系统会重新创建一个新的进程分配给它，所以会先创建和初始化Application类，再创建和初始化MainActivity类（包括一系列的测量、布局、绘制），最后显示在界面上。</p>
-<p>2、热启动：热启动因为会从已有的进程中来启动，所以热启动就不会走Application这步了，而是直接走MainActivity（包括一系列的测量、布局、绘制），所以热启动的过程只需要创建和初始化一个MainActivity就行了，而不必创建和初始化Application，因为一个应用从新进程的创建到进程的销毁，Application只会初始化一次。</p>
-<p><strong>上面说的启动是点击app的启动图标来启动的，而另外一种方式是进入最近使用的列表界面来启动应用，这种不应该叫启动，应该叫恢复。</strong></p>
-<h2 id="应用启动的流程"><a href="#应用启动的流程" class="headerlink" title="应用启动的流程"></a><strong>应用启动的流程</strong></h2><p>在安卓系统上，应用在没有进程的情况下，应用的启动都是这样一个流程：当点击app的启动图标时，安卓系统会从Zygote进程中fork创建出一个新的进程分配给该应用，之后会依次创建和初始化Application类、创建MainActivity类、加载主题样式Theme中的windowBackground等属性设置给MainActivity以及配置Activity层级上的一些属性、再inflate布局、当onCreate/onStart/onResume方法都走完了后最后才进行contentView的measure/layout/draw显示在界面上，所以直到这里，应用的第一次启动才算完成，这时候我们看到的界面也就是所说的第一帧。</p>
-<p>所以，总结一下，应用的启动流程如下：</p>
-<blockquote>
-<p>Application的构造器方法——&gt;attachBaseContext()——&gt;onCreate()——&gt;Activity的构造方法——&gt;onCreate()——&gt;配置主题中背景等属性——&gt;onStart()——&gt;onResume()——&gt;测量布局绘制显示在界面上。</p>
-</blockquote>
-<h2 id="测量应用启动的时间"><a href="#测量应用启动的时间" class="headerlink" title="测量应用启动的时间"></a><strong>测量应用启动的时间</strong></h2><p>在上面这个启动流程中，任何一个地方有耗时操作都会拖慢我们应用的启动速度，而应用启动时间是用毫秒度量的，对于毫秒级别的快慢度量我们还是需要去精确的测量到到底应用启动花了多少时间，而根据这个时间来做衡量。</p>
-<h3 id="什么才是应用的启动时间"><a href="#什么才是应用的启动时间" class="headerlink" title="什么才是应用的启动时间"></a><strong>什么才是应用的启动时间</strong></h3><p>从点击应用的启动图标开始创建出一个新的进程直到我们看到了界面的第一帧，这段时间就是应用的启动时间。</p>
-<p>我们要测量的也就是这段时间，测量这段时间可以通过adb shell命令的方式进行测量，这种方法测量的最为精确，命令为：</p>
-<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -W <span class="string">[packageName]</span>/<span class="string">[packageName.MainActivity]</span></span><br></pre></td></tr></table></figure>
-<p>执行成功后将返回三个测量到的时间：<br>1、ThisTime:一般和TotalTime时间一样，除非在应用启动时开了一个透明的Activity预先处理一些事再显示出主Activity，这样将比TotalTime小。<br>2、TotalTime:应用的启动时间，包括创建进程+Application初始化+Activity初始化到界面显示。<br>3、WaitTime:一般比TotalTime大点，包括系统影响的耗时。</p>
-<p>下面是测量一个应用冷启动和热启动的时间：<br>冷启动：<br><img src="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed1.png" alt="这里写图片描述"><br>热启动：<br><img src="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed2.png" alt="这里写图片描述"></p>
-<p>可以看到在进程已经存在的情况下，只需要重新初始化MainActivity，这样的启动比较快，不过大多数情况下应用的启动都是冷启动，因为用户都会在任务列表中手动关闭遗留的应用进程。</p>
-<h2 id="减少应用启动时的耗时"><a href="#减少应用启动时的耗时" class="headerlink" title="减少应用启动时的耗时"></a><strong>减少应用启动时的耗时</strong></h2><p>针对冷启动时候的一些耗时，如上测得这个应用算是中型的app，在冷启动的时候耗时已经快700ms了，如果项目再大点在Application中配置了更多的初始化操作，这样将可能达到1s，这样每次启动都明显感觉延迟，所以在进行应用初始化的时候采取以下策略：<br>1、在Application的构造器方法、attachBaseContext()、onCreate()方法中不要进行耗时操作的初始化，一些数据预取放在异步线程中，可以采取Callable实现。<br>2、对于MainActivity，由于在获取到第一帧前，需要对contentView进行测量布局绘制操作，尽量减少布局的层次，考虑StubView的延迟加载策略，当然在onCreate、onStart、onResume方法中避免做耗时操作。</p>
-<h2 id="优化应用启动时的体验"><a href="#优化应用启动时的体验" class="headerlink" title="优化应用启动时的体验"></a><strong>优化应用启动时的体验</strong></h2><p>对于应用的启动时间，只能是尽量的避免一些耗时的、非必要的操作在主线程中，这样相对可以缩减一部分启动的耗时，另外一方面在等待第一帧显示的时间里，可以加入一些配置以增加体验，比如加入Activity的background，这个背景会在显示第一帧前提前显示在界面上。<br>1、先为主界面单独写一个主题style，设置一张待显示的图片，这里我设置了一个颜色，然后在manifest中设置给MainActivity：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">style</span> <span class="attribute">name</span>=<span class="value">"AppTheme.Launcher"</span>&gt;</span><span class="css"></span><br><span class="line">    &lt;<span class="tag">item</span> <span class="tag">name</span>="<span class="tag">android</span><span class="pseudo">:windowBackground"</span>&gt;<span class="at_rule">@<span class="keyword">drawable/bule&lt;/item&gt;</span></span><br><span class="line"></span></span><span class="tag">&lt;/<span class="title">style</span>&gt;</span></span><br><span class="line">//...</span><br><span class="line">        <span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">            <span class="attribute">android:name</span>=<span class="value">".MainActivity"</span></span><br><span class="line">            <span class="attribute">android:label</span>=<span class="value">"@string/app_name"</span></span><br><span class="line">            <span class="attribute">android:theme</span>=<span class="value">"@style/AppTheme.Launcher"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>2、然后在MainActivity中加载布局前把AppTheme重新设置给MainActivity：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">Override</span></span><br><span class="line">    protected void <span class="function">onCreate</span>(Bundle savedInstanceState) </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="tag">setTheme</span>(<span class="tag">R</span><span class="class">.style</span><span class="class">.AppTheme</span>);</span><br><span class="line">        <span class="tag">super</span><span class="class">.onCreate</span>(<span class="tag">savedInstanceState</span>);</span><br><span class="line">        <span class="tag">setContentView</span>(<span class="tag">R</span><span class="class">.layout</span><span class="class">.activity_main</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样在启动时会先显示background，然后待界面绘制完成再显示主界面<br><img src="http://7xswxf.com2.z0.glb.clouddn.com/blog/speed3.gif" alt="这里写图片描述"></p>
-]]></content:encoded>
-      
-      <comments>http://zhengxiaoyong.me/2016/01/14/Android%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E5%8A%A0%E5%BF%AB%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E9%80%9F%E5%BA%A6/#disqus_thread</comments>
     </item>
     
   </channel>
