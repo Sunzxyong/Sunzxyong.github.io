@@ -392,8 +392,7 @@
 
       
         
-          
-            <h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a><strong>目的</strong></h2><p>为了简化对图片压缩的调用，提供最简洁与合理的api压缩逻辑，对于压缩为Bitmap根据屏幕分辨率动态适配最佳大小，对于压缩为File优化底层<code>libjpeg</code>的压缩，整个图片压缩过程全在压缩线程池中异步压缩，结束后分发回UI线程。</p>
+          <h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a><strong>目的</strong></h2><p>为了简化对图片压缩的调用，提供最简洁与合理的api压缩逻辑，对于压缩为Bitmap根据屏幕分辨率动态适配最佳大小，对于压缩为File优化底层<code>libjpeg</code>的压缩，整个图片压缩过程全在压缩线程池中异步压缩，结束后分发回UI线程。</p>
 <h2 id="支持的压缩类型"><a href="#支持的压缩类型" class="headerlink" title="支持的压缩类型"></a><strong>支持的压缩类型</strong></h2><p><code>Tiny</code>图片压缩框架支持的压缩数据源类型：</p>
 <blockquote>
 <p>1、Bytes<br>2、File<br>3、Bitmap<br>4、Stream<br>5、Resource<br>6、Uri（network、file、content）</p>
@@ -402,41 +401,13 @@
 <blockquote>
 <p>1、数据源—&gt;压缩为Bitmap<br>2、数据源—&gt;压缩为File<br>3、数据源—&gt;压缩为File并返回压缩后的Bitmap<br>4、批量数据源—&gt;批量压缩为Bitmap<br>5、批量数据源—&gt;批量压缩为File<br>6、批量数据源—&gt;批量压缩为File并返回压缩后Bitmap</p>
 </blockquote>
-<h3 id="压缩参数"><a href="#压缩参数" class="headerlink" title="压缩参数"></a><strong>压缩参数</strong></h3><h4 id="Tiny-BitmapCompressOptions"><a href="#Tiny-BitmapCompressOptions" class="headerlink" title="Tiny.BitmapCompressOptions"></a><strong>Tiny.BitmapCompressOptions</strong></h4><p><strong>Bitmap</strong>压缩参数可配置三个：</p>
-<blockquote>
-<p>1、width<br>2、height<br>3、Bitmap.Config</p>
-</blockquote>
-<p>如果不配置，<code>Tiny</code>内部会根据屏幕动态适配以及默认使用<code>ARGB_8888</code></p>
-<h4 id="Tiny-FileCompressOptions"><a href="#Tiny-FileCompressOptions" class="headerlink" title="Tiny.FileCompressOptions"></a><strong>Tiny.FileCompressOptions</strong></h4><p><strong>File</strong>压缩参数可配置四个：</p>
-<blockquote>
-<p>1、quality-压缩质量，默认为76<br>2、isKeepSampling-是否保持原数据源图片的宽高<br>3、fileSize-压缩后文件大小<br>4、outfile-压缩后文件存储路径</p>
-</blockquote>
-<p>如果不配置，<code>Tiny</code>内部会根据默认压缩质量进行压缩，压缩后文件默认存储在：ExternalStorage/Android/data/${packageName}/tiny/目录下</p>
-<h3 id="接入"><a href="#接入" class="headerlink" title="接入"></a><strong>接入</strong></h3><p>见项目<a href="https://github.com/Sunzxyong/Tiny/blob/master/README.md" target="_blank" rel="external">README</a></p>
-<h3 id="压缩为Bitmap"><a href="#压缩为Bitmap" class="headerlink" title="压缩为Bitmap"></a><strong>压缩为Bitmap</strong></h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Tiny.BitmapCompressOptions <span class="keyword">options</span> = <span class="keyword">new</span> Tiny.BitmapCompressOptions();</span><br><span class="line">Tiny.getInstance().<span class="keyword">source</span>(<span class="string">""</span>).asBitmap().withOptions(<span class="keyword">options</span>).compress(<span class="keyword">new</span> BitmapCallback() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> callback(<span class="keyword">boolean</span> isSuccess, Bitmap bitmap) &#123;</span><br><span class="line">        <span class="comment">//return the compressed bitmap object</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="压缩为File"><a href="#压缩为File" class="headerlink" title="压缩为File"></a><strong>压缩为File</strong></h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Tiny.FileCompressOptions <span class="keyword">options</span> = <span class="keyword">new</span> Tiny.FileCompressOptions();</span><br><span class="line">Tiny.getInstance().<span class="keyword">source</span>(<span class="string">""</span>).asFile().withOptions(<span class="keyword">options</span>).compress(<span class="keyword">new</span> FileCallback() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> callback(<span class="keyword">boolean</span> isSuccess, String outfile) &#123;</span><br><span class="line">        <span class="comment">//return the compressed file path</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="压缩为File并返回Bitmap"><a href="#压缩为File并返回Bitmap" class="headerlink" title="压缩为File并返回Bitmap"></a><strong>压缩为File并返回Bitmap</strong></h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Tiny.FileCompressOptions <span class="keyword">options</span> = <span class="keyword">new</span> Tiny.FileCompressOptions();</span><br><span class="line">Tiny.getInstance().<span class="keyword">source</span>(<span class="string">""</span>).asFile().withOptions(<span class="keyword">options</span>).compress(<span class="keyword">new</span> FileWithBitmapCallback() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> callback(<span class="keyword">boolean</span> isSuccess, Bitmap bitmap, String outfile) &#123;</span><br><span class="line">        <span class="comment">//return the compressed file path and bitmap object</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="批量压缩为Bitmap"><a href="#批量压缩为Bitmap" class="headerlink" title="批量压缩为Bitmap"></a><strong>批量压缩为Bitmap</strong></h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Tiny.BitmapCompressOptions <span class="keyword">options</span> = <span class="keyword">new</span> Tiny.BitmapCompressOptions();</span><br><span class="line">Tiny.getInstance().<span class="keyword">source</span>(<span class="string">""</span>).batchAsBitmap().withOptions(<span class="keyword">options</span>).batchCompress(<span class="keyword">new</span> BitmapBatchCallback() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> callback(<span class="keyword">boolean</span> isSuccess, Bitmap[] bitmaps) &#123;</span><br><span class="line">        <span class="comment">//return the batch compressed bitmap object</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="批量压缩为File"><a href="#批量压缩为File" class="headerlink" title="批量压缩为File"></a><strong>批量压缩为File</strong></h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Tiny.FileCompressOptions <span class="keyword">options</span> = <span class="keyword">new</span> Tiny.FileCompressOptions();</span><br><span class="line">Tiny.getInstance().<span class="keyword">source</span>(<span class="string">""</span>).batchAsFile().withOptions(<span class="keyword">options</span>).batchCompress(<span class="keyword">new</span> FileBatchCallback() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> callback(<span class="keyword">boolean</span> isSuccess, String[] outfile) &#123;</span><br><span class="line">        <span class="comment">//return the batch compressed file path</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="批量压缩为File并返回Bitmap"><a href="#批量压缩为File并返回Bitmap" class="headerlink" title="批量压缩为File并返回Bitmap"></a><strong>批量压缩为File并返回Bitmap</strong></h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Tiny.FileCompressOptions <span class="keyword">options</span> = <span class="keyword">new</span> Tiny.FileCompressOptions();</span><br><span class="line">Tiny.getInstance().<span class="keyword">source</span>(<span class="string">""</span>).batchAsFile().withOptions(<span class="keyword">options</span>).batchCompress(<span class="keyword">new</span> FileWithBitmapBatchCallback() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> callback(<span class="keyword">boolean</span> isSuccess, Bitmap[] bitmaps, String[] outfile) &#123;</span><br><span class="line">        <span class="comment">//return the batch compressed file path and bitmap object</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h2 id="Tiny与微信朋友圈的压缩率比较"><a href="#Tiny与微信朋友圈的压缩率比较" class="headerlink" title="Tiny与微信朋友圈的压缩率比较"></a><strong>Tiny与微信朋友圈的压缩率比较</strong></h2><p>下面是使用<a href="https://github.com/Sunzxyong/Tiny" target="_blank" rel="external">Tiny</a>图片压缩库进行压缩的效果对比示例：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">图片信息</th>
-<th style="text-align:center">Tiny</th>
-<th style="text-align:center">Wechat</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"></td>
-</tr>
-</tbody>
-</table>
-<p>6.66MB (3500x2156) | 151KB (1280x788) | 135KB (1280x789)|<br>4.28MB (4160x3120) | 219KB (1280x960)| 195KB (1280x960)|<br>2.60MB (4032x3024) | 193KB (1280x960))| 173KB (1280x960)|<br>372KB (500x500) | 38.67KB (500x500) | 34.05KB (500x500)|<br>236KB (960x1280) | 127KB (960x1280) | 118KB (960x1280)|</p>
-<h2 id="Tiny项目地址"><a href="#Tiny项目地址" class="headerlink" title="Tiny项目地址"></a>Tiny项目地址</h2><h3 id="Tiny"><a href="#Tiny" class="headerlink" title="Tiny"></a><a href="https://github.com/Sunzxyong/Tiny" target="_blank" rel="external">Tiny</a></h3>
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/23/Android图片压缩框架-Tiny/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

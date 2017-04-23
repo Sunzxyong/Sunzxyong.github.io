@@ -8,7 +8,7 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Sun, 23 Apr 2017 08:30:06 GMT</pubDate>
+    <pubDate>Sun, 23 Apr 2017 08:32:56 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -18,7 +18,15 @@
       <pubDate>Sun, 23 Apr 2017 08:23:56 GMT</pubDate>
       <description>
       
-        &lt;h2 id=&quot;目的&quot;&gt;&lt;a href=&quot;#目的&quot; class=&quot;headerlink&quot; title=&quot;目的&quot;&gt;&lt;/a&gt;&lt;strong&gt;目的&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;为了简化对图片压缩的调用，提供最简洁与合理的api压缩逻辑，对于压缩为Bitmap根据屏幕分辨率动态适配最
+        &lt;h2 id=&quot;目的&quot;&gt;&lt;a href=&quot;#目的&quot; class=&quot;headerlink&quot; title=&quot;目的&quot;&gt;&lt;/a&gt;&lt;strong&gt;目的&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;为了简化对图片压缩的调用，提供最简洁与合理的api压缩逻辑，对于压缩为Bitmap根据屏幕分辨率动态适配最佳大小，对于压缩为File优化底层&lt;code&gt;libjpeg&lt;/code&gt;的压缩，整个图片压缩过程全在压缩线程池中异步压缩，结束后分发回UI线程。&lt;/p&gt;
+&lt;h2 id=&quot;支持的压缩类型&quot;&gt;&lt;a href=&quot;#支持的压缩类型&quot; class=&quot;headerlink&quot; title=&quot;支持的压缩类型&quot;&gt;&lt;/a&gt;&lt;strong&gt;支持的压缩类型&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;&lt;code&gt;Tiny&lt;/code&gt;图片压缩框架支持的压缩数据源类型：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1、Bytes&lt;br&gt;2、File&lt;br&gt;3、Bitmap&lt;br&gt;4、Stream&lt;br&gt;5、Resource&lt;br&gt;6、Uri（network、file、content）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Tiny&lt;/code&gt;支持单个数据源压缩以及批量压缩，支持的压缩类型：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1、数据源—&amp;gt;压缩为Bitmap&lt;br&gt;2、数据源—&amp;gt;压缩为File&lt;br&gt;3、数据源—&amp;gt;压缩为File并返回压缩后的Bitmap&lt;br&gt;4、批量数据源—&amp;gt;批量压缩为Bitmap&lt;br&gt;5、批量数据源—&amp;gt;批量压缩为File&lt;br&gt;6、批量数据源—&amp;gt;批量压缩为File并返回压缩后Bitmap&lt;/p&gt;
+&lt;/blockquote&gt;
       
       </description>
       
@@ -31,6 +39,7 @@
 <blockquote>
 <p>1、数据源—&gt;压缩为Bitmap<br>2、数据源—&gt;压缩为File<br>3、数据源—&gt;压缩为File并返回压缩后的Bitmap<br>4、批量数据源—&gt;批量压缩为Bitmap<br>5、批量数据源—&gt;批量压缩为File<br>6、批量数据源—&gt;批量压缩为File并返回压缩后Bitmap</p>
 </blockquote>
+<a id="more"></a>
 <h3 id="压缩参数"><a href="#压缩参数" class="headerlink" title="压缩参数"></a><strong>压缩参数</strong></h3><h4 id="Tiny-BitmapCompressOptions"><a href="#Tiny-BitmapCompressOptions" class="headerlink" title="Tiny.BitmapCompressOptions"></a><strong>Tiny.BitmapCompressOptions</strong></h4><p><strong>Bitmap</strong>压缩参数可配置三个：</p>
 <blockquote>
 <p>1、width<br>2、height<br>3、Bitmap.Config</p>
