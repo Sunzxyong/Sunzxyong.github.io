@@ -1,0 +1,1235 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Manifest,merge,构建变体,资源," />
+
+
+
+
+
+  <link rel="alternate" href="/rss2.xml" title="zhengxiaoyong" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言我们知道构建一个apk时必然存在的一个过程—res与manifest的合并，因为资源与manifest除了存在于主资源集中，对于第三方aar或构建变体中也可存在，当构建一个apk时，必然会对它们所含有的资源或manifest进行合并，而不是把所有存在的资源或manifest全打包进apk中，构建一个apk时，主要有以下三种资源会进行merge：
+
+1、主资源集(src/main/)2、构建变体">
+<meta property="og:type" content="article">
+<meta property="og:title" content="也谈Manifest与资源Merge">
+<meta property="og:url" content="http://zhengxiaoyong.me/2017/07/12/也谈Manifest与资源Merge/index.html">
+<meta property="og:site_name" content="zhengxiaoyong">
+<meta property="og:description" content="前言我们知道构建一个apk时必然存在的一个过程—res与manifest的合并，因为资源与manifest除了存在于主资源集中，对于第三方aar或构建变体中也可存在，当构建一个apk时，必然会对它们所含有的资源或manifest进行合并，而不是把所有存在的资源或manifest全打包进apk中，构建一个apk时，主要有以下三种资源会进行merge：
+
+1、主资源集(src/main/)2、构建变体">
+<meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2017-07-12-14994128490664.jpg">
+<meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2017-07-12-14994211392401.jpg">
+<meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2017-07-12-14996947290552.jpg">
+<meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2017-07-12-14995251974843.jpg">
+<meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2017-07-12-14998441405889.jpg">
+<meta property="og:updated_time" content="2017-07-12T08:07:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="也谈Manifest与资源Merge">
+<meta name="twitter:description" content="前言我们知道构建一个apk时必然存在的一个过程—res与manifest的合并，因为资源与manifest除了存在于主资源集中，对于第三方aar或构建变体中也可存在，当构建一个apk时，必然会对它们所含有的资源或manifest进行合并，而不是把所有存在的资源或manifest全打包进apk中，构建一个apk时，主要有以下三种资源会进行merge：
+
+1、主资源集(src/main/)2、构建变体">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhengxiaoyong.me/2017/07/12/也谈Manifest与资源Merge/"/>
+
+
+
+
+
+  <title> 也谈Manifest与资源Merge | zhengxiaoyong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">zhengxiaoyong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">生活不止眼前的苟且，还有诗和远方.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhengxiaoyong.me/2017/07/12/也谈Manifest与资源Merge/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="郑晓勇">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="zhengxiaoyong">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="zhengxiaoyong" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                也谈Manifest与资源Merge
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2017-07-12T20:00:30+08:00">
+                2017-07-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术沉淀/" itemprop="url" rel="index">
+                    <span itemprop="name">技术沉淀</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/12/也谈Manifest与资源Merge/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/12/也谈Manifest与资源Merge/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/07/12/也谈Manifest与资源Merge/" class="leancloud_visitors" data-flag-title="也谈Manifest与资源Merge">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>我们知道构建一个apk时必然存在的一个过程—res与manifest的合并，因为资源与manifest除了存在于主资源集中，对于第三方aar或构建变体中也可存在，当构建一个apk时，必然会对它们所含有的资源或manifest进行合并，而不是把所有存在的资源或manifest全打包进apk中，构建一个apk时，主要有以下三种资源会进行merge：</p>
+<blockquote>
+<p>1、主资源集(src/main/)<br>2、构建变体(buildType、productFlavor、productFlavorBuildType)<br>3、三方依赖(aar)</p>
+</blockquote>
+<p>当一个资源名在上述资源集中唯一存在时，那么将直接打包进apk中，当一个资源名在不同资源集中存在多个版本时(资源类型与资源限定符相同情况下)，这时将只有一个会被打包进apk中，这种情况就是通过merge进行处理，同理，manifest也一样，对于相同的标签存在多个版本时，也将进行merge。资源和manifest的merge都遵循如下优先级：</p>
+<blockquote>
+<p><strong>build variant &gt; build type &gt; product flavor &gt; main source set &gt; library dependencies</strong></p>
+</blockquote>
+<a id="more"></a>
+<p>下面讲res与manifest的合并策略之前先了解一下构建变体</p>
+<h2 id="Build-Type"><a href="#Build-Type" class="headerlink" title="Build Type"></a><strong>Build Type</strong></h2><p>构建类型通过<code>buildTypes</code>代码块进行配置，AS在创建一个Module时会自动默认配置<code>debug</code>和<code>release</code>两个构建类型，其中<code>debug</code>构建类型是每个项目默认的构建类型，任何一个项目创建时都会默认的创建它为默认的构建类型，且默认配置了一个公开通用的签名配置，这样的目的主要是为了更方便的调试应用，<code>debug</code>构建类型在新项目创建时并不会在<code>buildTypes</code>代码块中创建，不过我们可以手动的配置<code>debug</code>构建类型以便设置我们需要的配置，当然也可以在<code>buildTypes</code>中新建一个构建类型以满足个性需求，如：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">buildTypes</span> &#123;</span><br><span class="line">    <span class="title">debug</span> &#123;</span><br><span class="line">        <span class="title">applicationIdSuffix</span> <span class="string">'.debug'</span></span><br><span class="line">        versionNameSuffix <span class="string">'-debug'</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    beta.initWith(buildTypes.<span class="built_in">debug</span>)</span><br><span class="line">    beta &#123;</span><br><span class="line">        <span class="title">applicationIdSuffix</span> <span class="string">'.beta'</span></span><br><span class="line">        versionNameSuffix <span class="string">'-beta'</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    release &#123;</span><br><span class="line">        <span class="title">minifyEnabled</span> <span class="built_in">false</span></span><br><span class="line">        proguardFiles getDefaultProguardFile(<span class="string">'proguard-android.txt'</span>), <span class="string">'proguard-rules.pro'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中新建一个构建类型可以通过<code>initWith</code>方式来创建（如beta），这样新建的构建类型的配置将于传入的构建类型的所有配置将一样，并且可以在新建的构建类型中来覆写某些不同的配置，另外一个方式即不通过<code>initWith</code>方式，所有的配置将由自己定义，否则将使用默认的值，创建一个构建类型gradle也会对应的创建一个资源集</p>
+<h2 id="Product-Flavor"><a href="#Product-Flavor" class="headerlink" title="Product Flavor"></a><strong>Product Flavor</strong></h2><p>产品风味主要被用来创建App的不同的版本，如内测版与线上版，在<code>productFlavors</code>代码块中进行配置，创建一个产品风味对应的也会创建一个资源集，如：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">productFlavors</span> &#123;</span><br><span class="line">    <span class="tag">google</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Source-Set"><a href="#Source-Set" class="headerlink" title="Source Set"></a><strong>Source Set</strong></h2><p>资源集位于Module中src目录下，共有以下几种：</p>
+<blockquote>
+<p>src/<strong><code>main</code></strong>/<br>src/<strong><code>&lt;buildType&gt;</code></strong>/<br>src/<strong><code>&lt;productFlavor&gt;</code></strong>/<br>src/<strong><code>&lt;productFlavorBuildType&gt;</code></strong>/</p>
+</blockquote>
+<p>如我们的主资源集<code>src/main</code>，AS会默认创建<code>main/</code>主资源集目录，用于存储要在所有构建类型、产品风味、构建变体之间共享的资源，我们项目中的主要资源也位于主资源集目录下，当我们新建一个<code>buildType</code>或<code>productFlavor</code>时，gradle也会相应的创建一个对应的资源集，该资源集的名称和构建类型、产品风味的名称一样，位于src目录下，只不过这需要我们手动创建对应的目录添加需要的资源，当构建类型和产品风味都存在时，gradle还会把它们进行组合成一个<code>buildVariant</code>构建变体，名称为产品风味与构建类型的名称的组合，gradle也会为构建变体创建一个资源集，名称和构建变体名称一样，所以，在创建了一个<code>beta</code>构建类型和<code>google</code>产品风味的情况下，共有如下的资源集：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2017-07-12-14994128490664.jpg" alt=""><br>对于每个资源集，我们可以在<code>sourceSets</code>代码块中进行各自配置，如<code>manifest</code>、<code>res</code>自定义路径等：</p>
+<figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">sourceSets &#123;</span><br><span class="line">    main &#123;</span><br><span class="line">        java.srcDirs = [<span class="symbol">'src</span>/main/java', <span class="symbol">'other</span>/java']</span><br><span class="line">        res.srcDirs = [<span class="symbol">'src</span>/main/res', <span class="symbol">'src</span>/main/res2']</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    beta &#123;</span><br><span class="line">        res.srcDirs = [<span class="symbol">'src</span>/beta/res', <span class="symbol">'src</span>/beta/res2']</span><br><span class="line">        manifest.srcFile <span class="symbol">'src</span>/beta/<span class="type">AndroidManifest</span>.xml'</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    googleBeta &#123;</span><br><span class="line">        res.srcDirs = [<span class="symbol">'src</span>/googleBata/res']</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Build-Variant"><a href="#Build-Variant" class="headerlink" title="Build Variant"></a><strong>Build Variant</strong></h2><p>构建变体=productFlavor+buildType，在创建<code>productFlavor</code>时gradle自动结合构建类型生成对应的构建变体，没有创建产品风味时将为构建类型，如：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2017-07-12-14994211392401.jpg" alt=""></p>
+<h3 id="Library-Module"><a href="#Library-Module" class="headerlink" title="Library Module"></a><strong>Library Module</strong></h3><p>library依赖于其它module时将默认使用release构建类型，如果要更改为我们自己的构建类型时，有两种方法：</p>
+<h4 id="1、defaultPublishConfig"><a href="#1、defaultPublishConfig" class="headerlink" title="1、defaultPublishConfig"></a><strong>1、defaultPublishConfig</strong></h4><p>我们可以使用<code>defaultPublishConfig</code>来配置library的依赖构建变体，假如该library构建变体如上，新加了一个beta构建类型和google产品风味，那么依赖构建类型需要为googleBeta，即在library中配置：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">android </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  defaultPublishConfig <span class="string">"googleBeta"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>告诉gradle该library默认发布构建类型为<code>googleBeta</code></p>
+<h4 id="2、publishNonDefault"><a href="#2、publishNonDefault" class="headerlink" title="2、publishNonDefault"></a><strong>2、publishNonDefault</strong></h4><p>上面这种方式限定死了library的发布构建类型，下面这种将让library更加灵活，完全由宿主Module控制，在library中配置：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">android </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  // Note that this might increase <span class="keyword">build </span>times <span class="keyword">because </span>Gradle must</span><br><span class="line">  // <span class="keyword">build </span><span class="keyword">multiple </span>AARs, instead of only one.</span><br><span class="line">  publishNonDefault true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置<code>publishNonDefault</code>为true，将告诉gradle所有的构建变体将可用，具体使用哪个由所依赖的Module进行配置，所以，在宿主Module中进行依赖配置：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">dependencies</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="tag">compile</span> <span class="tag">project</span>(<span class="attribute">path</span>:<span class="string">':library'</span>, <span class="attribute">configuration</span>:<span class="string">'demoDebug'</span>)</span><br><span class="line">    <span class="comment">//or</span></span><br><span class="line">    <span class="tag">debugCompile</span> <span class="tag">project</span>(<span class="attribute">path</span>:<span class="string">':library'</span>, <span class="attribute">configuration</span>:<span class="string">'demoDebug'</span>)</span><br><span class="line">    <span class="tag">releaseCompile</span> <span class="tag">project</span>(<span class="attribute">path</span>:<span class="string">':library'</span>, <span class="attribute">configuration</span>:<span class="string">'release'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>宿主将引用library的<code>demoDebug</code>构建变体的版本</p>
+<h2 id="Resource-Merge"><a href="#Resource-Merge" class="headerlink" title="Resource Merge"></a><strong>Resource Merge</strong></h2><p>一个资源是否需要merge主要看资源名是否唯一，该唯一性是在含有相同的资源类型和资源限定符的情况下，资源merge遵循如下优先级：</p>
+<blockquote>
+<p><strong>build variant &gt; build type &gt; product flavor &gt; main source set &gt; library dependencies</strong></p>
+</blockquote>
+<p>如：<br>主资源集中含有资源：</p>
+<blockquote>
+<p>src/main/res/layout/foo.xml<br>src/main/res/layout-land/foo.xml<br>src/main/res/drawable/avatar.png</p>
+</blockquote>
+<p>beta资源集中含有资源：</p>
+<blockquote>
+<p>src/beta/res/layout/foo.xml</p>
+</blockquote>
+<p>googleBeta资源集中含有资源：</p>
+<blockquote>
+<p>src/googleBeta/res/drawable/avatar.png</p>
+</blockquote>
+<p>若采用<code>googleBeta</code>构建变体构建，最终的apk中将包含的资源为：</p>
+<blockquote>
+<p>src/main/res/layout-land/foo.xml<br>src/beta/res/layout/foo.xml<br>src/googleBeta/res/drawable/avatar.png</p>
+</blockquote>
+<p>如果一个资源集中资源目录存在多个，且它们都包含一个相同的资源，那么在merge时将会报duplicate resources错误</p>
+<p>上面说到资源merge是在相同的资源类型与资源限定符的情况下，资源类型比如drawable、layout、values等等，资源限定符是加在资源类型后面用于限定该资源所能应用的条件，比如drawable-xxhdpi、drawable-en-port等等，限定符目前共有19中，如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">配置</th>
+<th style="text-align:center">限定符值示例</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">MCC 和 MNC</td>
+<td style="text-align:center">mcc310</td>
+<td style="text-align:center">移动国家代码、移动网络代码</td>
+</tr>
+<tr>
+<td style="text-align:center">语言和区域</td>
+<td style="text-align:center">en、fr</td>
+<td style="text-align:center">由两个字母组成的语言代码</td>
+</tr>
+<tr>
+<td style="text-align:center">布局方向</td>
+<td style="text-align:center">ldrtl、ldltr</td>
+<td style="text-align:center">应用的布局方向</td>
+</tr>
+<tr>
+<td style="text-align:center">最小宽度</td>
+<td style="text-align:center">sw720dp</td>
+<td style="text-align:center">设备可用屏幕区域的最小尺寸(宽或高)</td>
+</tr>
+<tr>
+<td style="text-align:center">可用宽度</td>
+<td style="text-align:center">w720dp</td>
+<td style="text-align:center">设备最小可用屏幕宽度</td>
+</tr>
+<tr>
+<td style="text-align:center">可用高度</td>
+<td style="text-align:center">h1024dp</td>
+<td style="text-align:center">设备最小可用屏幕高度</td>
+</tr>
+<tr>
+<td style="text-align:center">屏幕尺寸</td>
+<td style="text-align:center">normal、large</td>
+<td style="text-align:center">设备的屏幕密度</td>
+</tr>
+<tr>
+<td style="text-align:center">屏幕纵横比</td>
+<td style="text-align:center">long、notlong</td>
+<td style="text-align:center">设备屏幕是否为宽屏</td>
+</tr>
+<tr>
+<td style="text-align:center">圆形屏幕<span class="Apple-tab-span" style="white-space:pre"></span></td>
+<td style="text-align:center">round、notround</td>
+<td style="text-align:center">设备屏幕是否为圆屏</td>
+</tr>
+<tr>
+<td style="text-align:center">屏幕方向</td>
+<td style="text-align:center">port、land</td>
+<td style="text-align:center">设备当前的方向</td>
+</tr>
+<tr>
+<td style="text-align:center">UI 模式</td>
+<td style="text-align:center">car、watch</td>
+<td style="text-align:center">设备运行时变化的模式</td>
+</tr>
+<tr>
+<td style="text-align:center">夜间模式</td>
+<td style="text-align:center">night、notnight</td>
+<td style="text-align:center">是否夜间模式</td>
+</tr>
+<tr>
+<td style="text-align:center">屏幕像素密度</td>
+<td style="text-align:center">xhdpi、xxhdpi、nodpi</td>
+<td style="text-align:center">设备像素密度</td>
+</tr>
+<tr>
+<td style="text-align:center">触摸屏类型</td>
+<td style="text-align:center">finger、notouch</td>
+<td style="text-align:center">设备上的触摸屏类型</td>
+</tr>
+<tr>
+<td style="text-align:center">键盘可用性</td>
+<td style="text-align:center">keysexposed、keyssoft</td>
+<td style="text-align:center">设备可用的键盘</td>
+</tr>
+<tr>
+<td style="text-align:center">主要文本输入法</td>
+<td style="text-align:center">nokeys、qwerty</td>
+<td style="text-align:center">设备可用的主要文本输入法</td>
+</tr>
+<tr>
+<td style="text-align:center">导航键可用性</td>
+<td style="text-align:center">navexposed、navhidden</td>
+<td style="text-align:center">设备导航键是否处于隐藏状态</td>
+</tr>
+<tr>
+<td style="text-align:center">主要非触摸导航方法</td>
+<td style="text-align:center">nonav</td>
+<td style="text-align:center">设备可用的导航方法类型</td>
+</tr>
+<tr>
+<td style="text-align:center">平台版本（API 级别）</td>
+<td style="text-align:center">v4、v7</td>
+<td style="text-align:center">设备支持的最小 API 级别</td>
+</tr>
+</tbody>
+</table>
+<p>对于资源文件夹的命名，也必须遵循上表出现顺序的规则，如<code>drawable-hdpi-port</code>这是错误的命名，而应该是<code>drawable-port-hdpi/</code>，在资源进行merge时，也将是对相同限定符与类型的资源进行合并，而限定符或类型不相同的资源不进行合并</p>
+<h3 id="Resource-Overlay"><a href="#Resource-Overlay" class="headerlink" title="Resource Overlay"></a><strong>Resource Overlay</strong></h3><p>资源的overlay重叠包机制和资源merge差不多，主要是对资源一种额外补充，当在主资源集中未找到该资源时，这时会在我们添加的重叠包中进行查找，可通过aapt的<code>-S</code>、<code>--auto-add-overlay</code>配置来添加额外的资源重叠包和确保重叠包可用<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2017-07-12-14996947290552.jpg" alt=""><br>我们可以通过配置<code>aaptOptions</code>来为app添加资源重叠包提供资源，在gradle中配置：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">aaptOptions</span> &#123;</span><br><span class="line">    <span class="title">additionalParameters</span> <span class="string">'-S'</span>, <span class="string">'src/main/res2'</span>,</span><br><span class="line">            <span class="string">'-S'</span>, <span class="string">'src/main/res3'</span>,</span><br><span class="line">            <span class="string">'--auto-add-overlay'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当在主资源集中资源未定义时，而res2与res3中都定义了，那么在app中引用该资源将会使用res2目录中的，假如res2未定义，那么将使用res3中的，如果res2与res3互换位置，那么则优先使用最先扫描到的目录res3的资源</p>
+<h2 id="Manifest-Merge"><a href="#Manifest-Merge" class="headerlink" title="Manifest Merge"></a><strong>Manifest Merge</strong></h2><p>在构建一个apk时，manifest文件主要来自三种地方：主资源集、构建变体、第三方aar，对此，对于众多不同地方的manifest文件势必需要合成一个最终的manifest文件打包进apk中，对于manifest的merge，和资源merge一样遵循相同的优先级：</p>
+<blockquote>
+<p><strong>build variant &gt; build type &gt; product flavor &gt; main source set &gt; library dependencies</strong></p>
+</blockquote>
+<p>和资源merge不同的是，manifest文件的merge并不是从高优先级开始查找，找到了则将被添加至最终apk资源目录中，因为资源merge针对的是一个drawable、layout或string的类型的一个独立资源，而manifest是由众多节点标签和属性进行配置的，所以对于manifest的merge需要对任何一个manifest内容进行收集再合并<br>manifest合并遵循从低优先级到高优先级的合并顺序，如下：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2017-07-12-14995251974843.jpg" alt=""></p>
+<p>也就是对于aar中的manifest文件会先进行合并至主资源集中的manifest文件中，然后主资源集的再合并至构建变体的manifest文件中，而这个构建变体的manifest为最终的manifest文件，将打包至apk中</p>
+<blockquote>
+<p>值得注意的一点，在<code>build.gradle</code>中配置的构建属性将会直接替换manifest中的对应的属性，如在manifest中定义<code>versionCode</code>、<code>versionName</code>或<code>targetSdkVersion</code>等，只要在gradle文件中也相应的配置了对应的值，gradle的值总会覆盖manifest中的值，那么apk最终将使用gradle中配置的</p>
+</blockquote>
+<h3 id="Manifest合并策略-合并冲突启发式算法"><a href="#Manifest合并策略-合并冲突启发式算法" class="headerlink" title="Manifest合并策略-合并冲突启发式算法"></a><strong>Manifest合并策略-合并冲突启发式算法</strong></h3><p>Manifest合并工具在合并时会把某个manifest文件中标签元素与其它待合并的manifest文件中对应的标签元素进行匹配，而这个匹配的过程则是由一个<strong>合并关键字</strong>进行匹配的，比如manifest中配置了众多<code>activity</code>标签，单靠这个标签是不能对应的识别该Activity是否与另外一个manifest文件中所表示的一样。所以合并工具会根据每个标签所具备的唯一标识<code>合并关键字</code>进行与其它manifest中标签进行匹配，进而通过如下三种合并策略进行manifest文件的合并：</p>
+<blockquote>
+<p>1、<strong>合并</strong>—将所有非冲突属性合并到同一标签中，如果配置了<code>合并规则标记</code>那么将会按各自配置的合并规则进行合并属性与子标签，如果有属性发生冲突，那么请使用<code>合并规则标记</code>来配置需要以哪种规则进行合并，否则在项目编译合并时将报错，大都数标签使用该策略<br>2、<strong>仅合并子项</strong>—该标签仅保留优先级最高的manifest文件提供的属性，如<code>&lt;manifest&gt;</code>标签中的属性将永远使用优先级最高的manifest文件<br>3、<strong>保留</strong>—将子标签直接将其添加至合并文件中的父元素，如<code>&lt;intent-filter&gt;</code>标签，将直接添加其它manifest文件中该标签至合并文件</p>
+</blockquote>
+<p>上面所说大都标签元素都采用合并策略进行合并的，使用仅合并子项策略的有<code>&lt;manifest&gt;</code>标签元素，使用保留策略的有<code>&lt;intent-filter&gt;</code>标签元素。在进行manifest文件合并时，低优先级的manifest文件中的标签元素如果与高优先级的manifest文件中的不匹配时，那么这些标签元素将直接添加到合并后的manifest中，如果有匹配的标签元素，那么将会将匹配的标签的所有属性进行合并（入股配置了合并规则标记，那么将采取该标记的合并规则来进行合并），如果有相同的属性但值不同则合并会冲突，此时需要配置一个合并规则标记来处理冲突，如下，manifest默认的合并规则：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">低优先级属性</th>
+<th style="text-align:center">高优先级属性</th>
+<th style="text-align:center">属性合并结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">没有值</td>
+<td style="text-align:center">没有值</td>
+<td style="text-align:center">没有值</td>
+</tr>
+<tr>
+<td style="text-align:center">值B</td>
+<td style="text-align:center">没有值</td>
+<td style="text-align:center">值B</td>
+</tr>
+<tr>
+<td style="text-align:center">没有值</td>
+<td style="text-align:center">值A</td>
+<td style="text-align:center">值A</td>
+</tr>
+<tr>
+<td style="text-align:center">值A</td>
+<td style="text-align:center">值A</td>
+<td style="text-align:center">值A</td>
+</tr>
+<tr>
+<td style="text-align:center">值B</td>
+<td style="text-align:center">值A</td>
+<td style="text-align:center">冲突-须使用合并规则标记处理</td>
+</tr>
+</tbody>
+</table>
+<p>Manifest合并时一些特殊的处理方式：</p>
+<blockquote>
+<p>1、<code>&lt;manifest&gt;</code>标签中的属性绝不合并，仅使用优先级最高的manifest文件中的属性<br>2、对于<code>&lt;manifest&gt;</code>的子标签<code>&lt;uses-feature&gt;</code>与<code>&lt;application&gt;</code>的子标签<code>uses-library</code>，如果在合并时出现冲突，那么系统将默认将应用该标签的<code>android:required</code>属性为true，并包含所有manifest对应该标签所需要的功能或库<br>3、<code>&lt;uses-sdk&gt;</code>标签始终使用优先级最高的manifest中的值，如果在gradle中定义了对应的值，那么将始终使用gradle中的，如果出现第三方aar中定义的minSdkVersion大于当前最高优先级manifest定义的，那么将需要使用<code>overrideLibrary</code>属性来处理此冲突<br>4、对于<code>&lt;intent-filter&gt;</code>标签，会将所有manifest中的对应该标签添加至合并后的manifest文件中</p>
+</blockquote>
+<p>对于上面的当第三方aar的minSdkVersion大于最高优先级的manifest文件中定义的，那么在合并时将出错，使用<code>overrideLibrary</code>属性进行处理，该属性值是一个或者多个aar库的包名，假如lib1与lib2的minSdkVersion值都大于最高优先级清单中定义的14，那么则在该manifest中uses-sdk标签加入overrideLibrary属性进行处理，如：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-sdk <span class="string">android:</span>targetSdkVersion=<span class="string">"24"</span> <span class="string">android:</span>minSdkVersion=<span class="string">"14"</span></span><br><span class="line"><span class="label">          tools:</span>overrideLibrary=<span class="string">"com.example.lib1, com.example.lib2"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="Manifest合并规则标记"><a href="#Manifest合并规则标记" class="headerlink" title="Manifest合并规则标记"></a><strong>Manifest合并规则标记</strong></h3><p>合并规则标记是一个标签的属性，它属于android tools命名空间，它可改变合并时默认的合并行为，一般我们在某个manifest文件内定义了这些标记，那么在比它低优先级的manifest与它进行合并时，高优先级清单将应用这些合并规则进行合并，如我们最常用到的<code>tools:replace=&quot;attr, ...&quot;</code>属性标记，通常是一些三方aar库中的清单文件中定义了一些属性与主清单或更高优先级的清单文件中的对应标签的属性冲突了，所以在高优先级的清单中冲突的标签配置该属性，表示始终使用高优先级清单中该标签的属性值</p>
+<p>合并规则标记类型分两种：</p>
+<blockquote>
+<p><strong>节点标记</strong>—标记一个节点标签，对该标签的所有属性与所有子标签都应用该合并规则<br><strong>属性标记</strong>—标记一个节点标签，仅对该标记中声明的属性应用该合并规则</p>
+</blockquote>
+<h4 id="节点标记"><a href="#节点标记" class="headerlink" title="节点标记"></a><strong>节点标记</strong></h4><ul>
+<li><strong>tools:node=”merge”</strong></li>
+</ul>
+<p>该规则是manifest所有标签默认的合并规则，可不显示声明，在manifest文件在合并时没有冲突时，则会合并该标记的标签中所有的属性与子标签，如：<br>低优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MAIN"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.LAUNCHER"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>高优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span></span><br><span class="line">    <span class="attribute">tools:node</span>=<span class="value">"merge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.action1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>合并后的清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span> </span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MAIN"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.LAUNCHER"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.action1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>tools:node=”merge-only-attributes”</strong></li>
+</ul>
+<p>该规则是仅仅合并所标记的标签中的属性，但不合并嵌套的子标签，如：<br>低优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MAIN"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.LAUNCHER"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>高优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span></span><br><span class="line">    <span class="attribute">tools:node</span>=<span class="value">"merge-only-attributes"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.action1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>合并后的清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span> <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.action1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>tools:node=”remove”</strong></li>
+</ul>
+<p>从合并清单中删除用此标记的标签，如：<br>低优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MAIN"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.LAUNCHER"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>高优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span> <span class="attribute">tools:node</span>=<span class="value">"remove"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.action1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>合并后的清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span> <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MAIN"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.LAUNCHER"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>tools:node=”removeAll”</strong></li>
+</ul>
+<p>与tools:node=”remove”类似，remove只是删除一个它所标记的标签，而removeAll则是删除与此标签相匹配的所有标签（在相同的父标签内），如：<br>低优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MAIN"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.LAUNCHER"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>高优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span> <span class="attribute">tools:node</span>=<span class="value">"removeAll"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.action1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>合并后的清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span> <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到在该父标签内，所有有关<code>&lt;intetn-filter&gt;</code>的标签全部删除了</p>
+<ul>
+<li><strong>tools:node=”replace”</strong></li>
+</ul>
+<p>用此标记所标记的标签，将完全替换掉低优先级所对应的标签（包含子标签元素），也就是完全保留该标记所标记的标签的内容，如：<br>低优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MAIN"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.LAUNCHER"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta-data</span></span><br><span class="line">        <span class="attribute">android:name</span>=<span class="value">"low"</span></span><br><span class="line">        <span class="attribute">android:value</span>=<span class="value">"xixi"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>高优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span></span><br><span class="line">    <span class="attribute">tools:node</span>=<span class="value">"replace"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.action1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta-data</span></span><br><span class="line">        <span class="attribute">android:name</span>=<span class="value">"high"</span></span><br><span class="line">        <span class="attribute">android:value</span>=<span class="value">"haha"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>合并后的清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.action1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta-data</span></span><br><span class="line">        <span class="attribute">android:name</span>=<span class="value">"high"</span></span><br><span class="line">        <span class="attribute">android:value</span>=<span class="value">"haha"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>因为<code>&lt;intent-filter&gt;</code>标签是以保留策略进行合并的，所以对它标记将无作用，可对<code>meta-data</code>进行标记，如：<br>低优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MAIN"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.LAUNCHER"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta-data</span></span><br><span class="line">        <span class="attribute">android:name</span>=<span class="value">"say"</span></span><br><span class="line">        <span class="attribute">android:value</span>=<span class="value">"hi"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>高优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.action1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta-data</span></span><br><span class="line">        <span class="attribute">android:name</span>=<span class="value">"say"</span></span><br><span class="line">        <span class="attribute">android:value</span>=<span class="value">"hello"</span></span><br><span class="line">        <span class="attribute">tools:node</span>=<span class="value">"replace"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>合并后的清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.action1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MAIN"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.LAUNCHER"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span>            </span><br><span class="line">    <span class="tag">&lt;<span class="title">meta-data</span></span><br><span class="line">        <span class="attribute">android:name</span>=<span class="value">"say"</span></span><br><span class="line">        <span class="attribute">android:value</span>=<span class="value">"hello"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>tools:node=”strict”</strong></li>
+</ul>
+<p>配置了严格模式的标签，当在合并时只要该标签任何属性或子标签与合并时另外清单中的不完全一样时，将会报错，如：<br>低优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>高优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span></span><br><span class="line">    <span class="attribute">tools:node</span>=<span class="value">"strict"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>合并时将报一个Merging Error，提示两个清单中所对应的元素不一样</p>
+<h4 id="属性标记"><a href="#属性标记" class="headerlink" title="属性标记"></a><strong>属性标记</strong></h4><ul>
+<li><strong>tools:remove=”attr, …”</strong></li>
+</ul>
+<p>从合并清单中删除指定的属性，如：<br>低优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>高优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span></span><br><span class="line">    <span class="attribute">tools:remove</span>=<span class="value">"android:launchMode"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>合并后的清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>tools:replace=”attr, …”</strong></li>
+</ul>
+<p>从合并清单中，利用高优先级清单文件中的属性值替换低优先级的属性值，如：<br>低优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>高优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"standard"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span></span><br><span class="line">    <span class="attribute">tools:replace</span>=<span class="value">"android:launchMode"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>合并后的清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"standard"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>tools:strict=”attr, …”</strong></li>
+</ul>
+<p>指定的属性值在合并时，若低优先级的与高优先级的不一直时将报错，这是所有属性默认的标记配置，如：<br>低优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"singleTask"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>高优先级清单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.zxy.merge.demo.MainActivity"</span></span><br><span class="line">    <span class="attribute">android:launchMode</span>=<span class="value">"standard"</span></span><br><span class="line">    <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span></span><br><span class="line">    <span class="attribute">tools:strict</span>=<span class="value">"android:launchMode"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>合并时将报Merging Error，因为<code>launchMode</code>在不同清单中属性值不一样</p>
+<h3 id="查看合并后的Manifest"><a href="#查看合并后的Manifest" class="headerlink" title="查看合并后的Manifest"></a><strong>查看合并后的Manifest</strong></h3><p>通过AS的Merged Manifest工具进行查看，选择最高优先级的清单文件，如：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2017-07-12-14998441405889.jpg" alt=""><br>不同的颜色块对应右边<code>Manifest Sources</code>中所对应的manifest路径来源，上图表示manifest来源有三个不同的资源集，而下面的表示虽然这些资源集含有manifest文件，但是不含构成最终manifest文件的元素或属性值，右边的最下方将会显示Merging Log或合并出错后Merging Error</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://7xswxf.com2.z0.glb.clouddn.com/blog/weixin.png" alt="郑晓勇 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://7xswxf.com2.z0.glb.clouddn.com/blog/alipay.png" alt="郑晓勇 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Manifest/" rel="tag"># Manifest</a>
+          
+            <a href="/tags/merge/" rel="tag"># merge</a>
+          
+            <a href="/tags/构建变体/" rel="tag"># 构建变体</a>
+          
+            <a href="/tags/资源/" rel="tag"># 资源</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/23/也谈图片压缩/" rel="next" title="也谈图片压缩">
+                <i class="fa fa-chevron-left"></i> 也谈图片压缩
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58e9f752f0a71b42" async = "async" ></script>
+</div>
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郑晓勇" />
+          <p class="site-author-name" itemprop="name">郑晓勇</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss2.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Sunzxyong" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3048730677/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Build-Type"><span class="nav-number">2.</span> <span class="nav-text">Build Type</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Product-Flavor"><span class="nav-number">3.</span> <span class="nav-text">Product Flavor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Source-Set"><span class="nav-number">4.</span> <span class="nav-text">Source Set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Build-Variant"><span class="nav-number">5.</span> <span class="nav-text">Build Variant</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Library-Module"><span class="nav-number">5.1.</span> <span class="nav-text">Library Module</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、defaultPublishConfig"><span class="nav-number">5.1.1.</span> <span class="nav-text">1、defaultPublishConfig</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、publishNonDefault"><span class="nav-number">5.1.2.</span> <span class="nav-text">2、publishNonDefault</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Resource-Merge"><span class="nav-number">6.</span> <span class="nav-text">Resource Merge</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Resource-Overlay"><span class="nav-number">6.1.</span> <span class="nav-text">Resource Overlay</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Manifest-Merge"><span class="nav-number">7.</span> <span class="nav-text">Manifest Merge</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Manifest合并策略-合并冲突启发式算法"><span class="nav-number">7.1.</span> <span class="nav-text">Manifest合并策略-合并冲突启发式算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Manifest合并规则标记"><span class="nav-number">7.2.</span> <span class="nav-text">Manifest合并规则标记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#节点标记"><span class="nav-number">7.2.1.</span> <span class="nav-text">节点标记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性标记"><span class="nav-number">7.2.2.</span> <span class="nav-text">属性标记</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看合并后的Manifest"><span class="nav-number">7.3.</span> <span class="nav-text">查看合并后的Manifest</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郑晓勇</span>
+</div>
+
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'zhengxiaoyong';
+      var disqus_identifier = '2017/07/12/也谈Manifest与资源Merge/';
+
+      var disqus_title = "也谈Manifest与资源Merge";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("4xJWzRb0rYs6K84rzJGPAfCT-gzGzoHsz", "32UaeYIIm8Ij4sUjreNxbB0K");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
