@@ -8,7 +8,7 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Wed, 12 Jul 2017 08:07:17 GMT</pubDate>
+    <pubDate>Mon, 02 Apr 2018 07:28:51 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -81,6 +81,9 @@
 <p>src/main/res/layout-land/foo.xml<br>src/beta/res/layout/foo.xml<br>src/googleBeta/res/drawable/avatar.png</p>
 </blockquote>
 <p>如果一个资源集中资源目录存在多个，且它们都包含一个相同的资源，那么在merge时将会报duplicate resources错误</p>
+<blockquote>
+<p>如果多个 AAR 库之间发生冲突，将使用依赖项列表首先列出（位于 dependencies 块顶部）的库中的资源，所以为了避免常用资源 ID 的资源冲突，请使用在模块（或在所有项目模块）中具有唯一性的前缀或其他一致的命名方案</p>
+</blockquote>
 <p>上面说到资源merge是在相同的资源类型与资源限定符的情况下，资源类型比如drawable、layout、values等等，资源限定符是加在资源类型后面用于限定该资源所能应用的条件，比如drawable-xxhdpi、drawable-en-port等等，限定符目前共有19中，如下：</p>
 <table>
 <thead>

@@ -104,7 +104,7 @@
 <meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2017-07-12-14996947290552.jpg">
 <meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2017-07-12-14995251974843.jpg">
 <meta property="og:image" content="http://7xswxf.com2.z0.glb.qiniucdn.com/2017-07-12-14998441405889.jpg">
-<meta property="og:updated_time" content="2017-07-12T08:07:17.000Z">
+<meta property="og:updated_time" content="2018-04-02T07:28:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="也谈Manifest与资源Merge">
 <meta name="twitter:description" content="前言我们知道构建一个apk时必然存在的一个过程—res与manifest的合并，因为资源与manifest除了存在于主资源集中，对于第三方aar或构建变体中也可存在，当构建一个apk时，必然会对它们所含有的资源或manifest进行合并，而不是把所有存在的资源或manifest全打包进apk中，构建一个apk时，主要有以下三种资源会进行merge：
@@ -450,6 +450,9 @@
 <p>src/main/res/layout-land/foo.xml<br>src/beta/res/layout/foo.xml<br>src/googleBeta/res/drawable/avatar.png</p>
 </blockquote>
 <p>如果一个资源集中资源目录存在多个，且它们都包含一个相同的资源，那么在merge时将会报duplicate resources错误</p>
+<blockquote>
+<p>如果多个 AAR 库之间发生冲突，将使用依赖项列表首先列出（位于 dependencies 块顶部）的库中的资源，所以为了避免常用资源 ID 的资源冲突，请使用在模块（或在所有项目模块）中具有唯一性的前缀或其他一致的命名方案</p>
+</blockquote>
 <p>上面说到资源merge是在相同的资源类型与资源限定符的情况下，资源类型比如drawable、layout、values等等，资源限定符是加在资源类型后面用于限定该资源所能应用的条件，比如drawable-xxhdpi、drawable-en-port等等，限定符目前共有19中，如下：</p>
 <table>
 <thead>
@@ -963,8 +966,8 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
