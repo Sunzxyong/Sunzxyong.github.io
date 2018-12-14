@@ -98,7 +98,7 @@
 或者下载以前版本的代码—Down">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简述RTMPDump与编译移植">
-<meta property="og:url" content="http://zhengxiaoyong.me/2016/11/20/简述RTMPDump与编译移植/index.html">
+<meta property="og:url" content="http://zhengxiaoyong.com/2016/11/20/简述RTMPDump与编译移植/index.html">
 <meta property="og:site_name" content="zhengxiaoyong">
 <meta property="og:description" content="RTMPDump概述RTMPDump主页，RTMPDump库主要包含三部分：
 
@@ -144,7 +144,7 @@
 
 
 
-  <link rel="canonical" href="http://zhengxiaoyong.me/2016/11/20/简述RTMPDump与编译移植/"/>
+  <link rel="canonical" href="http://zhengxiaoyong.com/2016/11/20/简述RTMPDump与编译移植/"/>
 
 
 
@@ -287,7 +287,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zhengxiaoyong.me/2016/11/20/简述RTMPDump与编译移植/">
+  <link itemprop="mainEntityOfPage" href="http://zhengxiaoyong.com/2016/11/20/简述RTMPDump与编译移植/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="郑晓勇">
@@ -474,7 +474,7 @@
 <p>当然其它库也可以用这种方式进行编译</p>
 <h2 id="在FFmpeg中使用librtmp"><a href="#在FFmpeg中使用librtmp" class="headerlink" title="在FFmpeg中使用librtmp"></a><strong>在FFmpeg中使用librtmp</strong></h2><p>由于FFmpeg本身默认自带就支持rtmp、rtmpt协议，不过也可以扩展以便支持rtmp协议的多种变种协议（rtmps、rtmpt、rtmpts、rtmpte和rtmpe协议），在FFmpeg加入openssl库的支持，可以支持rtmps、rtmpts协议，加入libgcrypt库的支持，可以支持rtmpe、rtmpte协议，这样支持相对麻烦，可以直接使用librtmp来支持rtmp以及它的多种变种协议，可通过链接librtmp库来支持，在FFmpeg的编译脚本中加入以下配置：</p>
 <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--enable-librtmp</span><br><span class="line">--extra-cflags=-I/<span class="variable">$LIBRTMP</span>_INCLUDE_PATH</span><br><span class="line">--extra-ldflags=-L/<span class="variable">$LIBRTMP</span>_LIB_PATH</span><br></pre></td></tr></table></figure>
-<p>上面的<code>$LIBRTMP_INCLUDE_PATH</code>和<code>$LIBRTMP_LIB_PATH</code>分别是librtmp头文件和静态库的路径<br>关于FFmpeg如何链接第三方库请看我的这篇文章<a href="http://zhengxiaoyong.me/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/">初识FFmpeg编译那些事</a></p>
+<p>上面的<code>$LIBRTMP_INCLUDE_PATH</code>和<code>$LIBRTMP_LIB_PATH</code>分别是librtmp头文件和静态库的路径<br>关于FFmpeg如何链接第三方库请看我的这篇文章<a href="http://zhengxiaoyong.me/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/" target="_blank" rel="external">初识FFmpeg编译那些事</a></p>
 <p>如果在编译时发生错误或警告<code>xxx-pkg-config not found</code>，请找到FFmpeg的configure文件中的如下内容</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enabled librtmp           &amp;&amp; require_pkg_config librtmp librtmp/rtmp<span class="class">.h</span> RTMP_Socket</span><br></pre></td></tr></table></figure>
 <p>将后面的<code>&amp;&amp; require_pkg_config librtmp librtmp/rtmp.h RTMP_Socket</code>删了，因为FFmpeg在链接librtmp时会运行pkg-config，此时找不到pkg-config则会报错，当然还有链接其它库时如果发生类似错误也可以用同样的方法解决</p>

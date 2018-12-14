@@ -4,7 +4,7 @@
   xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>zhengxiaoyong</title>
-    <link>http://zhengxiaoyong.me/</link>
+    <link>http://zhengxiaoyong.com/</link>
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
@@ -13,8 +13,8 @@
     
     <item>
       <title>也谈Manifest与资源Merge</title>
-      <link>http://zhengxiaoyong.me/2017/07/12/%E4%B9%9F%E8%B0%88Manifest%E4%B8%8E%E8%B5%84%E6%BA%90Merge/</link>
-      <guid>http://zhengxiaoyong.me/2017/07/12/%E4%B9%9F%E8%B0%88Manifest%E4%B8%8E%E8%B5%84%E6%BA%90Merge/</guid>
+      <link>http://zhengxiaoyong.com/2017/07/12/%E4%B9%9F%E8%B0%88Manifest%E4%B8%8E%E8%B5%84%E6%BA%90Merge/</link>
+      <guid>http://zhengxiaoyong.com/2017/07/12/%E4%B9%9F%E8%B0%88Manifest%E4%B8%8E%E8%B5%84%E6%BA%90Merge/</guid>
       <pubDate>Wed, 12 Jul 2017 12:00:30 GMT</pubDate>
       <description>
       
@@ -345,13 +345,13 @@
 <h3 id="查看合并后的Manifest"><a href="#查看合并后的Manifest" class="headerlink" title="查看合并后的Manifest"></a><strong>查看合并后的Manifest</strong></h3><p>通过AS的Merged Manifest工具进行查看，选择最高优先级的清单文件，如：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/2017-07-12-14998441405889.jpg" alt=""><br>不同的颜色块对应右边<code>Manifest Sources</code>中所对应的manifest路径来源，上图表示manifest来源有三个不同的资源集，而下面的表示虽然这些资源集含有manifest文件，但是不含构成最终manifest文件的元素或属性值，右边的最下方将会显示Merging Log或合并出错后Merging Error</p>
 ]]></content:encoded>
       
-      <comments>http://zhengxiaoyong.me/2017/07/12/%E4%B9%9F%E8%B0%88Manifest%E4%B8%8E%E8%B5%84%E6%BA%90Merge/#disqus_thread</comments>
+      <comments>http://zhengxiaoyong.com/2017/07/12/%E4%B9%9F%E8%B0%88Manifest%E4%B8%8E%E8%B5%84%E6%BA%90Merge/#disqus_thread</comments>
     </item>
     
     <item>
       <title>也谈图片压缩</title>
-      <link>http://zhengxiaoyong.me/2017/04/23/%E4%B9%9F%E8%B0%88%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/</link>
-      <guid>http://zhengxiaoyong.me/2017/04/23/%E4%B9%9F%E8%B0%88%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/</guid>
+      <link>http://zhengxiaoyong.com/2017/04/23/%E4%B9%9F%E8%B0%88%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/</link>
+      <guid>http://zhengxiaoyong.com/2017/04/23/%E4%B9%9F%E8%B0%88%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/</guid>
       <pubDate>Sun, 23 Apr 2017 08:44:20 GMT</pubDate>
       <description>
       
@@ -556,13 +556,13 @@
 </blockquote>
 ]]></content:encoded>
       
-      <comments>http://zhengxiaoyong.me/2017/04/23/%E4%B9%9F%E8%B0%88%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/#disqus_thread</comments>
+      <comments>http://zhengxiaoyong.com/2017/04/23/%E4%B9%9F%E8%B0%88%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/#disqus_thread</comments>
     </item>
     
     <item>
       <title>Android图片压缩框架-Tiny</title>
-      <link>http://zhengxiaoyong.me/2017/04/23/Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%A1%86%E6%9E%B6-Tiny/</link>
-      <guid>http://zhengxiaoyong.me/2017/04/23/Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%A1%86%E6%9E%B6-Tiny/</guid>
+      <link>http://zhengxiaoyong.com/2017/04/23/Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%A1%86%E6%9E%B6-Tiny/</link>
+      <guid>http://zhengxiaoyong.com/2017/04/23/Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%A1%86%E6%9E%B6-Tiny/</guid>
       <pubDate>Sun, 23 Apr 2017 08:23:56 GMT</pubDate>
       <description>
       
@@ -642,15 +642,15 @@
 </tr>
 </tbody>
 </table>
-<h2 id="Tiny项目地址"><a href="#Tiny项目地址" class="headerlink" title="Tiny项目地址"></a>Tiny项目地址</h2><h3 id="Tiny"><a href="#Tiny" class="headerlink" title="Tiny"></a><a href="https://github.com/Sunzxyong/Tiny" target="_blank" rel="external">Tiny</a></h3><h3 id="也谈图片压缩"><a href="#也谈图片压缩" class="headerlink" title="也谈图片压缩"></a><a href="http://zhengxiaoyong.me/2017/04/23/%E4%B9%9F%E8%B0%88%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/">也谈图片压缩</a></h3>]]></content:encoded>
+<h2 id="Tiny项目地址"><a href="#Tiny项目地址" class="headerlink" title="Tiny项目地址"></a>Tiny项目地址</h2><h3 id="Tiny"><a href="#Tiny" class="headerlink" title="Tiny"></a><a href="https://github.com/Sunzxyong/Tiny" target="_blank" rel="external">Tiny</a></h3><h3 id="也谈图片压缩"><a href="#也谈图片压缩" class="headerlink" title="也谈图片压缩"></a><a href="http://zhengxiaoyong.me/2017/04/23/%E4%B9%9F%E8%B0%88%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/" target="_blank" rel="external">也谈图片压缩</a></h3>]]></content:encoded>
       
-      <comments>http://zhengxiaoyong.me/2017/04/23/Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%A1%86%E6%9E%B6-Tiny/#disqus_thread</comments>
+      <comments>http://zhengxiaoyong.com/2017/04/23/Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%A1%86%E6%9E%B6-Tiny/#disqus_thread</comments>
     </item>
     
     <item>
       <title>简述RTMPDump与编译移植</title>
-      <link>http://zhengxiaoyong.me/2016/11/20/%E7%AE%80%E8%BF%B0RTMPDump%E4%B8%8E%E7%BC%96%E8%AF%91%E7%A7%BB%E6%A4%8D/</link>
-      <guid>http://zhengxiaoyong.me/2016/11/20/%E7%AE%80%E8%BF%B0RTMPDump%E4%B8%8E%E7%BC%96%E8%AF%91%E7%A7%BB%E6%A4%8D/</guid>
+      <link>http://zhengxiaoyong.com/2016/11/20/%E7%AE%80%E8%BF%B0RTMPDump%E4%B8%8E%E7%BC%96%E8%AF%91%E7%A7%BB%E6%A4%8D/</link>
+      <guid>http://zhengxiaoyong.com/2016/11/20/%E7%AE%80%E8%BF%B0RTMPDump%E4%B8%8E%E7%BC%96%E8%AF%91%E7%A7%BB%E6%A4%8D/</guid>
       <pubDate>Sun, 20 Nov 2016 11:47:59 GMT</pubDate>
       <description>
       
@@ -736,20 +736,20 @@
 <p>当然其它库也可以用这种方式进行编译</p>
 <h2 id="在FFmpeg中使用librtmp"><a href="#在FFmpeg中使用librtmp" class="headerlink" title="在FFmpeg中使用librtmp"></a><strong>在FFmpeg中使用librtmp</strong></h2><p>由于FFmpeg本身默认自带就支持rtmp、rtmpt协议，不过也可以扩展以便支持rtmp协议的多种变种协议（rtmps、rtmpt、rtmpts、rtmpte和rtmpe协议），在FFmpeg加入openssl库的支持，可以支持rtmps、rtmpts协议，加入libgcrypt库的支持，可以支持rtmpe、rtmpte协议，这样支持相对麻烦，可以直接使用librtmp来支持rtmp以及它的多种变种协议，可通过链接librtmp库来支持，在FFmpeg的编译脚本中加入以下配置：</p>
 <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--enable-librtmp</span><br><span class="line">--extra-cflags=-I/<span class="variable">$LIBRTMP</span>_INCLUDE_PATH</span><br><span class="line">--extra-ldflags=-L/<span class="variable">$LIBRTMP</span>_LIB_PATH</span><br></pre></td></tr></table></figure>
-<p>上面的<code>$LIBRTMP_INCLUDE_PATH</code>和<code>$LIBRTMP_LIB_PATH</code>分别是librtmp头文件和静态库的路径<br>关于FFmpeg如何链接第三方库请看我的这篇文章<a href="http://zhengxiaoyong.me/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/">初识FFmpeg编译那些事</a></p>
+<p>上面的<code>$LIBRTMP_INCLUDE_PATH</code>和<code>$LIBRTMP_LIB_PATH</code>分别是librtmp头文件和静态库的路径<br>关于FFmpeg如何链接第三方库请看我的这篇文章<a href="http://zhengxiaoyong.me/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/" target="_blank" rel="external">初识FFmpeg编译那些事</a></p>
 <p>如果在编译时发生错误或警告<code>xxx-pkg-config not found</code>，请找到FFmpeg的configure文件中的如下内容</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enabled librtmp           &amp;&amp; require_pkg_config librtmp librtmp/rtmp<span class="class">.h</span> RTMP_Socket</span><br></pre></td></tr></table></figure>
 <p>将后面的<code>&amp;&amp; require_pkg_config librtmp librtmp/rtmp.h RTMP_Socket</code>删了，因为FFmpeg在链接librtmp时会运行pkg-config，此时找不到pkg-config则会报错，当然还有链接其它库时如果发生类似错误也可以用同样的方法解决</p>
 <h2 id="Librtmp编译源码"><a href="#Librtmp编译源码" class="headerlink" title="Librtmp编译源码"></a><strong>Librtmp编译源码</strong></h2><p><a href="https://github.com/Sunzxyong/Librtmp-Compile-For-Android" target="_blank" rel="external">librtmp编译源码</a></p>
 ]]></content:encoded>
       
-      <comments>http://zhengxiaoyong.me/2016/11/20/%E7%AE%80%E8%BF%B0RTMPDump%E4%B8%8E%E7%BC%96%E8%AF%91%E7%A7%BB%E6%A4%8D/#disqus_thread</comments>
+      <comments>http://zhengxiaoyong.com/2016/11/20/%E7%AE%80%E8%BF%B0RTMPDump%E4%B8%8E%E7%BC%96%E8%AF%91%E7%A7%BB%E6%A4%8D/#disqus_thread</comments>
     </item>
     
     <item>
       <title>初识FFmpeg编译那些事</title>
-      <link>http://zhengxiaoyong.me/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/</link>
-      <guid>http://zhengxiaoyong.me/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
+      <link>http://zhengxiaoyong.com/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/</link>
+      <guid>http://zhengxiaoyong.com/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
       <pubDate>Sun, 13 Nov 2016 12:45:10 GMT</pubDate>
       <description>
       
@@ -832,13 +832,13 @@
 <h2 id="Github"><a href="#Github" class="headerlink" title="Github"></a><strong>Github</strong></h2><p><a href="https://github.com/Sunzxyong/FFmpeg-Compile-For-Android" target="_blank" rel="external">FFmpeg编译脚本</a></p>
 ]]></content:encoded>
       
-      <comments>http://zhengxiaoyong.me/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/#disqus_thread</comments>
+      <comments>http://zhengxiaoyong.com/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/#disqus_thread</comments>
     </item>
     
     <item>
       <title>Android运行时Crash自动恢复框架-Recovery</title>
-      <link>http://zhengxiaoyong.me/2016/09/05/Android%E8%BF%90%E8%A1%8C%E6%97%B6Crash%E8%87%AA%E5%8A%A8%E6%81%A2%E5%A4%8D%E6%A1%86%E6%9E%B6-Recovery/</link>
-      <guid>http://zhengxiaoyong.me/2016/09/05/Android%E8%BF%90%E8%A1%8C%E6%97%B6Crash%E8%87%AA%E5%8A%A8%E6%81%A2%E5%A4%8D%E6%A1%86%E6%9E%B6-Recovery/</guid>
+      <link>http://zhengxiaoyong.com/2016/09/05/Android%E8%BF%90%E8%A1%8C%E6%97%B6Crash%E8%87%AA%E5%8A%A8%E6%81%A2%E5%A4%8D%E6%A1%86%E6%9E%B6-Recovery/</link>
+      <guid>http://zhengxiaoyong.com/2016/09/05/Android%E8%BF%90%E8%A1%8C%E6%97%B6Crash%E8%87%AA%E5%8A%A8%E6%81%A2%E5%A4%8D%E6%A1%86%E6%9E%B6-Recovery/</guid>
       <pubDate>Mon, 05 Sep 2016 11:35:32 GMT</pubDate>
       <description>
       
@@ -874,13 +874,13 @@
 <h2 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a><strong>项目地址</strong></h2><p>欢迎star或提建议</p>
 <h3 id="还是戳我"><a href="#还是戳我" class="headerlink" title="还是戳我"></a><a href="https://github.com/Sunzxyong/Recovery" target="_blank" rel="external">还是戳我</a></h3>]]></content:encoded>
       
-      <comments>http://zhengxiaoyong.me/2016/09/05/Android%E8%BF%90%E8%A1%8C%E6%97%B6Crash%E8%87%AA%E5%8A%A8%E6%81%A2%E5%A4%8D%E6%A1%86%E6%9E%B6-Recovery/#disqus_thread</comments>
+      <comments>http://zhengxiaoyong.com/2016/09/05/Android%E8%BF%90%E8%A1%8C%E6%97%B6Crash%E8%87%AA%E5%8A%A8%E6%81%A2%E5%A4%8D%E6%A1%86%E6%9E%B6-Recovery/#disqus_thread</comments>
     </item>
     
     <item>
       <title>Android端应用秒开优化体验</title>
-      <link>http://zhengxiaoyong.me/2016/07/18/Android%E7%AB%AF%E5%BA%94%E7%94%A8%E7%A7%92%E5%BC%80%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/</link>
-      <guid>http://zhengxiaoyong.me/2016/07/18/Android%E7%AB%AF%E5%BA%94%E7%94%A8%E7%A7%92%E5%BC%80%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/</guid>
+      <link>http://zhengxiaoyong.com/2016/07/18/Android%E7%AB%AF%E5%BA%94%E7%94%A8%E7%A7%92%E5%BC%80%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/</link>
+      <guid>http://zhengxiaoyong.com/2016/07/18/Android%E7%AB%AF%E5%BA%94%E7%94%A8%E7%A7%92%E5%BC%80%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/</guid>
       <pubDate>Mon, 18 Jul 2016 13:43:26 GMT</pubDate>
       <description>
       
@@ -920,13 +920,13 @@
 <figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function">Activity <span class="title">newActivity</span><span class="params">(ClassLoader cl, String className, Intent intent)</span> <span class="keyword">throws</span> InstantiationException, IllegalAccessException, ClassNotFoundException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (InitializeOptimizer.isApplicationCreated()</span><br><span class="line">            &amp;&amp; (!InitializeOptimizer.isHighSDKInitialized()</span><br><span class="line">            || !InitializeOptimizer.isLowSDKInitialized()</span><br><span class="line">            || !InitializeOptimizer.isAsyncSDKInitialized()) &amp;&amp; !InitializeUtil.isAppLauncher(intent)) &#123;</span><br><span class="line">        InitializeOptimizer.setApplicationCreated(<span class="keyword">false</span>);</span><br><span class="line">        intent.addCategory(InitializeUtil.INITIALIZE_CATEGORY);</span><br><span class="line">        <span class="keyword">return</span> (Activity) cl.loadClass(WDInitializeOptimizer.getLaunchClassName()).newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">    InitializeOptimizer.setApplicationCreated(<span class="keyword">false</span>);</span><br><span class="line">    <span class="function"><span class="keyword">return</span> <span class="keyword">super</span>.<span class="title">newActivity</span><span class="params">(cl, className, intent)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content:encoded>
       
-      <comments>http://zhengxiaoyong.me/2016/07/18/Android%E7%AB%AF%E5%BA%94%E7%94%A8%E7%A7%92%E5%BC%80%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/#disqus_thread</comments>
+      <comments>http://zhengxiaoyong.com/2016/07/18/Android%E7%AB%AF%E5%BA%94%E7%94%A8%E7%A7%92%E5%BC%80%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/#disqus_thread</comments>
     </item>
     
     <item>
       <title>UrlRouter路由框架的设计</title>
-      <link>http://zhengxiaoyong.me/2016/04/24/UrlRouter%E8%B7%AF%E7%94%B1%E6%A1%86%E6%9E%B6%E7%9A%84%E8%AE%BE%E8%AE%A1/</link>
-      <guid>http://zhengxiaoyong.me/2016/04/24/UrlRouter%E8%B7%AF%E7%94%B1%E6%A1%86%E6%9E%B6%E7%9A%84%E8%AE%BE%E8%AE%A1/</guid>
+      <link>http://zhengxiaoyong.com/2016/04/24/UrlRouter%E8%B7%AF%E7%94%B1%E6%A1%86%E6%9E%B6%E7%9A%84%E8%AE%BE%E8%AE%A1/</link>
+      <guid>http://zhengxiaoyong.com/2016/04/24/UrlRouter%E8%B7%AF%E7%94%B1%E6%A1%86%E6%9E%B6%E7%9A%84%E8%AE%BE%E8%AE%A1/</guid>
       <pubDate>Sun, 24 Apr 2016 14:10:36 GMT</pubDate>
       <description>
       
@@ -974,13 +974,13 @@
 <h2 id="UrlRouter地址"><a href="#UrlRouter地址" class="headerlink" title="UrlRouter地址"></a><strong>UrlRouter地址</strong></h2><p>UrlRouter：<a href="https://github.com/Sunzxyong/UrlRouter" target="_blank" rel="external">github</a></p>
 ]]></content:encoded>
       
-      <comments>http://zhengxiaoyong.me/2016/04/24/UrlRouter%E8%B7%AF%E7%94%B1%E6%A1%86%E6%9E%B6%E7%9A%84%E8%AE%BE%E8%AE%A1/#disqus_thread</comments>
+      <comments>http://zhengxiaoyong.com/2016/04/24/UrlRouter%E8%B7%AF%E7%94%B1%E6%A1%86%E6%9E%B6%E7%9A%84%E8%AE%BE%E8%AE%A1/#disqus_thread</comments>
     </item>
     
     <item>
       <title>Native与H5交互的那些事</title>
-      <link>http://zhengxiaoyong.me/2016/04/20/Native%E4%B8%8EH5%E4%BA%A4%E4%BA%92%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link>
-      <guid>http://zhengxiaoyong.me/2016/04/20/Native%E4%B8%8EH5%E4%BA%A4%E4%BA%92%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
+      <link>http://zhengxiaoyong.com/2016/04/20/Native%E4%B8%8EH5%E4%BA%A4%E4%BA%92%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link>
+      <guid>http://zhengxiaoyong.com/2016/04/20/Native%E4%B8%8EH5%E4%BA%A4%E4%BA%92%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
       <pubDate>Wed, 20 Apr 2016 04:55:28 GMT</pubDate>
       <description>
       
@@ -1104,13 +1104,13 @@
 <p><strong>—转载请注明出处</strong></p>
 ]]></content:encoded>
       
-      <comments>http://zhengxiaoyong.me/2016/04/20/Native%E4%B8%8EH5%E4%BA%A4%E4%BA%92%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/#disqus_thread</comments>
+      <comments>http://zhengxiaoyong.com/2016/04/20/Native%E4%B8%8EH5%E4%BA%A4%E4%BA%92%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/#disqus_thread</comments>
     </item>
     
     <item>
       <title>关于生产者-消费者-订阅者模式的那些事</title>
-      <link>http://zhengxiaoyong.me/2016/01/27/%E5%85%B3%E4%BA%8E%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85-%E8%AE%A2%E9%98%85%E8%80%85%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link>
-      <guid>http://zhengxiaoyong.me/2016/01/27/%E5%85%B3%E4%BA%8E%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85-%E8%AE%A2%E9%98%85%E8%80%85%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
+      <link>http://zhengxiaoyong.com/2016/01/27/%E5%85%B3%E4%BA%8E%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85-%E8%AE%A2%E9%98%85%E8%80%85%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link>
+      <guid>http://zhengxiaoyong.com/2016/01/27/%E5%85%B3%E4%BA%8E%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85-%E8%AE%A2%E9%98%85%E8%80%85%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid>
       <pubDate>Wed, 27 Jan 2016 06:26:30 GMT</pubDate>
       <description>
       
@@ -1146,7 +1146,7 @@
 <figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">  DataSource&lt;Apple&gt; dataSource = ProducerFactory.newAppleProducer().submit(name);</span><br><span class="line">  <span class="comment">//Apple apple = dataSource.getData();// apple is null!</span></span><br><span class="line">  dataSource.subscribe(<span class="keyword">new</span> BaseDataSubscriber&lt;Apple&gt;() &#123;</span><br><span class="line">      <span class="annotation">@Override</span></span><br><span class="line">      <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(DataSource&lt;Apple&gt; dataSource)</span> </span>&#123;</span><br><span class="line">Apple apple = dataSource.getData();</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="annotation">@Override</span></span><br><span class="line">      <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(DataSource&lt;Apple&gt; dataSource,Throwable throwable)</span> </span>&#123;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
 ]]></content:encoded>
       
-      <comments>http://zhengxiaoyong.me/2016/01/27/%E5%85%B3%E4%BA%8E%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85-%E8%AE%A2%E9%98%85%E8%80%85%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/#disqus_thread</comments>
+      <comments>http://zhengxiaoyong.com/2016/01/27/%E5%85%B3%E4%BA%8E%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85-%E8%AE%A2%E9%98%85%E8%80%85%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/#disqus_thread</comments>
     </item>
     
   </channel>
