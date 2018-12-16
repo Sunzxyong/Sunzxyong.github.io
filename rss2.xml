@@ -8,7 +8,7 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Sun, 16 Dec 2018 09:43:05 GMT</pubDate>
+    <pubDate>Sun, 16 Dec 2018 10:16:34 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -18,7 +18,34 @@
       <pubDate>Sun, 16 Dec 2018 09:30:00 GMT</pubDate>
       <description>
       
-        &lt;h2 id=&quot;一、简述&quot;&gt;&lt;a href=&quot;#一、简述&quot; class=&quot;headerlink&quot; title=&quot;一、简述&quot;&gt;&lt;/a&gt;&lt;strong&gt;一、简述&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;对于构建Flutter类型应用，因其开发语言Dart、虚拟机、构建工具与平时我们开发Nat
+        &lt;h2 id=&quot;一、简述&quot;&gt;&lt;a href=&quot;#一、简述&quot; class=&quot;headerlink&quot; title=&quot;一、简述&quot;&gt;&lt;/a&gt;&lt;strong&gt;一、简述&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;对于构建Flutter类型应用，因其开发语言Dart、虚拟机、构建工具与平时我们开发Native应用不同且平台虚拟机也不支持，所以需要Flutter SDK来支持，如构建Android应用需要Android SDK一样，下载Flutter SDK通常有两种方式：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;在官网下载构建好的zip包，里面包含完整的Flutter基础Api，Dart VM，Dart SDK等&lt;/li&gt;
+&lt;li&gt;手动构建，Clone Flutter源码后，运行&lt;code&gt;flutter --packages get&lt;/code&gt;或其它具有检测类型的命令如&lt;code&gt;build&lt;/code&gt;、&lt;code&gt;doctor&lt;/code&gt;，这时会自动构建和下载Dart SDK以及Flutter引擎产物&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在团队多人协作开发下，这种依赖每个开发本地下载Flutter SDK的方式，不能保证Flutter SDK的版本一致性与自动化管理，在开发时如果Flutter SDK版本不一致，往往会出现Dart层Api兼容性或Flutter虚拟机不一致等问题，因为每个版本的Flutter都有各自对应的Flutter虚拟机，构建产物中会包含对应构建版本的虚拟机。Flutter工程的构建需要Flutter标准的工程结构目录和依赖于本地的Flutter环境，每个对应Flutter工程都有对应的Flutter SDK路径，Android在&lt;code&gt;local.properties&lt;/code&gt;中，IOS在&lt;code&gt;Generated.xcconfig&lt;/code&gt;中，这个路径会在Native工程本地依赖Flutter工程构建时读取，并从中获取引擎、资源和编译构建Flutter工程，而调用&lt;code&gt;flutter&lt;/code&gt;命令时构建Flutter工程则会获取当前&lt;code&gt;flutter&lt;/code&gt;命令所在的Flutter SDK路径，并从中获取引擎、资源和编译构建Flutter工程，所以&lt;code&gt;flutter&lt;/code&gt;命令构建环境与Flutter工程中平台子工程的环境变量一定得保持一致，且这个环境变量是随&lt;code&gt;flutter&lt;/code&gt;执行动态改变的，团队多人协作下这个得保证，在打包Flutter工程的正式版每个版本也应该有一个对应的Flutter构建版本，不管是本地打包还是在打包平台打包&lt;/p&gt;
+&lt;p&gt;我们知道Flutter应用的工程结构都与Native应用工程结构不一样，不一致地方主要是Native工程是作为Flutter工程子工程，外层通过&lt;code&gt;Pub&lt;/code&gt;进行依赖管理，这样通过依赖下来的&lt;code&gt;Flutter Plugin/Package&lt;/code&gt;代码即可与多平台共享，在打包时Native子工程只打包工程代码与&lt;code&gt;Pub&lt;/code&gt;所依赖库的平台代码，Flutter工程则通过&lt;code&gt;flutter_tools&lt;/code&gt;打包&lt;code&gt;lib&lt;/code&gt;目录下以及&lt;code&gt;Pub&lt;/code&gt;所依赖库的Dart代码。回到正题，因工程结构的差异，如果基于现有的Native工程想使用Flutter来开发其中一个功能模块，一般来说混合开发至少得保证如下特点：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;对Native工程无侵入&lt;/li&gt;
+&lt;li&gt;对Native工程零耦合&lt;/li&gt;
+&lt;li&gt;不影响Native工程的开发流程与打包流程&lt;/li&gt;
+&lt;li&gt;易本地调试&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;显然改变工程结构的方案可以直接忽略，官方也提供了一种Flutter本地依赖到现有Native的方案，不过这种方案不加改变优化而直接依赖的话，则会直接影响了其它无Flutter环境的开发同学的开发，影响开发流程，且打包平台也不支持这种依赖方式的打包&lt;/p&gt;
+&lt;p&gt;再讲讲Flutter SDK，平时进行Flutter开发过程中，难免避免不了因Flutter SDK的Bug亦或是需要改Flutter SDK中平台链接的脚本代码导致直接改动或者定制Flutter SDK，这种方式虽然可以解决问题或定制化，不过极其不推荐，这种方式对后续Flutter SDK的平滑升级极不友好，且带来更多的后期维护成本&lt;/p&gt;
+&lt;p&gt;接下来，本文主要是介绍如何对上述问题解决与实现：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;Flutter SDK版本一致性与自动化管理&lt;/li&gt;
+&lt;li&gt;无侵入Flutter SDK源码进行BugFix或定制化&lt;/li&gt;
+&lt;li&gt;Flutter混合开发组件化架构&lt;/li&gt;
+&lt;li&gt;Flutter混合开发工程化架构&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
       
       </description>
       
@@ -50,6 +77,7 @@
 <li>Flutter混合开发工程化架构</li>
 </ol>
 </blockquote>
+<a id="more"></a>
 <h2 id="二、Flutter四种工程类型"><a href="#二、Flutter四种工程类型" class="headerlink" title="二、Flutter四种工程类型"></a><strong>二、Flutter四种工程类型</strong></h2><p>Flutter工程中，通常有以下几种工程类型，下面分别简单概述下：<br><strong>1. Flutter Application</strong><br>标准的Flutter App工程，包含标准的Dart层与Native平台层<br><strong>2. Flutter Module</strong><br>Flutter组件工程，仅包含Dart层实现，Native平台层子工程为通过Flutter自动生成的隐藏工程<br><strong>3. Flutter Plugin</strong><br>Flutter平台插件工程，包含Dart层与Native平台层的实现<br><strong>4. Flutter Package</strong><br>Flutter纯Dart插件工程，仅包含Dart层的实现，往往定义一些公共Widget</p>
 <h2 id="三、Flutter工程Pub依赖管理"><a href="#三、Flutter工程Pub依赖管理" class="headerlink" title="三、Flutter工程Pub依赖管理"></a><strong>三、Flutter工程Pub依赖管理</strong></h2><p>Flutter工程之间的依赖管理是通过<code>Pub</code>来管理的，依赖的产物是直接源码依赖，这种依赖方式和IOS中的Pod有点像，都可以进行依赖库版本号的区间限定与Git远程依赖等，其中具体声明依赖是在<code>pubspec.yaml</code>文件中，其中的依赖编写是基于<code>YAML</code>语法，<code>YAML</code>是一个专门用来编写文件配置的语言，下面是一个通过Git地址远程依赖示例：</p>
 <figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dependencies:</span><br><span class="line">  uuid:</span><br><span class="line">    git:</span><br><span class="line">      url: git://github.com/<span class="type">Daegalus</span>/dart-uuid.git</span><br><span class="line">      <span class="keyword">ref</span>: master</span><br></pre></td></tr></table></figure>

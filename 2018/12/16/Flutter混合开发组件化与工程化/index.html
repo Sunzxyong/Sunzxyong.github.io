@@ -107,7 +107,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutter_hybrid_arch.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutter_product.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutter_hybrid_project.jpg">
-<meta property="og:updated_time" content="2018-12-16T09:43:05.000Z">
+<meta property="og:updated_time" content="2018-12-16T10:16:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flutter混合开发组件化与工程化">
 <meta name="twitter:description" content="一、简述对于构建Flutter类型应用，因其开发语言Dart、虚拟机、构建工具与平时我们开发Native应用不同且平台虚拟机也不支持，所以需要Flutter SDK来支持，如构建Android应用需要Android SDK一样，下载Flutter SDK通常有两种方式：
@@ -431,6 +431,7 @@
 <li>Flutter混合开发工程化架构</li>
 </ol>
 </blockquote>
+<a id="more"></a>
 <h2 id="二、Flutter四种工程类型"><a href="#二、Flutter四种工程类型" class="headerlink" title="二、Flutter四种工程类型"></a><strong>二、Flutter四种工程类型</strong></h2><p>Flutter工程中，通常有以下几种工程类型，下面分别简单概述下：<br><strong>1. Flutter Application</strong><br>标准的Flutter App工程，包含标准的Dart层与Native平台层<br><strong>2. Flutter Module</strong><br>Flutter组件工程，仅包含Dart层实现，Native平台层子工程为通过Flutter自动生成的隐藏工程<br><strong>3. Flutter Plugin</strong><br>Flutter平台插件工程，包含Dart层与Native平台层的实现<br><strong>4. Flutter Package</strong><br>Flutter纯Dart插件工程，仅包含Dart层的实现，往往定义一些公共Widget</p>
 <h2 id="三、Flutter工程Pub依赖管理"><a href="#三、Flutter工程Pub依赖管理" class="headerlink" title="三、Flutter工程Pub依赖管理"></a><strong>三、Flutter工程Pub依赖管理</strong></h2><p>Flutter工程之间的依赖管理是通过<code>Pub</code>来管理的，依赖的产物是直接源码依赖，这种依赖方式和IOS中的Pod有点像，都可以进行依赖库版本号的区间限定与Git远程依赖等，其中具体声明依赖是在<code>pubspec.yaml</code>文件中，其中的依赖编写是基于<code>YAML</code>语法，<code>YAML</code>是一个专门用来编写文件配置的语言，下面是一个通过Git地址远程依赖示例：</p>
 <figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dependencies:</span><br><span class="line">  uuid:</span><br><span class="line">    git:</span><br><span class="line">      url: git://github.com/<span class="type">Daegalus</span>/dart-uuid.git</span><br><span class="line">      <span class="keyword">ref</span>: master</span><br></pre></td></tr></table></figure>
