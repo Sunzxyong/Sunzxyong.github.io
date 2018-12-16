@@ -270,6 +270,176 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhengxiaoyong.com/2016/01/27/关于生产者-消费者-订阅者模式的那些事/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="郑晓勇">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="zhengxiaoyong">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="zhengxiaoyong" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/01/27/关于生产者-消费者-订阅者模式的那些事/" itemprop="url">
+                  关于生产者-消费者-订阅者模式的那些事
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-01-27T14:26:30+08:00">
+                2016-01-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术沉淀/" itemprop="url" rel="index">
+                    <span itemprop="name">技术沉淀</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/01/27/关于生产者-消费者-订阅者模式的那些事/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/01/27/关于生产者-消费者-订阅者模式的那些事/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2016/01/27/关于生产者-消费者-订阅者模式的那些事/" class="leancloud_visitors" data-flag-title="关于生产者-消费者-订阅者模式的那些事">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="生产者-消费者模式"><a href="#生产者-消费者模式" class="headerlink" title="生产者/消费者模式"></a><strong>生产者/消费者模式</strong></h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h2><h3 id="用来干嘛的？"><a href="#用来干嘛的？" class="headerlink" title="用来干嘛的？"></a><strong>用来干嘛的？</strong></h3><p>生产者/消费者模式的产生主要目的就是为了解决非同步的生产与消费之间的问题。</p>
+<p><strong>什么是非同步呢？</strong><br>    比如我刚刚生产了某个产品，而此时你正在打游戏，没空来取，要打完游戏来取，这就导致了我生产产品和你取产品是两个非同步的动作，你不知道我什么时候生产完产品，而我也不知道你什么时候来取。</p>
+<p>而生产者/消费者模式就是解决这个非同步问题的，因为肯定不可能我生产完一个就给你打个电话叫你来取，然后等你取完我再生产下一个，这是多么低效的一种做法。所以这个模式运用而生，这个模式在生活中也有很好的体现，如：快递员派信这个例子，我就是生产者，快递员就是消费者，而生产者与消费者之间是通过什么来解决这种非同步的问题呢？就是一个存储中介，作为快递员派信这个例子中，信箱就是这个存储中介，每次我只要把写完的信扔入信箱，而快递员隔三差五的就会来取一次信，这两个动作是完全异步的，我把信扔入信箱后就不需要管什么了，之后肯定有快递员来取。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/01/27/关于生产者-消费者-订阅者模式的那些事/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://zhengxiaoyong.com/2016/01/17/Android性能优化之Splash页应该这样设计/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1346,7 +1516,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1364,7 +1534,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

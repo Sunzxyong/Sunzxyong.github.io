@@ -1,0 +1,1186 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,Flutter,IOS,Pub依赖,工程化,混合开发,组件化," />
+
+
+
+
+
+  <link rel="alternate" href="/rss2.xml" title="zhengxiaoyong" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="一、简述对于构建Flutter类型应用，因其开发语言Dart、虚拟机、构建工具与平时我们开发Native应用不同且平台虚拟机也不支持，所以需要Flutter SDK来支持，如构建Android应用需要Android SDK一样，下载Flutter SDK通常有两种方式：
+
+
+在官网下载构建好的zip包，里面包含完整的Flutter基础Api，Dart VM，Dart SDK等
+手动构建，Clone">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter混合开发组件化与工程化">
+<meta property="og:url" content="http://zhengxiaoyong.com/2018/12/16/Flutter混合开发组件化与工程化/index.html">
+<meta property="og:site_name" content="zhengxiaoyong">
+<meta property="og:description" content="一、简述对于构建Flutter类型应用，因其开发语言Dart、虚拟机、构建工具与平时我们开发Native应用不同且平台虚拟机也不支持，所以需要Flutter SDK来支持，如构建Android应用需要Android SDK一样，下载Flutter SDK通常有两种方式：
+
+
+在官网下载构建好的zip包，里面包含完整的Flutter基础Api，Dart VM，Dart SDK等
+手动构建，Clone">
+<meta property="og:image" content="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutterw.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutter_hybrid_arch.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutter_product.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutter_hybrid_project.jpg">
+<meta property="og:updated_time" content="2018-12-16T09:43:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flutter混合开发组件化与工程化">
+<meta name="twitter:description" content="一、简述对于构建Flutter类型应用，因其开发语言Dart、虚拟机、构建工具与平时我们开发Native应用不同且平台虚拟机也不支持，所以需要Flutter SDK来支持，如构建Android应用需要Android SDK一样，下载Flutter SDK通常有两种方式：
+
+
+在官网下载构建好的zip包，里面包含完整的Flutter基础Api，Dart VM，Dart SDK等
+手动构建，Clone">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhengxiaoyong.com/2018/12/16/Flutter混合开发组件化与工程化/"/>
+
+
+
+
+
+  <title> Flutter混合开发组件化与工程化 | zhengxiaoyong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">zhengxiaoyong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">生活不止眼前的苟且，还有诗和远方.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhengxiaoyong.com/2018/12/16/Flutter混合开发组件化与工程化/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="郑晓勇">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="zhengxiaoyong">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="zhengxiaoyong" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Flutter混合开发组件化与工程化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2018-12-16T17:30:00+08:00">
+                2018-12-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术沉淀/" itemprop="url" rel="index">
+                    <span itemprop="name">技术沉淀</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/16/Flutter混合开发组件化与工程化/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/16/Flutter混合开发组件化与工程化/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/12/16/Flutter混合开发组件化与工程化/" class="leancloud_visitors" data-flag-title="Flutter混合开发组件化与工程化">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、简述"><a href="#一、简述" class="headerlink" title="一、简述"></a><strong>一、简述</strong></h2><p>对于构建Flutter类型应用，因其开发语言Dart、虚拟机、构建工具与平时我们开发Native应用不同且平台虚拟机也不支持，所以需要Flutter SDK来支持，如构建Android应用需要Android SDK一样，下载Flutter SDK通常有两种方式：</p>
+<blockquote>
+<ol>
+<li>在官网下载构建好的zip包，里面包含完整的Flutter基础Api，Dart VM，Dart SDK等</li>
+<li>手动构建，Clone Flutter源码后，运行<code>flutter --packages get</code>或其它具有检测类型的命令如<code>build</code>、<code>doctor</code>，这时会自动构建和下载Dart SDK以及Flutter引擎产物</li>
+</ol>
+</blockquote>
+<p>在团队多人协作开发下，这种依赖每个开发本地下载Flutter SDK的方式，不能保证Flutter SDK的版本一致性与自动化管理，在开发时如果Flutter SDK版本不一致，往往会出现Dart层Api兼容性或Flutter虚拟机不一致等问题，因为每个版本的Flutter都有各自对应的Flutter虚拟机，构建产物中会包含对应构建版本的虚拟机。Flutter工程的构建需要Flutter标准的工程结构目录和依赖于本地的Flutter环境，每个对应Flutter工程都有对应的Flutter SDK路径，Android在<code>local.properties</code>中，IOS在<code>Generated.xcconfig</code>中，这个路径会在Native工程本地依赖Flutter工程构建时读取，并从中获取引擎、资源和编译构建Flutter工程，而调用<code>flutter</code>命令时构建Flutter工程则会获取当前<code>flutter</code>命令所在的Flutter SDK路径，并从中获取引擎、资源和编译构建Flutter工程，所以<code>flutter</code>命令构建环境与Flutter工程中平台子工程的环境变量一定得保持一致，且这个环境变量是随<code>flutter</code>执行动态改变的，团队多人协作下这个得保证，在打包Flutter工程的正式版每个版本也应该有一个对应的Flutter构建版本，不管是本地打包还是在打包平台打包</p>
+<p>我们知道Flutter应用的工程结构都与Native应用工程结构不一样，不一致地方主要是Native工程是作为Flutter工程子工程，外层通过<code>Pub</code>进行依赖管理，这样通过依赖下来的<code>Flutter Plugin/Package</code>代码即可与多平台共享，在打包时Native子工程只打包工程代码与<code>Pub</code>所依赖库的平台代码，Flutter工程则通过<code>flutter_tools</code>打包<code>lib</code>目录下以及<code>Pub</code>所依赖库的Dart代码。回到正题，因工程结构的差异，如果基于现有的Native工程想使用Flutter来开发其中一个功能模块，一般来说混合开发至少得保证如下特点：</p>
+<blockquote>
+<ol>
+<li>对Native工程无侵入</li>
+<li>对Native工程零耦合</li>
+<li>不影响Native工程的开发流程与打包流程</li>
+<li>易本地调试</li>
+</ol>
+</blockquote>
+<p>显然改变工程结构的方案可以直接忽略，官方也提供了一种Flutter本地依赖到现有Native的方案，不过这种方案不加改变优化而直接依赖的话，则会直接影响了其它无Flutter环境的开发同学的开发，影响开发流程，且打包平台也不支持这种依赖方式的打包</p>
+<p>再讲讲Flutter SDK，平时进行Flutter开发过程中，难免避免不了因Flutter SDK的Bug亦或是需要改Flutter SDK中平台链接的脚本代码导致直接改动或者定制Flutter SDK，这种方式虽然可以解决问题或定制化，不过极其不推荐，这种方式对后续Flutter SDK的平滑升级极不友好，且带来更多的后期维护成本</p>
+<p>接下来，本文主要是介绍如何对上述问题解决与实现：</p>
+<blockquote>
+<ol>
+<li>Flutter SDK版本一致性与自动化管理</li>
+<li>无侵入Flutter SDK源码进行BugFix或定制化</li>
+<li>Flutter混合开发组件化架构</li>
+<li>Flutter混合开发工程化架构</li>
+</ol>
+</blockquote>
+<h2 id="二、Flutter四种工程类型"><a href="#二、Flutter四种工程类型" class="headerlink" title="二、Flutter四种工程类型"></a><strong>二、Flutter四种工程类型</strong></h2><p>Flutter工程中，通常有以下几种工程类型，下面分别简单概述下：<br><strong>1. Flutter Application</strong><br>标准的Flutter App工程，包含标准的Dart层与Native平台层<br><strong>2. Flutter Module</strong><br>Flutter组件工程，仅包含Dart层实现，Native平台层子工程为通过Flutter自动生成的隐藏工程<br><strong>3. Flutter Plugin</strong><br>Flutter平台插件工程，包含Dart层与Native平台层的实现<br><strong>4. Flutter Package</strong><br>Flutter纯Dart插件工程，仅包含Dart层的实现，往往定义一些公共Widget</p>
+<h2 id="三、Flutter工程Pub依赖管理"><a href="#三、Flutter工程Pub依赖管理" class="headerlink" title="三、Flutter工程Pub依赖管理"></a><strong>三、Flutter工程Pub依赖管理</strong></h2><p>Flutter工程之间的依赖管理是通过<code>Pub</code>来管理的，依赖的产物是直接源码依赖，这种依赖方式和IOS中的Pod有点像，都可以进行依赖库版本号的区间限定与Git远程依赖等，其中具体声明依赖是在<code>pubspec.yaml</code>文件中，其中的依赖编写是基于<code>YAML</code>语法，<code>YAML</code>是一个专门用来编写文件配置的语言，下面是一个通过Git地址远程依赖示例：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dependencies:</span><br><span class="line">  uuid:</span><br><span class="line">    git:</span><br><span class="line">      url: git://github.com/<span class="type">Daegalus</span>/dart-uuid.git</span><br><span class="line">      <span class="keyword">ref</span>: master</span><br></pre></td></tr></table></figure>
+<p>声明依赖后，通过运行<code>flutter packages get</code>命名，会从远程或本地拉取对应的依赖，同时会生成<code>pubspec.lock</code>文件，这个文件和IOS中的<code>Podfile.lock</code>极其相似，会在本地锁定当前依赖的库以及对应版本号，只有当执行<code>flutter packages upgrade</code>时，这时才会更新，同样<code>pubspec.lock</code>文件也需要作为版本管理文件提交到Git中，而不应gitignore</p>
+<h3 id="1-Pub依赖冲突处理"><a href="#1-Pub依赖冲突处理" class="headerlink" title="1. Pub依赖冲突处理"></a><strong>1. Pub依赖冲突处理</strong></h3><p>对于<code>Pub</code>和<code>Pod</code>这种依赖管理工具对于发生冲突时处理冲突的能力与Android的<code>Gradle</code>依赖管理相比差了一大截，所以当同一个库发生版本冲突时，只能我们自己手动进行处理，而且随着开发规模的扩大，肯定会出现传递依赖的库之间的冲突</p>
+<p>Pub依赖冲突主要有两种：</p>
+<blockquote>
+<ol>
+<li>当前依赖库的版本与当前的Dart SDK环境版本冲突</li>
+<li>传递依赖时出现一个库版本不一致冲突</li>
+</ol>
+</blockquote>
+<p>第一种会在<code>flutter packages get</code>时报错并提示为何出现冲突且最低需要的版本是多少，如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">The current Dart SDK version is <span class="number">2.1</span><span class="number">.0</span>-dev<span class="number">.5</span><span class="number">.0</span>.flutter-a2eb050044.</span><br><span class="line"></span><br><span class="line">Because flutter_app depends on xml &gt;=<span class="number">0.1</span><span class="number">.0</span> &lt;<span class="number">3.0</span><span class="number">.1</span> which requires SDK version &lt;<span class="number">2.0</span><span class="number">.0</span>, version solving failed.                        </span><br><span class="line"><span class="function">pub get <span class="title">failed</span> <span class="params">(<span class="number">1</span>)</span></span></span><br></pre></td></tr></table></figure>
+<p>这个可以直接根据提示进行依赖库的版本升级解决</p>
+<p>而第二种则比较复杂点，假如有A、B、C三个库，A和B都依赖C库，如果A的某个版本依赖的C和B版本依赖的C版本不一致，则会发生冲突，而如何解决这种冲突呢？有两种方式</p>
+<p>1、首先把A和B库的版本都设为<code>any</code>任意版本，如下：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span>:</span><br><span class="line">	A: <span class="keyword">any</span></span><br><span class="line">	B: <span class="keyword">any</span></span><br></pre></td></tr></table></figure>
+<p>此时再通过<code>flutter packages get</code>时，则不会提示有版本冲突报错，因为<code>Pub</code>已经自动选取了让C库版本一致的A、B库的版本号，此时打开同级目录下的<code>pubspec.lock</code>文件，搜索A、B两个库，则会有对应无冲突的版本号，最后再把这两个版本号分别替换掉<code>any</code>版本，这个版本冲突就解决了</p>
+<p>2、通过版本覆盖进行解决  </p>
+<h3 id="2-Pub依赖版本覆盖"><a href="#2-Pub依赖版本覆盖" class="headerlink" title="2. Pub依赖版本覆盖"></a><strong>2. Pub依赖版本覆盖</strong></h3><p>在<code>Pub</code>依赖管理中，既然支持传递依赖，同样也提供了一种版本覆盖的方式，意为强制指定一个版本，这和Android中<code>Gradle</code>的<code>force</code>有点相似，同样版本覆盖方式也可以用于解决冲突，如果知道某一个版本肯定不会冲突，则可直接通过版本覆盖方式解决：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dependency_overrides:</span><br><span class="line">  A: <span class="number">2.0</span><span class="number">.0</span></span><br></pre></td></tr></table></figure>
+<h2 id="四、Flutter链接到Native工程原理"><a href="#四、Flutter链接到Native工程原理" class="headerlink" title="四、Flutter链接到Native工程原理"></a><strong>四、Flutter链接到Native工程原理</strong></h2><p>官方提供了一种本地依赖到现有的Native工程方式，具体可看官方wiki：<a href="https://github.com/flutter/flutter/wiki/Add-Flutter-to-existing-apps" target="_blank" rel="external">Flutter本地依赖</a>，这种方式太依赖于本地环境和侵入Native工程会影响其它开发同学，且打包平台不支持这种方式的打包，所以肯定得基于这种方式进行优化改造，这个后面再说，先说说Native两端本地依赖的原理</p>
+<h3 id="1-Android"><a href="#1-Android" class="headerlink" title="1. Android"></a><strong>1. Android</strong></h3><p>在Android中本地依赖方式为：</p>
+<blockquote>
+<ol>
+<li>在<code>settings.gradle</code>中注入<code>include_flutter.groovy</code>脚本</li>
+<li>在需要依赖的module中<code>build.gradle</code>添加<code>project(&#39;:flutter&#39;)</code>依赖</li>
+</ol>
+</blockquote>
+<p>对于Android的本地依赖，主要是由<code>include_flutter.groovy</code>和<code>flutter.gradle</code>这两个脚本负责Flutter的本地依赖和产物构建</p>
+<h4 id="1-include-flutter-groovy"><a href="#1-include-flutter-groovy" class="headerlink" title="1. include_flutter.groovy"></a><strong>1. include_flutter.groovy</strong></h4><p>在<code>settings.gradle</code>中注入时，分别绑定了当前执行Gradle的上下文环境与执行<code>include_flutter.groovy</code>脚本，该脚本只做了下面三件事：</p>
+<blockquote>
+<ol>
+<li>include FlutterModule中的<code>.android/Flutter</code>工程</li>
+<li>include FlutterModule中的<code>.flutter-plugins</code>文件中包含的Flutter工程路径下的android module</li>
+<li>配置所有工程的<code>build.gradle</code>配置执行阶段都依赖于<code>:flutter</code>工程，也即它最先执行配置阶段</li>
+</ol>
+</blockquote>
+<p>其中<code>.flutter-plugins</code>文件，是根据当前依赖自动生成的，里面包含了当前Flutter工程所依赖（直接依赖和传递依赖）的Flutter子工程与绝对路径的K-V关系，子工程可能是一个Flutter Plugin或者是一个Flutter Package，下面是<code>.flutter-plugins</code>中的一段内容示例：<br><strong>.flutter-plugins：</strong></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url_launcher=<span class="regexp">/Users/</span>Sunzxyong<span class="regexp">/.pub-cache/</span>hosted<span class="regexp">/pub.flutter-io.cn/u</span>rl_launcher-<span class="number">4.0</span>.<span class="number">2</span><span class="regexp">/</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-flutter-gradle"><a href="#2-flutter-gradle" class="headerlink" title="2. flutter.gradle"></a><strong>2. flutter.gradle</strong></h4><p>该脚本位于Flutter SDK中，内容看起来很长，其实主要做了下面三件事：</p>
+<blockquote>
+<ol>
+<li>选择符合对应架构的Flutter引擎（flutter.so）</li>
+<li>解析上述<code>.flutter-plugins</code>文件，把对应的android module添加到Native工程的依赖中（上述的include其实为这步做准备）</li>
+<li>Hook mergeAssets/processResources Task，预先执行FlutterTask，调用<code>flutter</code>命令编译Dart层代码构建出<code>flutter_assets</code>产物，并拷贝到<code>assets</code>目录下</li>
+</ol>
+</blockquote>
+<p>有了上述三步，则直接在Native工程中运行构建即可自动构建Flutter工程中的代码并自动拷贝产物到Native中</p>
+<h3 id="2-IOS"><a href="#2-IOS" class="headerlink" title="2. IOS"></a><strong>2. IOS</strong></h3><p>在IOS中本地依赖方式为：</p>
+<blockquote>
+<ol>
+<li>在Podfile中通过<code>eval binding</code>特性注入<code>podhelper.rb</code>脚本，在pod install/update时会执行它</li>
+<li>在IOS构建阶段<code>Build Phases</code>中注入构建时需要执行的<code>xcode_backend.sh</code>脚本</li>
+</ol>
+</blockquote>
+<p>对于IOS的本地依赖，主要是由<code>podhelper.rb</code>和<code>xcode_backend.sh</code>这两个脚本负责Flutter的Pod本地依赖和产物构建</p>
+<h4 id="1-podhelper-rb"><a href="#1-podhelper-rb" class="headerlink" title="1. podhelper.rb"></a><strong>1. podhelper.rb</strong></h4><p>因Podfile是通过ruby语言写的，所以该脚本也是ruby脚本，该脚本在pod install/update时主要做了三件事：</p>
+<blockquote>
+<ol>
+<li>Pod本地依赖Flutter引擎（Flutter.framework）与Flutter插件注册表（FlutterPluginRegistrant）</li>
+<li>Pod本地源码依赖<code>.flutter-plugins</code>文件中包含的Flutter工程路径下的ios工程</li>
+<li>在pod install执行完后<code>post_install</code>中，获取当前target工程对象，导入<code>Generated.xcconfig</code>配置，这些配置都为环境变量配置，主要为构建阶段<code>xcode_backend.sh</code>脚本执行做准备</li>
+</ol>
+</blockquote>
+<p>上述事情即可保证Flutter工程以及传递依赖的都通过pod本地依赖进Native工程了，接下来就是构建了</p>
+<h4 id="2-xcode-backend-sh"><a href="#2-xcode-backend-sh" class="headerlink" title="2. xcode_backend.sh"></a><strong>2. xcode_backend.sh</strong></h4><p>该Shell脚本位于Flutter SDK中，该脚本主要就做了两件事：</p>
+<blockquote>
+<ol>
+<li>调用flutter命令编译构建出产物（App.framework、flutter_assets）</li>
+<li>把产物（*.framework、flutter_assets）拷贝到对应XCode构建产物中，对应产物目录为：<code>$HOME/Library/Developer/Xcode/DerivedData/${AppName}</code></li>
+</ol>
+</blockquote>
+<p>上述两个静态库*.framework是拷贝到<code>${BUILT_PRODUCTS_DIR}&quot;/&quot;${PRODUCT_NAME}&quot;.app/Frameworks&quot;</code>目录下</p>
+<p>flutter_assets拷贝到<code>${BUILT_PRODUCTS_DIR}&quot;/&quot;${PRODUCT_NAME}&quot;.app&quot;</code>目录下</p>
+<p>在XCode工程中，对应的是在<code>${AppName}/Products/${AppName}.app</code></p>
+<h2 id="五、Flutter与Native通信"><a href="#五、Flutter与Native通信" class="headerlink" title="五、Flutter与Native通信"></a><strong>五、Flutter与Native通信</strong></h2><p>Flutter与Native通信有三种方式，这里只简单介绍下：</p>
+<blockquote>
+<ol>
+<li>MethodChannel：方法调用</li>
+<li>EventChannel：事件监听</li>
+<li>BasicMessageChannel：消息传递</li>
+</ol>
+</blockquote>
+<p>Flutter与Native通信都是双向通道，可以互相调用和消息传递</p>
+<p>接下来是本文的重点内容，上述主要是普及下Flutter工程上比较重要的内容以及为下面要讲做准备，当然还有打包模式、构建流程等就不放这里了，后面可以单独开一篇讲</p>
+<h2 id="六、Flutter版本一致性与自动化管理"><a href="#六、Flutter版本一致性与自动化管理" class="headerlink" title="六、Flutter版本一致性与自动化管理"></a><strong>六、Flutter版本一致性与自动化管理</strong></h2><p>在团队多人协作开发模式下，Flutter SDK的版本一致性与自动化管理，这是个必须解决的问题，通过这个问题，我们回看Android中Gradle的版本管理模式：</p>
+<blockquote>
+<p>Gradle的版本管理是通过包装器模式，每个Gradle项目都会对应一个Gradle构建版本，对应的Gradle版本在<code>gradle-wrapper.properties</code>配置文件中进行配置，如果执行构建时本地没有当前工程中对应的Gradle版本，则会自动下载所需的Gradle版本，而执行构建则是通过<code>./gradlew</code>包装器模式进行执行，这样本地配置的全局Gradle环境与工程环境即可隔离开，对应的项目始终保持同一个Gradle版本的构建</p>
+</blockquote>
+<p>这种包装器模式的版本管理方式，可与每台机器中全局配置的环境保持隔离，在团队多人协作下，也可保持同一个项目工程保持同一个构建版本</p>
+<p>所以，我们沿用Gradle版本管理思想，在每个Flutter工程（包含上述说的四种工程）的根目录加入三个文件：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wrapper/flutter-wrapper<span class="class">.properties</span></span><br><span class="line">flutterw</span><br><span class="line">flutterw.bat</span><br></pre></td></tr></table></figure>
+<p>加入后的项目结构则多了三个文件，如下：<br><img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutterw.jpg" width="360"></p>
+<p>上述<code>flutter-wrapper.properties</code>为当前工程Flutter SDK版本配置文件，内容为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">distributionUrl=https:<span class="comment">//github.com/flutter/flutter</span></span><br><span class="line">flutterVersion=<span class="number">1.0</span><span class="number">.0</span></span><br></pre></td></tr></table></figure>
+<p>当然有需要可以再增加一些配置，目前这两个配置已经足够了，指定了Flutter的远程地址以及版本号，如果Clone Github上项目比较慢，也可以改为私有维护的镜像地址</p>
+<p>而<code>flutterw</code>为一个Shell脚本，内部对版本管理主要做的事情为：</p>
+<blockquote>
+<ol>
+<li>读取配置的版本号，校验Flutter SDK版本，不存在则触发下载</li>
+<li>更新Android中<code>local.properties</code>和IOS中<code>Generated.xcconfig</code>文件中Flutter SDK地址</li>
+<li>最后把命令行传来的参数链接到Flutter SDK中的flutter进行执行</li>
+</ol>
+</blockquote>
+<p>之后构建Flutter工程则用<code>flutterw</code>命令：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./flutterw <span class="keyword">build </span><span class="keyword">bundle</span></span><br></pre></td></tr></table></figure>
+<p>而不用本地全局配置的<code>flutter</code>命令，避免每个开发同学版本不一致问题，且这种方式对于新加入Flutter开发的同学来说，完全不需要自己手动下载Flutter SDK，只需执行一下<code>flutterw</code>任何命令，如<code>./flutterw --version</code>，即可自动触发对应Flutter SDK的下载与安装，实现优雅的自动化管理，这种方式对打包平台来说也为支持Flutter工程的打包提供基础</p>
+<h2 id="七、Flutter混合开发组件化架构"><a href="#七、Flutter混合开发组件化架构" class="headerlink" title="七、Flutter混合开发组件化架构"></a><strong>七、Flutter混合开发组件化架构</strong></h2><p>上述说的如果我们要利用Flutter来开发我们现有Native工程中的一个模块或功能，肯定得不能改变Native的工程结构以及不影响现有的开发流程，那么，以何种方式进行混合开发呢？<br>前面说到Flutter的四种工程模型，Flutter App我们可以直接忽略，因为这是一个开发全新的Flutter App工程，对于Flutter Module，官方提供的本地依赖便是使用Flutter Module依赖到Native App的，而对于Flutter工程来说，<code>构建Flutter工程</code>必须得有个<code>main.dart</code>主入口，恰好Flutter Module中也有主入口</p>
+<p>于是，我们进行组件划分，通过Flutter Module作为所有通过Flutter实现的模块或功能的聚合入口，通过它进行Flutter层到Native层的双向关联。而Flutter开发代码写在哪里呢？当然可以直接写在Flutter Module中，这没问题，而如果后续开发了多个模块、组件，我们的Dart代码总不可能全部写在Flutter Module中<code>lib/</code>吧，如果在<code>lib/</code>目录下再建立子目录进行模块区分，这不失为一种最简单的方式，不过这会带来一些问题，所有模块共用一个远程Git地址，首先在组件开发隔离上完全耦合了，其次各个模块组件没有单独的版本号或Tag，且后续模块组件的增多，带来更多的测试回归成本</p>
+<p>正确的组件化方式为一个组件有一个独立的远程Git地址管理，这样各个组件在发正式版时都有一个版本号和Tag，且在各个组件开发上完全隔离，后续组件的增多不影响其它组件，某个组件新增需求而不需回归其它组件，带来更低的测试成本</p>
+<p>前面提到<code>Flutter Plugin</code>可以有对应Dart层代码与平台层的实现，所以可以这样设计，一个组件对应一个<code>Flutter Plugin</code>，一个<code>Flutter Plugin</code>为一个完整的Flutter工程，有独立的Git地址，而这些组件之间不能互相依赖，保持零耦合，所以这些组件都在<code>业务层</code>，可以叫做<code>业务组件</code>，这些业务组件之间的通信和公共服务可以再划分一层<code>基础层</code>，可以叫做<code>基础组件</code>，所有业务组件依赖基础层，而<code>Flutter Module</code>作为聚合层依赖于所有<code>Flutter组件</code>，这些Flutter工程之间的依赖正是通过<code>Pub</code>依赖进行管理的</p>
+<p>所以，综合上述，整体的组件化架构可以设计为：<br><img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutter_hybrid_arch.jpg" alt=""></p>
+<h3 id="业务组件与基础组件的定位"><a href="#业务组件与基础组件的定位" class="headerlink" title="业务组件与基础组件的定位"></a><strong>业务组件与基础组件的定位</strong></h3><p>对于上面的基础组件比如还可以进行更细粒度的划分，不过不建议划分太多，对于与Native平台层的通信，每个业务组件对应一个<code>Channel</code>，当然内部还可以进行更细粒度的<code>Channel</code>进行划分，这个<code>Channel</code>主要是负责Native层服务的提供，让Flutter层消费。而对于Native层调用Flutter层的Api，应该尽可能少，需要调也只有出现一些值回调时</p>
+<p>因为Flutter的出现最本质的就是一次开发两端运行，而如果有太多这种依赖于平台层的实现，反而出现违背了，最后只是UI写了一份而已。对于平台层的实现也要尽量保持一个原则，即：</p>
+<blockquote>
+<p>尽量让Native平台层成为服务层，让Flutter层成为消费层调用Native层的服务，即Dart调用Native的Api，这样当两端开发人员编写好一致基础的服务接口后，Flutter的开发人员即可平滑使用和开发</p>
+</blockquote>
+<p>而对于基础组件中的公共服务组件Dart Api层的设计，因为公共服务主要调用Native层的服务，在Flutter中提供公共的Dart Api，作为Native到Flutter的一个桥梁，对于Native的服务，会有很有多种，而对应Api的设计为一个dart文件对应一个种类的服务，整个公共服务组件提供一个统一个对外暴露的Dart，内部的细粒度的Dart实现通过<code>export</code>导入，这种设计思想正是Flutter官方Api的设计，即统一对外暴露的Dart为<code>common_service.dart</code>：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">library</span> common_service;</span><br><span class="line"></span><br><span class="line"><span class="literal">export</span> <span class="string">'network_plugin.dart'</span>;</span><br><span class="line"><span class="literal">export</span> <span class="string">'messager_plugin.dart'</span>;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>而上层业务组件调用Api只需要import一个dart即可，这样对上层业务组件开发人员是透明的，上层不需要了解有哪些Api可用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:common_service/common_service.dart'</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="八、Flutter混合开发工程化架构"><a href="#八、Flutter混合开发工程化架构" class="headerlink" title="八、Flutter混合开发工程化架构"></a><strong>八、Flutter混合开发工程化架构</strong></h2><p>基本组件化的架构我们搭建好了，接下来是如何让Flutter混合开发进行完整的工程化管理，我们都知道，对于官方的本地依赖这种方式，我们不能直接用，因为这会直接影响Native工程、开发流程与打包流程，所以我们得基于官方这种依赖方式进行优化改造，于是我们衍生出两种Flutter链接到Native工程的方式：</p>
+<blockquote>
+<ol>
+<li>本地依赖（源码依赖）</li>
+<li>远程依赖（产物依赖）</li>
+</ol>
+</blockquote>
+<p>为什么要有这两种方式，首先本地依赖对于打包平台不支持，现有打包平台的环境，只能支持标准的Gradle工程结构进行打包，且本地依赖对于无需开发Flutter相关业务的同学来说是灾难性的，所以便有了远程依赖，远程依赖直接依赖于打包好的Flutter产物，Android通过Gradle依赖，IOS通过Pod远程依赖，这样对其它业务开发同学来说是透明的，他们无需关心Flutter也不需要知道Flutter是否存在</p>
+<p>对于这两种依赖模式的使用环境也各不一样</p>
+<p><strong>1. 本地依赖</strong><br>本地依赖主要用于需要进行Flutter开发的同学，通过在对应Native工程中配置文件配置是否打开本地Flutter Module依赖，以及配置链接的本地Flutter Module地址，这样Native工程即可自动依赖到本地的Flutter工程，整个过程是无缝的，同时本地依赖是通过源码进行依赖的，也可以很方便的进行Debug调试<br>对于Android中配置文件为本地的<code>local.properties</code>，IOS中为本地新建的<code>local.xcconfig</code>，两个平台的配置属性保持一致：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FLUTTER_MODULE_LINK_ENABLE=<span class="keyword">true</span></span><br><span class="line">FLUTTER_MODULE_LOCAL_LINK=<span class="regexp">/Users/</span>Sunzxyong<span class="regexp">/FlutterProject/</span>flutter_module</span><br></pre></td></tr></table></figure>
+<p><strong>2. 远程依赖</strong><br>远程依赖是把Flutter Module的构成产物发布到远程，然后在Native工程中远程依赖，这种依赖方式是默认的依赖方式，这样对其它开发同学来说是透明的，不影响开发流程和打包平台</p>
+<p>上述说到的两种依赖方式，接下来主要说怎么进行这两种依赖方式的工程化管理和定制化</p>
+<h3 id="1-无侵入Flutter-SDK源码进行BugFix和定制化"><a href="#1-无侵入Flutter-SDK源码进行BugFix和定制化" class="headerlink" title="1. 无侵入Flutter SDK源码进行BugFix和定制化"></a><strong>1. 无侵入Flutter SDK源码进行BugFix和定制化</strong></h3><p>Flutter SDK在使用时，不免会遇到一些Flutter SDK的问题或Bug，但这些问题通常是在各平台层的链接脚本中出现坑，而如果我们要兼容现有工程和扩展定制化功能，往往会直接修改Flutter SDK源码，这种侵入性的方式极不推荐，这对后续SDK的平滑升级会带来更多的成本</p>
+<p>通常出现Bug或需要定制化的脚本往往是和平台链接时相关的，当然排除需要修改<code>dart</code>层Api代码的情况下，这种只能更改源码了，不过这种出bug的几率还是比较小的，比较涉及到SDK的Api层面了。而大概率出现问题需要兼容或进行定制化的几个地方通常为下面几处：</p>
+<blockquote>
+<ol>
+<li>$FLUTTER_SDK/packages/flutter_tools/gradle/flutter.gradle</li>
+<li>$FLUTTER_SDK/bin/cache/artifacts/engine/android-arch/flutter.jar</li>
+<li>$FLUTTER_MODULE/.android/build.gradle、.android/settings.gradle</li>
+<li>$FLUTTER_MODULE/.android/Flutter/build.gradle</li>
+<li>$FLUTTER_MODULE/.ios/Flutter/Generated.xcconfig</li>
+<li>$FLUTTER_MODULE/.ios/Flutter/podhelper.rb</li>
+<li>$FLUTTER_MODULE/.ios/Podfile</li>
+<li>$FLUTTER_SDK/packages/flutter_tools/bin/xcode_backend.sh</li>
+</ol>
+</blockquote>
+<p>而我们需要兼容的Flutter SDK的问题和定制化的点有下面几项：</p>
+<blockquote>
+<ol>
+<li><strong>Android</strong>：Flutter SDK中的Flutter引擎不支持<code>armeabi</code>架构</li>
+<li><strong>Android</strong>：Flutter SDK中的<code>flutter.gradle</code>链接脚本不支持非<code>app</code>名称的Application工程</li>
+<li><strong>Android</strong>：Flutter SDK中的<code>flutter.gradle</code>链接脚本本地依赖存在<code>flutter_shared</code>资源文件不拷贝Bug</li>
+<li><strong>Android</strong>：解决上述几项需要代理<code>build.gradle</code>构建脚本，以及在<code>build.gradle</code>构建脚本中定制化我们的构建产物收集Task</li>
+<li><strong>IOS</strong>：Flutter Module中自动生成的.ios中的<code>podhelper.rb</code>ruby脚本使用了Pod中的<code>post_install</code>方法，导致Native工程不能使用或使用了的发生冲突，间接侵入了Native工程与耦合，限制性太强</li>
+<li><strong>IOS</strong>：Flutter Module中自动生成的<code>Podfile</code>文件，需要添加我们自己私有的<code>Specs</code>仓库进行定制化</li>
+<li><strong>IOS</strong>：解决<code>post_install</code>问题后，Flutter SDK中的<code>xcode_backend.sh</code>链接脚本环境变量的读取问题</li>
+</ol>
+</blockquote>
+<p>为了实现无侵入Flutter SDK，对于上述的这些问题的解决，我们使用代理方式进行Bug的修改和定制化，下面是针对两个平台分别的实现策略</p>
+<h4 id="1-Android-1"><a href="#1-Android-1" class="headerlink" title="1. Android"></a><strong>1. Android</strong></h4><p>在Android平台上述问题和定制化的解决策略，对于<code>armeabi</code>架构的支持，我们可以通过脚本进行自动化，上面讲到<code>flutterw</code>的版本自动化管理，同样，我们在里面加段<code>armeabi</code>架构的支持脚本，这样做得好处是后续不需要支持了可以直接移除，通过调用<code>./flutterw armeabi</code>即可自动添加<code>armeabi</code>架构的引擎</p>
+<p>对于Flutter SDK中的<code>flutter.gradle</code>链接脚本的问题兼容，不会直接在源码中进行更改，而是把它拷贝出来，命名为<code>flutter_proxy.gradle</code>，然后在代理脚本中进行问题的修复，主要修复点为<code>flutter_shared</code>的支持与<code>app</code>硬编码名称的兼容，如下：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Task</span> copySharedFlutterAssetsTask = <span class="keyword">project</span>.tasks.create(name: <span class="string">"copySharedFlutterAssets$&#123;variant.name.capitalize()&#125;"</span>, type: <span class="keyword">Copy</span>) &#123;</span><br><span class="line">	<span class="keyword">from</span>(<span class="keyword">project</span>.zipTree(chosenFlutterJar))</span><br><span class="line">	<span class="keyword">include</span> <span class="string">'assets/flutter_shared/*'</span></span><br><span class="line">	<span class="keyword">into</span> <span class="string">"src/$&#123;variant.name&#125;"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再让<code>copyFlutterAssetsTask</code>任务依赖于它，而<code>app</code>硬编码名称的兼容，则更简单了，通过在Native工程中<code>local.properties</code>配置Module名，再在<code>flutter_proxy.gradle</code>脚本中加入读取该属性代码：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String appName = <span class="function"><span class="title">loadRootProjectProperty</span><span class="params">(project, <span class="string">"FLUTTER_APP_NAME"</span>, <span class="string">"app"</span>)</span></span></span><br><span class="line">Task mergeAssets = project<span class="class">.tasks</span><span class="class">.findByPath</span>(<span class="string">":$&#123;appName&#125;:merge$&#123;variant.name.capitalize()&#125;Assets"</span>)</span><br></pre></td></tr></table></figure>
+<p>而对于<code>build.gradle</code>构建脚本的代理，我们可以通过在执行<code>Gradle</code>构建时，通过<code>-c</code>命令进行<code>settings.gradle</code>的代理，进而代理掉<code>build.gradle</code>和指定Module中的<code>build.gradle</code>脚本，如下：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd .android</span><br><span class="line">.<span class="regexp">/gradlew assembleDebug -c ../</span>script<span class="regexp">/proxy/</span>settings.gradle</span><br></pre></td></tr></table></figure>
+<p>而通过代理的<code>settings.gradle</code>文件再进行<code>build.gradle</code>的代理：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">getRootProject</span><span class="params">()</span></span><span class="class">.buildFileName</span> = <span class="string">'build_proxy.gradle'</span></span><br><span class="line"><span class="function"><span class="title">project</span><span class="params">(<span class="string">":flutter"</span>)</span></span><span class="class">.buildFileName</span> = <span class="string">"build_proxy.gradle"</span></span><br></pre></td></tr></table></figure>
+<p>其中代理的<code>Flutter/build.gradle</code>中的脚本apply会改为修复的Flutter SDK中的脚本代理：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">apply</span> from: <span class="string">"<span class="variable">$&#123;project.projectDir.parentFile.parentFile.absolutePath&#125;</span>/script/proxy/flutter_proxy.gradle"</span></span><br></pre></td></tr></table></figure>
+<p>这样<code>.android</code>工程在构建时期可以完全由我们自主控制，包括加入一些产物收集插件、产物发布到远程插件等定制功能</p>
+<p>不过这种方式需要执行构建命令时手动指定代理脚本，对于本地依赖时Native自动构建来说，是不会指定的，所有基于这种方式，我们再优化一下，因为<code>Flutter Module</code>中<code>.android</code>与<code>.ios</code>工程是通过Flutter SDK内部模版自动生成的，只要执行<code>build|packages get</code>等命令都会自动生成，首先想到是更改Flutter SDK内部工程模版，在Flutter SDK的<code>packages/flutter_tools/templates</code>目录下，不过这与我们无侵入Flutter SDK违背了，所以不能选取这种方式</p>
+<p>回想我们的Flutter SDK版本一致性管理是通过<code>flutterw</code>脚本进行自动化的，而最终会链接调用到原生Flutter SDK中的命令，所以，我们可以在<code>flutterw</code>中加入脚本，用于在<code>.android</code>与<code>.ios</code>工程生成后，进行内部脚本文件的替换，把<code>build.gradle</code>和<code>settings.gradle</code>脚本内容直接替换为我们的代理脚本的内容，这样既不侵入Flutter SDK，在后续维护起来也方便，后续不需要这个功能了，只需要把这段脚本代码注释就好了，随即又恢复原生的构建脚本了，<code>flutterw</code>脚本执行过程如下：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="preprocessor"># ...</span></span><br><span class="line">		link_flutter <span class="string">"$@"</span></span><br><span class="line">    	inject_proxy_build_script</span><br><span class="line">    	<span class="preprocessor"># ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>inject_proxy_build_script</code>这个Shell函数会把对应脚本进行我们的脚本替换掉，当前函数内部也有对应判断，因为<code>flutterw</code>主要用于Flutter SDK版本一致性管理，这里仅对Flutter Module工程生效。所以这种方式不管是在本地依赖构建下还是通过命令行构建都可以完美支持</p>
+<h4 id="2-IOS-1"><a href="#2-IOS-1" class="headerlink" title="2. IOS"></a><strong>2. IOS</strong></h4><p>在IOS平台上述问题和定制化的解决策略，对于IOS主要是对<code>Podfile</code>与<code>podhelper.rb</code>脚本进行支持，而对<code>Podfile</code>的支持，这个比较简单，在<code>Podfile</code>头部通过脚本注入我们自己私有的<code>Specs</code>仓库即可：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">source</span> <span class="string">'https://***/XXSpecs.git'</span></span><br><span class="line"><span class="keyword">source</span> <span class="string">'https://github.com/CocoaPods/Specs.git'</span></span><br><span class="line">platform :ios, <span class="string">'8.0'</span></span><br><span class="line"><span class="keyword">...</span></span><br></pre></td></tr></table></figure>
+<p>这个工作同样在<code>flutterw</code>执行后进行兼容，后续不需要了可以直接注释，这个自动注入脚本也仅对Flutter Module工程生效</p>
+<p>而<code>podhelper.rb</code>脚本的兼容，主要是在进行本地依赖时，内部已经用了<code>post_install</code>函数，该函是在pod install后执行，这会与Native已经使用了该函数的发生冲突并报错，所以我们通过<code>flutterw</code>脚本的执行后默认注释掉该脚本中的<code>post_install</code>使用处，但是肯定不能平白无故注释掉，我们要了解这段的作用，其实就是设置环境变量，为后续<code>xcode_backend.sh</code>脚本的构建执行做准备，而注释掉怎么用另外一种方式恢复环境变量的设置这个后面再讲，注释后<code>podhelper.rb</code>脚本代码片段为：</p>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor"># post_install do |installer|</span></span><br><span class="line"><span class="preprocessor">#     installer.pods_project.targets.each do |target|</span></span><br><span class="line"><span class="preprocessor">#         target.build_configurations.each do |config|</span></span><br><span class="line"><span class="preprocessor">#             config.build_settings['ENABLE_BITCODE'] = 'NO'</span></span><br><span class="line"><span class="preprocessor">#             xcconfig_path = config.base_configuration_reference.real_path</span></span><br><span class="line"><span class="preprocessor">#             File.open(xcconfig_path, 'a+') do |file|</span></span><br><span class="line"><span class="preprocessor">#                 file.puts "#include \"#&#123;File.realpath(File.join(framework_dir, 'Generated.xcconfig'))&#125;\""</span></span><br><span class="line"><span class="preprocessor">#             end</span></span><br><span class="line"><span class="preprocessor">#         end</span></span><br><span class="line"><span class="preprocessor">#     end</span></span><br><span class="line"><span class="preprocessor"># end</span></span><br></pre></td></tr></table></figure>
+<p>最终在<code>flutterw</code>自动支持上述处理脚本执行流程为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">		<span class="comment"># ...</span></span><br><span class="line">		link_flutter <span class="string">"<span class="variable">$@</span>"</span></span><br><span class="line">    	<span class="comment"># ...</span></span><br><span class="line">    	podfile_support</span><br><span class="line">    	podhelper_support</span><br><span class="line">    	collect_ios_product <span class="string">"<span class="variable">$@</span>"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>函数内部判断仅针对Flutter Module工程生效，毕竟其它Flutter Plugin工程不需要这种处理</p>
+<h3 id="2-本地依赖无侵入流程"><a href="#2-本地依赖无侵入流程" class="headerlink" title="2. 本地依赖无侵入流程"></a><strong>2. 本地依赖无侵入流程</strong></h3><p>我们要做到只通过一个属性配置文件，在配置文件中通过配置开发来打开或关闭本地的Flutter Module链接依赖，只按官方的依赖方式肯定是不行的，不管是Android还是IOS，都会直接侵入Native工程，影响其它无Flutter环境同学的开发且影响打包平台上的打包。所以，肯定得做优化，我们在官方这种依赖方式中加一层，作为<code>代理层</code>，而代理层主要做的工作是判断本地是否有对应的属性配置文件且属性值是否符合本地依赖Flutter Module的条件，如果是则进行本地Flutter Module的依赖，如果不是则Return掉，默认不做任何处理</p>
+<p>所以通过这种代理方式即不影响Native工程原先的开发流程，对其它业务开发同学和打包平台也是透明的</p>
+<p>对于代理层的实现，Android与IOS平台各不一样</p>
+<h4 id="1-Android-2"><a href="#1-Android-2" class="headerlink" title="1. Android"></a><strong>1. Android</strong></h4><p>Android是通过一个<code>Gradle脚本</code>进行自动管理的，这个Gradle脚本主要在<code>settings.gradle</code>和<code>build.gradle</code>中做<code>local.properties</code>配置文件的属性值校验，决定是否开启本地Flutter Module链接的</p>
+<h4 id="2-IOS-2"><a href="#2-IOS-2" class="headerlink" title="2. IOS"></a><strong>2. IOS</strong></h4><p>IOS则较为复杂一些，因为涉及到<code>Podfile</code>中的ruby执行脚本代理与<code>Build Phases</code>时期的Shell脚本代理，所以得写两种类型的代理脚本：Ruby和Shell，代理脚本的最终执行还是会调用被代理的脚本，只是在调用前做一层包装逻辑判断。而IOS中本身没有本地配置文件，所以我们新建一个IOS的本地配置文件为<code>local.xcconfig</code>，这个配置文件不随版本进行管理，会gitignore掉，于是，在IOS中<code>Podfile</code>最终调用的脚本是：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eval(<span class="keyword">File</span>.<span class="keyword">read</span>(<span class="keyword">File</span>.<span class="keyword">join</span>(<span class="string">'./'</span>, <span class="string">'FlutterSupport'</span>, <span class="string">'podhelper_proxy.rb'</span>)), binding)</span><br></pre></td></tr></table></figure>
+<p>而在<code>Build Phases</code>调用的是：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">chmod</span> +<span class="keyword">x</span> <span class="string">"<span class="subst">$&#123;SRCROOT&#125;</span>/FlutterSupport/xcode_backend_proxy.sh"</span></span><br><span class="line"><span class="string">"<span class="subst">$&#123;SRCROOT&#125;</span>/FlutterSupport/xcode_backend_proxy.sh"</span> flutterBuild</span><br></pre></td></tr></table></figure>
+<p>而刚刚上面说到的<code>podhelper.rb</code>脚本中<code>post_install</code>函数被注释掉后怎么用另一种方式进行替换，我们知道这段函数主要就是提供在IOS构建阶段时执行<code>xcode_backend.sh</code>的环境变量的，比如会获取<code>FLUTTER_ROOT</code>等属性值，这些环境变量由Flutter Module中<code>Generated.xcconfig</code>来提供，而如果我们把这个文件的内容通过脚本拷贝到IOS工程下对应构建配置的xcconfig中，如<code>debug.xcconfig</code>、<code>release.xcconfig</code>，这种方式可行，不过会侵入Native工程，导致Native工程中多了这些变量，而且不优雅，我们要做到的是保证无侵入性</p>
+<p>既然我们已经通过代理脚本进行代理，那么这些环境变量我们完全可以获取出来，通过Shell脚本的特性，子Shell会继承于父Shell中<code>export</code>的环境变量值，所以，在代理Shell脚本中再加段下面代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">export_xcconfig</span></span>() &#123;</span><br><span class="line">	<span class="built_in">export</span> ENABLE_BITCODE=NO</span><br><span class="line">	<span class="keyword">if</span> [[ <span class="variable">$#</span> != <span class="number">0</span> ]]; <span class="keyword">then</span></span><br><span class="line">		<span class="built_in">local</span> g_xcconfig=<span class="variable">$1</span>/.ios/Flutter/Generated.xcconfig</span><br><span class="line">		<span class="keyword">if</span> [[ <span class="operator">-f</span> <span class="string">"<span class="variable">$g_xcconfig</span>"</span> ]]; <span class="keyword">then</span></span><br><span class="line">			<span class="comment"># no piping.</span></span><br><span class="line">			<span class="keyword">while</span> <span class="built_in">read</span> -r line</span><br><span class="line">			<span class="keyword">do</span></span><br><span class="line">  				<span class="keyword">if</span> [[ ! <span class="string">"<span class="variable">$line</span>"</span> =~ ^// ]]; <span class="keyword">then</span></span><br><span class="line">					<span class="built_in">export</span> <span class="string">"<span class="variable">$line</span>"</span></span><br><span class="line">				<span class="keyword">fi</span></span><br><span class="line">			<span class="keyword">done</span> &lt; <span class="variable">$g_xcconfig</span></span><br><span class="line">		<span class="keyword">fi</span></span><br><span class="line">	<span class="keyword">fi</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中注意不能使用管道，管道会在另外一个Shell进程</p>
+<h3 id="3-远程依赖产物打包流程"><a href="#3-远程依赖产物打包流程" class="headerlink" title="3. 远程依赖产物打包流程"></a><strong>3. 远程依赖产物打包流程</strong></h3><p>Flutter的远程产物依赖，Android是通过<code>Aar</code>依赖，IOS是通过<code>.a</code>和<code>.framework</code>静态库进行依赖，要进行这些远程依赖很简单，关键是如何打包获取这些依赖的产物以及上传到远程，因为按照现有组件化的打包，除了聚合层Flutter Module中有对应的<code>flutter-debug.aar</code>和<code>App.framework</code>、<code>flutter_assets</code>等产物的生成，其中业务组件和基础组件中，也有对应的打包产物，这些打包产物会对应各自平台打包不同类型产物，Android还是<code>aar</code>，而IOS则是<code>.a</code>静态库了，下面就分别讲下Android与IOS的打包流程</p>
+<h4 id="1-Android-3"><a href="#1-Android-3" class="headerlink" title="1. Android"></a><strong>1. Android</strong></h4><p>Android的打包比较简单，通过在Flutter Module中的<code>.android</code>子工程下执行<code>./gradlew assembleRelease</code>，则会在对应Flutter中Android子工程的build目录下输出对应<code>aar</code>产物，而重点是怎么获取依赖的各组件（Flutter Plugin）中的产物，则是通过<code>.flutter-plugins</code>文件，该文件是在<code>packages get</code>时自动生成的，里面包含了该Flutter工程通过<code>Pub</code>所依赖的库，我们可以解析这个文件，来获取对应依赖库的产物</p>
+<h4 id="2-IOS-3"><a href="#2-IOS-3" class="headerlink" title="2. IOS"></a><strong>2. IOS</strong></h4><p>IOS上的打包相比Android来说更复杂一些，我们借助<code>.ios/Runner</code>来打包出静态库等产物，所以还需要设置签名，通过在Flutter Module中直接执行<code>./flutterw build ios --release</code>，该命令会自动执行<code>pod install</code>，所以我们不必再单独执行它，IOS中构建出的产物获取也相对繁琐些，除了获取Flutter的相关产物，还需要获取所依赖的各组件的静态库以及头文件，需要获取的产物如下：</p>
+<blockquote>
+<p>Flutter.framework<br>App.framework<br>FlutterPluginRegistrant<br>flutter_assets<br>所有依赖的Plugin的<code>.a</code>静态库以及头文件</p>
+</blockquote>
+<p>其中<code>Flutter.framework</code>为Flutter引擎，类似Android中的<code>flutter.so</code>，而<code>App.framework</code>则是Flutter中Dart编译后的产物（Debug模式下它仅为一个空壳，具体Dart代码在flutter_assets中，Release模式下为编译后的机器指令），FlutterPluginRegistrant是所有插件Channel的注册表，也是自动生成的，<code>flutter_assets</code>含字体等资源，剩下一些<code>.a</code>静态库则是各组件在IOS平台层的实现了</p>
+<p>而收集IOS产物除了在<code>.ios/Flutter</code>目录下收集<code>*.framework</code>静态库和<code>flutter_assets</code>外，剩下的就是收集<code>.a</code>静态库以及对应的头文件了，而这些产物则是在构建<code>Runner</code>工程后，在Flutter Module下的</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">build/ios/<span class="variable">$variant-iphoneos</span></span><br></pre></td></tr></table></figure>
+<p>目录下，<code>variant</code>对应所构建变体名，我们还是通过解析<code>.flutter-plugins</code>文件，来获取对应所依赖Flutter插件的名称，进而在上述的输出目录下找到对应的<code>.a</code>静态库，但是对应的头文件而不在对应<code>.a</code>静态库目录下，所以对于头文件单独获取，因为解析了<code>.flutter-plugins</code>获取到了KV键值对，对应的V则是该Flutter插件工程地址，所以头文件我们从里面获取</p>
+<p>最后还需要获取<code>FlutterPluginRegistrant</code>注册表的静态库以及头文件</p>
+<h4 id="3-产物收集与传递依赖"><a href="#3-产物收集与传递依赖" class="headerlink" title="3. 产物收集与传递依赖"></a><strong>3. 产物收集与传递依赖</strong></h4><p>对于通过Flutter Module聚合层构建出来的产物，我们进行收集后再聚合到单独的产物输出目录下，当然这一切都是通过脚本自动做掉的</p>
+<p>在Android上，通过Gradle插件Hook <code>assembleTask</code>：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">collectAarTask<span class="class">.dependsOn</span> assembleTask</span><br><span class="line">assembleTask<span class="class">.finalizedBy</span> collectAarTask</span><br></pre></td></tr></table></figure>
+<p>这样当执行完<code>./gradlew assemble${variant}</code>命令后则会自动进行产物收集</p>
+<p>在IOS上，通过<code>flutterw</code>脚本，在构建完后判断构建命令是否是IOS构建命令，进而自动收集构建后的产物：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">collect_ios_product</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="string">[[ $# != 0 &amp;&amp; $# &gt; 2 ]]</span>; <span class="keyword">then</span></span><br><span class="line">		<span class="keyword">if</span> <span class="string">[[ "$1" = "build" &amp;&amp; "$2" = "ios" ]]</span>; <span class="keyword">then</span></span><br><span class="line">			# <span class="keyword">do</span> collect...</span><br><span class="line">		fi</span><br><span class="line">	fi	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对应<code>.a</code>静态库和头文件的收集关键脚本代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> -r line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">	<span class="keyword">if</span> [[ ! <span class="string">"<span class="variable">$line</span>"</span> =~ ^// &amp;&amp; ! <span class="string">"<span class="variable">$line</span>"</span> =~ ^<span class="comment"># ]]; then</span></span><br><span class="line">		array=(<span class="variable">$&#123;line//=/ &#125;</span>)</span><br><span class="line">		<span class="built_in">local</span> library=<span class="variable">$product_dir</span>/<span class="variable">$&#123;array[0]&#125;</span>/lib<span class="variable">$&#123;array[0]&#125;</span>.a</span><br><span class="line">		<span class="keyword">if</span> [[ <span class="operator">-f</span> <span class="string">"<span class="variable">$library</span>"</span> ]]; <span class="keyword">then</span></span><br><span class="line">			<span class="built_in">local</span> plugin=<span class="variable">$dest_dir</span>/plugins/<span class="variable">$&#123;array[0]&#125;</span></span><br><span class="line">			rm -rf <span class="variable">$plugin</span></span><br><span class="line">			mkdir -p <span class="variable">$plugin</span></span><br><span class="line">			cp <span class="operator">-f</span> <span class="variable">$library</span> <span class="variable">$plugin</span></span><br><span class="line">			<span class="built_in">local</span> classes=<span class="variable">$&#123;array[1]&#125;</span>ios/Classes</span><br><span class="line">			<span class="keyword">for</span> header <span class="keyword">in</span> `find <span class="string">"<span class="variable">$classes</span>"</span> -name *.h`; <span class="keyword">do</span></span><br><span class="line">				cp <span class="operator">-f</span> <span class="variable">$header</span> <span class="variable">$plugin</span></span><br><span class="line">			<span class="keyword">done</span></span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">echo</span> <span class="string">"The static library <span class="variable">$library</span> do not exist!"</span></span><br><span class="line">		<span class="keyword">fi</span></span><br><span class="line">	<span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span> &lt; <span class="variable">$flutter_plugins</span></span><br></pre></td></tr></table></figure>
+<p>如下是Android与IOS的打包后产物收集后的目录结构如下：<br><img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutter_product.jpg" width="360"></p>
+<p>对于传递依赖的支持，我们知道单独的<code>aar</code>文件以及通过podspec声明这些静态库产物，是会丢失传递依赖的，丢失传递依赖可能导致我们Native工程中没有使用到的一些三方库，而Flutter工程中引用了，然后App运行Crash，而保证传递依赖的方式，则是Android发布到远程Maven，最后通过远程依赖，上述产物只是本地依赖，IOS则是解析所有Flutter插件中的<code>podspec</code>文件，把它还原为JSON格式，通过解析<code>dependency</code>对象，获取对应的依赖库命名以及版本号，最后在IOS远程产物的<code>podspec</code>配置文件中添加这些依赖</p>
+<p>对于IOS的远程依赖，我们知道单独建一个独立的Git仓库就可以解决，通过配置好<code>podspec</code>，即可在IOS Native端进行远程依赖，但是像<code>Flutter.framework</code>与<code>App.framework</code>这种大文件，如果直接上传到Git仓库中有些不太友好，比如可以上传到CDN中，然后通过<code>podspec</code>的<code>spec.prepare_command</code>特性，在pod库安装时候预先执行一段脚本把这两个产物拉下来，对于目前来说，可以先传到Git中，这样比较直观与可控，便于版本的管理</p>
+<h3 id="4-Flutter混合开发工程化整体流程"><a href="#4-Flutter混合开发工程化整体流程" class="headerlink" title="4. Flutter混合开发工程化整体流程"></a><strong>4. Flutter混合开发工程化整体流程</strong></h3><p><img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutter_hybrid_project.jpg" alt=""></p>
+<h2 id="九、后序"><a href="#九、后序" class="headerlink" title="九、后序"></a><strong>九、后序</strong></h2><p>对于现有工程使用Flutter进行混合开发，坑点还是有的，比如性能、页面栈管理等方面，只是目前还未踩到，加上目前Flutter上一些基础库不成熟，对于项目内的重要页面以及动态化强度比较高的页面，目前还是不建议使用Flutter进行开发，如果要使用也须做好降级方案，相反可以使用稍微轻量级点的页面，且在设计时对于Flutter与Native层的通信，应该让Flutter作为消费层消费Native层提供的服务，Native端应做尽量少的改动，最好仅改动一行代码，把页面路由跳转替换为Flutter页面路由，这样可以保证Native与Flutter的零耦合</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/wechat_pay.jpg" alt="郑晓勇 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/alipay.jpg" alt="郑晓勇 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Flutter/" rel="tag"># Flutter</a>
+          
+            <a href="/tags/IOS/" rel="tag"># IOS</a>
+          
+            <a href="/tags/Pub依赖/" rel="tag"># Pub依赖</a>
+          
+            <a href="/tags/工程化/" rel="tag"># 工程化</a>
+          
+            <a href="/tags/混合开发/" rel="tag"># 混合开发</a>
+          
+            <a href="/tags/组件化/" rel="tag"># 组件化</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/12/也谈Manifest与资源Merge/" rel="next" title="也谈Manifest与资源Merge">
+                <i class="fa fa-chevron-left"></i> 也谈Manifest与资源Merge
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58e9f752f0a71b42" async = "async" ></script>
+</div>
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郑晓勇" />
+          <p class="site-author-name" itemprop="name">郑晓勇</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss2.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Sunzxyong" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3048730677/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、简述"><span class="nav-number">1.</span> <span class="nav-text">一、简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Flutter四种工程类型"><span class="nav-number">2.</span> <span class="nav-text">二、Flutter四种工程类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、Flutter工程Pub依赖管理"><span class="nav-number">3.</span> <span class="nav-text">三、Flutter工程Pub依赖管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Pub依赖冲突处理"><span class="nav-number">3.1.</span> <span class="nav-text">1. Pub依赖冲突处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Pub依赖版本覆盖"><span class="nav-number">3.2.</span> <span class="nav-text">2. Pub依赖版本覆盖</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、Flutter链接到Native工程原理"><span class="nav-number">4.</span> <span class="nav-text">四、Flutter链接到Native工程原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Android"><span class="nav-number">4.1.</span> <span class="nav-text">1. Android</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-include-flutter-groovy"><span class="nav-number">4.1.1.</span> <span class="nav-text">1. include_flutter.groovy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-flutter-gradle"><span class="nav-number">4.1.2.</span> <span class="nav-text">2. flutter.gradle</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-IOS"><span class="nav-number">4.2.</span> <span class="nav-text">2. IOS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-podhelper-rb"><span class="nav-number">4.2.1.</span> <span class="nav-text">1. podhelper.rb</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-xcode-backend-sh"><span class="nav-number">4.2.2.</span> <span class="nav-text">2. xcode_backend.sh</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、Flutter与Native通信"><span class="nav-number">5.</span> <span class="nav-text">五、Flutter与Native通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、Flutter版本一致性与自动化管理"><span class="nav-number">6.</span> <span class="nav-text">六、Flutter版本一致性与自动化管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、Flutter混合开发组件化架构"><span class="nav-number">7.</span> <span class="nav-text">七、Flutter混合开发组件化架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#业务组件与基础组件的定位"><span class="nav-number">7.1.</span> <span class="nav-text">业务组件与基础组件的定位</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八、Flutter混合开发工程化架构"><span class="nav-number">8.</span> <span class="nav-text">八、Flutter混合开发工程化架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-无侵入Flutter-SDK源码进行BugFix和定制化"><span class="nav-number">8.1.</span> <span class="nav-text">1. 无侵入Flutter SDK源码进行BugFix和定制化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Android-1"><span class="nav-number">8.1.1.</span> <span class="nav-text">1. Android</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-IOS-1"><span class="nav-number">8.1.2.</span> <span class="nav-text">2. IOS</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-本地依赖无侵入流程"><span class="nav-number">8.2.</span> <span class="nav-text">2. 本地依赖无侵入流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Android-2"><span class="nav-number">8.2.1.</span> <span class="nav-text">1. Android</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-IOS-2"><span class="nav-number">8.2.2.</span> <span class="nav-text">2. IOS</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-远程依赖产物打包流程"><span class="nav-number">8.3.</span> <span class="nav-text">3. 远程依赖产物打包流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Android-3"><span class="nav-number">8.3.1.</span> <span class="nav-text">1. Android</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-IOS-3"><span class="nav-number">8.3.2.</span> <span class="nav-text">2. IOS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-产物收集与传递依赖"><span class="nav-number">8.3.3.</span> <span class="nav-text">3. 产物收集与传递依赖</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Flutter混合开发工程化整体流程"><span class="nav-number">8.4.</span> <span class="nav-text">4. Flutter混合开发工程化整体流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#九、后序"><span class="nav-number">9.</span> <span class="nav-text">九、后序</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郑晓勇</span>
+</div>
+
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'zhengxiaoyong';
+      var disqus_identifier = '2018/12/16/Flutter混合开发组件化与工程化/';
+
+      var disqus_title = "Flutter混合开发组件化与工程化";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("4xJWzRb0rYs6K84rzJGPAfCT-gzGzoHsz", "32UaeYIIm8Ij4sUjreNxbB0K");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
