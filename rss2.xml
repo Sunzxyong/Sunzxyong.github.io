@@ -8,7 +8,7 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Sun, 16 Dec 2018 10:16:34 GMT</pubDate>
+    <pubDate>Sun, 16 Dec 2018 10:31:47 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -152,7 +152,7 @@
 <li>把产物（*.framework、flutter_assets）拷贝到对应XCode构建产物中，对应产物目录为：<code>$HOME/Library/Developer/Xcode/DerivedData/${AppName}</code></li>
 </ol>
 </blockquote>
-<p>上述两个静态库*.framework是拷贝到<code>${BUILT_PRODUCTS_DIR}&quot;/&quot;${PRODUCT_NAME}&quot;.app/Frameworks&quot;</code>目录下</p>
+<p>上述两个静态库<code>*.framework</code>是拷贝到<code>${BUILT_PRODUCTS_DIR}&quot;/&quot;${PRODUCT_NAME}&quot;.app/Frameworks&quot;</code>目录下</p>
 <p>flutter_assets拷贝到<code>${BUILT_PRODUCTS_DIR}&quot;/&quot;${PRODUCT_NAME}&quot;.app&quot;</code>目录下</p>
 <p>在XCode工程中，对应的是在<code>${AppName}/Products/${AppName}.app</code></p>
 <h2 id="五、Flutter与Native通信"><a href="#五、Flutter与Native通信" class="headerlink" title="五、Flutter与Native通信"></a><strong>五、Flutter与Native通信</strong></h2><p>Flutter与Native通信有三种方式，这里只简单介绍下：</p>
