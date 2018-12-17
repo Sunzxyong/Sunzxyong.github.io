@@ -8,13 +8,13 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Sun, 16 Dec 2018 10:31:47 GMT</pubDate>
+    <pubDate>Mon, 17 Dec 2018 05:40:59 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
-      <title>Flutter混合开发组件化与工程化</title>
-      <link>http://zhengxiaoyong.com/2018/12/16/Flutter%E6%B7%B7%E5%90%88%E5%BC%80%E5%8F%91%E7%BB%84%E4%BB%B6%E5%8C%96%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%8C%96/</link>
-      <guid>http://zhengxiaoyong.com/2018/12/16/Flutter%E6%B7%B7%E5%90%88%E5%BC%80%E5%8F%91%E7%BB%84%E4%BB%B6%E5%8C%96%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%8C%96/</guid>
+      <title>Flutter混合开发组件化与工程化架构</title>
+      <link>http://zhengxiaoyong.com/2018/12/16/Flutter%E6%B7%B7%E5%90%88%E5%BC%80%E5%8F%91%E7%BB%84%E4%BB%B6%E5%8C%96%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%8C%96%E6%9E%B6%E6%9E%84/</link>
+      <guid>http://zhengxiaoyong.com/2018/12/16/Flutter%E6%B7%B7%E5%90%88%E5%BC%80%E5%8F%91%E7%BB%84%E4%BB%B6%E5%8C%96%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%8C%96%E6%9E%B6%E6%9E%84/</guid>
       <pubDate>Sun, 16 Dec 2018 09:30:00 GMT</pubDate>
       <description>
       
@@ -303,7 +303,7 @@
 <h2 id="九、后序"><a href="#九、后序" class="headerlink" title="九、后序"></a><strong>九、后序</strong></h2><p>对于现有工程使用Flutter进行混合开发，坑点还是有的，比如性能、页面栈管理等方面，只是目前还未踩到，加上目前Flutter上一些基础库不成熟，对于项目内的重要页面以及动态化强度比较高的页面，目前还是不建议使用Flutter进行开发，如果要使用也须做好降级方案，相反可以使用稍微轻量级点的页面，且在设计时对于Flutter与Native层的通信，应该让Flutter作为消费层消费Native层提供的服务，Native端应做尽量少的改动，最好仅改动一行代码，把页面路由跳转替换为Flutter页面路由，这样可以保证Native与Flutter的零耦合</p>
 ]]></content:encoded>
       
-      <comments>http://zhengxiaoyong.com/2018/12/16/Flutter%E6%B7%B7%E5%90%88%E5%BC%80%E5%8F%91%E7%BB%84%E4%BB%B6%E5%8C%96%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%8C%96/#disqus_thread</comments>
+      <comments>http://zhengxiaoyong.com/2018/12/16/Flutter%E6%B7%B7%E5%90%88%E5%BC%80%E5%8F%91%E7%BB%84%E4%BB%B6%E5%8C%96%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%8C%96%E6%9E%B6%E6%9E%84/#disqus_thread</comments>
     </item>
     
     <item>
