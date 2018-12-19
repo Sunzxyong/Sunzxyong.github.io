@@ -8,7 +8,7 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Wed, 19 Dec 2018 03:45:44 GMT</pubDate>
+    <pubDate>Wed, 19 Dec 2018 10:13:54 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -300,7 +300,7 @@
 <p>对于传递依赖的支持，我们知道单独的<code>aar</code>文件以及通过podspec声明这些静态库产物，是会丢失传递依赖的，丢失传递依赖可能导致我们Native工程中没有使用到的一些三方库，而Flutter工程中引用了，然后App运行Crash，而保证传递依赖的方式，则是Android发布到远程Maven，最后通过远程依赖，上述产物只是本地依赖，IOS则是解析所有Flutter插件中的<code>podspec</code>文件，把它还原为JSON格式，通过解析<code>dependency</code>对象，获取对应的依赖库命名以及版本号，最后在IOS远程产物的<code>podspec</code>配置文件中添加这些依赖</p>
 <p>对于IOS的远程依赖，我们知道单独建一个独立的Git仓库就可以解决，通过配置好<code>podspec</code>，即可在IOS Native端进行远程依赖，但是像<code>Flutter.framework</code>与<code>App.framework</code>这种大文件，如果直接上传到Git仓库中有些不太友好，比如可以上传到CDN中，然后通过<code>podspec</code>的<code>spec.prepare_command</code>特性，在pod库安装时候预先执行一段脚本把这两个产物拉下来，对于目前来说，可以先传到Git中，这样比较直观与可控，便于版本的管理</p>
 <h3 id="4-Flutter混合开发工程化整体流程"><a href="#4-Flutter混合开发工程化整体流程" class="headerlink" title="4. Flutter混合开发工程化整体流程"></a><strong>4. Flutter混合开发工程化整体流程</strong></h3><p><img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutter_hybrid_project.jpg" alt=""></p>
-<h2 id="九、后序"><a href="#九、后序" class="headerlink" title="九、后序"></a><strong>九、后序</strong></h2><p>对于现有工程使用Flutter进行混合开发，坑点还是有的，比如性能、页面栈管理等方面，只是目前还未踩到，加上目前Flutter上一些基础库不成熟，对于项目内的重要页面以及动态化强度比较高的页面，目前还是不建议使用Flutter进行开发，如果要使用也须做好降级方案，相反可以使用稍微轻量级点的页面，且在设计时对于Flutter与Native层的通信，应该让Flutter作为消费层消费Native层提供的服务，Native端应做尽量少的改动，最好仅改动一行代码，把页面路由跳转替换为Flutter页面路由，这样可以保证Native与Flutter的零耦合</p>
+<h2 id="九、后序"><a href="#九、后序" class="headerlink" title="九、后序"></a><strong>九、后序</strong></h2><p>对于现有工程使用Flutter进行混合开发，坑点还是有的，比如性能、页面栈管理等方面，只是目前还未踩到，加上目前Flutter上一些基础库不成熟，对于项目内的重要页面以及动态化强度比较高的页面，目前还是不建议使用Flutter进行开发，如果要使用也须做好降级方案，相反可以使用稍微轻量级点的页面，且在设计时对于Flutter与Native层的通信，应该让Flutter作为消费层消费Native层提供的服务，Native端应做尽量少的改动，最好仅增加一处页面路由的拦截器代码，在拦截器中通过Native与Flutter页面的映射关系，把Native的页面路由跳转替换为Flutter页面路由，这样可以保证Native与Flutter的零耦合</p>
 <h2 id="关于"><a href="#关于" class="headerlink" title="关于"></a><strong>关于</strong></h2><p>建了个微信公众号，后续博客会迁往以及在公众号第一时间发布，欢迎关注：<br><img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/qrcode_Bytes.jpg" width="200"></p>
 ]]></content:encoded>
       
