@@ -8,7 +8,7 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Tue, 18 Dec 2018 16:51:12 GMT</pubDate>
+    <pubDate>Wed, 19 Dec 2018 03:45:44 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -218,14 +218,14 @@
 <p>通常出现Bug或需要定制化的脚本往往是和平台链接时相关的，当然排除需要修改<code>dart</code>层Api代码的情况下，这种只能更改源码了，不过这种出bug的几率还是比较小的，比较涉及到SDK的Api层面了。而大概率出现问题需要兼容或进行定制化的几个地方通常为下面几处：</p>
 <blockquote>
 <ol>
-<li>$FLUTTER_SDK/packages/flutter_tools/gradle/flutter.gradle</li>
-<li>$FLUTTER_SDK/bin/cache/artifacts/engine/android-arch/flutter.jar</li>
-<li>$FLUTTER_MODULE/.android/build.gradle、.android/settings.gradle</li>
-<li>$FLUTTER_MODULE/.android/Flutter/build.gradle</li>
-<li>$FLUTTER_MODULE/.ios/Flutter/Generated.xcconfig</li>
-<li>$FLUTTER_MODULE/.ios/Flutter/podhelper.rb</li>
-<li>$FLUTTER_MODULE/.ios/Podfile</li>
-<li>$FLUTTER_SDK/packages/flutter_tools/bin/xcode_backend.sh</li>
+<li><code>$FLUTTER_SDK</code>/packages/flutter_tools/gradle/flutter.gradle</li>
+<li><code>$FLUTTER_SDK</code>/bin/cache/artifacts/engine/android-arch/flutter.jar</li>
+<li><code>$FLUTTER_MODULE</code>/.android/build.gradle、.android/settings.gradle</li>
+<li><code>$FLUTTER_MODULE</code>/.android/Flutter/build.gradle</li>
+<li><code>$FLUTTER_MODULE</code>/.ios/Flutter/Generated.xcconfig</li>
+<li><code>$FLUTTER_MODULE</code>/.ios/Flutter/podhelper.rb</li>
+<li><code>$FLUTTER_MODULE</code>/.ios/Podfile</li>
+<li><code>$FLUTTER_SDK</code>/packages/flutter_tools/bin/xcode_backend.sh</li>
 </ol>
 </blockquote>
 <p>而我们需要兼容的Flutter SDK的问题和定制化的点有下面几项：</p>
@@ -301,6 +301,7 @@
 <p>对于IOS的远程依赖，我们知道单独建一个独立的Git仓库就可以解决，通过配置好<code>podspec</code>，即可在IOS Native端进行远程依赖，但是像<code>Flutter.framework</code>与<code>App.framework</code>这种大文件，如果直接上传到Git仓库中有些不太友好，比如可以上传到CDN中，然后通过<code>podspec</code>的<code>spec.prepare_command</code>特性，在pod库安装时候预先执行一段脚本把这两个产物拉下来，对于目前来说，可以先传到Git中，这样比较直观与可控，便于版本的管理</p>
 <h3 id="4-Flutter混合开发工程化整体流程"><a href="#4-Flutter混合开发工程化整体流程" class="headerlink" title="4. Flutter混合开发工程化整体流程"></a><strong>4. Flutter混合开发工程化整体流程</strong></h3><p><img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutter_hybrid_project.jpg" alt=""></p>
 <h2 id="九、后序"><a href="#九、后序" class="headerlink" title="九、后序"></a><strong>九、后序</strong></h2><p>对于现有工程使用Flutter进行混合开发，坑点还是有的，比如性能、页面栈管理等方面，只是目前还未踩到，加上目前Flutter上一些基础库不成熟，对于项目内的重要页面以及动态化强度比较高的页面，目前还是不建议使用Flutter进行开发，如果要使用也须做好降级方案，相反可以使用稍微轻量级点的页面，且在设计时对于Flutter与Native层的通信，应该让Flutter作为消费层消费Native层提供的服务，Native端应做尽量少的改动，最好仅改动一行代码，把页面路由跳转替换为Flutter页面路由，这样可以保证Native与Flutter的零耦合</p>
+<h2 id="关于"><a href="#关于" class="headerlink" title="关于"></a><strong>关于</strong></h2><p>建了个微信公众号，后续博客会迁往以及在公众号第一时间发布，欢迎关注：<br><img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/qrcode_Bytes.jpg" width="200"></p>
 ]]></content:encoded>
       
       <comments>http://zhengxiaoyong.com/2018/12/16/Flutter%E6%B7%B7%E5%90%88%E5%BC%80%E5%8F%91%E7%BB%84%E4%BB%B6%E5%8C%96%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%8C%96%E6%9E%B6%E6%9E%84/#disqus_thread</comments>
