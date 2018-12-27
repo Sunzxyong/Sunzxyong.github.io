@@ -98,7 +98,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/apiinspect.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/apiinspect_result.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/qrcode.jpg">
-<meta property="og:updated_time" content="2018-12-27T09:03:18.000Z">
+<meta property="og:updated_time" content="2018-12-27T09:06:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一种Api兼容性检测方案">
 <meta name="twitter:description" content="简述一般来说，SDK依赖库的Api兼容性问题一直是个隐藏的问题，通常没有很好的方式解决，即使使用语义化版本管理，在众多基础SDK的引用依赖下，不能100%保证其中一个基础SDK的Api发生不兼容的改变后，该改变可能是对外暴露方法的签名改变、方法名称改变亦或是类名包名等改变，而发生这些不兼容Api的变化后，不能保证所有依赖该基础SDK的上层SDK全部对应的升级依赖版本。当然，良好的开发模式对于基础S">
@@ -393,6 +393,7 @@
         <h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a><strong>简述</strong></h2><p>一般来说，SDK依赖库的Api兼容性问题一直是个隐藏的问题，通常没有很好的方式解决，即使使用语义化版本管理，在众多基础SDK的引用依赖下，不能100%保证其中一个基础SDK的Api发生不兼容的改变后，该改变可能是对外暴露方法的签名改变、方法名称改变亦或是类名包名等改变，而发生这些不兼容Api的变化后，不能保证所有依赖该基础SDK的上层SDK全部对应的升级依赖版本。当然，良好的开发模式对于基础SDK开发来讲，对外暴露的Api的改变，一般不能直接改变其方法签名以及包名类名等，而应该相应的标为<strong><code>@Deprecated</code></strong>提供向下兼容</p>
 <p>但是，作为团队多人协作开发模式下，不能100%保证所有基础SDK的开发都以兼容方式进行Api的改变，除此之外，使用到的一些三方开源SDK，这个也不能保证它提供的Api是否是兼容的，以及在进行组件化、插件化过程中，Api兼容性问题是必须要考虑的</p>
 <p>为什么要考虑？这里所说的Api兼容性问题，不是发生在项目编译期，而是在运行期，因为项目中的SDK依赖库依赖进来时，是已经编译好的字节码文件，所以SDK依赖库内的兼容性问题，只有在程序运行期才可出现，一般表现为<strong><code>Crash</code></strong>或无响应，且出现上述情况的前提条件是代码刚好执行到了这段，否则还是不会有任何异常</p>
+<a id="more"></a>
 <h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a><strong>示例</strong></h3><p>一个通俗的例子，假如有<strong><code>A</code></strong>、<strong><code>B</code></strong>、<strong><code>C</code></strong>三个SDK<br>A和B都依赖了C，在一个版本迭代中，其中C的一个对外暴露的方法发生了签名的变更，而A对应的更新了C的依赖，B并不知道所以没更新</p>
 <p>那么在集成打包后，Gradle版本会自动解决传递依赖的版本冲突选择版本，假如同深度且无直接依赖都为传递依赖，那么C的相同版本类型高版本会作为冲突解决的版本，App在编译过程肯定是没问题的，而在运行到的某一个地方，则发生了<strong><code>Crash</code></strong>，method not found exception</p>
 <p>即使<strong><code>exclude</code></strong>后使用直接依赖不使用传递依赖，结果还是一样的</p>
