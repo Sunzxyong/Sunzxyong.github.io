@@ -8,7 +8,7 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Tue, 15 Jan 2019 06:26:11 GMT</pubDate>
+    <pubDate>Wed, 16 Jan 2019 05:58:00 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -44,6 +44,8 @@
 <a id="more"></a>
 <p>The layout of the Flutter project with <code>Wrapper</code> is as follows:</p>
 <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── android</span><br><span class="line">├── ios</span><br><span class="line">├── <span class="class"><span class="keyword">lib</span>/*.<span class="title">dart</span></span></span><br><span class="line">├── pubspec.yaml</span><br><span class="line">├── flutter</span><br><span class="line">│   └── wrapper</span><br><span class="line">│       └── flutter-wrapper.properties</span><br><span class="line">├── flutterw</span><br><span class="line">└── flutterw.bat</span><br></pre></td></tr></table></figure>
+<h3 id="Develop-in-multiple-projects"><a href="#Develop-in-multiple-projects" class="headerlink" title="Develop in multiple projects"></a><strong>Develop in multiple projects</strong></h3><p><img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutterw_project.png" alt=""></p>
+<h3 id="Develop-in-the-team"><a href="#Develop-in-the-team" class="headerlink" title="Develop in the team"></a><strong>Develop in the team</strong></h3><p><img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutterw_team.jpg" alt=""></p>
 <h3 id="Wrapper-Contents"><a href="#Wrapper-Contents" class="headerlink" title="Wrapper Contents"></a><strong>Wrapper Contents</strong></h3><h4 id="1-flutter-wrapper-properties"><a href="#1-flutter-wrapper-properties" class="headerlink" title="1. flutter-wrapper.properties"></a><strong>1. flutter-wrapper.properties</strong></h4><p>The Wrapper properties file, stores the information about the Flutter distribution. It contains the repository url and version of Flutter SDK.</p>
 <p>Example:</p>
 <blockquote>
