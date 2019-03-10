@@ -8,8 +8,59 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Wed, 16 Jan 2019 05:58:00 GMT</pubDate>
+    <pubDate>Sun, 10 Mar 2019 11:16:35 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>Flutter动态化探索</title>
+      <link>http://zhengxiaoyong.com/2019/03/10/Flutter%E5%8A%A8%E6%80%81%E5%8C%96%E6%8E%A2%E7%B4%A2/</link>
+      <guid>http://zhengxiaoyong.com/2019/03/10/Flutter%E5%8A%A8%E6%80%81%E5%8C%96%E6%8E%A2%E7%B4%A2/</guid>
+      <pubDate>Sun, 10 Mar 2019 11:10:21 GMT</pubDate>
+      <description>
+      
+        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;&lt;strong&gt;前言&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;Flutter的动态化，对于Android而言，一个很清晰的思路就是动态替换&lt;code&gt;flutter_assets&lt;/code&gt;的所有资源文件，因为Flutter加载代码和资源的工作目录即是应用沙盒目录下的&lt;code&gt;app_flutter&lt;/code&gt;目录，我们把这个目录下的文件进行对应替换即可，而对于IOS，由于本身系统的限制，官方目前也没相应方案，所以目前暂且说下Android平台上的Dynamic Patch&lt;/p&gt;
+&lt;p&gt;而目前Flutter Engine最新的Master分支上支持Flutter引擎的动态更新，所以Dynamic Patch支持JIT与AOT模式下的所有代码产物与资源的动态更新，以及模式互切，即下述文件：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;isolate_snapshot_data ：App代码数据段&lt;br&gt;isolate_snapshot_instr ：App代码指令段&lt;br&gt;vm_snapshot_data ：VM虚拟机数据段&lt;br&gt;vm_snapshot_instr ：VM虚拟机指令段&lt;br&gt;kernel_blob.bin ：Dart代码产物&lt;br&gt;flutter.so ：Flutter引擎&lt;br&gt;assets ：资源文件&lt;/p&gt;
+&lt;/blockquote&gt;
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>Flutter的动态化，对于Android而言，一个很清晰的思路就是动态替换<code>flutter_assets</code>的所有资源文件，因为Flutter加载代码和资源的工作目录即是应用沙盒目录下的<code>app_flutter</code>目录，我们把这个目录下的文件进行对应替换即可，而对于IOS，由于本身系统的限制，官方目前也没相应方案，所以目前暂且说下Android平台上的Dynamic Patch</p>
+<p>而目前Flutter Engine最新的Master分支上支持Flutter引擎的动态更新，所以Dynamic Patch支持JIT与AOT模式下的所有代码产物与资源的动态更新，以及模式互切，即下述文件：</p>
+<blockquote>
+<p>isolate_snapshot_data ：App代码数据段<br>isolate_snapshot_instr ：App代码指令段<br>vm_snapshot_data ：VM虚拟机数据段<br>vm_snapshot_instr ：VM虚拟机指令段<br>kernel_blob.bin ：Dart代码产物<br>flutter.so ：Flutter引擎<br>assets ：资源文件</p>
+</blockquote>
+<a id="more"></a>
+<p>在进行Flutter初始化时，做了动态加载Flutter引擎的支持：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (sResourceUpdater == <span class="keyword">null</span>) &#123;</span><br><span class="line">    System.loadLibrary(<span class="string">"flutter"</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    sResourceExtractor.waitForCompletion();</span><br><span class="line">    <span class="keyword">File</span> lib = <span class="keyword">new</span> <span class="keyword">File</span>(PathUtils.getDataDirectory(applicationContext), DEFAULT_LIBRARY);</span><br><span class="line">    <span class="keyword">if</span> (lib.exists()) &#123;</span><br><span class="line">        System.load(lib.getAbsolutePath());</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        System.loadLibrary(<span class="string">"flutter"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以及，对于<code>icudtl.dat</code>字符编码表打进了<code>flutter.so</code>引擎中，这一改变主要是减少了每次打包需要将<code>icudtl.dat</code>它复制到<code>flutter_assets</code>中维护成本，以及避免了Flutter在加载时把它拷贝到<code>app_flutter</code>时发生错误的风险，这对动态更新也更加方便了，Flutter引擎即包含了它，构建脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">action(<span class="string">"icudtl_object"</span>) &#123;</span><br><span class="line">  script = <span class="string">"<span class="variable">$flutter_root</span>/sky/tools/objcopy.py"</span></span><br><span class="line"></span><br><span class="line">  icudtl_input = <span class="string">"//third_party/icu/flutter/icudtl.dat"</span></span><br><span class="line">  icudtl_output = <span class="string">"<span class="variable">$root_build_dir</span>/flutter_icu/icudtl.o"</span></span><br><span class="line"></span><br><span class="line">  inputs = [</span><br><span class="line">    <span class="string">"<span class="variable">$icudtl_input</span>"</span>,</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">  outputs = [</span><br><span class="line">    <span class="string">"<span class="variable">$icudtl_output</span>"</span>,</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">  args = [</span><br><span class="line">    <span class="string">"--objcopy"</span>, rebase_path(android_objcopy),</span><br><span class="line">    <span class="string">"--input"</span>, rebase_path(icudtl_input),</span><br><span class="line">    <span class="string">"--output"</span>, rebase_path(icudtl_output),</span><br><span class="line">    <span class="string">"--arch"</span>, current_cpu,</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Flutter官方动态化流程"><a href="#Flutter官方动态化流程" class="headerlink" title="Flutter官方动态化流程"></a><strong>Flutter官方动态化流程</strong></h2><h3 id="相关配置"><a href="#相关配置" class="headerlink" title="相关配置"></a><strong>相关配置</strong></h3><h4 id="Config-Patch-Server-Url"><a href="#Config-Patch-Server-Url" class="headerlink" title="Config Patch Server Url"></a><strong>Config Patch Server Url</strong></h4><p>Application节点下的MetaData属性，对应Key为<code>PatchServerURL</code></p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uri = new URI<span class="list">(<span class="keyword">metaData</span>.getString<span class="list">(<span class="string">"PatchServerURL"</span>)</span> + <span class="string">"/"</span> + getAPKVersion<span class="list">()</span> + <span class="string">".zip"</span>)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<h4 id="Config-Patch-Download-Mode"><a href="#Config-Patch-Download-Mode" class="headerlink" title="Config Patch Download Mode"></a><strong>Config Patch Download Mode</strong></h4><p>Application节点下的MetaData属性，对应Key为<code>PatchDownloadMode</code></p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">String </span>patchDownloadMode = metaData.getString(<span class="string">"PatchDownloadMode"</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<h4 id="Config-Patch-Install-Mode"><a href="#Config-Patch-Install-Mode" class="headerlink" title="Config Patch Install Mode"></a><strong>Config Patch Install Mode</strong></h4><p>Application节点下的MetaData属性，对应Key为<code>PatchInstallMode</code></p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">String </span>patchInstallMode = metaData.getString(<span class="string">"PatchInstallMode"</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<h4 id="Patch-Installed-Path"><a href="#Patch-Installed-Path" class="headerlink" title="Patch Installed Path"></a><strong>Patch Installed Path</strong></h4><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">File</span> getInstalledPatch() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">File</span>(context.getFilesDir().toString() + <span class="string">"/patch.zip"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Patch-Downloaded-Path"><a href="#Patch-Downloaded-Path" class="headerlink" title="Patch Downloaded Path"></a><strong>Patch Downloaded Path</strong></h4><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">File</span> getDownloadedPatch() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">File</span>(getInstalledPatch().getPath() + <span class="string">".install"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="动态更新流程"><a href="#动态更新流程" class="headerlink" title="动态更新流程"></a><strong>动态更新流程</strong></h3><p>Flutter Dynamic Patch全局是通过一个开关判断是否开启了Patch更新特性，即application中的meta-data属性：<code>DynamicPatching</code></p>
+<p>官方内部动态更新流程大致为：<br><img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/flutter_dynamic.jpg" alt=""></p>
+<p><strong>Flutter初始化主要流程为：</strong><br>1、根据所配置项下载Patch文件（异步和同步两种方式）<br>2、检测Patch的下载目录是否有<code>patch.zip.install</code>待安装的Patch文件<br>3、校验待安装Patch文件内的isolate等文件CRC32与构建号是否与App的一致<br>4、在上一步校验成功后，会把待安装的Patch文件重命名并拷贝到Patch安装目录，文件名为<code>patch.zip</code><br>5、校验App下的data/packageName/app_flutter/目录的时间戳文件<br>6、在上一步校验成功后则删除该目录下的所有数据、指令集、flutter引擎文件，同时解压<code>patch.zip</code>文件，获取下列文件拷贝至app_flutter目录：</p>
+<blockquote>
+<p>libflutter.so<br>flutter_assets/app.flx（Deprecated）<br>flutter_assets/vm_snapshot_data<br>flutter_assets/vm_snapshot_instr<br>flutter_assets/isolate_snapshot_data<br>flutter_assets/isolate_snapshot_instr<br>flutter_assets/kernel_blob.bin</p>
+</blockquote>
+<p>如果其中存在有些文件不存在<code>patch.zip</code>中，则默认取Apk中<code>assets</code>目录下对应的资源进行补充<br>7、在App下的app_flutter目录下重新生成时间戳文件，文件名称格式为：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">res_timestamp</span>-<span class="cbracket">$&#123;App.versionCode&#125;</span>-<span class="cbracket">$&#123;App.lastUpdateTime&#125;</span>-[<span class="cbracket">$&#123;PatchNumber&#125;</span>]-<span class="cbracket">$&#123;PatchFile.lastModifiedTime&#125;</span></span><br></pre></td></tr></table></figure>
+<p>8、通过System.loadLibrary动态选择加载<code>flutter.so</code>引擎，如启用了动态更新功能，则首先从app_flutter路径加载，否则默认加载App内的Flutter引擎，届时，Flutter的启动初始化完成<br>9、最后在App运行期如果有FlutterActivity页面的启动，则会进行Flutter引擎的初始化，并把<code>AppBundle</code>路径（即app_flutter）传递给Flutter引擎供加载Flutter代码和数据资源，即：NativeInit</p>
+<h2 id="定制化动态化方案"><a href="#定制化动态化方案" class="headerlink" title="定制化动态化方案"></a><strong>定制化动态化方案</strong></h2><p>为什么要屏蔽官方的流程，而自定义一套动态化部署流程？<br>官方的流程以及配置太过于硬核，不能很好的与当前的业务以及动态部署模式结合，如：不支持灰度发布、定向版本部署等</p>
+<p>而Flutter对于自定义动态化流程，并未给出对应接口实现，如：Patch下载、校验规则、Patch替换等，所以对于使用我们自己的自定义的动态化流程，需要尽量不改动源码，保证侵入性最小，官方给出了一个metadata的配置来关闭或打开Patch的更新功能<code>DynamicPatching</code>，首先关闭这个，不使用内部的动态更新Patch逻辑，其次，对于动态替换，保持让Flutter先执行初始化替换流程，而自定义的这套的动态替换流程在FlutterMain init之后进行初始化或配置，进而进行资源的替换更新，而<code>flutter.so</code>的加载过程还在内部，这段需要屏蔽，从而动态加载我们下发的Flutter引擎，自定义的动态化加载方案一些流程和校验规则是可以参考官方实现</p>
+<h2 id="Flutter差量更新"><a href="#Flutter差量更新" class="headerlink" title="Flutter差量更新"></a><strong>Flutter差量更新</strong></h2><p>对于上述动态更新流程，都是基于Flutter资源的完整替换，也即全量，而Flutter的代码产物是比较大的，通常来说有几M，所以Flutter动态化方案中肯定得支持差量的动态更新，一些二进制差量工具如bsdiff、xdelta等，通过对比获取差量Patch包，下发后合成，最终完成替换更新，这种方案是可行的</p>
+<h3 id="关注我"><a href="#关注我" class="headerlink" title="关注我"></a><strong>关注我</strong></h3><p><img src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/qrcode.jpg" width="200"></p>
+]]></content:encoded>
+      
+      <comments>http://zhengxiaoyong.com/2019/03/10/Flutter%E5%8A%A8%E6%80%81%E5%8C%96%E6%8E%A2%E7%B4%A2/#disqus_thread</comments>
+    </item>
     
     <item>
       <title>Flutter Wrapper Workflow</title>
@@ -1279,52 +1330,6 @@
 <h3 id="还是戳我"><a href="#还是戳我" class="headerlink" title="还是戳我"></a><a href="https://github.com/Sunzxyong/Recovery" target="_blank" rel="external">还是戳我</a></h3>]]></content:encoded>
       
       <comments>http://zhengxiaoyong.com/2016/09/05/Android%E8%BF%90%E8%A1%8C%E6%97%B6Crash%E8%87%AA%E5%8A%A8%E6%81%A2%E5%A4%8D%E6%A1%86%E6%9E%B6-Recovery/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>Android端应用秒开优化体验</title>
-      <link>http://zhengxiaoyong.com/2016/07/18/Android%E7%AB%AF%E5%BA%94%E7%94%A8%E7%A7%92%E5%BC%80%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/</link>
-      <guid>http://zhengxiaoyong.com/2016/07/18/Android%E7%AB%AF%E5%BA%94%E7%94%A8%E7%A7%92%E5%BC%80%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/</guid>
-      <pubDate>Mon, 18 Jul 2016 13:43:26 GMT</pubDate>
-      <description>
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;&lt;strong&gt;前言&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;最近部门内抛出了一个问题，应用启动很慢、卡图标？主要表现在中低端机型中。究其这个问题，由于对性能优化比较感兴趣，借了个低端机和一个中端机来一看究竟，对同一应用分别测了下它在中低端机的启动时间，下面为启动耗时情况：&lt;br&gt;&lt;img src=&quot;http://7xswxf.com2.z0.glb.qiniucdn.com/blog/launch_one.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;启动了三次，基本都在4s左右。&lt;br&gt;
-      
-      </description>
-      
-      <content:encoded><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>最近部门内抛出了一个问题，应用启动很慢、卡图标？主要表现在中低端机型中。究其这个问题，由于对性能优化比较感兴趣，借了个低端机和一个中端机来一看究竟，对同一应用分别测了下它在中低端机的启动时间，下面为启动耗时情况：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/launch_one.jpg" alt=""></p>
-<p>启动了三次，基本都在4s左右。<br><a id="more"></a></p>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a><strong>原因</strong></h2><p>究其原因，主要因素是任务在界面绘制前过于集中化。</p>
-<p>应用启动过程从用户点击launcher图标到看到第一帧这个过程中，主要会经过以下这些过程：</p>
-<blockquote>
-<p>main()-&gt;Application:attachBaseContext()-&gt;onCreate()-&gt;Activity:onCreate()-&gt;onStart()-&gt;onPostCreate()-&gt;onResume()-&gt;onPostResume()</p>
-</blockquote>
-<p>而一般我们的初始化任务主要都会集中化在Application:onCreate()方法中，这就使得初始化任务在第一帧绘制之前得完成，这就造成了卡图标、应用启动慢。那么把任务打散呢？分散在LaunchActivity中去分段初始化？还是不行的，因为界面开始绘制是在onResume()方法开始后才开始绘制，所以，得从Activity的创建过程找办法。</p>
-<p>main-&gt;Activity创建的这个过程会经过一系列framework层的操作，这些操作都是系统自动执行的，不易进行优化，不过可以在Activity创建这个过程前后来找一些蛛丝马迹，因为Activity的创建都会辗转到ActivityThread:performLaunchActivity()这个方法中，在这个方法中可以知道这么几件事：<br>1、先通过Instrumentation:newActivity()来创建一个Activity实例<br>2、再判断Application实例是否已创建，已创建则直接返回，否则调用<br>Instrumentation:newApplication()来创建Application实例，在这个过程中会依次执行attachBaseContext()和onCreate()方法<br>3、之后Activity:attach()方法会创建一个PhoneWindow对象，它就是界面，它有一个DecorView，调用setContentView()时会给配置DecorView，其中就会设置一个背景：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/launc_code.jpg" alt=""></p>
-<p>我们的View也是add进DecorView中显示，它作为RootView肯定是最先显示，所以可以给它设置个默认背景<br>4、最后依次调用Activity的onCreate、onStart等方法</p>
-<h2 id="措施"><a href="#措施" class="headerlink" title="措施"></a><strong>措施</strong></h2><blockquote>
-<p>1、任务分级<br>2、任务并行<br>3、界面预显示</p>
-</blockquote>
-<p>对于任务集中初始化化、耗时初始化原因导致应用在中低端机启动过慢，而Activity界面绘制的时机导致简单的将任务分给Activity初始化也不起作用，我们必须找一个切入点</p>
-<blockquote>
-<p>界面的创建和界面的绘制，这两个过程第一个是Application的attachBaseConte和onCreate这两个方法影响的，第二个则是Application创建一直到界面绘制</p>
-</blockquote>
-<p>所以，可以对任务进行分级的临界点可以这样分：</p>
-<blockquote>
-<p>1、CoreSDK——Application的创建<br>2、HighPrioritySDK——Activity的创建<br>3、LowPrioritySDK——Activity界面完成绘制<br>4、AsyncSDK——Activity的创建</p>
-</blockquote>
-<p>如图：<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/launch.png" alt="launch"></p>
-<p>对任务这样分级后，测了一下，应用的启动即使在低端机上，也能秒开:<br><img src="http://7xswxf.com2.z0.glb.qiniucdn.com/blog/launch_two.jpg" alt=""></p>
-<h2 id="分级带来的问题"><a href="#分级带来的问题" class="headerlink" title="分级带来的问题"></a><strong>分级带来的问题</strong></h2><p>正常启动过程那肯定是没问题的，不过有这么几种场景：</p>
-<blockquote>
-<p>1、App切回后台，内存不足导致Application被回收，从最近任务列表中恢复界面时Application需重新创建<br>2、应用没挂起时，Push推送需从Notification跳入应用内某界面<br>3、应用没挂起时，浏览器外链需跳入应用内某界面</p>
-</blockquote>
-<p>这些Case可能导致的问题是被跳入的界面使用到了未初始化的SDK，可能导致Crash或者数据异常，所以目标页面启动前必须确保SDK已经初始化，这个过程的原因是没有唤起启动页来初始化SDK，可以通过hook newActivity解决，其中判断Application是否初始化和各个SDK是否初始化，并且判断该次启动不来自系统的Launcher。</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function">Activity <span class="title">newActivity</span><span class="params">(ClassLoader cl, String className, Intent intent)</span> <span class="keyword">throws</span> InstantiationException, IllegalAccessException, ClassNotFoundException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (InitializeOptimizer.isApplicationCreated()</span><br><span class="line">            &amp;&amp; (!InitializeOptimizer.isHighSDKInitialized()</span><br><span class="line">            || !InitializeOptimizer.isLowSDKInitialized()</span><br><span class="line">            || !InitializeOptimizer.isAsyncSDKInitialized()) &amp;&amp; !InitializeUtil.isAppLauncher(intent)) &#123;</span><br><span class="line">        InitializeOptimizer.setApplicationCreated(<span class="keyword">false</span>);</span><br><span class="line">        intent.addCategory(InitializeUtil.INITIALIZE_CATEGORY);</span><br><span class="line">        <span class="keyword">return</span> (Activity) cl.loadClass(WDInitializeOptimizer.getLaunchClassName()).newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">    InitializeOptimizer.setApplicationCreated(<span class="keyword">false</span>);</span><br><span class="line">    <span class="function"><span class="keyword">return</span> <span class="keyword">super</span>.<span class="title">newActivity</span><span class="params">(cl, className, intent)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content:encoded>
-      
-      <comments>http://zhengxiaoyong.com/2016/07/18/Android%E7%AB%AF%E5%BA%94%E7%94%A8%E7%A7%92%E5%BC%80%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/#disqus_thread</comments>
     </item>
     
   </channel>
