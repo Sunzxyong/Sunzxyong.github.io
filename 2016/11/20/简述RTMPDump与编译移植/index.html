@@ -6,15 +6,15 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -32,7 +32,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
@@ -66,57 +66,41 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="RTMPDump,librtmp,librtmp编译," />
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-
-
-
-  <link rel="alternate" href="/rss2.xml" title="zhengxiaoyong" type="application/atom+xml" />
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+  <meta name="keywords" content="RTMPDump,librtmp,librtmp编译,">
 
 
 
 
 
+  <link rel="alternate" href="/rss2.xml" title="zhengxiaoyong" type="application/atom+xml">
 
-<meta name="description" content="RTMPDump概述RTMPDump主页，RTMPDump库主要包含三部分：
 
-1、一个基本的客户端程序2、两个服务器程序（rtmpsrv、rtmpsuck）3、一个支持rtmp协议的库—librtmp
 
-下载RTMPDump最新源码，可以通过git拉取master分支上的最新代码：
-1git clone git://git.ffmpeg.org/rtmpdump
-或者下载以前版本的代码—Down">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="RTMPDump概述RTMPDump主页，RTMPDump库主要包含三部分：  1、一个基本的客户端程序2、两个服务器程序（rtmpsrv、rtmpsuck）3、一个支持rtmp协议的库—librtmp  下载RTMPDump最新源码，可以通过git拉取master分支上的最新代码： 1git clone git://git.ffmpeg.org/rtmpdump  或者下载以前版本的代码—Dow">
+<meta name="keywords" content="RTMPDump,librtmp,librtmp编译">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简述RTMPDump与编译移植">
 <meta property="og:url" content="http://zhengxiaoyong.com/2016/11/20/简述RTMPDump与编译移植/index.html">
 <meta property="og:site_name" content="zhengxiaoyong">
-<meta property="og:description" content="RTMPDump概述RTMPDump主页，RTMPDump库主要包含三部分：
-
-1、一个基本的客户端程序2、两个服务器程序（rtmpsrv、rtmpsuck）3、一个支持rtmp协议的库—librtmp
-
-下载RTMPDump最新源码，可以通过git拉取master分支上的最新代码：
-1git clone git://git.ffmpeg.org/rtmpdump
-或者下载以前版本的代码—Down">
+<meta property="og:description" content="RTMPDump概述RTMPDump主页，RTMPDump库主要包含三部分：  1、一个基本的客户端程序2、两个服务器程序（rtmpsrv、rtmpsuck）3、一个支持rtmp协议的库—librtmp  下载RTMPDump最新源码，可以通过git拉取master分支上的最新代码： 1git clone git://git.ffmpeg.org/rtmpdump  或者下载以前版本的代码—Dow">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2016-11-20T13:09:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="简述RTMPDump与编译移植">
-<meta name="twitter:description" content="RTMPDump概述RTMPDump主页，RTMPDump库主要包含三部分：
-
-1、一个基本的客户端程序2、两个服务器程序（rtmpsrv、rtmpsuck）3、一个支持rtmp协议的库—librtmp
-
-下载RTMPDump最新源码，可以通过git拉取master分支上的最新代码：
-1git clone git://git.ffmpeg.org/rtmpdump
-或者下载以前版本的代码—Down">
+<meta name="twitter:description" content="RTMPDump概述RTMPDump主页，RTMPDump库主要包含三部分：  1、一个基本的客户端程序2、两个服务器程序（rtmpsrv、rtmpsuck）3、一个支持rtmp协议的库—librtmp  下载RTMPDump最新源码，可以通过git拉取master分支上的最新代码： 1git clone git://git.ffmpeg.org/rtmpdump  或者下载以前版本的代码—Dow">
 
 
 
@@ -144,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://zhengxiaoyong.com/2016/11/20/简述RTMPDump与编译移植/"/>
+  <link rel="canonical" href="http://zhengxiaoyong.com/2016/11/20/简述RTMPDump与编译移植/">
 
 
 
@@ -183,7 +167,7 @@
   
 
   <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
+    <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
       <span class="site-title">zhengxiaoyong</span>
       <span class="logo-line-after"><i></i></span>
@@ -212,7 +196,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             首页
           </a>
@@ -222,7 +206,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
             
             归档
           </a>
@@ -232,7 +216,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
           </a>
@@ -242,7 +226,7 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
             
             标签
           </a>
@@ -252,7 +236,7 @@
         <li class="menu-item menu-item-about">
           <a href="/about" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
             
             关于
           </a>
@@ -291,14 +275,14 @@
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="郑晓勇">
-    <meta itemprop="description" content="">
+    <meta itemprop="description" content>
     <meta itemprop="image" content="/images/avatar.png">
   </span>
 
   <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
     <meta itemprop="name" content="zhengxiaoyong">
     <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="zhengxiaoyong" src="">
+      <img style="display:none;" itemprop="url image" alt="zhengxiaoyong" src>
     </span>
   </span>
 
@@ -326,7 +310,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-11-20T19:47:59+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-20T19:47:59+08:00">
                 2016-11-20
               </time>
             
@@ -337,7 +321,7 @@
           </span>
 
           
-            <span class="post-category" >
+            <span class="post-category">
             
               <span class="post-meta-divider">|</span>
             
@@ -405,17 +389,19 @@
       
 
       
-        <h2 id="RTMPDump概述"><a href="#RTMPDump概述" class="headerlink" title="RTMPDump概述"></a><strong>RTMPDump概述</strong></h2><p><a href="http://rtmpdump.mplayerhq.hu/" target="_blank" rel="external">RTMPDump主页</a>，RTMPDump库主要包含三部分：</p>
+        <h2 id="RTMPDump概述"><a href="#RTMPDump概述" class="headerlink" title="RTMPDump概述"></a><strong>RTMPDump概述</strong></h2><p><a href="http://rtmpdump.mplayerhq.hu/" target="_blank" rel="noopener">RTMPDump主页</a>，RTMPDump库主要包含三部分：</p>
 <blockquote>
 <p>1、一个基本的客户端程序<br>2、两个服务器程序（rtmpsrv、rtmpsuck）<br>3、一个支持rtmp协议的库—librtmp</p>
 </blockquote>
 <p>下载RTMPDump最新源码，可以通过git拉取master分支上的最新代码：</p>
 <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">clone</span> <span class="title">git</span>://git.ffmpeg.org/rtmpdump</span><br></pre></td></tr></table></figure>
-<p>或者下载以前版本的代码—<a href="http://rtmpdump.mplayerhq.hu/download/" target="_blank" rel="external">Download old version</a></p>
+
+<p>或者下载以前版本的代码—<a href="http://rtmpdump.mplayerhq.hu/download/" target="_blank" rel="noopener">Download old version</a></p>
 <p>下面主要介绍librtmp和librtmp的编译</p>
 <h3 id="librtmp概述"><a href="#librtmp概述" class="headerlink" title="librtmp概述"></a><strong>librtmp概述</strong></h3><p>librtmp库提供了大量客户端函数和少部分的服务器端的函数用来支持RTMP、RTMPT（RTMP使用Http通道），RTMPE（加密的RTMP），RTMPS（基于SSL/TLS的RTMP）和RTMPTE、RTMPTS（使用Http通道的加密和基于SSL/TLS的RTMP）协议</p>
 <p>使用librtmp库进行的流媒体交互都是使用<strong>FLV</strong>封包格式进行传输的，当然编码不限定，不过为了拉流端同时也支持<strong>HLS</strong>协议，最好使用<strong>H264</strong>编码视频和<strong>AAC</strong>编码音频数据</p>
 <a id="more"></a>
+
 <p>使用librtmp通过<strong><code>RTMP[T][E|S]</code></strong>协议进行一次流媒体交互的基本过程为：</p>
 <blockquote>
 <p><strong>推流端</strong>：</p>
@@ -449,36 +435,46 @@
 </blockquote>
 <p>上述方法的具体实现可以在librtmp包中的<code>rtmp.c</code>文件中找到，同时，它还提供了其它众多方法来处理RTMP的流媒体交互过程</p>
 <h3 id="librtmp的RTMP-URL格式"><a href="#librtmp的RTMP-URL格式" class="headerlink" title="librtmp的RTMP URL格式"></a><strong>librtmp的RTMP URL格式</strong></h3><p>一个基本的RTMP URL格式为：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rtmp[<span class="link_label">t</span>][<span class="link_reference">e|s</span>]://host[<span class="link_label">:port</span>][<span class="link_reference">/app[/playpath</span>]]</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rtmp[<span class="string">t</span>][<span class="symbol">e|s</span>]://host[<span class="string">:port</span>][<span class="symbol">/app[/playpath</span>]]</span><br></pre></td></tr></table></figure>
+
 <p>和http类似，不过某些地方不一样，下面简单说说：<br>scheme为rtmp或者rtmp协议的诸多变种之一，这就不需要多解释了，像websocket协议scheme为ws或者wss，http协议scheme为http或https。<br>host为主机名，后面紧接着为端口号，如果不指定，rtmp协议默认端口号为1935.<br>app代表服务器上的一个Application应用程序，这个名称是由服务器定义的，如：live。<br>playpath则是表示该Application下的一个媒体流的路径，如：room100。</p>
 <p>当然也可以追加额外的参数，只不过这和我们使用http协议追加参数的方式不同，librtmp是采取空格为分隔符，通过追加”key=value”的方式进行追加额外的参数，如：</p>
 <figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"rtmp://localhost:1935/live/room100 app=happylive"</span></span><br></pre></td></tr></table></figure>
+
 <p>这就追加了额外的key为app，value为happylive的参数，表示使用happylive应用来连接而代替rtmp url中的live应用</p>
-<p>关于librtmp的更多额外的参数配置，可以看<a href="http://rtmpdump.mplayerhq.hu/librtmp.3.html" target="_blank" rel="external">librtmp文档</a></p>
+<p>关于librtmp的更多额外的参数配置，可以看<a href="http://rtmpdump.mplayerhq.hu/librtmp.3.html" target="_blank" rel="noopener">librtmp文档</a></p>
 <h3 id="librtmp编译"><a href="#librtmp编译" class="headerlink" title="librtmp编译"></a><strong>librtmp编译</strong></h3><p>由于librtmp默认依赖zlib和openssl这两个库，所以编译时需要链接这两个库，由于NDK自带了zlib库，所以不需要单独去下载和编译，在编译librtmp时配置<code>Android.mk</code>文件的<code>LOCAL_LDLIBS</code>属性为<code>-lz</code>链接即可，编译时会在指定的platforms的arch-xxx/usr/lib/目录下搜索</p>
 <p>编译librtmp，在librtmp目录下新建Android.mk文件，内容如下：</p>
-<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_PATH:= $(call my-dir)</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># 编译模块输出的名称</span></span><br><span class="line">LOCAL_MODULE := rtmp</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># 编译所需的头文件路径</span></span><br><span class="line">LOCAL_C_INCLUDES += \</span><br><span class="line">$(LOCAL_PATH)/</span><br><span class="line"><span class="preprocessor">#$(LOCAL_PATH)/../openssl/include/ #链接openssl库</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># 编译所需的源文件路径</span></span><br><span class="line">LOCAL_SRC_FILES := \</span><br><span class="line">amf.c       \</span><br><span class="line">log.c       \</span><br><span class="line">parseurl.c  \</span><br><span class="line">rtmp.c      \</span><br><span class="line">hashswf.c</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># 编译时候需要链接的动态库库存在静态库形式，将会链接到对应的静态库而不是动态库</span></span><br><span class="line"><span class="preprocessor"># LOCAL_FORCE_STATIC_EXECUTABLE := true</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># 添加编译配置选项，一些常用编译配置：</span></span><br><span class="line"><span class="preprocessor"># -fPIC:编译位置无关的代码，一般用于编译动态库</span></span><br><span class="line"><span class="preprocessor"># -02:编译优化程度</span></span><br><span class="line"><span class="preprocessor"># -lxxx:链接名为libxxx库</span></span><br><span class="line"><span class="preprocessor"># -I添加编译器搜索-l指定的库文件的搜索</span></span><br><span class="line"><span class="preprocessor"># -D:加入宏定义，如：NO_CRYPTO，不使用加密</span></span><br><span class="line">LOCAL_CFLAGS += -DRTMPDUMP_VERSION=v2<span class="number">.4</span> -DNO_CRYPTO -Wall -fPIC -O2 </span><br><span class="line"><span class="preprocessor">#LOCAL_CFLAGS += -I$(LOCAL_PATH)/../openssl -lssl -lcrypto #可选添加openssl支持，需去除-DNO_CRYPTO</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># 添加编译时需要链接器链接的那些存在于NDK目录下的其它库，所链接库的以“-lxxx”格式命名，如：-lz 表示编译时会加载libz.so库</span></span><br><span class="line">LOCAL_LDLIBS += -lz</span><br><span class="line"></span><br><span class="line"><span class="preprocessor"># include $(BUILD_STATIC_LIBRARY)</span></span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure>
-<p>关于mk文件的编写和参数配置，可以阅读<a href="https://developer.android.com/ndk/guides/android_mk.html" target="_blank" rel="external">mk官网文档</a>，上面也给出了全部编译时参数配置的注释，由于上面配置加入了<code>NO_CRYPTO</code>定义，没有链接openssl库，需要的可以自己加或者使用<a href="https://tls.mbed.org/" target="_blank" rel="external">PolarSSL</a>、<a href="http://www.gnu.org/software/gnutls/" target="_blank" rel="external">GnuTLS</a>来替代<a href="https://www.openssl.org/" target="_blank" rel="external">OpenSSL</a></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_PATH:= <span class="variable">$(<span class="built_in">call</span> my-<span class="built_in">dir</span>)</span></span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(CLEAR_VARS)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译模块输出的名称</span></span><br><span class="line">LOCAL_MODULE := rtmp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译所需的头文件路径</span></span><br><span class="line">LOCAL_C_INCLUDES += \</span><br><span class="line"><span class="variable">$(LOCAL_PATH)</span>/</span><br><span class="line"><span class="comment">#$(LOCAL_PATH)/../openssl/include/ #链接openssl库</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译所需的源文件路径</span></span><br><span class="line">LOCAL_SRC_FILES := \</span><br><span class="line">amf.c       \</span><br><span class="line">log.c       \</span><br><span class="line">parseurl.c  \</span><br><span class="line">rtmp.c      \</span><br><span class="line">hashswf.c</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译时候需要链接的动态库库存在静态库形式，将会链接到对应的静态库而不是动态库</span></span><br><span class="line"><span class="comment"># LOCAL_FORCE_STATIC_EXECUTABLE := true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加编译配置选项，一些常用编译配置：</span></span><br><span class="line"><span class="comment"># -fPIC:编译位置无关的代码，一般用于编译动态库</span></span><br><span class="line"><span class="comment"># -02:编译优化程度</span></span><br><span class="line"><span class="comment"># -l<span class="doctag">xxx:</span>链接名为libxxx库</span></span><br><span class="line"><span class="comment"># -I添加编译器搜索-l指定的库文件的搜索</span></span><br><span class="line"><span class="comment"># -D:加入宏定义，如：NO_CRYPTO，不使用加密</span></span><br><span class="line">LOCAL_CFLAGS += -DRTMPDUMP_VERSION=v2.4 -DNO_CRYPTO -Wall -fPIC -O2 </span><br><span class="line"><span class="comment">#LOCAL_CFLAGS += -I$(LOCAL_PATH)/../openssl -lssl -lcrypto #可选添加openssl支持，需去除-DNO_CRYPTO</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加编译时需要链接器链接的那些存在于NDK目录下的其它库，所链接库的以“-lxxx”格式命名，如：-lz 表示编译时会加载libz.so库</span></span><br><span class="line">LOCAL_LDLIBS += -lz</span><br><span class="line"></span><br><span class="line"><span class="comment"># include $(BUILD_STATIC_LIBRARY)</span></span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(BUILD_SHARED_LIBRARY)</span></span><br></pre></td></tr></table></figure>
+
+<p>关于mk文件的编写和参数配置，可以阅读<a href="https://developer.android.com/ndk/guides/android_mk.html" target="_blank" rel="noopener">mk官网文档</a>，上面也给出了全部编译时参数配置的注释，由于上面配置加入了<code>NO_CRYPTO</code>定义，没有链接openssl库，需要的可以自己加或者使用<a href="https://tls.mbed.org/" target="_blank" rel="noopener">PolarSSL</a>、<a href="http://www.gnu.org/software/gnutls/" target="_blank" rel="noopener">GnuTLS</a>来替代<a href="https://www.openssl.org/" target="_blank" rel="noopener">OpenSSL</a></p>
 <p>然后在rtmpdump目录下也建立个Android.mk文件，内容为：</p>
-<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="constant">LOCAL_PATH</span> := <span class="variable">$(</span>call my-dir)</span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(</span><span class="constant">CLEAR_VARS</span>)</span><br><span class="line">subdirs := <span class="variable">$(</span>addprefix <span class="variable">$(</span><span class="constant">LOCAL_PATH</span>)/,<span class="variable">$(</span>addsuffix /<span class="constant">Android</span>.mk, \</span><br><span class="line">librtmp \</span><br><span class="line">))</span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(</span>subdirs)</span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_PATH := <span class="variable">$(<span class="built_in">call</span> my-<span class="built_in">dir</span>)</span></span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(CLEAR_VARS)</span></span><br><span class="line">subdirs := <span class="variable">$(<span class="built_in">addprefix</span> <span class="variable">$(LOCAL_PATH)</span>/,$(<span class="built_in">addsuffix</span> /Android.mk, \</span></span><br><span class="line"><span class="variable">librtmp \</span></span><br><span class="line"><span class="variable">)</span>)</span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(subdirs)</span></span><br></pre></td></tr></table></figure>
+
 <p>其实不需要这个也行，不过加入该文件目的是为了能够统一rtmpdump文件夹下和子目录中的mk的编译运行入口，这样只需调用这一个mk文件即可，上面配置的只会运行librtmp目录下的mk文件，如果需要加入其它的，则在<code>subdirs</code>中加入即可，如：</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">subdirs </span>:= $(<span class="keyword">addprefix </span>$(LOCAL_PATH)/,$(<span class="keyword">addsuffix </span>/<span class="keyword">Android.mk, </span>\</span><br><span class="line"><span class="label">librtmp</span> \</span><br><span class="line"><span class="label">otherdir</span> \</span><br><span class="line">))</span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">subdirs := <span class="variable">$(<span class="built_in">addprefix</span> <span class="variable">$(LOCAL_PATH)</span>/,$(<span class="built_in">addsuffix</span> /Android.mk, \</span></span><br><span class="line"><span class="variable">librtmp \</span></span><br><span class="line"><span class="variable">otherdir \</span></span><br><span class="line"><span class="variable">)</span>)</span><br></pre></td></tr></table></figure>
+
 <p>最后在rtmpdump中新建jni目录，新建Application.mk文件，内容为：</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="constant">NDK_TOOLCHAIN_VERSION</span> := 4.9</span><br><span class="line"><span class="constant">APP_PLATFORM</span> := android-14</span><br><span class="line"><span class="constant">APP_ABI</span> := all</span><br><span class="line"><span class="constant">APP_OPTIM</span> := release</span><br><span class="line"><span class="constant">APP_PROJECT_PATH</span> := <span class="variable">$(shell pwd)</span></span><br><span class="line"><span class="constant">APP_BUILD_SCRIPT</span> := <span class="variable">$(APP_PROJECT_PATH)</span>/Android.mk</span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">NDK_TOOLCHAIN_VERSION := 4.9</span><br><span class="line">APP_PLATFORM := android-14</span><br><span class="line">APP_ABI := all</span><br><span class="line">APP_OPTIM := release</span><br><span class="line">APP_PROJECT_PATH := <span class="variable">$(<span class="built_in">shell</span> pwd)</span></span><br><span class="line">APP_BUILD_SCRIPT := <span class="variable">$(APP_PROJECT_PATH)</span>/Android.mk</span><br></pre></td></tr></table></figure>
+
 <p>主要是对编译时的编译配置进行配置，<code>APP_ABI := all</code>表示支持当前平台支持的的全部CPU架构</p>
 <p>然后新建一个开始执行编译的脚本文件，内容为：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/bash</span></span><br><span class="line">NDK=<span class="variable">$HOME</span>/Library/Android/sdk/ndk-bundle</span><br><span class="line"><span class="variable">$NDK</span>/ndk-build NDK_APPLICATION_MK=./jni/Application.mk NDK_PROJECT_PATH=./</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">NDK=<span class="variable">$HOME</span>/Library/Android/sdk/ndk-bundle</span><br><span class="line"><span class="variable">$NDK</span>/ndk-build NDK_APPLICATION_MK=./jni/Application.mk NDK_PROJECT_PATH=./</span><br></pre></td></tr></table></figure>
+
 <p>其中NDK路径替换为自己的即可，开始编译：</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> rtmpdump</span><br><span class="line">./build_librtmp.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> rtmpdump</span><br><span class="line"><span class="string">./build_librtmp.sh</span></span><br></pre></td></tr></table></figure>
+
 <p>成功后，可以在rtmpdump目录下看到obj和libs两个文件夹，libs存放着编译出来的动态库，而obj则是存放静态库，这取决于所配置的是<code>BUILD_SHARED_LIBRARY</code>还是<code>BUILD_STATIC_LIBRARY</code></p>
 <p>当然其它库也可以用这种方式进行编译</p>
 <h2 id="在FFmpeg中使用librtmp"><a href="#在FFmpeg中使用librtmp" class="headerlink" title="在FFmpeg中使用librtmp"></a><strong>在FFmpeg中使用librtmp</strong></h2><p>由于FFmpeg本身默认自带就支持rtmp、rtmpt协议，不过也可以扩展以便支持rtmp协议的多种变种协议（rtmps、rtmpt、rtmpts、rtmpte和rtmpe协议），在FFmpeg加入openssl库的支持，可以支持rtmps、rtmpts协议，加入libgcrypt库的支持，可以支持rtmpe、rtmpte协议，这样支持相对麻烦，可以直接使用librtmp来支持rtmp以及它的多种变种协议，可通过链接librtmp库来支持，在FFmpeg的编译脚本中加入以下配置：</p>
-<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--enable-librtmp</span><br><span class="line">--extra-cflags=-I/<span class="variable">$LIBRTMP</span>_INCLUDE_PATH</span><br><span class="line">--extra-ldflags=-L/<span class="variable">$LIBRTMP</span>_LIB_PATH</span><br></pre></td></tr></table></figure>
-<p>上面的<code>$LIBRTMP_INCLUDE_PATH</code>和<code>$LIBRTMP_LIB_PATH</code>分别是librtmp头文件和静态库的路径<br>关于FFmpeg如何链接第三方库请看我的这篇文章<a href="http://zhengxiaoyong.me/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/" target="_blank" rel="external">初识FFmpeg编译那些事</a></p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby">-enable-librtmp</span></span><br><span class="line"><span class="ruby">--extra-cflags=-I/$LIBRTMP_INCLUDE_PATH</span></span><br><span class="line"><span class="ruby">--extra-ldflags=-L/$LIBRTMP_LIB_PATH</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的<code>$LIBRTMP_INCLUDE_PATH</code>和<code>$LIBRTMP_LIB_PATH</code>分别是librtmp头文件和静态库的路径<br>关于FFmpeg如何链接第三方库请看我的这篇文章<a href="http://zhengxiaoyong.me/2016/11/13/%E5%88%9D%E8%AF%86FFmpeg%E7%BC%96%E8%AF%91%E9%82%A3%E4%BA%9B%E4%BA%8B/" target="_blank" rel="noopener">初识FFmpeg编译那些事</a></p>
 <p>如果在编译时发生错误或警告<code>xxx-pkg-config not found</code>，请找到FFmpeg的configure文件中的如下内容</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enabled librtmp           &amp;&amp; require_pkg_config librtmp librtmp/rtmp<span class="class">.h</span> RTMP_Socket</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enabled librtmp           &amp;&amp; require_pkg_config librtmp librtmp/rtmp<span class="selector-class">.h</span> RTMP_Socket</span><br></pre></td></tr></table></figure>
+
 <p>将后面的<code>&amp;&amp; require_pkg_config librtmp librtmp/rtmp.h RTMP_Socket</code>删了，因为FFmpeg在链接librtmp时会运行pkg-config，此时找不到pkg-config则会报错，当然还有链接其它库时如果发生类似错误也可以用同样的方法解决</p>
-<h2 id="Librtmp编译源码"><a href="#Librtmp编译源码" class="headerlink" title="Librtmp编译源码"></a><strong>Librtmp编译源码</strong></h2><p><a href="https://github.com/Sunzxyong/Librtmp-Compile-For-Android" target="_blank" rel="external">librtmp编译源码</a></p>
+<h2 id="Librtmp编译源码"><a href="#Librtmp编译源码" class="headerlink" title="Librtmp编译源码"></a><strong>Librtmp编译源码</strong></h2><p><a href="https://github.com/Sunzxyong/Librtmp-Compile-For-Android" target="_blank" rel="noopener">librtmp编译源码</a></p>
 
       
     </div>
@@ -501,13 +497,13 @@
     <div id="QR" style="display: none;">
       
         <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/wechat_pay.jpg" alt="郑晓勇 WeChat Pay"/>
+          <img id="wechat_qr" src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/wechat_pay.jpg" alt="郑晓勇 WeChat Pay">
           <p>微信打赏</p>
         </div>
       
       
         <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/alipay.jpg" alt="郑晓勇 Alipay"/>
+          <img id="alipay_qr" src="https://raw.githubusercontent.com/Sunzxyong/ImageRepository/master/alipay.jpg" alt="郑晓勇 Alipay">
           <p>支付宝打赏</p>
         </div>
       
@@ -569,7 +565,7 @@
       
         <!-- Go to www.addthis.com/dashboard to customize your tools -->
 <div class="addthis_inline_share_toolbox">
-  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58e9f752f0a71b42" async = "async" ></script>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58e9f752f0a71b42" async="async"></script>
 </div>
 
       
@@ -613,7 +609,7 @@
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -624,9 +620,7 @@
 
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.png"
-               alt="郑晓勇" />
+          <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="郑晓勇">
           <p class="site-author-name" itemprop="name">郑晓勇</p>
           <p class="site-description motion-element" itemprop="description"></p>
         </div>
@@ -724,7 +718,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
+        <div class="copyright">
   
   &copy;  2016 - 
   <span itemprop="copyrightYear">2019</span>
